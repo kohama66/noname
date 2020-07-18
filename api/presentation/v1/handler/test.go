@@ -5,6 +5,7 @@ import (
 
 	"github.com/myapp/noname/api/application/usecase"
 	"github.com/myapp/noname/api/application/usecase/request"
+	"github.com/myapp/noname/api/presentation/v1/resource/factory"
 )
 
 type Test interface {
@@ -36,5 +37,10 @@ func (t test) Get(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		return
 	}
-	res, err := test.usercase.Get(req)
+	res, err := t.testUsecase.Get(r.Context(), req)
+	if err != nil {
+		return
+	}
+	factory.JSON(w, res)
+	return
 }

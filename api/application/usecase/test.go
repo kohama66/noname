@@ -8,16 +8,16 @@ import (
 )
 
 type Test interface {
-	Get(ctx context.Context, r *request.TestGet) *response.TestGet
+	Get(ctx context.Context, r *request.TestGet) (*response.TestGet, error)
 }
 
 type test struct {
 }
 
 func NewTest() Test {
-	return test{}
+	return &test{}
 }
 
-func (t *test) Get(ctx context.Context, r *request.TestGet) *response.TestGet {
-	return response.NewTestGet(r.Test)
+func (t *test) Get(ctx context.Context, r *request.TestGet) (*response.TestGet, error) {
+	return response.NewTestGet(r.Test), nil
 }
