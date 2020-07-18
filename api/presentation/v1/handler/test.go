@@ -1,10 +1,10 @@
 package handler
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/myapp/noname/api/application/usecase"
+	"github.com/myapp/noname/api/application/usecase/request"
 )
 
 type Test interface {
@@ -32,5 +32,8 @@ func NewTest(
 // @Failure 500 {object} resource.Error "Soeventthing went wrong"
 // @Router /api/v1/hello [get]
 func (t test) Get(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("ok golang!")
+	req, err := request.NewTestGet(r)
+	if err != nil {
+
+	}
 }
