@@ -1,0 +1,44 @@
+definitions:
+  request.TestGet:
+    properties:
+      test:
+        type: string
+    type: object
+  resource.Error:
+    properties:
+      message:
+        type: string
+    type: object
+  response.TestGet:
+    properties:
+      test:
+        type: string
+    type: object
+info:
+  contact: {}
+  license: {}
+paths:
+  /api/v1/hello:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: Request body
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/request.TestGet'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.TestGet'
+        "500":
+          description: Soeventthing went wrong
+          schema:
+            $ref: '#/definitions/resource.Error'
+      summary: swaggerテスト
+swagger: "2.0"
