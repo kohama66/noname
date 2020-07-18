@@ -34,6 +34,7 @@ func NewTest(
 func (t test) Get(w http.ResponseWriter, r *http.Request) {
 	req, err := request.NewTestGet(r)
 	if err != nil {
-
+		return
 	}
+	res, err := test.usercase.Get(req)
 }
