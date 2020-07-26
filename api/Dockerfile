@@ -3,9 +3,6 @@ RUN mkdir -p /go/src/github.com/myapp/noname/api
 WORKDIR /go/src/github.com/myapp/noname/api
 ADD . /go/src/github.com/myapp/noname/api
 ENV GO111MODULE=on
-RUN apk add --no-cache \
-        alpine-sdk \
-        git \
-    && go get github.com/pilu/fresh
+RUN go get github.com/pilu/fresh
 EXPOSE 3000
 CMD ["fresh"]

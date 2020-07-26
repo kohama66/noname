@@ -8,6 +8,8 @@ services:
     env_file: .env
     depends_on:
       - mysql
+    volumes:
+      - ./:/go/src/github.com/myapp/noname/api
   mysql:
     image: mysql:8.0.19
     container_name: mysql
