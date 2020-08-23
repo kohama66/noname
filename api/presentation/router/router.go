@@ -25,6 +25,7 @@ func Init() *Router {
 func (r *Router) Run() {
 	fmt.Println("Listening on port 3000")
 	http.ListenAndServe(":3000", r)
+	// log.Fatal(http.ListenAndServe(":3000", r))
 }
 
 func (r *Router) Routes() {
@@ -32,8 +33,11 @@ func (r *Router) Routes() {
 
 	r.Route("/api", func(r chi.Router) {
 		r.Route("/v1", func(r chi.Router) {
-			r.Route("/hello", func(r chi.Router) {
-				r.Get("/", testController.Get)
+			r.Group(func(r chi.Router) {
+				r.Use(middleware.AuthAPI)
+				r.Route("/beautician", func(r chi.Router) {
+					r.Post("/", testController.Get)
+				})
 			})
 		})
 	})
