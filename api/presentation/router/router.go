@@ -1,11 +1,12 @@
 package router
 
 import (
-	"fmt"
+	"log"
 	"net/http"
 
 	"github.com/go-chi/chi"
 	"github.com/myapp/noname/api/di"
+
 	//swagger import
 	_ "github.com/myapp/noname/api/docs"
 	"github.com/myapp/noname/api/presentation/middleware"
@@ -23,9 +24,11 @@ func Init() *Router {
 }
 
 func (r *Router) Run() {
-	fmt.Println("Listening on port 3000")
-	http.ListenAndServe(":3000", r)
-	// log.Fatal(http.ListenAndServe(":3000", r))
+	// fmt.Println("Listening on port 3000")
+	// http.ListenAndServe(":3000", r)
+
+	log.Printf("Listening on port 3000")
+	log.Fatal(http.ListenAndServe(":3000", r))
 }
 
 func (r *Router) Routes() {
