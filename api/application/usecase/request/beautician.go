@@ -3,6 +3,7 @@ package request
 import "net/http"
 
 type BeauticianCreate struct {
+	AuthID      string `json"-"`
 	FirstName   string `json:"firstName"`
 	LastName    string `json:"lastName"`
 	Age         int64  `json:"age"`
@@ -10,4 +11,6 @@ type BeauticianCreate struct {
 }
 
 func NewBeauticianCreate(req *http.Request) (*BeauticianCreate, error) {
+	r := BeauticianCreate{}
+	r.AuthID = 
 }
