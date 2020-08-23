@@ -24,62 +24,94 @@ import (
 
 // User is an object representing the database table.
 type User struct {
-	ID        int64     `boil:"id" json:"id" toml:"id" yaml:"id"`
-	FirstName string    `boil:"first_name" json:"first_name" toml:"first_name" yaml:"first_name"`
-	LastName  string    `boil:"last_name" json:"last_name" toml:"last_name" yaml:"last_name"`
-	Age       int64     `boil:"age" json:"age" toml:"age" yaml:"age"`
-	CreatedAt time.Time `boil:"created_at" json:"created_at" toml:"created_at" yaml:"created_at"`
-	UpdatedAt time.Time `boil:"updated_at" json:"updated_at" toml:"updated_at" yaml:"updated_at"`
-	DeletedAt null.Time `boil:"deleted_at" json:"deleted_at,omitempty" toml:"deleted_at" yaml:"deleted_at,omitempty"`
+	ID          int64       `boil:"id" json:"id" toml:"id" yaml:"id"`
+	FirstName   string      `boil:"first_name" json:"first_name" toml:"first_name" yaml:"first_name"`
+	LastName    string      `boil:"last_name" json:"last_name" toml:"last_name" yaml:"last_name"`
+	Age         int64       `boil:"age" json:"age" toml:"age" yaml:"age"`
+	PhoneNumber null.String `boil:"phone_number" json:"phone_number,omitempty" toml:"phone_number" yaml:"phone_number,omitempty"`
+	CreatedAt   time.Time   `boil:"created_at" json:"created_at" toml:"created_at" yaml:"created_at"`
+	UpdatedAt   time.Time   `boil:"updated_at" json:"updated_at" toml:"updated_at" yaml:"updated_at"`
+	DeletedAt   null.Time   `boil:"deleted_at" json:"deleted_at,omitempty" toml:"deleted_at" yaml:"deleted_at,omitempty"`
 
 	R *userR `boil:"-" json:"-" toml:"-" yaml:"-"`
 	L userL  `boil:"-" json:"-" toml:"-" yaml:"-"`
 }
 
 var UserColumns = struct {
-	ID        string
-	FirstName string
-	LastName  string
-	Age       string
-	CreatedAt string
-	UpdatedAt string
-	DeletedAt string
+	ID          string
+	FirstName   string
+	LastName    string
+	Age         string
+	PhoneNumber string
+	CreatedAt   string
+	UpdatedAt   string
+	DeletedAt   string
 }{
-	ID:        "id",
-	FirstName: "first_name",
-	LastName:  "last_name",
-	Age:       "age",
-	CreatedAt: "created_at",
-	UpdatedAt: "updated_at",
-	DeletedAt: "deleted_at",
+	ID:          "id",
+	FirstName:   "first_name",
+	LastName:    "last_name",
+	Age:         "age",
+	PhoneNumber: "phone_number",
+	CreatedAt:   "created_at",
+	UpdatedAt:   "updated_at",
+	DeletedAt:   "deleted_at",
 }
 
 // Generated where
 
+type whereHelpernull_String struct{ field string }
+
+func (w whereHelpernull_String) EQ(x null.String) qm.QueryMod {
+	return qmhelper.WhereNullEQ(w.field, false, x)
+}
+func (w whereHelpernull_String) NEQ(x null.String) qm.QueryMod {
+	return qmhelper.WhereNullEQ(w.field, true, x)
+}
+func (w whereHelpernull_String) IsNull() qm.QueryMod    { return qmhelper.WhereIsNull(w.field) }
+func (w whereHelpernull_String) IsNotNull() qm.QueryMod { return qmhelper.WhereIsNotNull(w.field) }
+func (w whereHelpernull_String) LT(x null.String) qm.QueryMod {
+	return qmhelper.Where(w.field, qmhelper.LT, x)
+}
+func (w whereHelpernull_String) LTE(x null.String) qm.QueryMod {
+	return qmhelper.Where(w.field, qmhelper.LTE, x)
+}
+func (w whereHelpernull_String) GT(x null.String) qm.QueryMod {
+	return qmhelper.Where(w.field, qmhelper.GT, x)
+}
+func (w whereHelpernull_String) GTE(x null.String) qm.QueryMod {
+	return qmhelper.Where(w.field, qmhelper.GTE, x)
+}
+
 var UserWhere = struct {
-	ID        whereHelperint64
-	FirstName whereHelperstring
-	LastName  whereHelperstring
-	Age       whereHelperint64
-	CreatedAt whereHelpertime_Time
-	UpdatedAt whereHelpertime_Time
-	DeletedAt whereHelpernull_Time
+	ID          whereHelperint64
+	FirstName   whereHelperstring
+	LastName    whereHelperstring
+	Age         whereHelperint64
+	PhoneNumber whereHelpernull_String
+	CreatedAt   whereHelpertime_Time
+	UpdatedAt   whereHelpertime_Time
+	DeletedAt   whereHelpernull_Time
 }{
-	ID:        whereHelperint64{field: "`users`.`id`"},
-	FirstName: whereHelperstring{field: "`users`.`first_name`"},
-	LastName:  whereHelperstring{field: "`users`.`last_name`"},
-	Age:       whereHelperint64{field: "`users`.`age`"},
-	CreatedAt: whereHelpertime_Time{field: "`users`.`created_at`"},
-	UpdatedAt: whereHelpertime_Time{field: "`users`.`updated_at`"},
-	DeletedAt: whereHelpernull_Time{field: "`users`.`deleted_at`"},
+	ID:          whereHelperint64{field: "`users`.`id`"},
+	FirstName:   whereHelperstring{field: "`users`.`first_name`"},
+	LastName:    whereHelperstring{field: "`users`.`last_name`"},
+	Age:         whereHelperint64{field: "`users`.`age`"},
+	PhoneNumber: whereHelpernull_String{field: "`users`.`phone_number`"},
+	CreatedAt:   whereHelpertime_Time{field: "`users`.`created_at`"},
+	UpdatedAt:   whereHelpertime_Time{field: "`users`.`updated_at`"},
+	DeletedAt:   whereHelpernull_Time{field: "`users`.`deleted_at`"},
 }
 
 // UserRels is where relationship names are stored.
 var UserRels = struct {
-}{}
+	Menus string
+}{
+	Menus: "Menus",
+}
 
 // userR is where relationships are stored.
 type userR struct {
+	Menus MenuSlice
 }
 
 // NewStruct creates a new relationship struct
@@ -91,8 +123,8 @@ func (*userR) NewStruct() *userR {
 type userL struct{}
 
 var (
-	userAllColumns            = []string{"id", "first_name", "last_name", "age", "created_at", "updated_at", "deleted_at"}
-	userColumnsWithoutDefault = []string{"first_name", "last_name", "age", "created_at", "updated_at", "deleted_at"}
+	userAllColumns            = []string{"id", "first_name", "last_name", "age", "phone_number", "created_at", "updated_at", "deleted_at"}
+	userColumnsWithoutDefault = []string{"first_name", "last_name", "age", "phone_number", "created_at", "updated_at", "deleted_at"}
 	userColumnsWithDefault    = []string{"id"}
 	userPrimaryKeyColumns     = []string{"id"}
 )
@@ -370,6 +402,175 @@ func (q userQuery) Exists(ctx context.Context, exec boil.ContextExecutor) (bool,
 	}
 
 	return count > 0, nil
+}
+
+// Menus retrieves all the menu's Menus with an executor.
+func (o *User) Menus(mods ...qm.QueryMod) menuQuery {
+	var queryMods []qm.QueryMod
+	if len(mods) != 0 {
+		queryMods = append(queryMods, mods...)
+	}
+
+	queryMods = append(queryMods,
+		qm.Where("`menus`.`user_id`=?", o.ID),
+	)
+
+	query := Menus(queryMods...)
+	queries.SetFrom(query.Query, "`menus`")
+
+	if len(queries.GetSelect(query.Query)) == 0 {
+		queries.SetSelect(query.Query, []string{"`menus`.*"})
+	}
+
+	return query
+}
+
+// LoadMenus allows an eager lookup of values, cached into the
+// loaded structs of the objects. This is for a 1-M or N-M relationship.
+func (userL) LoadMenus(ctx context.Context, e boil.ContextExecutor, singular bool, maybeUser interface{}, mods queries.Applicator) error {
+	var slice []*User
+	var object *User
+
+	if singular {
+		object = maybeUser.(*User)
+	} else {
+		slice = *maybeUser.(*[]*User)
+	}
+
+	args := make([]interface{}, 0, 1)
+	if singular {
+		if object.R == nil {
+			object.R = &userR{}
+		}
+		args = append(args, object.ID)
+	} else {
+	Outer:
+		for _, obj := range slice {
+			if obj.R == nil {
+				obj.R = &userR{}
+			}
+
+			for _, a := range args {
+				if a == obj.ID {
+					continue Outer
+				}
+			}
+
+			args = append(args, obj.ID)
+		}
+	}
+
+	if len(args) == 0 {
+		return nil
+	}
+
+	query := NewQuery(qm.From(`menus`), qm.WhereIn(`menus.user_id in ?`, args...))
+	if mods != nil {
+		mods.Apply(query)
+	}
+
+	results, err := query.QueryContext(ctx, e)
+	if err != nil {
+		return errors.Wrap(err, "failed to eager load menus")
+	}
+
+	var resultSlice []*Menu
+	if err = queries.Bind(results, &resultSlice); err != nil {
+		return errors.Wrap(err, "failed to bind eager loaded slice menus")
+	}
+
+	if err = results.Close(); err != nil {
+		return errors.Wrap(err, "failed to close results in eager load on menus")
+	}
+	if err = results.Err(); err != nil {
+		return errors.Wrap(err, "error occurred during iteration of eager loaded relations for menus")
+	}
+
+	if len(menuAfterSelectHooks) != 0 {
+		for _, obj := range resultSlice {
+			if err := obj.doAfterSelectHooks(ctx, e); err != nil {
+				return err
+			}
+		}
+	}
+	if singular {
+		object.R.Menus = resultSlice
+		for _, foreign := range resultSlice {
+			if foreign.R == nil {
+				foreign.R = &menuR{}
+			}
+			foreign.R.User = object
+		}
+		return nil
+	}
+
+	for _, foreign := range resultSlice {
+		for _, local := range slice {
+			if local.ID == foreign.UserID {
+				local.R.Menus = append(local.R.Menus, foreign)
+				if foreign.R == nil {
+					foreign.R = &menuR{}
+				}
+				foreign.R.User = local
+				break
+			}
+		}
+	}
+
+	return nil
+}
+
+// AddMenus adds the given related objects to the existing relationships
+// of the user, optionally inserting them as new records.
+// Appends related to o.R.Menus.
+// Sets related.R.User appropriately.
+func (o *User) AddMenus(ctx context.Context, exec boil.ContextExecutor, insert bool, related ...*Menu) error {
+	var err error
+	for _, rel := range related {
+		if insert {
+			rel.UserID = o.ID
+			if err = rel.Insert(ctx, exec, boil.Infer()); err != nil {
+				return errors.Wrap(err, "failed to insert into foreign table")
+			}
+		} else {
+			updateQuery := fmt.Sprintf(
+				"UPDATE `menus` SET %s WHERE %s",
+				strmangle.SetParamNames("`", "`", 0, []string{"user_id"}),
+				strmangle.WhereClause("`", "`", 0, menuPrimaryKeyColumns),
+			)
+			values := []interface{}{o.ID, rel.ID}
+
+			if boil.IsDebug(ctx) {
+				writer := boil.DebugWriterFrom(ctx)
+				fmt.Fprintln(writer, updateQuery)
+				fmt.Fprintln(writer, values)
+			}
+			if _, err = exec.ExecContext(ctx, updateQuery, values...); err != nil {
+				return errors.Wrap(err, "failed to update foreign table")
+			}
+
+			rel.UserID = o.ID
+		}
+	}
+
+	if o.R == nil {
+		o.R = &userR{
+			Menus: related,
+		}
+	} else {
+		o.R.Menus = append(o.R.Menus, related...)
+	}
+
+	for _, rel := range related {
+		if rel.R == nil {
+			rel.R = &menuR{
+				User: o,
+			}
+		} else {
+			rel.R.User = o
+		}
+	}
+	return nil
 }
 
 // Users retrieves all the records using an executor.

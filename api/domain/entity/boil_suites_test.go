@@ -12,70 +12,98 @@ import "testing"
 // It does NOT run each operation group in parallel.
 // Separating the tests thusly grants avoidance of Postgres deadlocks.
 func TestParent(t *testing.T) {
+	t.Run("Beauticians", testBeauticians)
+	t.Run("Guests", testGuests)
+	t.Run("Menus", testMenus)
 	t.Run("Stores", testStores)
-	t.Run("Users", testUsers)
 }
 
 func TestDelete(t *testing.T) {
+	t.Run("Beauticians", testBeauticiansDelete)
+	t.Run("Guests", testGuestsDelete)
+	t.Run("Menus", testMenusDelete)
 	t.Run("Stores", testStoresDelete)
-	t.Run("Users", testUsersDelete)
 }
 
 func TestQueryDeleteAll(t *testing.T) {
+	t.Run("Beauticians", testBeauticiansQueryDeleteAll)
+	t.Run("Guests", testGuestsQueryDeleteAll)
+	t.Run("Menus", testMenusQueryDeleteAll)
 	t.Run("Stores", testStoresQueryDeleteAll)
-	t.Run("Users", testUsersQueryDeleteAll)
 }
 
 func TestSliceDeleteAll(t *testing.T) {
+	t.Run("Beauticians", testBeauticiansSliceDeleteAll)
+	t.Run("Guests", testGuestsSliceDeleteAll)
+	t.Run("Menus", testMenusSliceDeleteAll)
 	t.Run("Stores", testStoresSliceDeleteAll)
-	t.Run("Users", testUsersSliceDeleteAll)
 }
 
 func TestExists(t *testing.T) {
+	t.Run("Beauticians", testBeauticiansExists)
+	t.Run("Guests", testGuestsExists)
+	t.Run("Menus", testMenusExists)
 	t.Run("Stores", testStoresExists)
-	t.Run("Users", testUsersExists)
 }
 
 func TestFind(t *testing.T) {
+	t.Run("Beauticians", testBeauticiansFind)
+	t.Run("Guests", testGuestsFind)
+	t.Run("Menus", testMenusFind)
 	t.Run("Stores", testStoresFind)
-	t.Run("Users", testUsersFind)
 }
 
 func TestBind(t *testing.T) {
+	t.Run("Beauticians", testBeauticiansBind)
+	t.Run("Guests", testGuestsBind)
+	t.Run("Menus", testMenusBind)
 	t.Run("Stores", testStoresBind)
-	t.Run("Users", testUsersBind)
 }
 
 func TestOne(t *testing.T) {
+	t.Run("Beauticians", testBeauticiansOne)
+	t.Run("Guests", testGuestsOne)
+	t.Run("Menus", testMenusOne)
 	t.Run("Stores", testStoresOne)
-	t.Run("Users", testUsersOne)
 }
 
 func TestAll(t *testing.T) {
+	t.Run("Beauticians", testBeauticiansAll)
+	t.Run("Guests", testGuestsAll)
+	t.Run("Menus", testMenusAll)
 	t.Run("Stores", testStoresAll)
-	t.Run("Users", testUsersAll)
 }
 
 func TestCount(t *testing.T) {
+	t.Run("Beauticians", testBeauticiansCount)
+	t.Run("Guests", testGuestsCount)
+	t.Run("Menus", testMenusCount)
 	t.Run("Stores", testStoresCount)
-	t.Run("Users", testUsersCount)
 }
 
 func TestHooks(t *testing.T) {
+	t.Run("Beauticians", testBeauticiansHooks)
+	t.Run("Guests", testGuestsHooks)
+	t.Run("Menus", testMenusHooks)
 	t.Run("Stores", testStoresHooks)
-	t.Run("Users", testUsersHooks)
 }
 
 func TestInsert(t *testing.T) {
+	t.Run("Beauticians", testBeauticiansInsert)
+	t.Run("Beauticians", testBeauticiansInsertWhitelist)
+	t.Run("Guests", testGuestsInsert)
+	t.Run("Guests", testGuestsInsertWhitelist)
+	t.Run("Menus", testMenusInsert)
+	t.Run("Menus", testMenusInsertWhitelist)
 	t.Run("Stores", testStoresInsert)
 	t.Run("Stores", testStoresInsertWhitelist)
-	t.Run("Users", testUsersInsert)
-	t.Run("Users", testUsersInsertWhitelist)
 }
 
 // TestToOne tests cannot be run in parallel
 // or deadlocks can occur.
-func TestToOne(t *testing.T) {}
+func TestToOne(t *testing.T) {
+	t.Run("MenuToBeauticianUsingBeautician", testMenuToOneBeauticianUsingBeautician)
+}
 
 // TestOneToOne tests cannot be run in parallel
 // or deadlocks can occur.
@@ -83,11 +111,15 @@ func TestOneToOne(t *testing.T) {}
 
 // TestToMany tests cannot be run in parallel
 // or deadlocks can occur.
-func TestToMany(t *testing.T) {}
+func TestToMany(t *testing.T) {
+	t.Run("BeauticianToMenus", testBeauticianToManyMenus)
+}
 
 // TestToOneSet tests cannot be run in parallel
 // or deadlocks can occur.
-func TestToOneSet(t *testing.T) {}
+func TestToOneSet(t *testing.T) {
+	t.Run("MenuToBeauticianUsingMenus", testMenuToOneSetOpBeauticianUsingBeautician)
+}
 
 // TestToOneRemove tests cannot be run in parallel
 // or deadlocks can occur.
@@ -103,7 +135,9 @@ func TestOneToOneRemove(t *testing.T) {}
 
 // TestToManyAdd tests cannot be run in parallel
 // or deadlocks can occur.
-func TestToManyAdd(t *testing.T) {}
+func TestToManyAdd(t *testing.T) {
+	t.Run("BeauticianToMenus", testBeauticianToManyAddOpMenus)
+}
 
 // TestToManySet tests cannot be run in parallel
 // or deadlocks can occur.
@@ -114,26 +148,36 @@ func TestToManySet(t *testing.T) {}
 func TestToManyRemove(t *testing.T) {}
 
 func TestReload(t *testing.T) {
+	t.Run("Beauticians", testBeauticiansReload)
+	t.Run("Guests", testGuestsReload)
+	t.Run("Menus", testMenusReload)
 	t.Run("Stores", testStoresReload)
-	t.Run("Users", testUsersReload)
 }
 
 func TestReloadAll(t *testing.T) {
+	t.Run("Beauticians", testBeauticiansReloadAll)
+	t.Run("Guests", testGuestsReloadAll)
+	t.Run("Menus", testMenusReloadAll)
 	t.Run("Stores", testStoresReloadAll)
-	t.Run("Users", testUsersReloadAll)
 }
 
 func TestSelect(t *testing.T) {
+	t.Run("Beauticians", testBeauticiansSelect)
+	t.Run("Guests", testGuestsSelect)
+	t.Run("Menus", testMenusSelect)
 	t.Run("Stores", testStoresSelect)
-	t.Run("Users", testUsersSelect)
 }
 
 func TestUpdate(t *testing.T) {
+	t.Run("Beauticians", testBeauticiansUpdate)
+	t.Run("Guests", testGuestsUpdate)
+	t.Run("Menus", testMenusUpdate)
 	t.Run("Stores", testStoresUpdate)
-	t.Run("Users", testUsersUpdate)
 }
 
 func TestSliceUpdateAll(t *testing.T) {
+	t.Run("Beauticians", testBeauticiansSliceUpdateAll)
+	t.Run("Guests", testGuestsSliceUpdateAll)
+	t.Run("Menus", testMenusSliceUpdateAll)
 	t.Run("Stores", testStoresSliceUpdateAll)
-	t.Run("Users", testUsersSliceUpdateAll)
 }

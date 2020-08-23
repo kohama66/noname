@@ -4,9 +4,13 @@
 package entity
 
 var TableNames = struct {
-	Stores string
-	Users  string
+	Beauticians string
+	Guests      string
+	Menus       string
+	Stores      string
 }{
-	Stores: "stores",
-	Users:  "users",
+	Beauticians: "beauticians",
+	Guests:      "guests",
+	Menus:       "menus",
+	Stores:      "stores",
 }
