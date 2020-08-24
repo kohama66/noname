@@ -15,6 +15,7 @@ require (
 	github.com/labstack/gommon v0.3.0 // indirect
 	github.com/mitchellh/mapstructure v1.3.3 // indirect
 	github.com/pelletier/go-toml v1.8.0 // indirect
+	github.com/rs/xid v1.2.1
 	github.com/spf13/afero v1.3.4 // indirect
 	github.com/spf13/cast v1.3.1 // indirect
 	github.com/spf13/cobra v1.0.0 // indirect
@@ -27,7 +28,8 @@ require (
 	github.com/volatiletech/inflect v0.0.1 // indirect
 	github.com/volatiletech/null v8.0.0+incompatible
 	github.com/volatiletech/sqlboiler v3.7.1+incompatible
-	golang.org/x/sys v0.0.0-20200814200057-3d37ad5750ed // indirect
+	go.opencensus.io v0.22.0
+	golang.org/x/sys v0.0.0-20200821140526-fda516888d29 // indirect
 	golang.org/x/xerrors v0.0.0-20200804184101-5ec99f83aff1 // indirect
-	gopkg.in/ini.v1 v1.58.0 // indirect
+	gopkg.in/ini.v1 v1.60.1 // indirect
 )

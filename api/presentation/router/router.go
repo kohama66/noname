@@ -1,11 +1,10 @@
 package router
 
 import (
-	"log"
-	"net/http"
-
+	"fmt"
 	"github.com/go-chi/chi"
 	"github.com/myapp/noname/api/di"
+	"net/http"
 
 	//swagger import
 	_ "github.com/myapp/noname/api/docs"
@@ -24,14 +23,12 @@ func Init() *Router {
 }
 
 func (r *Router) Run() {
-	// fmt.Println("Listening on port 3000")
-	// http.ListenAndServe(":3000", r)
-
-	log.Printf("Listening on port 3000")
-	log.Fatal(http.ListenAndServe(":3000", r))
+	fmt.Println("Listening on port 3000")
+	http.ListenAndServe(":3000", r)
 }
 
 func (r *Router) Routes() {
+	beauticianController := di.InitBeautician()
 	testController := di.InitTest()
 
 	r.Route("/api", func(r chi.Router) {
@@ -39,8 +36,11 @@ func (r *Router) Routes() {
 			r.Group(func(r chi.Router) {
 				r.Use(middleware.AuthAPI)
 				r.Route("/beautician", func(r chi.Router) {
-					r.Post("/", testController.Get)
+					r.Post("/", beauticianController.Create)
 				})
+			})
+			r.Route("/hello", func(r chi.Router) {
+				r.Get("/", testController.Get)
 			})
 		})
 	})

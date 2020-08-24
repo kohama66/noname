@@ -7,6 +7,8 @@ package di
 
 import (
 	"github.com/myapp/noname/api/application/usecase"
+	"github.com/myapp/noname/api/infrastructure/db"
+	"github.com/myapp/noname/api/infrastructure/repository"
 	"github.com/myapp/noname/api/presentation/v1/handler"
 )
 
@@ -16,4 +18,12 @@ func InitTest() handler.Test {
 	test := usecase.NewTest()
 	handlerTest := handler.NewTest(test)
 	return handlerTest
+}
+
+func InitBeautician() handler.Beautician {
+	conn := db.New()
+	beautician := repository.NewBeautician(conn)
+	usecaseBeautician := usecase.NewBeautician(beautician)
+	handlerBeautician := handler.NewBeautician(usecaseBeautician)
+	return handlerBeautician
 }

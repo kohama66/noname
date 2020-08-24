@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 
+	"github.com/myapp/noname/api/domain/entity"
 	"github.com/myapp/noname/api/pkg/context"
 )
 
@@ -25,8 +26,13 @@ func NewBeauticianCreate(req *http.Request) (*BeauticianCreate, error) {
 	return r, nil
 }
 
-// func (b BeauticianCreate) NewBeautician() *entity.Beautician {
-// 	return &entity.Beautician{
-// 		AuthID: b.AuthID,
-// 	}
-// }
+func (b BeauticianCreate) NewBeautician(randID string) *entity.Beautician {
+	return &entity.Beautician{
+		AuthID:      b.AuthID,
+		RandID:      randID,
+		FirstName:   b.FirstName,
+		LastName:    b.LastName,
+		Age:         b.Age,
+		PhoneNumber: b.PhoneNumber,
+	}
+}

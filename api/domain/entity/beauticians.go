@@ -26,6 +26,7 @@ import (
 type Beautician struct {
 	ID          int64     `boil:"id" json:"id" toml:"id" yaml:"id"`
 	AuthID      string    `boil:"auth_id" json:"auth_id" toml:"auth_id" yaml:"auth_id"`
+	RandID      string    `boil:"rand_id" json:"rand_id" toml:"rand_id" yaml:"rand_id"`
 	FirstName   string    `boil:"first_name" json:"first_name" toml:"first_name" yaml:"first_name"`
 	LastName    string    `boil:"last_name" json:"last_name" toml:"last_name" yaml:"last_name"`
 	Age         int64     `boil:"age" json:"age" toml:"age" yaml:"age"`
@@ -41,6 +42,7 @@ type Beautician struct {
 var BeauticianColumns = struct {
 	ID          string
 	AuthID      string
+	RandID      string
 	FirstName   string
 	LastName    string
 	Age         string
@@ -51,6 +53,7 @@ var BeauticianColumns = struct {
 }{
 	ID:          "id",
 	AuthID:      "auth_id",
+	RandID:      "rand_id",
 	FirstName:   "first_name",
 	LastName:    "last_name",
 	Age:         "age",
@@ -141,6 +144,7 @@ func (w whereHelpernull_Time) GTE(x null.Time) qm.QueryMod {
 var BeauticianWhere = struct {
 	ID          whereHelperint64
 	AuthID      whereHelperstring
+	RandID      whereHelperstring
 	FirstName   whereHelperstring
 	LastName    whereHelperstring
 	Age         whereHelperint64
@@ -151,6 +155,7 @@ var BeauticianWhere = struct {
 }{
 	ID:          whereHelperint64{field: "`beauticians`.`id`"},
 	AuthID:      whereHelperstring{field: "`beauticians`.`auth_id`"},
+	RandID:      whereHelperstring{field: "`beauticians`.`rand_id`"},
 	FirstName:   whereHelperstring{field: "`beauticians`.`first_name`"},
 	LastName:    whereHelperstring{field: "`beauticians`.`last_name`"},
 	Age:         whereHelperint64{field: "`beauticians`.`age`"},
@@ -181,8 +186,8 @@ func (*beauticianR) NewStruct() *beauticianR {
 type beauticianL struct{}
 
 var (
-	beauticianAllColumns            = []string{"id", "auth_id", "first_name", "last_name", "age", "phone_number", "created_at", "updated_at", "deleted_at"}
-	beauticianColumnsWithoutDefault = []string{"auth_id", "first_name", "last_name", "age", "phone_number", "created_at", "updated_at", "deleted_at"}
+	beauticianAllColumns            = []string{"id", "auth_id", "rand_id", "first_name", "last_name", "age", "phone_number", "created_at", "updated_at", "deleted_at"}
+	beauticianColumnsWithoutDefault = []string{"auth_id", "rand_id", "first_name", "last_name", "age", "phone_number", "created_at", "updated_at", "deleted_at"}
 	beauticianColumnsWithDefault    = []string{"id"}
 	beauticianPrimaryKeyColumns     = []string{"id"}
 )
