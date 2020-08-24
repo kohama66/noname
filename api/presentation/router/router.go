@@ -2,10 +2,10 @@ package router
 
 import (
 	"fmt"
-	"net/http"
-
 	"github.com/go-chi/chi"
 	"github.com/myapp/noname/api/di"
+	"net/http"
+
 	//swagger import
 	_ "github.com/myapp/noname/api/docs"
 	"github.com/myapp/noname/api/presentation/middleware"
@@ -28,10 +28,17 @@ func (r *Router) Run() {
 }
 
 func (r *Router) Routes() {
+	beauticianController := di.InitBeautician()
 	testController := di.InitTest()
 
 	r.Route("/api", func(r chi.Router) {
 		r.Route("/v1", func(r chi.Router) {
+			r.Group(func(r chi.Router) {
+				r.Use(middleware.AuthAPI)
+				r.Route("/beautician", func(r chi.Router) {
+					r.Post("/", beauticianController.Create)
+				})
+			})
 			r.Route("/hello", func(r chi.Router) {
 				r.Get("/", testController.Get)
 			})

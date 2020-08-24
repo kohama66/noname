@@ -1,4 +1,15 @@
 definitions:
+  request.BeauticianCreate:
+    properties:
+      age:
+        type: integer
+      firstName:
+        type: string
+      lastName:
+        type: string
+      phoneNumber:
+        type: string
+    type: object
   request.TestGet:
     properties:
       test:
@@ -9,6 +20,31 @@ definitions:
       message:
         type: string
     type: object
+  response.Beautician:
+    properties:
+      age:
+        type: integer
+      createdAt:
+        type: string
+      firstName:
+        type: string
+      id:
+        type: integer
+      lastName:
+        type: string
+      phoneNumber:
+        type: string
+      randId:
+        type: string
+      updatedAt:
+        type: string
+    type: object
+  response.BeauticianCreate:
+    properties:
+      beautician:
+        $ref: '#/definitions/response.Beautician'
+        type: object
+    type: object
   response.TestGet:
     properties:
       test:
@@ -18,6 +54,29 @@ info:
   contact: {}
   license: {}
 paths:
+  /api/v1/beautician:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Request body
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/request.BeauticianCreate'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.BeauticianCreate'
+        "500":
+          description: Soeventthing went wrong
+          schema:
+            $ref: '#/definitions/resource.Error'
+      summary: 美容師登録
   /api/v1/hello:
     get:
       consumes:
@@ -40,5 +99,5 @@ paths:
           description: Soeventthing went wrong
           schema:
             $ref: '#/definitions/resource.Error'
-      summary: swaggerテスト
+      summary: swaggerTest
 swagger: "2.0"
