@@ -2,6 +2,7 @@ package db
 
 import (
 	"database/sql"
+
 	//mysqlインポート用
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/myapp/noname/api/env"
