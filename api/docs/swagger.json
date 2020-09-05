@@ -6,6 +6,40 @@
     },
     "paths": {
         "/api/v1/beautician": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "美容師情報取得",
+                "parameters": [
+                    {
+                        "description": "Request body",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/requestmodel.BeauticianGet"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/responsemodel.BeauticianGet"
+                        }
+                    },
+                    "500": {
+                        "description": "Soeventthing went wrong",
+                        "schema": {
+                            "$ref": "#/definitions/resource.Error"
+                        }
+                    }
+                }
+            },
             "post": {
                 "consumes": [
                     "application/json"
@@ -21,7 +55,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/request.BeauticianCreate"
+                            "$ref": "#/definitions/requestmodel.BeauticianCreate"
                         }
                     }
                 ],
@@ -29,43 +63,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.BeauticianCreate"
-                        }
-                    },
-                    "500": {
-                        "description": "Soeventthing went wrong",
-                        "schema": {
-                            "$ref": "#/definitions/resource.Error"
-                        }
-                    }
-                }
-            }
-        },
-        "/api/v1/hello": {
-            "get": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "summary": "swaggerTest",
-                "parameters": [
-                    {
-                        "description": "Request body",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/request.TestGet"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/response.TestGet"
+                            "$ref": "#/definitions/responsemodel.BeauticianCreate"
                         }
                     },
                     "500": {
@@ -79,7 +77,7 @@
         }
     },
     "definitions": {
-        "request.BeauticianCreate": {
+        "requestmodel.BeauticianCreate": {
             "type": "object",
             "properties": {
                 "age": {
@@ -96,11 +94,11 @@
                 }
             }
         },
-        "request.TestGet": {
+        "requestmodel.BeauticianGet": {
             "type": "object",
             "properties": {
-                "test": {
-                    "type": "string"
+                "id": {
+                    "type": "integer"
                 }
             }
         },
@@ -112,7 +110,7 @@
                 }
             }
         },
-        "response.Beautician": {
+        "responsemodel.BeauticianCreate": {
             "type": "object",
             "properties": {
                 "age": {
@@ -141,19 +139,31 @@
                 }
             }
         },
-        "response.BeauticianCreate": {
+        "responsemodel.BeauticianGet": {
             "type": "object",
             "properties": {
-                "beautician": {
-                    "type": "object",
-                    "$ref": "#/definitions/response.Beautician"
-                }
-            }
-        },
-        "response.TestGet": {
-            "type": "object",
-            "properties": {
-                "test": {
+                "age": {
+                    "type": "integer"
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "firstName": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "lastName": {
+                    "type": "string"
+                },
+                "phoneNumber": {
+                    "type": "string"
+                },
+                "randId": {
+                    "type": "string"
+                },
+                "updatedAt": {
                     "type": "string"
                 }
             }

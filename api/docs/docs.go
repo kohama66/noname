@@ -26,6 +26,40 @@ var doc = `{
     "basePath": "{{.BasePath}}",
     "paths": {
         "/api/v1/beautician": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "美容師情報取得",
+                "parameters": [
+                    {
+                        "description": "Request body",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/requestmodel.BeauticianGet"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/responsemodel.BeauticianGet"
+                        }
+                    },
+                    "500": {
+                        "description": "Soeventthing went wrong",
+                        "schema": {
+                            "$ref": "#/definitions/resource.Error"
+                        }
+                    }
+                }
+            },
             "post": {
                 "consumes": [
                     "application/json"
@@ -41,7 +75,7 @@ var doc = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/request.BeauticianCreate"
+                            "$ref": "#/definitions/requestmodel.BeauticianCreate"
                         }
                     }
                 ],
@@ -49,43 +83,7 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.BeauticianCreate"
-                        }
-                    },
-                    "500": {
-                        "description": "Soeventthing went wrong",
-                        "schema": {
-                            "$ref": "#/definitions/resource.Error"
-                        }
-                    }
-                }
-            }
-        },
-        "/api/v1/hello": {
-            "get": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "summary": "swaggerTest",
-                "parameters": [
-                    {
-                        "description": "Request body",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/request.TestGet"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/response.TestGet"
+                            "$ref": "#/definitions/responsemodel.BeauticianCreate"
                         }
                     },
                     "500": {
@@ -99,7 +97,7 @@ var doc = `{
         }
     },
     "definitions": {
-        "request.BeauticianCreate": {
+        "requestmodel.BeauticianCreate": {
             "type": "object",
             "properties": {
                 "age": {
@@ -116,11 +114,11 @@ var doc = `{
                 }
             }
         },
-        "request.TestGet": {
+        "requestmodel.BeauticianGet": {
             "type": "object",
             "properties": {
-                "test": {
-                    "type": "string"
+                "id": {
+                    "type": "integer"
                 }
             }
         },
@@ -132,7 +130,7 @@ var doc = `{
                 }
             }
         },
-        "response.Beautician": {
+        "responsemodel.BeauticianCreate": {
             "type": "object",
             "properties": {
                 "age": {
@@ -161,19 +159,31 @@ var doc = `{
                 }
             }
         },
-        "response.BeauticianCreate": {
+        "responsemodel.BeauticianGet": {
             "type": "object",
             "properties": {
-                "beautician": {
-                    "type": "object",
-                    "$ref": "#/definitions/response.Beautician"
-                }
-            }
-        },
-        "response.TestGet": {
-            "type": "object",
-            "properties": {
-                "test": {
+                "age": {
+                    "type": "integer"
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "firstName": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "lastName": {
+                    "type": "string"
+                },
+                "phoneNumber": {
+                    "type": "string"
+                },
+                "randId": {
+                    "type": "string"
+                },
+                "updatedAt": {
                     "type": "string"
                 }
             }
