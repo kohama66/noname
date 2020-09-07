@@ -10,9 +10,9 @@ const Home: FC = () => (
         </p>
     </div>
     <div className="home-contents">
-      <Content title='髪を切りたい方はコチラ'/>
-      <Content title='美容師の方はコチラ'/>
-      <Content title='美容院の方はコチラ'/>
+      <Content title='髪を切りたい方はコチラ' path=""/>
+      <Content title='美容師の方はコチラ' path="beautician"/>
+      <Content title='美容院の方はコチラ' path=""/>
     </div>
   </>
 );

@@ -30,6 +30,7 @@ func (r *Router) Run() {
 
 func (r *Router) Routes() {
 	beauticianController := di.InitBeautician()
+	reservationController := di.InitReservation()
 
 	r.Route("/api", func(r chi.Router) {
 		r.Route("/v1", func(r chi.Router) {
@@ -39,6 +40,9 @@ func (r *Router) Routes() {
 					r.Post("/", beauticianController.Create)
 					r.Get("/", beauticianController.Get)
 				})
+			})
+			r.Route("/reservation", func(r chi.Router) {
+				r.Post("/", reservationController.Create)
 			})
 		})
 	})

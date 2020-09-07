@@ -22,3 +22,14 @@ func InitBeautician() handler.Beautician {
 	)
 	return nil
 }
+
+func InitReservation() handler.Reservation {
+	wire.Build(
+		db.New,
+		repository.NewGuest,
+		repository.NewReservation,
+		usecase.NewReservation,
+		handler.NewReservation,
+	)
+	return nil
+}

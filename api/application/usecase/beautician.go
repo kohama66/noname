@@ -2,6 +2,7 @@ package usecase
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/myapp/noname/api/application/usecase/requestmodel"
 	"github.com/myapp/noname/api/application/usecase/responsemodel"
@@ -43,6 +44,7 @@ func (b *beautician) Create(ctx context.Context, r *requestmodel.BeauticianCreat
 }
 
 func (b *beautician) Get(ctx context.Context, r *requestmodel.BeauticianGet) (*responsemodel.BeauticianGet, error) {
+	fmt.Println(r.ID)
 	ent, err := b.beauticianRepository.Get(ctx, r.ID)
 	if err != nil {
 		return nil, err

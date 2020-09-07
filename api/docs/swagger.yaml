@@ -15,6 +15,19 @@ definitions:
       id:
         type: integer
     type: object
+  requestmodel.ReservationCreate:
+    properties:
+      beauticiaId:
+        type: integer
+      date:
+        type: string
+      menuId:
+        type: integer
+      spaceId:
+        type: integer
+      time:
+        type: string
+    type: object
   resource.Error:
     properties:
       message:
@@ -81,7 +94,7 @@ paths:
           schema:
             $ref: '#/definitions/responsemodel.BeauticianGet'
         "500":
-          description: Soeventthing went wrong
+          description: Something went wrong
           schema:
             $ref: '#/definitions/resource.Error'
       summary: 美容師情報取得
@@ -103,8 +116,28 @@ paths:
           schema:
             $ref: '#/definitions/responsemodel.BeauticianCreate'
         "500":
-          description: Soeventthing went wrong
+          description: Something went wrong
           schema:
             $ref: '#/definitions/resource.Error'
       summary: 美容師登録
+  /api/v1/reservation:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Request body
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/requestmodel.ReservationCreate'
+      produces:
+      - application/json
+      responses:
+        "200": {}
+        "500":
+          description: Something went wrong
+          schema:
+            $ref: '#/definitions/resource.Error'
+      summary: 予約登録
 swagger: "2.0"

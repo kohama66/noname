@@ -23,3 +23,12 @@ func InitBeautician() handler.Beautician {
 	handlerBeautician := handler.NewBeautician(usecaseBeautician)
 	return handlerBeautician
 }
+
+func InitReservation() handler.Reservation {
+	conn := db.New()
+	guest := repository.NewGuest(conn)
+	reservation := repository.NewReservation()
+	usecaseReservation := usecase.NewReservation(guest, reservation)
+	handlerReservation := handler.NewReservation(usecaseReservation)
+	return handlerReservation
+}

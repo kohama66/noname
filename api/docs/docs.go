@@ -53,7 +53,7 @@ var doc = `{
                         }
                     },
                     "500": {
-                        "description": "Soeventthing went wrong",
+                        "description": "Something went wrong",
                         "schema": {
                             "$ref": "#/definitions/resource.Error"
                         }
@@ -87,7 +87,38 @@ var doc = `{
                         }
                     },
                     "500": {
-                        "description": "Soeventthing went wrong",
+                        "description": "Something went wrong",
+                        "schema": {
+                            "$ref": "#/definitions/resource.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/reservation": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "予約登録",
+                "parameters": [
+                    {
+                        "description": "Request body",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/requestmodel.ReservationCreate"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {},
+                    "500": {
+                        "description": "Something went wrong",
                         "schema": {
                             "$ref": "#/definitions/resource.Error"
                         }
@@ -119,6 +150,26 @@ var doc = `{
             "properties": {
                 "id": {
                     "type": "integer"
+                }
+            }
+        },
+        "requestmodel.ReservationCreate": {
+            "type": "object",
+            "properties": {
+                "beauticiaId": {
+                    "type": "integer"
+                },
+                "date": {
+                    "type": "string"
+                },
+                "menuId": {
+                    "type": "integer"
+                },
+                "spaceId": {
+                    "type": "integer"
+                },
+                "time": {
+                    "type": "string"
                 }
             }
         },

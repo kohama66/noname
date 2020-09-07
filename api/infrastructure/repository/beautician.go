@@ -13,6 +13,7 @@ type beautician struct {
 	Conn *db.Conn
 }
 
+// NewBeautician DI初期化関数
 func NewBeautician(conn *db.Conn) repository.Beautician {
 	return &beautician{Conn: conn}
 }
