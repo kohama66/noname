@@ -32,7 +32,7 @@ func NewResponseModelReservation(ent *entity.Reservation) *responsemodel.Reserva
 	}
 }
 
-func (r *reservation) XXNewReservationCreate(ent *entity.Reservation) *responsemodel.ReservationCreate {
+func (r *reservation) NewReservationCreate(ent *entity.Reservation) *responsemodel.ReservationCreate {
 	return &responsemodel.ReservationCreate{
 		Reservation: NewResponseModelReservation(ent),
 	}
