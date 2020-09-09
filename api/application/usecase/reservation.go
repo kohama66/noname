@@ -37,7 +37,7 @@ func NewReservation(
 }
 
 func (r *reservation) Create(ctx context.Context, req *requestmodel.ReservationCreate) (*responsemodel.ReservationCreate, error) {
-	me, err := r.guestRepository.GetByAuthID(ctx, req.AuthID)
+	gs, err := r.guestRepository.GetByAuthID(ctx, req.AuthID)
 	if err != nil {
 		return nil, err
 	}
@@ -61,7 +61,7 @@ func (r *reservation) Create(ctx context.Context, req *requestmodel.ReservationC
 	if bk {
 		return nil, errors.New("美容師の予約が重複しています")
 	}
-	ent := req.NewReservation(dt, tm, me.ID)
+	ent := req.NewReservation(dt, tm, gs.ID)
 	if err = r.reservationRepository.Create(ctx, ent); err != nil {
 		return nil, err
 	}
