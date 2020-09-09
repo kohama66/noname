@@ -9,21 +9,27 @@ import (
 	"github.com/myapp/noname/api/application/usecase"
 	"github.com/myapp/noname/api/infrastructure/db"
 	"github.com/myapp/noname/api/infrastructure/repository"
+	"github.com/myapp/noname/api/infrastructure/response"
 	"github.com/myapp/noname/api/presentation/v1/handler"
 )
 
 // Injectors from wire.go:
 
-func InitTest() handler.Test {
-	test := usecase.NewTest()
-	handlerTest := handler.NewTest(test)
-	return handlerTest
-}
-
 func InitBeautician() handler.Beautician {
 	conn := db.New()
 	beautician := repository.NewBeautician(conn)
-	usecaseBeautician := usecase.NewBeautician(beautician)
+	responseBeautician := response.NewBeautician()
+	usecaseBeautician := usecase.NewBeautician(beautician, responseBeautician)
 	handlerBeautician := handler.NewBeautician(usecaseBeautician)
 	return handlerBeautician
+}
+
+func InitReservation() handler.Reservation {
+	conn := db.New()
+	guest := repository.NewGuest(conn)
+	reservation := repository.NewReservation(conn)
+	responseReservation := response.NewReservation()
+	usecaseReservation := usecase.NewReservation(guest, reservation, responseReservation)
+	handlerReservation := handler.NewReservation(usecaseReservation)
+	return handlerReservation
 }

@@ -25,9 +25,10 @@ import (
 // Guest is an object representing the database table.
 type Guest struct {
 	ID        int64     `boil:"id" json:"id" toml:"id" yaml:"id"`
+	AuthID    string    `boil:"auth_id" json:"auth_id" toml:"auth_id" yaml:"auth_id"`
+	RandID    string    `boil:"rand_id" json:"rand_id" toml:"rand_id" yaml:"rand_id"`
 	FirstName string    `boil:"first_name" json:"first_name" toml:"first_name" yaml:"first_name"`
 	LastName  string    `boil:"last_name" json:"last_name" toml:"last_name" yaml:"last_name"`
-	Age       int64     `boil:"age" json:"age" toml:"age" yaml:"age"`
 	CreatedAt time.Time `boil:"created_at" json:"created_at" toml:"created_at" yaml:"created_at"`
 	UpdatedAt time.Time `boil:"updated_at" json:"updated_at" toml:"updated_at" yaml:"updated_at"`
 	DeletedAt null.Time `boil:"deleted_at" json:"deleted_at,omitempty" toml:"deleted_at" yaml:"deleted_at,omitempty"`
@@ -38,17 +39,19 @@ type Guest struct {
 
 var GuestColumns = struct {
 	ID        string
+	AuthID    string
+	RandID    string
 	FirstName string
 	LastName  string
-	Age       string
 	CreatedAt string
 	UpdatedAt string
 	DeletedAt string
 }{
 	ID:        "id",
+	AuthID:    "auth_id",
+	RandID:    "rand_id",
 	FirstName: "first_name",
 	LastName:  "last_name",
-	Age:       "age",
 	CreatedAt: "created_at",
 	UpdatedAt: "updated_at",
 	DeletedAt: "deleted_at",
@@ -58,17 +61,19 @@ var GuestColumns = struct {
 
 var GuestWhere = struct {
 	ID        whereHelperint64
+	AuthID    whereHelperstring
+	RandID    whereHelperstring
 	FirstName whereHelperstring
 	LastName  whereHelperstring
-	Age       whereHelperint64
 	CreatedAt whereHelpertime_Time
 	UpdatedAt whereHelpertime_Time
 	DeletedAt whereHelpernull_Time
 }{
 	ID:        whereHelperint64{field: "`guests`.`id`"},
+	AuthID:    whereHelperstring{field: "`guests`.`auth_id`"},
+	RandID:    whereHelperstring{field: "`guests`.`rand_id`"},
 	FirstName: whereHelperstring{field: "`guests`.`first_name`"},
 	LastName:  whereHelperstring{field: "`guests`.`last_name`"},
-	Age:       whereHelperint64{field: "`guests`.`age`"},
 	CreatedAt: whereHelpertime_Time{field: "`guests`.`created_at`"},
 	UpdatedAt: whereHelpertime_Time{field: "`guests`.`updated_at`"},
 	DeletedAt: whereHelpernull_Time{field: "`guests`.`deleted_at`"},
@@ -76,10 +81,14 @@ var GuestWhere = struct {
 
 // GuestRels is where relationship names are stored.
 var GuestRels = struct {
-}{}
+	Reservations string
+}{
+	Reservations: "Reservations",
+}
 
 // guestR is where relationships are stored.
 type guestR struct {
+	Reservations ReservationSlice
 }
 
 // NewStruct creates a new relationship struct
@@ -91,8 +100,8 @@ func (*guestR) NewStruct() *guestR {
 type guestL struct{}
 
 var (
-	guestAllColumns            = []string{"id", "first_name", "last_name", "age", "created_at", "updated_at", "deleted_at"}
-	guestColumnsWithoutDefault = []string{"first_name", "last_name", "age", "created_at", "updated_at", "deleted_at"}
+	guestAllColumns            = []string{"id", "auth_id", "rand_id", "first_name", "last_name", "created_at", "updated_at", "deleted_at"}
+	guestColumnsWithoutDefault = []string{"auth_id", "rand_id", "first_name", "last_name", "created_at", "updated_at", "deleted_at"}
 	guestColumnsWithDefault    = []string{"id"}
 	guestPrimaryKeyColumns     = []string{"id"}
 )
@@ -370,6 +379,175 @@ func (q guestQuery) Exists(ctx context.Context, exec boil.ContextExecutor) (bool
 	}
 
 	return count > 0, nil
+}
+
+// Reservations retrieves all the reservation's Reservations with an executor.
+func (o *Guest) Reservations(mods ...qm.QueryMod) reservationQuery {
+	var queryMods []qm.QueryMod
+	if len(mods) != 0 {
+		queryMods = append(queryMods, mods...)
+	}
+
+	queryMods = append(queryMods,
+		qm.Where("`reservation`.`guest_id`=?", o.ID),
+	)
+
+	query := Reservations(queryMods...)
+	queries.SetFrom(query.Query, "`reservation`")
+
+	if len(queries.GetSelect(query.Query)) == 0 {
+		queries.SetSelect(query.Query, []string{"`reservation`.*"})
+	}
+
+	return query
+}
+
+// LoadReservations allows an eager lookup of values, cached into the
+// loaded structs of the objects. This is for a 1-M or N-M relationship.
+func (guestL) LoadReservations(ctx context.Context, e boil.ContextExecutor, singular bool, maybeGuest interface{}, mods queries.Applicator) error {
+	var slice []*Guest
+	var object *Guest
+
+	if singular {
+		object = maybeGuest.(*Guest)
+	} else {
+		slice = *maybeGuest.(*[]*Guest)
+	}
+
+	args := make([]interface{}, 0, 1)
+	if singular {
+		if object.R == nil {
+			object.R = &guestR{}
+		}
+		args = append(args, object.ID)
+	} else {
+	Outer:
+		for _, obj := range slice {
+			if obj.R == nil {
+				obj.R = &guestR{}
+			}
+
+			for _, a := range args {
+				if a == obj.ID {
+					continue Outer
+				}
+			}
+
+			args = append(args, obj.ID)
+		}
+	}
+
+	if len(args) == 0 {
+		return nil
+	}
+
+	query := NewQuery(qm.From(`reservation`), qm.WhereIn(`reservation.guest_id in ?`, args...))
+	if mods != nil {
+		mods.Apply(query)
+	}
+
+	results, err := query.QueryContext(ctx, e)
+	if err != nil {
+		return errors.Wrap(err, "failed to eager load reservation")
+	}
+
+	var resultSlice []*Reservation
+	if err = queries.Bind(results, &resultSlice); err != nil {
+		return errors.Wrap(err, "failed to bind eager loaded slice reservation")
+	}
+
+	if err = results.Close(); err != nil {
+		return errors.Wrap(err, "failed to close results in eager load on reservation")
+	}
+	if err = results.Err(); err != nil {
+		return errors.Wrap(err, "error occurred during iteration of eager loaded relations for reservation")
+	}
+
+	if len(reservationAfterSelectHooks) != 0 {
+		for _, obj := range resultSlice {
+			if err := obj.doAfterSelectHooks(ctx, e); err != nil {
+				return err
+			}
+		}
+	}
+	if singular {
+		object.R.Reservations = resultSlice
+		for _, foreign := range resultSlice {
+			if foreign.R == nil {
+				foreign.R = &reservationR{}
+			}
+			foreign.R.Guest = object
+		}
+		return nil
+	}
+
+	for _, foreign := range resultSlice {
+		for _, local := range slice {
+			if local.ID == foreign.GuestID {
+				local.R.Reservations = append(local.R.Reservations, foreign)
+				if foreign.R == nil {
+					foreign.R = &reservationR{}
+				}
+				foreign.R.Guest = local
+				break
+			}
+		}
+	}
+
+	return nil
+}
+
+// AddReservations adds the given related objects to the existing relationships
+// of the guest, optionally inserting them as new records.
+// Appends related to o.R.Reservations.
+// Sets related.R.Guest appropriately.
+func (o *Guest) AddReservations(ctx context.Context, exec boil.ContextExecutor, insert bool, related ...*Reservation) error {
+	var err error
+	for _, rel := range related {
+		if insert {
+			rel.GuestID = o.ID
+			if err = rel.Insert(ctx, exec, boil.Infer()); err != nil {
+				return errors.Wrap(err, "failed to insert into foreign table")
+			}
+		} else {
+			updateQuery := fmt.Sprintf(
+				"UPDATE `reservation` SET %s WHERE %s",
+				strmangle.SetParamNames("`", "`", 0, []string{"guest_id"}),
+				strmangle.WhereClause("`", "`", 0, reservationPrimaryKeyColumns),
+			)
+			values := []interface{}{o.ID, rel.ID}
+
+			if boil.IsDebug(ctx) {
+				writer := boil.DebugWriterFrom(ctx)
+				fmt.Fprintln(writer, updateQuery)
+				fmt.Fprintln(writer, values)
+			}
+			if _, err = exec.ExecContext(ctx, updateQuery, values...); err != nil {
+				return errors.Wrap(err, "failed to update foreign table")
+			}
+
+			rel.GuestID = o.ID
+		}
+	}
+
+	if o.R == nil {
+		o.R = &guestR{
+			Reservations: related,
+		}
+	} else {
+		o.R.Reservations = append(o.R.Reservations, related...)
+	}
+
+	for _, rel := range related {
+		if rel.R == nil {
+			rel.R = &reservationR{
+				Guest: o,
+			}
+		} else {
+			rel.R.Guest = o
+		}
+	}
+	return nil
 }
 
 // Guests retrieves all the records using an executor.

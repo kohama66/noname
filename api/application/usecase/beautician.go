@@ -3,8 +3,9 @@ package usecase
 import (
 	"context"
 
-	"github.com/myapp/noname/api/application/usecase/request"
-	"github.com/myapp/noname/api/application/usecase/response"
+	"github.com/myapp/noname/api/application/usecase/requestmodel"
+	"github.com/myapp/noname/api/application/usecase/responsemodel"
+	"github.com/myapp/noname/api/infrastructure/response"
 
 	"github.com/myapp/noname/api/domain/repository"
 	"github.com/rs/xid"
@@ -12,27 +13,40 @@ import (
 
 // Beautician 美容師
 type Beautician interface {
-	Create(ctx context.Context, r *request.BeauticianCreate) (*response.Beautician, error)
+	Create(ctx context.Context, r *requestmodel.BeauticianCreate) (*responsemodel.BeauticianCreate, error)
+	Get(ctx context.Context, r *requestmodel.BeauticianGet) (*responsemodel.BeauticianGet, error)
 }
 
 type beautician struct {
-	repositoryBeautician repository.Beautician
+	beauticianRepository repository.Beautician
+	beauticianResponse   response.Beautician
 }
 
-// NewBeautician ユースケースの初期化
+// NewBeautician usecaseの初期化
 func NewBeautician(
-	repositoryBeautician repository.Beautician,
+	beauticianRepository repository.Beautician,
+	beauticianResponse response.Beautician,
 ) Beautician {
 	return &beautician{
-		repositoryBeautician: repositoryBeautician,
+		beauticianRepository: beauticianRepository,
+		beauticianResponse:   beauticianResponse,
 	}
 }
 
-func (b *beautician) Create(ctx context.Context, r *request.BeauticianCreate) (*response.Beautician, error) {
+func (b *beautician) Create(ctx context.Context, r *requestmodel.BeauticianCreate) (*responsemodel.BeauticianCreate, error) {
 	ent := r.NewBeautician(xid.New().String())
-	if err := b.repositoryBeautician.Create(ctx, ent); err != nil {
+	if err := b.beauticianRepository.Create(ctx, ent); err != nil {
 		return nil, err
 	}
-	res := response.NewBeautician(ent)
+	res := b.beauticianResponse.NewBeauticianCreate(ent)
+	return res, nil
+}
+
+func (b *beautician) Get(ctx context.Context, r *requestmodel.BeauticianGet) (*responsemodel.BeauticianGet, error) {
+	ent, err := b.beauticianRepository.Get(ctx, r.ID)
+	if err != nil {
+		return nil, err
+	}
+	res := b.beauticianResponse.NewBeauticianGet(ent)
 	return res, nil
 }

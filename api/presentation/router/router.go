@@ -24,13 +24,13 @@ func Init() *Router {
 }
 
 func (r *Router) Run() {
-	fmt.Println("Listening on port 3000")
-	http.ListenAndServe(":3000", r)
+	fmt.Println("Listening on port 8080")
+	http.ListenAndServe(":8080", r)
 }
 
 func (r *Router) Routes() {
 	beauticianController := di.InitBeautician()
-	testController := di.InitTest()
+	reservationController := di.InitReservation()
 
 	r.Route("/api", func(r chi.Router) {
 		r.Route("/v1", func(r chi.Router) {
@@ -38,10 +38,11 @@ func (r *Router) Routes() {
 				r.Use(middleware.AuthAPI)
 				r.Route("/beautician", func(r chi.Router) {
 					r.Post("/", beauticianController.Create)
+					r.Get("/", beauticianController.Get)
 				})
-			})
-			r.Route("/hello", func(r chi.Router) {
-				r.Get("/", testController.Get)
+				r.Route("/reservation", func(r chi.Router) {
+					r.Post("/", reservationController.Create)
+				})
 			})
 		})
 	})

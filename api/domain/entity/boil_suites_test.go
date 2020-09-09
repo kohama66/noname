@@ -15,77 +15,99 @@ func TestParent(t *testing.T) {
 	t.Run("Beauticians", testBeauticians)
 	t.Run("Guests", testGuests)
 	t.Run("Menus", testMenus)
-	t.Run("Stores", testStores)
+	t.Run("Reservations", testReservations)
+	t.Run("Salons", testSalons)
+	t.Run("Spaces", testSpaces)
 }
 
 func TestDelete(t *testing.T) {
 	t.Run("Beauticians", testBeauticiansDelete)
 	t.Run("Guests", testGuestsDelete)
 	t.Run("Menus", testMenusDelete)
-	t.Run("Stores", testStoresDelete)
+	t.Run("Reservations", testReservationsDelete)
+	t.Run("Salons", testSalonsDelete)
+	t.Run("Spaces", testSpacesDelete)
 }
 
 func TestQueryDeleteAll(t *testing.T) {
 	t.Run("Beauticians", testBeauticiansQueryDeleteAll)
 	t.Run("Guests", testGuestsQueryDeleteAll)
 	t.Run("Menus", testMenusQueryDeleteAll)
-	t.Run("Stores", testStoresQueryDeleteAll)
+	t.Run("Reservations", testReservationsQueryDeleteAll)
+	t.Run("Salons", testSalonsQueryDeleteAll)
+	t.Run("Spaces", testSpacesQueryDeleteAll)
 }
 
 func TestSliceDeleteAll(t *testing.T) {
 	t.Run("Beauticians", testBeauticiansSliceDeleteAll)
 	t.Run("Guests", testGuestsSliceDeleteAll)
 	t.Run("Menus", testMenusSliceDeleteAll)
-	t.Run("Stores", testStoresSliceDeleteAll)
+	t.Run("Reservations", testReservationsSliceDeleteAll)
+	t.Run("Salons", testSalonsSliceDeleteAll)
+	t.Run("Spaces", testSpacesSliceDeleteAll)
 }
 
 func TestExists(t *testing.T) {
 	t.Run("Beauticians", testBeauticiansExists)
 	t.Run("Guests", testGuestsExists)
 	t.Run("Menus", testMenusExists)
-	t.Run("Stores", testStoresExists)
+	t.Run("Reservations", testReservationsExists)
+	t.Run("Salons", testSalonsExists)
+	t.Run("Spaces", testSpacesExists)
 }
 
 func TestFind(t *testing.T) {
 	t.Run("Beauticians", testBeauticiansFind)
 	t.Run("Guests", testGuestsFind)
 	t.Run("Menus", testMenusFind)
-	t.Run("Stores", testStoresFind)
+	t.Run("Reservations", testReservationsFind)
+	t.Run("Salons", testSalonsFind)
+	t.Run("Spaces", testSpacesFind)
 }
 
 func TestBind(t *testing.T) {
 	t.Run("Beauticians", testBeauticiansBind)
 	t.Run("Guests", testGuestsBind)
 	t.Run("Menus", testMenusBind)
-	t.Run("Stores", testStoresBind)
+	t.Run("Reservations", testReservationsBind)
+	t.Run("Salons", testSalonsBind)
+	t.Run("Spaces", testSpacesBind)
 }
 
 func TestOne(t *testing.T) {
 	t.Run("Beauticians", testBeauticiansOne)
 	t.Run("Guests", testGuestsOne)
 	t.Run("Menus", testMenusOne)
-	t.Run("Stores", testStoresOne)
+	t.Run("Reservations", testReservationsOne)
+	t.Run("Salons", testSalonsOne)
+	t.Run("Spaces", testSpacesOne)
 }
 
 func TestAll(t *testing.T) {
 	t.Run("Beauticians", testBeauticiansAll)
 	t.Run("Guests", testGuestsAll)
 	t.Run("Menus", testMenusAll)
-	t.Run("Stores", testStoresAll)
+	t.Run("Reservations", testReservationsAll)
+	t.Run("Salons", testSalonsAll)
+	t.Run("Spaces", testSpacesAll)
 }
 
 func TestCount(t *testing.T) {
 	t.Run("Beauticians", testBeauticiansCount)
 	t.Run("Guests", testGuestsCount)
 	t.Run("Menus", testMenusCount)
-	t.Run("Stores", testStoresCount)
+	t.Run("Reservations", testReservationsCount)
+	t.Run("Salons", testSalonsCount)
+	t.Run("Spaces", testSpacesCount)
 }
 
 func TestHooks(t *testing.T) {
 	t.Run("Beauticians", testBeauticiansHooks)
 	t.Run("Guests", testGuestsHooks)
 	t.Run("Menus", testMenusHooks)
-	t.Run("Stores", testStoresHooks)
+	t.Run("Reservations", testReservationsHooks)
+	t.Run("Salons", testSalonsHooks)
+	t.Run("Spaces", testSpacesHooks)
 }
 
 func TestInsert(t *testing.T) {
@@ -95,14 +117,23 @@ func TestInsert(t *testing.T) {
 	t.Run("Guests", testGuestsInsertWhitelist)
 	t.Run("Menus", testMenusInsert)
 	t.Run("Menus", testMenusInsertWhitelist)
-	t.Run("Stores", testStoresInsert)
-	t.Run("Stores", testStoresInsertWhitelist)
+	t.Run("Reservations", testReservationsInsert)
+	t.Run("Reservations", testReservationsInsertWhitelist)
+	t.Run("Salons", testSalonsInsert)
+	t.Run("Salons", testSalonsInsertWhitelist)
+	t.Run("Spaces", testSpacesInsert)
+	t.Run("Spaces", testSpacesInsertWhitelist)
 }
 
 // TestToOne tests cannot be run in parallel
 // or deadlocks can occur.
 func TestToOne(t *testing.T) {
 	t.Run("MenuToBeauticianUsingBeautician", testMenuToOneBeauticianUsingBeautician)
+	t.Run("ReservationToBeauticianUsingBeautician", testReservationToOneBeauticianUsingBeautician)
+	t.Run("ReservationToGuestUsingGuest", testReservationToOneGuestUsingGuest)
+	t.Run("ReservationToMenuUsingMenu", testReservationToOneMenuUsingMenu)
+	t.Run("ReservationToSpaceUsingSpace", testReservationToOneSpaceUsingSpace)
+	t.Run("SpaceToSalonUsingSalon", testSpaceToOneSalonUsingSalon)
 }
 
 // TestOneToOne tests cannot be run in parallel
@@ -113,12 +144,22 @@ func TestOneToOne(t *testing.T) {}
 // or deadlocks can occur.
 func TestToMany(t *testing.T) {
 	t.Run("BeauticianToMenus", testBeauticianToManyMenus)
+	t.Run("BeauticianToReservations", testBeauticianToManyReservations)
+	t.Run("GuestToReservations", testGuestToManyReservations)
+	t.Run("MenuToReservations", testMenuToManyReservations)
+	t.Run("SalonToSpaces", testSalonToManySpaces)
+	t.Run("SpaceToReservations", testSpaceToManyReservations)
 }
 
 // TestToOneSet tests cannot be run in parallel
 // or deadlocks can occur.
 func TestToOneSet(t *testing.T) {
 	t.Run("MenuToBeauticianUsingMenus", testMenuToOneSetOpBeauticianUsingBeautician)
+	t.Run("ReservationToBeauticianUsingReservations", testReservationToOneSetOpBeauticianUsingBeautician)
+	t.Run("ReservationToGuestUsingReservations", testReservationToOneSetOpGuestUsingGuest)
+	t.Run("ReservationToMenuUsingReservations", testReservationToOneSetOpMenuUsingMenu)
+	t.Run("ReservationToSpaceUsingReservations", testReservationToOneSetOpSpaceUsingSpace)
+	t.Run("SpaceToSalonUsingSpaces", testSpaceToOneSetOpSalonUsingSalon)
 }
 
 // TestToOneRemove tests cannot be run in parallel
@@ -137,6 +178,11 @@ func TestOneToOneRemove(t *testing.T) {}
 // or deadlocks can occur.
 func TestToManyAdd(t *testing.T) {
 	t.Run("BeauticianToMenus", testBeauticianToManyAddOpMenus)
+	t.Run("BeauticianToReservations", testBeauticianToManyAddOpReservations)
+	t.Run("GuestToReservations", testGuestToManyAddOpReservations)
+	t.Run("MenuToReservations", testMenuToManyAddOpReservations)
+	t.Run("SalonToSpaces", testSalonToManyAddOpSpaces)
+	t.Run("SpaceToReservations", testSpaceToManyAddOpReservations)
 }
 
 // TestToManySet tests cannot be run in parallel
@@ -151,33 +197,43 @@ func TestReload(t *testing.T) {
 	t.Run("Beauticians", testBeauticiansReload)
 	t.Run("Guests", testGuestsReload)
 	t.Run("Menus", testMenusReload)
-	t.Run("Stores", testStoresReload)
+	t.Run("Reservations", testReservationsReload)
+	t.Run("Salons", testSalonsReload)
+	t.Run("Spaces", testSpacesReload)
 }
 
 func TestReloadAll(t *testing.T) {
 	t.Run("Beauticians", testBeauticiansReloadAll)
 	t.Run("Guests", testGuestsReloadAll)
 	t.Run("Menus", testMenusReloadAll)
-	t.Run("Stores", testStoresReloadAll)
+	t.Run("Reservations", testReservationsReloadAll)
+	t.Run("Salons", testSalonsReloadAll)
+	t.Run("Spaces", testSpacesReloadAll)
 }
 
 func TestSelect(t *testing.T) {
 	t.Run("Beauticians", testBeauticiansSelect)
 	t.Run("Guests", testGuestsSelect)
 	t.Run("Menus", testMenusSelect)
-	t.Run("Stores", testStoresSelect)
+	t.Run("Reservations", testReservationsSelect)
+	t.Run("Salons", testSalonsSelect)
+	t.Run("Spaces", testSpacesSelect)
 }
 
 func TestUpdate(t *testing.T) {
 	t.Run("Beauticians", testBeauticiansUpdate)
 	t.Run("Guests", testGuestsUpdate)
 	t.Run("Menus", testMenusUpdate)
-	t.Run("Stores", testStoresUpdate)
+	t.Run("Reservations", testReservationsUpdate)
+	t.Run("Salons", testSalonsUpdate)
+	t.Run("Spaces", testSpacesUpdate)
 }
 
 func TestSliceUpdateAll(t *testing.T) {
 	t.Run("Beauticians", testBeauticiansSliceUpdateAll)
 	t.Run("Guests", testGuestsSliceUpdateAll)
 	t.Run("Menus", testMenusSliceUpdateAll)
-	t.Run("Stores", testStoresSliceUpdateAll)
+	t.Run("Reservations", testReservationsSliceUpdateAll)
+	t.Run("Salons", testSalonsSliceUpdateAll)
+	t.Run("Spaces", testSpacesSliceUpdateAll)
 }

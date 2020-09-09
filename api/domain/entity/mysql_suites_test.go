@@ -12,5 +12,9 @@ func TestUpsert(t *testing.T) {
 
 	t.Run("Menus", testMenusUpsert)
 
-	t.Run("Stores", testStoresUpsert)
+	t.Run("Reservations", testReservationsUpsert)
+
+	t.Run("Salons", testSalonsUpsert)
+
+	t.Run("Spaces", testSpacesUpsert)
 }

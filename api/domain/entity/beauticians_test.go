@@ -572,6 +572,84 @@ func testBeauticianToManyMenus(t *testing.T) {
 	}
 }
 
+func testBeauticianToManyReservations(t *testing.T) {
+	var err error
+	ctx := context.Background()
+	tx := MustTx(boil.BeginTx(ctx, nil))
+	defer func() { _ = tx.Rollback() }()
+
+	var a Beautician
+	var b, c Reservation
+
+	seed := randomize.NewSeed()
+	if err = randomize.Struct(seed, &a, beauticianDBTypes, true, beauticianColumnsWithDefault...); err != nil {
+		t.Errorf("Unable to randomize Beautician struct: %s", err)
+	}
+
+	if err := a.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+
+	if err = randomize.Struct(seed, &b, reservationDBTypes, false, reservationColumnsWithDefault...); err != nil {
+		t.Fatal(err)
+	}
+	if err = randomize.Struct(seed, &c, reservationDBTypes, false, reservationColumnsWithDefault...); err != nil {
+		t.Fatal(err)
+	}
+
+	b.BeauticianID = a.ID
+	c.BeauticianID = a.ID
+
+	if err = b.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+	if err = c.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+
+	check, err := a.Reservations().All(ctx, tx)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	bFound, cFound := false, false
+	for _, v := range check {
+		if v.BeauticianID == b.BeauticianID {
+			bFound = true
+		}
+		if v.BeauticianID == c.BeauticianID {
+			cFound = true
+		}
+	}
+
+	if !bFound {
+		t.Error("expected to find b")
+	}
+	if !cFound {
+		t.Error("expected to find c")
+	}
+
+	slice := BeauticianSlice{&a}
+	if err = a.L.LoadReservations(ctx, tx, false, (*[]*Beautician)(&slice), nil); err != nil {
+		t.Fatal(err)
+	}
+	if got := len(a.R.Reservations); got != 2 {
+		t.Error("number of eager loaded records wrong, got:", got)
+	}
+
+	a.R.Reservations = nil
+	if err = a.L.LoadReservations(ctx, tx, true, &a, nil); err != nil {
+		t.Fatal(err)
+	}
+	if got := len(a.R.Reservations); got != 2 {
+		t.Error("number of eager loaded records wrong, got:", got)
+	}
+
+	if t.Failed() {
+		t.Logf("%#v", check)
+	}
+}
+
 func testBeauticianToManyAddOpMenus(t *testing.T) {
 	var err error
 
@@ -639,6 +717,81 @@ func testBeauticianToManyAddOpMenus(t *testing.T) {
 		}
 
 		count, err := a.Menus().Count(ctx, tx)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if want := int64((i + 1) * 2); count != want {
+			t.Error("want", want, "got", count)
+		}
+	}
+}
+func testBeauticianToManyAddOpReservations(t *testing.T) {
+	var err error
+
+	ctx := context.Background()
+	tx := MustTx(boil.BeginTx(ctx, nil))
+	defer func() { _ = tx.Rollback() }()
+
+	var a Beautician
+	var b, c, d, e Reservation
+
+	seed := randomize.NewSeed()
+	if err = randomize.Struct(seed, &a, beauticianDBTypes, false, strmangle.SetComplement(beauticianPrimaryKeyColumns, beauticianColumnsWithoutDefault)...); err != nil {
+		t.Fatal(err)
+	}
+	foreigners := []*Reservation{&b, &c, &d, &e}
+	for _, x := range foreigners {
+		if err = randomize.Struct(seed, x, reservationDBTypes, false, strmangle.SetComplement(reservationPrimaryKeyColumns, reservationColumnsWithoutDefault)...); err != nil {
+			t.Fatal(err)
+		}
+	}
+
+	if err := a.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+	if err = b.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+	if err = c.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+
+	foreignersSplitByInsertion := [][]*Reservation{
+		{&b, &c},
+		{&d, &e},
+	}
+
+	for i, x := range foreignersSplitByInsertion {
+		err = a.AddReservations(ctx, tx, i != 0, x...)
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		first := x[0]
+		second := x[1]
+
+		if a.ID != first.BeauticianID {
+			t.Error("foreign key was wrong value", a.ID, first.BeauticianID)
+		}
+		if a.ID != second.BeauticianID {
+			t.Error("foreign key was wrong value", a.ID, second.BeauticianID)
+		}
+
+		if first.R.Beautician != &a {
+			t.Error("relationship was not added properly to the foreign slice")
+		}
+		if second.R.Beautician != &a {
+			t.Error("relationship was not added properly to the foreign slice")
+		}
+
+		if a.R.Reservations[i*2] != first {
+			t.Error("relationship struct slice not set to correct value")
+		}
+		if a.R.Reservations[i*2+1] != second {
+			t.Error("relationship struct slice not set to correct value")
+		}
+
+		count, err := a.Reservations().Count(ctx, tx)
 		if err != nil {
 			t.Fatal(err)
 		}

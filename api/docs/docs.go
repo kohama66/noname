@@ -26,6 +26,40 @@ var doc = `{
     "basePath": "{{.BasePath}}",
     "paths": {
         "/api/v1/beautician": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "美容師情報取得",
+                "parameters": [
+                    {
+                        "description": "Request body",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/requestmodel.BeauticianGet"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/responsemodel.BeauticianGet"
+                        }
+                    },
+                    "500": {
+                        "description": "Something went wrong",
+                        "schema": {
+                            "$ref": "#/definitions/resource.Error"
+                        }
+                    }
+                }
+            },
             "post": {
                 "consumes": [
                     "application/json"
@@ -41,7 +75,7 @@ var doc = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/request.BeauticianCreate"
+                            "$ref": "#/definitions/requestmodel.BeauticianCreate"
                         }
                     }
                 ],
@@ -49,11 +83,11 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.BeauticianCreate"
+                            "$ref": "#/definitions/responsemodel.BeauticianCreate"
                         }
                     },
                     "500": {
-                        "description": "Soeventthing went wrong",
+                        "description": "Something went wrong",
                         "schema": {
                             "$ref": "#/definitions/resource.Error"
                         }
@@ -61,15 +95,15 @@ var doc = `{
                 }
             }
         },
-        "/api/v1/hello": {
-            "get": {
+        "/api/v1/reservation": {
+            "post": {
                 "consumes": [
                     "application/json"
                 ],
                 "produces": [
                     "application/json"
                 ],
-                "summary": "swaggerTest",
+                "summary": "予約登録",
                 "parameters": [
                     {
                         "description": "Request body",
@@ -77,19 +111,14 @@ var doc = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/request.TestGet"
+                            "$ref": "#/definitions/requestmodel.ReservationCreate"
                         }
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/response.TestGet"
-                        }
-                    },
+                    "200": {},
                     "500": {
-                        "description": "Soeventthing went wrong",
+                        "description": "Something went wrong",
                         "schema": {
                             "$ref": "#/definitions/resource.Error"
                         }
@@ -99,7 +128,7 @@ var doc = `{
         }
     },
     "definitions": {
-        "request.BeauticianCreate": {
+        "requestmodel.BeauticianCreate": {
             "type": "object",
             "properties": {
                 "age": {
@@ -116,10 +145,30 @@ var doc = `{
                 }
             }
         },
-        "request.TestGet": {
+        "requestmodel.BeauticianGet": {
             "type": "object",
             "properties": {
-                "test": {
+                "id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "requestmodel.ReservationCreate": {
+            "type": "object",
+            "properties": {
+                "beauticiaId": {
+                    "type": "integer"
+                },
+                "date": {
+                    "type": "string"
+                },
+                "menuId": {
+                    "type": "integer"
+                },
+                "spaceId": {
+                    "type": "integer"
+                },
+                "time": {
                     "type": "string"
                 }
             }
@@ -132,7 +181,7 @@ var doc = `{
                 }
             }
         },
-        "response.Beautician": {
+        "responsemodel.BeauticianCreate": {
             "type": "object",
             "properties": {
                 "age": {
@@ -161,19 +210,31 @@ var doc = `{
                 }
             }
         },
-        "response.BeauticianCreate": {
+        "responsemodel.BeauticianGet": {
             "type": "object",
             "properties": {
-                "beautician": {
-                    "type": "object",
-                    "$ref": "#/definitions/response.Beautician"
-                }
-            }
-        },
-        "response.TestGet": {
-            "type": "object",
-            "properties": {
-                "test": {
+                "age": {
+                    "type": "integer"
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "firstName": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "lastName": {
+                    "type": "string"
+                },
+                "phoneNumber": {
+                    "type": "string"
+                },
+                "randId": {
+                    "type": "string"
+                },
+                "updatedAt": {
                     "type": "string"
                 }
             }

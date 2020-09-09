@@ -7,10 +7,14 @@ var TableNames = struct {
 	Beauticians string
 	Guests      string
 	Menus       string
-	Stores      string
+	Reservation string
+	Salons      string
+	Spaces      string
 }{
 	Beauticians: "beauticians",
 	Guests:      "guests",
 	Menus:       "menus",
-	Stores:      "stores",
+	Reservation: "reservation",
+	Salons:      "salons",
+	Spaces:      "spaces",
 }
