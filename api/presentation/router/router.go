@@ -35,14 +35,14 @@ func (r *Router) Routes() {
 	r.Route("/api", func(r chi.Router) {
 		r.Route("/v1", func(r chi.Router) {
 			r.Group(func(r chi.Router) {
-				// r.Use(middleware.AuthAPI)
+				r.Use(middleware.AuthAPI)
 				r.Route("/beautician", func(r chi.Router) {
 					r.Post("/", beauticianController.Create)
 					r.Get("/", beauticianController.Get)
 				})
-			})
-			r.Route("/reservation", func(r chi.Router) {
-				r.Post("/", reservationController.Create)
+				r.Route("/reservation", func(r chi.Router) {
+					r.Post("/", reservationController.Create)
+				})
 			})
 		})
 	})

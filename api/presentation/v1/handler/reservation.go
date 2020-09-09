@@ -34,7 +34,7 @@ func NewReservation(
 // @Success 200 ""
 // @Failure 500 {object} resource.Error "Something went wrong"
 // @Router /api/v1/reservation [post]
-func (r *reservation) Create(w http.ResponseWriter, hr *http.Request) {
+func (r reservation) Create(w http.ResponseWriter, hr *http.Request) {
 	req, err := request.NewReservationCreate(hr)
 	if err != nil {
 		log.Warningf(hr.Context(), "ReservationCreate.Request %v", err)
