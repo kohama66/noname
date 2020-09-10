@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC } from 'react';
 import './App.scss';
 import {Home, Beautician} from '../components/index'
 import {
