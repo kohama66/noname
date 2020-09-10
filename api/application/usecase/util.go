@@ -2,8 +2,6 @@ package usecase
 
 import (
 	"time"
-
-	"github.com/myapp/noname/api/env"
 )
 
 func init() {
@@ -11,7 +9,5 @@ func init() {
 }
 
 func timeZoneSetJST() {
-	if env.IsStaging() && env.IsProduction() {
-		time.Local = time.FixedZone("Local", -8*60*60)
-	}
+	time.Local = time.FixedZone("Asia/Tokyo", 9*60*60)
 }

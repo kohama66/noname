@@ -77,7 +77,7 @@ func (r *reservation) FindByBeautician(ctx context.Context, req *requestmodel.Re
 	if err != nil {
 		return nil, err
 	}
-	today := time.Now()
+	today, _ := time.Parse("2006-01-02", time.Now().Format("2006-01-02"))
 	rv, err := r.reservationRepository.FindByBeautician(ctx, bt.ID, today)
 	if err != nil {
 		return nil, err
