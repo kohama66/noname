@@ -5,7 +5,7 @@ import (
 	"github.com/volatiletech/null"
 )
 
-// ReservationCreate 予約構造体
+// ReservationCreate request構造体
 type ReservationCreate struct {
 	AuthID       string `json:"-"`
 	BeauticianID int64  `json:"beauticiaId"`
@@ -25,4 +25,10 @@ func (r *ReservationCreate) NewReservation(date null.Time, time null.String, gue
 		GuestID:      guestID,
 		MenuID:       r.MenuID,
 	}
+}
+
+// ReservationFindByBeautician 美容師予約情報取得 構造体
+type ReservationFindByBeautician struct {
+	AuthID string `json:"-"`
+	Offset int64  `schema:"offset"`
 }

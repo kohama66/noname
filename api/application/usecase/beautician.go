@@ -43,7 +43,7 @@ func (b *beautician) Create(ctx context.Context, r *requestmodel.BeauticianCreat
 }
 
 func (b *beautician) Get(ctx context.Context, r *requestmodel.BeauticianGet) (*responsemodel.BeauticianGet, error) {
-	ent, err := b.beauticianRepository.Get(ctx, r.ID)
+	ent, err := b.beauticianRepository.GetByAuthID(ctx, r.AuthID)
 	if err != nil {
 		return nil, err
 	}

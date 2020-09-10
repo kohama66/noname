@@ -42,6 +42,7 @@ func (r *Router) Routes() {
 				})
 				r.Route("/reservation", func(r chi.Router) {
 					r.Post("/", reservationController.Create)
+					r.Get("/beautician", reservationController.FindByBeautician)
 				})
 			})
 		})
@@ -49,7 +50,7 @@ func (r *Router) Routes() {
 }
 
 func (r *Router) Swagger() {
-	r.Use(middleware.CORS)
+	// r.Use(middleware.CORS)
 	r.Get("/api/swagger/*", httpSwagger.Handler(
 		httpSwagger.URL("/api/swagger/doc.json"),
 	))

@@ -9,5 +9,5 @@ import (
 // Beautician DIInterface
 type Beautician interface {
 	Create(ctx context.Context, ent *entity.Beautician) error
-	Get(ctx context.Context, id int64) (*entity.Beautician, error)
+	GetByAuthID(ctx context.Context, authID string) (*entity.Beautician, error)
 }

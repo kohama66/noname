@@ -116,7 +116,48 @@ var doc = `{
                     }
                 ],
                 "responses": {
-                    "200": {},
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/responsemodel.ReservationCreate"
+                        }
+                    },
+                    "500": {
+                        "description": "Something went wrong",
+                        "schema": {
+                            "$ref": "#/definitions/resource.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/reservation/beautician": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "美容師予約情報取得",
+                "parameters": [
+                    {
+                        "description": "Request body",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/requestmodel.ReservationFindByBeautician"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/responsemodel.ReservationFindByBeautician"
+                        }
+                    },
                     "500": {
                         "description": "Something went wrong",
                         "schema": {
@@ -146,12 +187,7 @@ var doc = `{
             }
         },
         "requestmodel.BeauticianGet": {
-            "type": "object",
-            "properties": {
-                "id": {
-                    "type": "integer"
-                }
-            }
+            "type": "object"
         },
         "requestmodel.ReservationCreate": {
             "type": "object",
@@ -170,6 +206,14 @@ var doc = `{
                 },
                 "time": {
                     "type": "string"
+                }
+            }
+        },
+        "requestmodel.ReservationFindByBeautician": {
+            "type": "object",
+            "properties": {
+                "offset": {
+                    "type": "integer"
                 }
             }
         },
@@ -236,6 +280,75 @@ var doc = `{
                 },
                 "updatedAt": {
                     "type": "string"
+                }
+            }
+        },
+        "responsemodel.Reservation": {
+            "type": "object",
+            "properties": {
+                "beauticiaId": {
+                    "type": "integer"
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "date": {
+                    "type": "string"
+                },
+                "guestId": {
+                    "type": "integer"
+                },
+                "menuId": {
+                    "type": "integer"
+                },
+                "spaceId": {
+                    "type": "integer"
+                },
+                "time": {
+                    "type": "string"
+                },
+                "updatedAt": {
+                    "type": "string"
+                }
+            }
+        },
+        "responsemodel.ReservationCreate": {
+            "type": "object",
+            "properties": {
+                "beauticiaId": {
+                    "type": "integer"
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "date": {
+                    "type": "string"
+                },
+                "guestId": {
+                    "type": "integer"
+                },
+                "menuId": {
+                    "type": "integer"
+                },
+                "spaceId": {
+                    "type": "integer"
+                },
+                "time": {
+                    "type": "string"
+                },
+                "updatedAt": {
+                    "type": "string"
+                }
+            }
+        },
+        "responsemodel.ReservationFindByBeautician": {
+            "type": "object",
+            "properties": {
+                "reservations": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/responsemodel.Reservation"
+                    }
                 }
             }
         }

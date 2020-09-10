@@ -15,12 +15,14 @@ import (
 // Reservation DIInterface
 type Reservation interface {
 	Create(ctx context.Context, req *requestmodel.ReservationCreate) (*responsemodel.ReservationCreate, error)
+	FindByBeautician(ctx context.Context, req *requestmodel.ReservationFindByBeautician) (*responsemodel.ReservationFindByBeautician, error)
 }
 
 type reservation struct {
 	guestRepository       repository.Guest
 	reservationRepository repository.Reservation
 	reservationResponse   response.Reservation
+	beauticianRepository  repository.Beautician
 }
 
 // NewReservation DI初期化
@@ -28,11 +30,13 @@ func NewReservation(
 	guestRepository repository.Guest,
 	reservationRepository repository.Reservation,
 	reservationResponse response.Reservation,
+	beauticianRepository repository.Beautician,
 ) Reservation {
 	return &reservation{
 		guestRepository:       guestRepository,
 		reservationRepository: reservationRepository,
 		reservationResponse:   reservationResponse,
+		beauticianRepository:  beauticianRepository,
 	}
 }
 
@@ -66,4 +70,17 @@ func (r *reservation) Create(ctx context.Context, req *requestmodel.ReservationC
 		return nil, err
 	}
 	return r.reservationResponse.NewReservationCreate(ent), nil
+}
+
+func (r *reservation) FindByBeautician(ctx context.Context, req *requestmodel.ReservationFindByBeautician) (*responsemodel.ReservationFindByBeautician, error) {
+	bt, err := r.beauticianRepository.GetByAuthID(ctx, req.AuthID)
+	if err != nil {
+		return nil, err
+	}
+	today := time.Now()
+	rv, err := r.reservationRepository.FindByBeautician(ctx, bt.ID, today)
+	if err != nil {
+		return nil, err
+	}
+	return r.reservationResponse.NewReservationFindByBeautician(rv), nil
 }

@@ -12,6 +12,7 @@ import (
 
 type Reservation interface {
 	Create(w http.ResponseWriter, hr *http.Request)
+	FindByBeautician(w http.ResponseWriter, hr *http.Request)
 }
 
 type reservation struct {
@@ -31,7 +32,7 @@ func NewReservation(
 // @Accept  json
 // @Produce  json
 // @Param data body requestmodel.ReservationCreate true "Request body"
-// @Success 200 ""
+// @Success 200 {object} responsemodel.ReservationCreate
 // @Failure 500 {object} resource.Error "Something went wrong"
 // @Router /api/v1/reservation [post]
 func (r reservation) Create(w http.ResponseWriter, hr *http.Request) {
@@ -44,6 +45,31 @@ func (r reservation) Create(w http.ResponseWriter, hr *http.Request) {
 	res, err := r.reservationUsecase.Create(hr.Context(), req)
 	if err != nil {
 		log.Errorf(hr.Context(), "ReservationCreate: %v", err)
+		factory.ErrorJSON(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	factory.JSON(w, res)
+	return
+}
+
+// FindByBeautician
+// @Summary 美容師予約情報取得
+// @Accept  json
+// @Produce  json
+// @Param data body requestmodel.ReservationFindByBeautician true "Request body"
+// @Success 200 {object} responsemodel.ReservationFindByBeautician
+// @Failure 500 {object} resource.Error "Something went wrong"
+// @Router /api/v1/reservation/beautician [Get]
+func (r reservation) FindByBeautician(w http.ResponseWriter, hr *http.Request) {
+	req, err := request.NewReservationFindByBeautician(hr)
+	if err != nil {
+		log.Warningf(hr.Context(), "ReservationFindByBeautician.Request %v", err)
+		factory.ErrorJSON(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+	res, err := r.reservationUsecase.FindByBeautician(hr.Context(), req)
+	if err != nil {
+		log.Errorf(hr.Context(), "ReservationFindByBeautician: %v", err)
 		factory.ErrorJSON(w, err.Error(), http.StatusInternalServerError)
 		return
 	}

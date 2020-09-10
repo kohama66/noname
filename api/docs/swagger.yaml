@@ -11,9 +11,6 @@ definitions:
         type: string
     type: object
   requestmodel.BeauticianGet:
-    properties:
-      id:
-        type: integer
     type: object
   requestmodel.ReservationCreate:
     properties:
@@ -27,6 +24,11 @@ definitions:
         type: integer
       time:
         type: string
+    type: object
+  requestmodel.ReservationFindByBeautician:
+    properties:
+      offset:
+        type: integer
     type: object
   resource.Error:
     properties:
@@ -70,6 +72,51 @@ definitions:
         type: string
       updatedAt:
         type: string
+    type: object
+  responsemodel.Reservation:
+    properties:
+      beauticiaId:
+        type: integer
+      createdAt:
+        type: string
+      date:
+        type: string
+      guestId:
+        type: integer
+      menuId:
+        type: integer
+      spaceId:
+        type: integer
+      time:
+        type: string
+      updatedAt:
+        type: string
+    type: object
+  responsemodel.ReservationCreate:
+    properties:
+      beauticiaId:
+        type: integer
+      createdAt:
+        type: string
+      date:
+        type: string
+      guestId:
+        type: integer
+      menuId:
+        type: integer
+      spaceId:
+        type: integer
+      time:
+        type: string
+      updatedAt:
+        type: string
+    type: object
+  responsemodel.ReservationFindByBeautician:
+    properties:
+      reservations:
+        items:
+          $ref: '#/definitions/responsemodel.Reservation'
+        type: array
     type: object
 info:
   contact: {}
@@ -134,10 +181,36 @@ paths:
       produces:
       - application/json
       responses:
-        "200": {}
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responsemodel.ReservationCreate'
         "500":
           description: Something went wrong
           schema:
             $ref: '#/definitions/resource.Error'
       summary: 予約登録
+  /api/v1/reservation/beautician:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: Request body
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/requestmodel.ReservationFindByBeautician'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responsemodel.ReservationFindByBeautician'
+        "500":
+          description: Something went wrong
+          schema:
+            $ref: '#/definitions/resource.Error'
+      summary: 美容師予約情報取得
 swagger: "2.0"

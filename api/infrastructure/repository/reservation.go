@@ -2,6 +2,8 @@ package repository
 
 import (
 	"context"
+	"fmt"
+	"time"
 
 	"github.com/myapp/noname/api/domain/entity"
 	"github.com/myapp/noname/api/domain/repository"
@@ -40,4 +42,11 @@ func (r *reservation) ExistsBeauticianDoubleBooking(ctx context.Context, date nu
 
 func (r *reservation) Create(ctx context.Context, ent *entity.Reservation) error {
 	return ent.Insert(ctx, r.Conn, boil.Infer())
+}
+
+func (r *reservation) FindByBeautician(ctx context.Context, beauticianID int64, date time.Time) (entity.ReservationSlice, error) {
+	return entity.Reservations(
+		qm.Where("date BETWEEN ? AND ?", fmt.Sprint(date), fmt.Sprint(date.AddDate(0, 0, 13))),
+		entity.ReservationWhere.BeauticianID.EQ(beauticianID),
+	).All(ctx, r.Conn)
 }

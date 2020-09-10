@@ -18,7 +18,12 @@ type Reservation struct {
 	UpdatedAt    time.Time   `json:"updatedAt"`
 }
 
-// ReservationCreate 予約作成response構造体
+// ReservationCreate 予約作成 構造体
 type ReservationCreate struct {
 	*Reservation
+}
+
+// ReservationFindByBeautician 美容師予約情報取得 構造体
+type ReservationFindByBeautician struct {
+	Reservations []*Reservation
 }

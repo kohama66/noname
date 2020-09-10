@@ -28,6 +28,7 @@ func InitReservation() handler.Reservation {
 		db.New,
 		repository.NewGuest,
 		repository.NewReservation,
+		repository.NewBeautician,
 		response.NewReservation,
 		usecase.NewReservation,
 		handler.NewReservation,

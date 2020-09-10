@@ -29,7 +29,8 @@ func InitReservation() handler.Reservation {
 	guest := repository.NewGuest(conn)
 	reservation := repository.NewReservation(conn)
 	responseReservation := response.NewReservation()
-	usecaseReservation := usecase.NewReservation(guest, reservation, responseReservation)
+	beautician := repository.NewBeautician(conn)
+	usecaseReservation := usecase.NewReservation(guest, reservation, responseReservation, beautician)
 	handlerReservation := handler.NewReservation(usecaseReservation)
 	return handlerReservation
 }

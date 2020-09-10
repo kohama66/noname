@@ -25,5 +25,5 @@ func (b BeauticianCreate) NewBeautician(randID string) *entity.Beautician {
 
 // BeauticianGet 美容師情報取得構造体
 type BeauticianGet struct {
-	ID int64 `json:"id"`
+	AuthID string `json:"-"`
 }
