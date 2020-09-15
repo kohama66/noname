@@ -1,4 +1,4 @@
-import React, { Component, FC } from 'react';
+import React, { FC, useState } from 'react';
 import ChooseBeautician from '../../../container/views/guest/ChooseBeautician'
 import {
   BrowserRouter as Router,
@@ -10,12 +10,17 @@ import {
 
 const Guest: FC = () => {
   const match = useRouteMatch();
+  const [beauticianId, setBeauticianId] = useState("")
+  const handleBeauticianId = (props:string) => {
+    setBeauticianId(props)
+  }
+
   return (
     <section id="guest">
       <Router>
         <Switch>
           <Route exact path={match.path} component={GuestHome} />
-          <Route exact path={match.path + "/beautician"} component={ChooseBeautician} />
+          <Route exact path={match.path + "/beautician"} component={ChooseBeautician} setState={handleBeauticianId} />
         </Switch>
       </Router>
     </section>

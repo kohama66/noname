@@ -8,6 +8,7 @@ export interface ReservationFindByBeautician {
 }
 
 export interface Beautician {
+  randId: string;
   lastName: string;
 }
 

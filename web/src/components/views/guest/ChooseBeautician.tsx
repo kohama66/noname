@@ -1,5 +1,6 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import { BeauticianGetAll } from '../../../package/interface/response/Reservation'
+import BeauticianCard from './BeauticianCard'
 
 type props = {
   beauticians: BeauticianGetAll | undefined
@@ -7,9 +8,9 @@ type props = {
 
 const ChooseBeautician: FC<props> = ({ beauticians }) => {
   return (
-    <div>
-      {beauticians?.Beauticians.map((beautician) => {
-        return <p>{beautician.lastName}</p>
+    <div id="chooseBeautician">
+      {beauticians?.Beauticians.map((beautician, i) => {
+        return <BeauticianCard lastName={beautician.lastName} key={i} randId={beautician.randId}/>
       })}
     </div>
   )
