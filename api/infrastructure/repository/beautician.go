@@ -28,3 +28,9 @@ func (b *beautician) GetByAuthID(ctx context.Context, authID string) (*entity.Be
 		entity.BeauticianWhere.DeletedAt.IsNull(),
 	).One(ctx, b.Conn)
 }
+
+func (b *beautician) GetAll(ctx context.Context) (entity.BeauticianSlice, error) {
+	return entity.Beauticians(
+		entity.BeauticianWhere.DeletedAt.IsNull(),
+	).All(ctx, b.Conn)
+}

@@ -1,0 +1,21 @@
+#guest{
+  width: 1000px;
+  background-color: #fff;
+  margin: 0 auto;
+  article{
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+    padding-bottom: 50px;
+    div{
+      width: 400px;
+      height: 300px;
+      background-color: #f0f0f0;
+      margin-top: 50px;
+      cursor: pointer;
+    }
+    div:hover{
+      background-color: #bebebe;
+    }
+  }
+}

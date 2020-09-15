@@ -27,3 +27,7 @@ func (b BeauticianCreate) NewBeautician(randID string) *entity.Beautician {
 type BeauticianGet struct {
 	AuthID string `json:"-"`
 }
+
+type BeauticianGetAll struct {
+	// AuthID string `json:"-"`
+}

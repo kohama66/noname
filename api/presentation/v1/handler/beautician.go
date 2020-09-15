@@ -12,6 +12,7 @@ import (
 type Beautician interface {
 	Create(w http.ResponseWriter, r *http.Request)
 	Get(w http.ResponseWriter, r *http.Request)
+	GetAll(w http.ResponseWriter, r *http.Request)
 }
 
 type beautician struct {
@@ -51,7 +52,7 @@ func (b beautician) Create(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-// Create
+// Get
 // @Summary 美容師情報取得
 // @Accept  json
 // @Produce  json
@@ -69,6 +70,25 @@ func (b beautician) Get(w http.ResponseWriter, r *http.Request) {
 	res, err := b.beauticianUsecase.Get(r.Context(), req)
 	if err != nil {
 		log.Errorf(r.Context(), "BeauticianGet: %v", err)
+		factory.ErrorJSON(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	factory.JSON(w, res)
+	return
+}
+
+// GetAll
+// @Summary 美容師情報取得
+// @Accept  json
+// @Produce  json
+// @Param data body requestmodel.BeauticianGetAll true "Request body"
+// @Success 200 {object} responsemodel.BeauticianGetAll
+// @Failure 500 {object} resource.Error "Something went wrong"
+// @Router /api/v1/beautician/all [get]
+func (b beautician) GetAll(w http.ResponseWriter, r *http.Request) {
+	res, err := b.beauticianUsecase.GetAll(r.Context())
+	if err != nil {
+		log.Errorf(r.Context(), "BeauticianGetAll: %v", err)
 		factory.ErrorJSON(w, err.Error(), http.StatusInternalServerError)
 		return
 	}

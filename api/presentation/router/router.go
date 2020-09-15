@@ -7,10 +7,10 @@ import (
 	"github.com/go-chi/chi"
 	"github.com/myapp/noname/api/di"
 
-	//swagger import
 	_ "github.com/myapp/noname/api/docs"
 	"github.com/myapp/noname/api/presentation/middleware"
 
+	//swagger import
 	httpSwagger "github.com/swaggo/http-swagger"
 )
 
@@ -35,11 +35,17 @@ func (r *Router) Routes() {
 	r.Route("/api", func(r chi.Router) {
 		r.Route("/v1", func(r chi.Router) {
 			r.Group(func(r chi.Router) {
-				r.Use(middleware.AuthAPI)
 				r.Route("/beautician", func(r chi.Router) {
-					r.Post("/", beauticianController.Create)
-					r.Get("/", beauticianController.Get)
+					r.Get("/all", beauticianController.GetAll)
+					r.Group(func(r chi.Router) {
+						r.Use(middleware.AuthAPI)
+						r.Post("/", beauticianController.Create)
+						r.Get("/", beauticianController.Get)
+					})
 				})
+			})
+			r.Group(func(r chi.Router) {
+				r.Use(middleware.AuthAPI)
 				r.Route("/reservation", func(r chi.Router) {
 					r.Post("/", reservationController.Create)
 					r.Get("/beautician", reservationController.FindByBeautician)
@@ -50,7 +56,7 @@ func (r *Router) Routes() {
 }
 
 func (r *Router) Swagger() {
-	// r.Use(middleware.CORS)
+	r.Use(middleware.CORS)
 	r.Get("/api/swagger/*", httpSwagger.Handler(
 		httpSwagger.URL("/api/swagger/doc.json"),
 	))

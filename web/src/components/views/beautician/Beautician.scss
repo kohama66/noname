@@ -63,4 +63,24 @@
       }
     }
   }
+  #schedule{
+    table{
+      background-color: #fff;
+      tr, th, td{
+        border: 1px solid #000;
+        padding: 15px;
+      }
+      tr{
+        th:not(:nth-of-type(1))::after{
+          content: "日";
+        }
+        td:not(:nth-of-type(1)){
+          cursor: pointer;
+        }
+        td:not(:nth-of-type(1)):hover{
+          background-color: #d4d4d4;
+        }
+      }
+    }
+  }
 }

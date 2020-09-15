@@ -15,6 +15,7 @@ import (
 type Beautician interface {
 	Create(ctx context.Context, r *requestmodel.BeauticianCreate) (*responsemodel.BeauticianCreate, error)
 	Get(ctx context.Context, r *requestmodel.BeauticianGet) (*responsemodel.BeauticianGet, error)
+	GetAll(ctx context.Context) (*responsemodel.BeauticianGetAll, error)
 }
 
 type beautician struct {
@@ -49,4 +50,12 @@ func (b *beautician) Get(ctx context.Context, r *requestmodel.BeauticianGet) (*r
 	}
 	res := b.beauticianResponse.NewBeauticianGet(ent)
 	return res, nil
+}
+
+func (b *beautician) GetAll(ctx context.Context) (*responsemodel.BeauticianGetAll, error) {
+	ents, err := b.beauticianRepository.GetAll(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return b.beauticianResponse.NewBeauticianGetAll(ents), nil
 }

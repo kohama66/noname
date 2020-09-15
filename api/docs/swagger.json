@@ -75,6 +75,42 @@
                 }
             }
         },
+        "/api/v1/beautician/all": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "美容師情報取得",
+                "parameters": [
+                    {
+                        "description": "Request body",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/requestmodel.BeauticianGetAll"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/responsemodel.BeauticianGetAll"
+                        }
+                    },
+                    "500": {
+                        "description": "Something went wrong",
+                        "schema": {
+                            "$ref": "#/definitions/resource.Error"
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/reservation": {
             "post": {
                 "consumes": [
@@ -169,6 +205,9 @@
         "requestmodel.BeauticianGet": {
             "type": "object"
         },
+        "requestmodel.BeauticianGetAll": {
+            "type": "object"
+        },
         "requestmodel.ReservationCreate": {
             "type": "object",
             "properties": {
@@ -201,6 +240,35 @@
             "type": "object",
             "properties": {
                 "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "responsemodel.Beautician": {
+            "type": "object",
+            "properties": {
+                "age": {
+                    "type": "integer"
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "firstName": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "lastName": {
+                    "type": "string"
+                },
+                "phoneNumber": {
+                    "type": "string"
+                },
+                "randId": {
+                    "type": "string"
+                },
+                "updatedAt": {
                     "type": "string"
                 }
             }
@@ -260,6 +328,17 @@
                 },
                 "updatedAt": {
                     "type": "string"
+                }
+            }
+        },
+        "responsemodel.BeauticianGetAll": {
+            "type": "object",
+            "properties": {
+                "beauticians": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/responsemodel.Beautician"
+                    }
                 }
             }
         },

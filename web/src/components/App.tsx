@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
 import './App.scss';
-import {Home, Beautician} from '../components/index'
+import {Home, Beautician, Guest} from './endpoint'
+// import { getReservationBeautician } from '../package/api/index';
 import {
   BrowserRouter as Router,
   Switch,
@@ -16,6 +17,7 @@ const App: FC = () => (
           <Switch>
             <Route path="/" exact component={Home} />
             <Route path="/beautician" component={Beautician} />
+            <Route path="/guest" component={Guest} />
           </Switch>
         </Router>
       </section>
