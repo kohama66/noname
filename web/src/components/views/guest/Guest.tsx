@@ -1,40 +1,35 @@
-import React, { FC, useState } from 'react';
-import ChooseBeautician from '../../../container/views/guest/ChooseBeautician'
+import React, { FC, useState, useEffect } from 'react';
 import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
   useRouteMatch,
   Link,
 } from "react-router-dom";
+import ChoosePlate from '../../../container/views/guest/ChoosePlate';
+import Title from './parts/Title';
 
-const Guest: FC = () => {
-  const match = useRouteMatch();
-  const [beauticianId, setBeauticianId] = useState("")
-  const handleBeauticianId = (props:string) => {
-    setBeauticianId(props)
-  }
-
-  return (
-    <section id="guest">
-      <Router>
-        <Switch>
-          <Route exact path={match.path} component={GuestHome} />
-          <Route exact path={match.path + "/beautician"} component={ChooseBeautician} setState={handleBeauticianId} />
-        </Switch>
-      </Router>
-    </section>
-  )
+interface GuestProps {
+  checkedBeautician: boolean
+  checkedStore: boolean
+  checkedMenu: boolean
+  checkedDate: boolean
 }
 
-const GuestHome: FC = () => {
+const Guest: FC<GuestProps> = (props) => {
   const match = useRouteMatch();
+  const [checkedColor, setCheckedColor] = useState("100%")
+  useEffect(() => {
+    if (props.checkedBeautician) {
+      // setCheckedColor("50%")
+    }
+  }, [])
   return (
-    <article>
-      <Link to={match.path + "/beautician"}><div>美容師を選ぶ</div></Link>
-      <div>日付を選ぶ</div>
-      <div>お店で選ぶ</div>
-      <div>メニューで選ぶ</div>
+    <article className="chooses">
+      <Title titleText={"何から決めますか？"} image={"img/Questions-pana.png"} />
+      <div className="chooses-contents">
+        <ChoosePlate text={"お店で選ぶ"} image={"img/1.png"} path={"/store"}/>
+        <ChoosePlate text={"美容師から選ぶ"} image={"img/3.png"} path={"/beautician"}/>
+        <ChoosePlate text={"メニューから選ぶ"} image={"img/2.png"} path={"/menu"}/>
+        <ChoosePlate text={"日付から選ぶ"} image={"img/4.png"} path={"/date"}/>
+      </div>
     </article>
   )
 }

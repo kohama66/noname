@@ -3,27 +3,28 @@ import DaySquare from './DaySquare';
 import Square from './Square';
 import { ReservationFindByBeautician } from '../../../package/interface/response/Reservation'
 
-type props = {
-  reservation: ReservationFindByBeautician | undefined
+interface props {
+  reservation?: ReservationFindByBeautician | undefined
+  weeks?: number[]
 }
 
-const Schedule: FC<props> = ({ reservation }) => {
-  const days = [1, 2, 3, 4, 5, 6, 7, 20, 21, 22, 23, 24, 25]
-  const times = [7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18]
+const Schedule: FC<props> = ({ reservation, weeks }) => {
+  const times = [9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
   return (
     <section id="schedule">
+      <h2>2020 9月</h2>
       <table>
         <tbody>
           <tr>
             <th></th>
-            {days.map((day, i) => {
+            {weeks?.map((day, i) => {
               return <DaySquare day={day} key={i} />
             })}
           </tr>
           {times.map((time, i) => {
             return <tr key={i}>
               <td>{time}時</td>
-              {days.map((day, i) => {
+              {weeks?.map((day, i) => {
                 let d
                 if (reservation) {
                   {

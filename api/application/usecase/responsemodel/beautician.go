@@ -27,5 +27,5 @@ type BeauticianGet struct {
 }
 
 type BeauticianGetAll struct {
-	Beauticians []*Beautician
+	Beauticians []*Beautician `json:"beauticians"`
 }

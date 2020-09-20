@@ -43,17 +43,15 @@ export const getReservationBeautician = async () => {
 export const getAllBeauticians = async () => {
   try {
     const response = await axios.get<BeauticianGetAll>("api/v1/beautician/all")
-    const { data, status } = response
-    switch (status) {
-      case 200:
-        if (data) return data
-        return
-      default:
-        console.log("200以外")
-        if (data) return data
-        return
-    }
+    return response.data
   } catch (err) {
-    console.log(err)
+    switch (err) {
+      case err.response:
+        console.log(err.response)
+      case err.request:
+        console.log(err.request)
+      default:
+        console.log('Error', err.message)
+    }
   }
 }
