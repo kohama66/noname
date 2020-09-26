@@ -73,3 +73,12 @@ CREATE TABLE `reservation` (
   CONSTRAINT `guest_reservations_fk` FOREIGN KEY (`guest_id`) REFERENCES guests (`id`),
   CONSTRAINT `menu_reservations_fk` FOREIGN KEY (`menu_id`) REFERENCES menus (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `beautician_salons` (
+  `beautician_id` bigint NOT NULL,
+  `salon_id` bigint NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `deleted_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`beautician_id`, `salon_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

@@ -12,7 +12,7 @@ const Schedule: FC<props> = ({ reservation, weeks }) => {
   const times = [9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
   return (
     <section id="schedule">
-      <h2>2020 9月</h2>
+      <h2>SEPTEMBER</h2>
       <table>
         <tbody>
           <tr>

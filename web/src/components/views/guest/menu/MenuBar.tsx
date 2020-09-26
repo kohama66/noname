@@ -7,18 +7,18 @@ interface ChooseMenuProps {
 
 const MenuBar: FC<ChooseMenuProps> = (props) => {
   const [isCheck, toggleCheck] = useState(false)
-  const [color, setColor] = useState("#fff")
+  const [check, setCheck] = useState("0px")
   const handleCheck = () => {
     toggleCheck(!isCheck)
     if(isCheck){
-      setColor("#fff")
+      setCheck("0px")
     } else {
-      setColor("#ffc0a7")
+      setCheck("-50px")
     }
   }
 
   return (
-    <button className="choose-menu-content" onClick={handleCheck} style={{backgroundColor: color}}>
+    <button className="choose-menu-content" onClick={handleCheck} style={{transform: `translateX(${check})`}}>
       <figure>
         <img src={props.image} alt="" />
       </figure>

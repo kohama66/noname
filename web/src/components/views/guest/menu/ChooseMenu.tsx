@@ -17,15 +17,21 @@ const ChooseMenu: FC = () => {
   return (
     <section id="choose-menu">
       <Title titleText={"メニューを選ぶ"} image={"/img/choose1.png"} />
-      <div className="choose-menu-contents">
-        <MenuBar menuName={"カット"} image={"/img/cuticon.png"} />
-        <MenuBar menuName={"パーマ"} image={"/img/curl.png"} />
-        <MenuBar menuName={"カラー"} image={"/img/color.png"} />
-        <MenuBar menuName={"カット"} image={"/img/cuticon.png"} />
-        <MenuBar menuName={"パーマ"} image={"/img/curl.png"} />
-        <MenuBar menuName={"カラー"} image={"/img/color.png"} />
-        <button className="fin-btn" onClick={handleMenu}>決定</button>
-      </div>
+      {/* <div className=".choose-menu-contents-wrapper"> */}
+        <div className="choose-menu-contents">
+          <MenuBar menuName={"カット"} image={"/img/cuticon.png"} />
+          <MenuBar menuName={"パーマ"} image={"/img/curl.png"} />
+          <MenuBar menuName={"カラー"} image={"/img/color.png"} />
+          <MenuBar menuName={"カット"} image={"/img/cuticon.png"} />
+          <MenuBar menuName={"パーマ"} image={"/img/curl.png"} />
+          <MenuBar menuName={"カラー"} image={"/img/color.png"} />
+          <MenuBar menuName={"パーマ"} image={"/img/curl.png"} />
+          <MenuBar menuName={"カラー"} image={"/img/color.png"} />
+          <MenuBar menuName={"パーマ"} image={"/img/curl.png"} />
+          <MenuBar menuName={"カラー"} image={"/img/color.png"} />
+          <button className="fin-btn" onClick={handleMenu}>決定</button>
+        </div>
+      {/* </div> */}
     </section>
   )
 }

@@ -23,12 +23,16 @@ const Guest: FC = () => {
     switch (checkName) {
       case "store":
         setCheckedStore(true)
+        break
       case "beautician":
         setCheckedBeautician(true)
+        break
       case "menu":
         setCheckedMenu(true)
+        break
       case "date":
         setCheckedDate(true)
+        break
     }
   }
   const match = useRouteMatch();

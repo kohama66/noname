@@ -66,21 +66,32 @@
 }
 
 #schedule {
+  background-color: rgb(240, 134, 66);
+  height: 700px;
+  width: 1000px;
+  display: flex;
+  align-items: center;
+  box-shadow: 2px 2px 5px #dddddd, -2px -2px 5px #eeeeee;
   h2{
-    font-size: 50px;
+    font-size: 110px;
+    color: #ffbe95;
     text-align: center;
-    letter-spacing: .1em;
-    margin: 20px 0;
+    // letter-spacing: .1em;
+    writing-mode: vertical-lr;
+    padding-left: 10px;
   }
   table {
+    // background: #fff;
+    border-radius: 2px;
+    margin: 0 auto;
+    color: #ffbe95;
     tr,
     th,
     td {
-      border: 1px solid #000;
       width: 55px;
-      height: 40px;
+      height: 45px;
       text-align: center;
-      line-height: 40px;
+      line-height: 45px;
       transition-duration: .2s;
     }
     tr {
@@ -89,13 +100,14 @@
       }
       td:not(:nth-of-type(1)) {
         cursor: pointer;
+        border: 1px solid #ffbe95;
       }
       td:not(:nth-of-type(1))::after {
-        content: "○";
+        // content: "○";
         font-size: 20px;
       }
       td:not(:nth-of-type(1)):hover {
-        background-color: #ffc0a7;
+        background-color: #ffbe95;
       }
     }
   }

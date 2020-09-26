@@ -5,7 +5,7 @@ import ChoosePlateComponent, { ChoosePlateProps } from '../../../components/view
 const ChoosePlate: FC<ChoosePlateProps> = (props) => {
   const match = useRouteMatch()
   return (
-    <ChoosePlateComponent text={props.text} image={props.image} path={props.path}/>
+    <ChoosePlateComponent text={props.text} image={props.image} path={props.path} checked={props.checked}/>
   )
 }
 
