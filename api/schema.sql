@@ -37,13 +37,10 @@ CREATE TABLE `guests` (
 CREATE TABLE `menus` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
-  `price` bigint NOT NULL,
-  `beautician_id` bigint NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   `deleted_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  CONSTRAINT `beautician_menus_fk` FOREIGN KEY (`beautician_id`) REFERENCES beauticians (`id`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `spaces` (
@@ -81,4 +78,14 @@ CREATE TABLE `beautician_salons` (
   `updated_at` datetime NOT NULL,
   `deleted_at` datetime DEFAULT NULL,
   PRIMARY KEY (`beautician_id`, `salon_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `beautician_menus` (
+  `price` bigint NOT NULL,
+  `beautician_id` bigint NOT NULL,
+  `menu_id` bigint NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `deleted_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`beautician_id`, `menu_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

@@ -29,5 +29,8 @@ type BeauticianGet struct {
 }
 
 type BeauticianGetAll struct {
-	// AuthID string `json:"-"`
+	SalonRandID string `json:"salonRandId"`
+	MenuRandID  string `json:"menuRandId"`
+	Date        string `json:"date"`
+	Time        string `json:"time"`
 }
