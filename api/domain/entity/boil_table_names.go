@@ -4,6 +4,7 @@
 package entity
 
 var TableNames = struct {
+	BeauticianMenus  string
 	BeauticianSalons string
 	Beauticians      string
 	Guests           string
@@ -12,6 +13,7 @@ var TableNames = struct {
 	Salons           string
 	Spaces           string
 }{
+	BeauticianMenus:  "beautician_menus",
 	BeauticianSalons: "beautician_salons",
 	Beauticians:      "beauticians",
 	Guests:           "guests",

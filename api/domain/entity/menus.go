@@ -24,68 +24,55 @@ import (
 
 // Menu is an object representing the database table.
 type Menu struct {
-	ID           int64     `boil:"id" json:"id" toml:"id" yaml:"id"`
-	Name         string    `boil:"name" json:"name" toml:"name" yaml:"name"`
-	Price        int64     `boil:"price" json:"price" toml:"price" yaml:"price"`
-	BeauticianID int64     `boil:"beautician_id" json:"beautician_id" toml:"beautician_id" yaml:"beautician_id"`
-	CreatedAt    time.Time `boil:"created_at" json:"created_at" toml:"created_at" yaml:"created_at"`
-	UpdatedAt    time.Time `boil:"updated_at" json:"updated_at" toml:"updated_at" yaml:"updated_at"`
-	DeletedAt    null.Time `boil:"deleted_at" json:"deleted_at,omitempty" toml:"deleted_at" yaml:"deleted_at,omitempty"`
+	ID        int64     `boil:"id" json:"id" toml:"id" yaml:"id"`
+	Name      string    `boil:"name" json:"name" toml:"name" yaml:"name"`
+	CreatedAt time.Time `boil:"created_at" json:"created_at" toml:"created_at" yaml:"created_at"`
+	UpdatedAt time.Time `boil:"updated_at" json:"updated_at" toml:"updated_at" yaml:"updated_at"`
+	DeletedAt null.Time `boil:"deleted_at" json:"deleted_at,omitempty" toml:"deleted_at" yaml:"deleted_at,omitempty"`
 
 	R *menuR `boil:"-" json:"-" toml:"-" yaml:"-"`
 	L menuL  `boil:"-" json:"-" toml:"-" yaml:"-"`
 }
 
 var MenuColumns = struct {
-	ID           string
-	Name         string
-	Price        string
-	BeauticianID string
-	CreatedAt    string
-	UpdatedAt    string
-	DeletedAt    string
+	ID        string
+	Name      string
+	CreatedAt string
+	UpdatedAt string
+	DeletedAt string
 }{
-	ID:           "id",
-	Name:         "name",
-	Price:        "price",
-	BeauticianID: "beautician_id",
-	CreatedAt:    "created_at",
-	UpdatedAt:    "updated_at",
-	DeletedAt:    "deleted_at",
+	ID:        "id",
+	Name:      "name",
+	CreatedAt: "created_at",
+	UpdatedAt: "updated_at",
+	DeletedAt: "deleted_at",
 }
 
 // Generated where
 
 var MenuWhere = struct {
-	ID           whereHelperint64
-	Name         whereHelperstring
-	Price        whereHelperint64
-	BeauticianID whereHelperint64
-	CreatedAt    whereHelpertime_Time
-	UpdatedAt    whereHelpertime_Time
-	DeletedAt    whereHelpernull_Time
+	ID        whereHelperint64
+	Name      whereHelperstring
+	CreatedAt whereHelpertime_Time
+	UpdatedAt whereHelpertime_Time
+	DeletedAt whereHelpernull_Time
 }{
-	ID:           whereHelperint64{field: "`menus`.`id`"},
-	Name:         whereHelperstring{field: "`menus`.`name`"},
-	Price:        whereHelperint64{field: "`menus`.`price`"},
-	BeauticianID: whereHelperint64{field: "`menus`.`beautician_id`"},
-	CreatedAt:    whereHelpertime_Time{field: "`menus`.`created_at`"},
-	UpdatedAt:    whereHelpertime_Time{field: "`menus`.`updated_at`"},
-	DeletedAt:    whereHelpernull_Time{field: "`menus`.`deleted_at`"},
+	ID:        whereHelperint64{field: "`menus`.`id`"},
+	Name:      whereHelperstring{field: "`menus`.`name`"},
+	CreatedAt: whereHelpertime_Time{field: "`menus`.`created_at`"},
+	UpdatedAt: whereHelpertime_Time{field: "`menus`.`updated_at`"},
+	DeletedAt: whereHelpernull_Time{field: "`menus`.`deleted_at`"},
 }
 
 // MenuRels is where relationship names are stored.
 var MenuRels = struct {
-	Beautician   string
 	Reservations string
 }{
-	Beautician:   "Beautician",
 	Reservations: "Reservations",
 }
 
 // menuR is where relationships are stored.
 type menuR struct {
-	Beautician   *Beautician
 	Reservations ReservationSlice
 }
 
@@ -98,8 +85,8 @@ func (*menuR) NewStruct() *menuR {
 type menuL struct{}
 
 var (
-	menuAllColumns            = []string{"id", "name", "price", "beautician_id", "created_at", "updated_at", "deleted_at"}
-	menuColumnsWithoutDefault = []string{"name", "price", "beautician_id", "created_at", "updated_at", "deleted_at"}
+	menuAllColumns            = []string{"id", "name", "created_at", "updated_at", "deleted_at"}
+	menuColumnsWithoutDefault = []string{"name", "created_at", "updated_at", "deleted_at"}
 	menuColumnsWithDefault    = []string{"id"}
 	menuPrimaryKeyColumns     = []string{"id"}
 )
@@ -379,20 +366,6 @@ func (q menuQuery) Exists(ctx context.Context, exec boil.ContextExecutor) (bool,
 	return count > 0, nil
 }
 
-// Beautician pointed to by the foreign key.
-func (o *Menu) Beautician(mods ...qm.QueryMod) beauticianQuery {
-	queryMods := []qm.QueryMod{
-		qm.Where("`id` = ?", o.BeauticianID),
-	}
-
-	queryMods = append(queryMods, mods...)
-
-	query := Beauticians(queryMods...)
-	queries.SetFrom(query.Query, "`beauticians`")
-
-	return query
-}
-
 // Reservations retrieves all the reservation's Reservations with an executor.
 func (o *Menu) Reservations(mods ...qm.QueryMod) reservationQuery {
 	var queryMods []qm.QueryMod
@@ -412,107 +385,6 @@ func (o *Menu) Reservations(mods ...qm.QueryMod) reservationQuery {
 	}
 
 	return query
-}
-
-// LoadBeautician allows an eager lookup of values, cached into the
-// loaded structs of the objects. This is for an N-1 relationship.
-func (menuL) LoadBeautician(ctx context.Context, e boil.ContextExecutor, singular bool, maybeMenu interface{}, mods queries.Applicator) error {
-	var slice []*Menu
-	var object *Menu
-
-	if singular {
-		object = maybeMenu.(*Menu)
-	} else {
-		slice = *maybeMenu.(*[]*Menu)
-	}
-
-	args := make([]interface{}, 0, 1)
-	if singular {
-		if object.R == nil {
-			object.R = &menuR{}
-		}
-		args = append(args, object.BeauticianID)
-
-	} else {
-	Outer:
-		for _, obj := range slice {
-			if obj.R == nil {
-				obj.R = &menuR{}
-			}
-
-			for _, a := range args {
-				if a == obj.BeauticianID {
-					continue Outer
-				}
-			}
-
-			args = append(args, obj.BeauticianID)
-
-		}
-	}
-
-	if len(args) == 0 {
-		return nil
-	}
-
-	query := NewQuery(qm.From(`beauticians`), qm.WhereIn(`beauticians.id in ?`, args...))
-	if mods != nil {
-		mods.Apply(query)
-	}
-
-	results, err := query.QueryContext(ctx, e)
-	if err != nil {
-		return errors.Wrap(err, "failed to eager load Beautician")
-	}
-
-	var resultSlice []*Beautician
-	if err = queries.Bind(results, &resultSlice); err != nil {
-		return errors.Wrap(err, "failed to bind eager loaded slice Beautician")
-	}
-
-	if err = results.Close(); err != nil {
-		return errors.Wrap(err, "failed to close results of eager load for beauticians")
-	}
-	if err = results.Err(); err != nil {
-		return errors.Wrap(err, "error occurred during iteration of eager loaded relations for beauticians")
-	}
-
-	if len(menuAfterSelectHooks) != 0 {
-		for _, obj := range resultSlice {
-			if err := obj.doAfterSelectHooks(ctx, e); err != nil {
-				return err
-			}
-		}
-	}
-
-	if len(resultSlice) == 0 {
-		return nil
-	}
-
-	if singular {
-		foreign := resultSlice[0]
-		object.R.Beautician = foreign
-		if foreign.R == nil {
-			foreign.R = &beauticianR{}
-		}
-		foreign.R.Menus = append(foreign.R.Menus, object)
-		return nil
-	}
-
-	for _, local := range slice {
-		for _, foreign := range resultSlice {
-			if local.BeauticianID == foreign.ID {
-				local.R.Beautician = foreign
-				if foreign.R == nil {
-					foreign.R = &beauticianR{}
-				}
-				foreign.R.Menus = append(foreign.R.Menus, local)
-				break
-			}
-		}
-	}
-
-	return nil
 }
 
 // LoadReservations allows an eager lookup of values, cached into the
@@ -605,53 +477,6 @@ func (menuL) LoadReservations(ctx context.Context, e boil.ContextExecutor, singu
 				break
 			}
 		}
-	}
-
-	return nil
-}
-
-// SetBeautician of the menu to the related item.
-// Sets o.R.Beautician to related.
-// Adds o to related.R.Menus.
-func (o *Menu) SetBeautician(ctx context.Context, exec boil.ContextExecutor, insert bool, related *Beautician) error {
-	var err error
-	if insert {
-		if err = related.Insert(ctx, exec, boil.Infer()); err != nil {
-			return errors.Wrap(err, "failed to insert into foreign table")
-		}
-	}
-
-	updateQuery := fmt.Sprintf(
-		"UPDATE `menus` SET %s WHERE %s",
-		strmangle.SetParamNames("`", "`", 0, []string{"beautician_id"}),
-		strmangle.WhereClause("`", "`", 0, menuPrimaryKeyColumns),
-	)
-	values := []interface{}{related.ID, o.ID}
-
-	if boil.IsDebug(ctx) {
-		writer := boil.DebugWriterFrom(ctx)
-		fmt.Fprintln(writer, updateQuery)
-		fmt.Fprintln(writer, values)
-	}
-	if _, err = exec.ExecContext(ctx, updateQuery, values...); err != nil {
-		return errors.Wrap(err, "failed to update local table")
-	}
-
-	o.BeauticianID = related.ID
-	if o.R == nil {
-		o.R = &menuR{
-			Beautician: related,
-		}
-	} else {
-		o.R.Beautician = related
-	}
-
-	if related.R == nil {
-		related.R = &beauticianR{
-			Menus: MenuSlice{o},
-		}
-	} else {
-		related.R.Menus = append(related.R.Menus, o)
 	}
 
 	return nil

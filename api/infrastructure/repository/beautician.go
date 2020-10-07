@@ -34,3 +34,13 @@ func (b *beautician) GetAll(ctx context.Context) (entity.BeauticianSlice, error)
 		entity.BeauticianWhere.DeletedAt.IsNull(),
 	).All(ctx, b.Conn)
 }
+
+// func (b *beautician) GetAll(ctx context.Context, salon, menu int64) (entity.BeauticianSlice, error) {
+// 	return entity.Beauticians(
+// 		qm.InnerJoin("reservation on reservation.beautician_id = beautician.id"),
+// 		entity.BeauticianWhere.DeletedAt.IsNull(),
+// 		entity.BeauticianSalonWhere.SalonID.EQ(salon),
+// 		entity.BeauticianMenuWhere.MenuID.EQ(menu),
+// 		entity.ReservationWhere.Date.NEQ()
+// 	).All(ctx, b.Conn)
+// }

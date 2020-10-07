@@ -55,8 +55,7 @@ CREATE TABLE `spaces` (
 
 CREATE TABLE `reservation` (
   `id` bigint NOT NULL AUTO_INCREMENT,
-  `date` date DEFAULT NULL,
-  `time` time DEFAULT NULL,
+  `date` datetime NOT NULL,
   `space_id` bigint NOT NULL,
   `beautician_id` bigint NOT NULL,
   `guest_id` bigint NOT NULL,

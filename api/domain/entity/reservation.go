@@ -24,16 +24,15 @@ import (
 
 // Reservation is an object representing the database table.
 type Reservation struct {
-	ID           int64       `boil:"id" json:"id" toml:"id" yaml:"id"`
-	Date         null.Time   `boil:"date" json:"date,omitempty" toml:"date" yaml:"date,omitempty"`
-	Time         null.String `boil:"time" json:"time,omitempty" toml:"time" yaml:"time,omitempty"`
-	SpaceID      int64       `boil:"space_id" json:"space_id" toml:"space_id" yaml:"space_id"`
-	BeauticianID int64       `boil:"beautician_id" json:"beautician_id" toml:"beautician_id" yaml:"beautician_id"`
-	GuestID      int64       `boil:"guest_id" json:"guest_id" toml:"guest_id" yaml:"guest_id"`
-	MenuID       int64       `boil:"menu_id" json:"menu_id" toml:"menu_id" yaml:"menu_id"`
-	CreatedAt    time.Time   `boil:"created_at" json:"created_at" toml:"created_at" yaml:"created_at"`
-	UpdatedAt    time.Time   `boil:"updated_at" json:"updated_at" toml:"updated_at" yaml:"updated_at"`
-	DeletedAt    null.Time   `boil:"deleted_at" json:"deleted_at,omitempty" toml:"deleted_at" yaml:"deleted_at,omitempty"`
+	ID           int64     `boil:"id" json:"id" toml:"id" yaml:"id"`
+	Date         time.Time `boil:"date" json:"date" toml:"date" yaml:"date"`
+	SpaceID      int64     `boil:"space_id" json:"space_id" toml:"space_id" yaml:"space_id"`
+	BeauticianID int64     `boil:"beautician_id" json:"beautician_id" toml:"beautician_id" yaml:"beautician_id"`
+	GuestID      int64     `boil:"guest_id" json:"guest_id" toml:"guest_id" yaml:"guest_id"`
+	MenuID       int64     `boil:"menu_id" json:"menu_id" toml:"menu_id" yaml:"menu_id"`
+	CreatedAt    time.Time `boil:"created_at" json:"created_at" toml:"created_at" yaml:"created_at"`
+	UpdatedAt    time.Time `boil:"updated_at" json:"updated_at" toml:"updated_at" yaml:"updated_at"`
+	DeletedAt    null.Time `boil:"deleted_at" json:"deleted_at,omitempty" toml:"deleted_at" yaml:"deleted_at,omitempty"`
 
 	R *reservationR `boil:"-" json:"-" toml:"-" yaml:"-"`
 	L reservationL  `boil:"-" json:"-" toml:"-" yaml:"-"`
@@ -42,7 +41,6 @@ type Reservation struct {
 var ReservationColumns = struct {
 	ID           string
 	Date         string
-	Time         string
 	SpaceID      string
 	BeauticianID string
 	GuestID      string
@@ -53,7 +51,6 @@ var ReservationColumns = struct {
 }{
 	ID:           "id",
 	Date:         "date",
-	Time:         "time",
 	SpaceID:      "space_id",
 	BeauticianID: "beautician_id",
 	GuestID:      "guest_id",
@@ -65,33 +62,9 @@ var ReservationColumns = struct {
 
 // Generated where
 
-type whereHelpernull_String struct{ field string }
-
-func (w whereHelpernull_String) EQ(x null.String) qm.QueryMod {
-	return qmhelper.WhereNullEQ(w.field, false, x)
-}
-func (w whereHelpernull_String) NEQ(x null.String) qm.QueryMod {
-	return qmhelper.WhereNullEQ(w.field, true, x)
-}
-func (w whereHelpernull_String) IsNull() qm.QueryMod    { return qmhelper.WhereIsNull(w.field) }
-func (w whereHelpernull_String) IsNotNull() qm.QueryMod { return qmhelper.WhereIsNotNull(w.field) }
-func (w whereHelpernull_String) LT(x null.String) qm.QueryMod {
-	return qmhelper.Where(w.field, qmhelper.LT, x)
-}
-func (w whereHelpernull_String) LTE(x null.String) qm.QueryMod {
-	return qmhelper.Where(w.field, qmhelper.LTE, x)
-}
-func (w whereHelpernull_String) GT(x null.String) qm.QueryMod {
-	return qmhelper.Where(w.field, qmhelper.GT, x)
-}
-func (w whereHelpernull_String) GTE(x null.String) qm.QueryMod {
-	return qmhelper.Where(w.field, qmhelper.GTE, x)
-}
-
 var ReservationWhere = struct {
 	ID           whereHelperint64
-	Date         whereHelpernull_Time
-	Time         whereHelpernull_String
+	Date         whereHelpertime_Time
 	SpaceID      whereHelperint64
 	BeauticianID whereHelperint64
 	GuestID      whereHelperint64
@@ -101,8 +74,7 @@ var ReservationWhere = struct {
 	DeletedAt    whereHelpernull_Time
 }{
 	ID:           whereHelperint64{field: "`reservation`.`id`"},
-	Date:         whereHelpernull_Time{field: "`reservation`.`date`"},
-	Time:         whereHelpernull_String{field: "`reservation`.`time`"},
+	Date:         whereHelpertime_Time{field: "`reservation`.`date`"},
 	SpaceID:      whereHelperint64{field: "`reservation`.`space_id`"},
 	BeauticianID: whereHelperint64{field: "`reservation`.`beautician_id`"},
 	GuestID:      whereHelperint64{field: "`reservation`.`guest_id`"},
@@ -142,8 +114,8 @@ func (*reservationR) NewStruct() *reservationR {
 type reservationL struct{}
 
 var (
-	reservationAllColumns            = []string{"id", "date", "time", "space_id", "beautician_id", "guest_id", "menu_id", "created_at", "updated_at", "deleted_at"}
-	reservationColumnsWithoutDefault = []string{"date", "time", "space_id", "beautician_id", "guest_id", "menu_id", "created_at", "updated_at", "deleted_at"}
+	reservationAllColumns            = []string{"id", "date", "space_id", "beautician_id", "guest_id", "menu_id", "created_at", "updated_at", "deleted_at"}
+	reservationColumnsWithoutDefault = []string{"date", "space_id", "beautician_id", "guest_id", "menu_id", "created_at", "updated_at", "deleted_at"}
 	reservationColumnsWithDefault    = []string{"id"}
 	reservationPrimaryKeyColumns     = []string{"id"}
 )

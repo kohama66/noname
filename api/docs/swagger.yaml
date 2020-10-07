@@ -13,6 +13,15 @@ definitions:
   requestmodel.BeauticianGet:
     type: object
   requestmodel.BeauticianGetAll:
+    properties:
+      date:
+        type: string
+      menuRandId:
+        type: string
+      salonRandId:
+        type: string
+      time:
+        type: string
     type: object
   requestmodel.ReservationCreate:
     properties:
@@ -24,8 +33,6 @@ definitions:
         type: integer
       spaceId:
         type: integer
-      time:
-        type: string
     type: object
   requestmodel.ReservationFindByBeautician:
     properties:
@@ -115,8 +122,6 @@ definitions:
         type: integer
       spaceId:
         type: integer
-      time:
-        type: string
       updatedAt:
         type: string
     type: object
@@ -134,8 +139,6 @@ definitions:
         type: integer
       spaceId:
         type: integer
-      time:
-        type: string
       updatedAt:
         type: string
     type: object

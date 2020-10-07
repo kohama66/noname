@@ -23,7 +23,6 @@ func NewReservation() Reservation {
 func NewResponseModelReservation(ent *entity.Reservation) *responsemodel.Reservation {
 	return &responsemodel.Reservation{
 		Date:         ent.Date,
-		Time:         ent.Time,
 		SpaceID:      ent.SpaceID,
 		BeauticianID: ent.BeauticianID,
 		GuestID:      ent.GuestID,

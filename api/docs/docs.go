@@ -226,7 +226,21 @@ var doc = `{
             "type": "object"
         },
         "requestmodel.BeauticianGetAll": {
-            "type": "object"
+            "type": "object",
+            "properties": {
+                "date": {
+                    "type": "string"
+                },
+                "menuRandId": {
+                    "type": "string"
+                },
+                "salonRandId": {
+                    "type": "string"
+                },
+                "time": {
+                    "type": "string"
+                }
+            }
         },
         "requestmodel.ReservationCreate": {
             "type": "object",
@@ -242,9 +256,6 @@ var doc = `{
                 },
                 "spaceId": {
                     "type": "integer"
-                },
-                "time": {
-                    "type": "string"
                 }
             }
         },
@@ -383,9 +394,6 @@ var doc = `{
                 "spaceId": {
                     "type": "integer"
                 },
-                "time": {
-                    "type": "string"
-                },
                 "updatedAt": {
                     "type": "string"
                 }
@@ -411,9 +419,6 @@ var doc = `{
                 },
                 "spaceId": {
                     "type": "integer"
-                },
-                "time": {
-                    "type": "string"
                 },
                 "updatedAt": {
                     "type": "string"

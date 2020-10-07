@@ -8,7 +8,6 @@ import (
 	"github.com/myapp/noname/api/domain/entity"
 	"github.com/myapp/noname/api/domain/repository"
 	"github.com/myapp/noname/api/infrastructure/db"
-	"github.com/volatiletech/null"
 	"github.com/volatiletech/sqlboiler/boil"
 	"github.com/volatiletech/sqlboiler/queries/qm"
 )
@@ -22,19 +21,17 @@ func NewReservation(conn *db.Conn) repository.Reservation {
 	return &reservation{Conn: conn}
 }
 
-func (r *reservation) ExistsSpaceDoubleBooking(ctx context.Context, date null.Time, time null.String, spaceID int64) (bool, error) {
+func (r *reservation) ExistsSpaceDoubleBooking(ctx context.Context, date time.Time, spaceID int64) (bool, error) {
 	return entity.Reservations(
-		qm.Where("date = ?", date),
-		entity.ReservationWhere.Time.EQ(time),
+		entity.ReservationWhere.Date.EQ(date),
 		entity.ReservationWhere.SpaceID.EQ(spaceID),
 		entity.ReservationWhere.DeletedAt.IsNull(),
 	).Exists(ctx, r.Conn)
 }
 
-func (r *reservation) ExistsBeauticianDoubleBooking(ctx context.Context, date null.Time, time null.String, beauticianID int64) (bool, error) {
+func (r *reservation) ExistsBeauticianDoubleBooking(ctx context.Context, date time.Time, beauticianID int64) (bool, error) {
 	return entity.Reservations(
-		qm.Where("date = ?", date),
-		entity.ReservationWhere.Time.EQ(time),
+		entity.ReservationWhere.Date.EQ(date),
 		entity.ReservationWhere.BeauticianID.EQ(beauticianID),
 		entity.ReservationWhere.DeletedAt.IsNull(),
 	).Exists(ctx, r.Conn)

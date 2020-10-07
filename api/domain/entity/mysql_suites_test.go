@@ -6,6 +6,8 @@ package entity
 import "testing"
 
 func TestUpsert(t *testing.T) {
+	t.Run("BeauticianMenus", testBeauticianMenusUpsert)
+
 	t.Run("BeauticianSalons", testBeauticianSalonsUpsert)
 
 	t.Run("Beauticians", testBeauticiansUpsert)
