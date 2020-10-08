@@ -10,18 +10,16 @@ definitions:
       phoneNumber:
         type: string
     type: object
-  requestmodel.BeauticianGet:
-    type: object
-  requestmodel.BeauticianGetAll:
+  requestmodel.BeauticianFind:
     properties:
       date:
         type: string
-      menuRandId:
+      menuRandID:
         type: string
-      salonRandId:
+      salonRandID:
         type: string
-      time:
-        type: string
+    type: object
+  requestmodel.BeauticianGet:
     type: object
   requestmodel.ReservationCreate:
     properties:
@@ -82,6 +80,13 @@ definitions:
       updatedAt:
         type: string
     type: object
+  responsemodel.BeauticianFind:
+    properties:
+      beauticians:
+        items:
+          $ref: '#/definitions/responsemodel.Beautician'
+        type: array
+    type: object
   responsemodel.BeauticianGet:
     properties:
       age:
@@ -100,13 +105,6 @@ definitions:
         type: string
       updatedAt:
         type: string
-    type: object
-  responsemodel.BeauticianGetAll:
-    properties:
-      beauticians:
-        items:
-          $ref: '#/definitions/responsemodel.Beautician'
-        type: array
     type: object
   responsemodel.Reservation:
     properties:
@@ -198,7 +196,7 @@ paths:
           schema:
             $ref: '#/definitions/resource.Error'
       summary: 美容師登録
-  /api/v1/beautician/all:
+  /api/v1/beautician/find:
     get:
       consumes:
       - application/json
@@ -208,19 +206,19 @@ paths:
         name: data
         required: true
         schema:
-          $ref: '#/definitions/requestmodel.BeauticianGetAll'
+          $ref: '#/definitions/requestmodel.BeauticianFind'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/responsemodel.BeauticianGetAll'
+            $ref: '#/definitions/responsemodel.BeauticianFind'
         "500":
           description: Something went wrong
           schema:
             $ref: '#/definitions/resource.Error'
-      summary: 美容師情報取得
+      summary: 美容師検索
   /api/v1/reservation:
     post:
       consumes:

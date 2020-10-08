@@ -17,6 +17,8 @@ func InitBeautician() handler.Beautician {
 		db.New,
 		response.NewBeautician,
 		repository.NewBeautician,
+		repository.NewSalon,
+		repository.NewMenu,
 		usecase.NewBeautician,
 		handler.NewBeautician,
 	)

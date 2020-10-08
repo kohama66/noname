@@ -36,6 +36,7 @@ CREATE TABLE `guests` (
 
 CREATE TABLE `menus` (
   `id` bigint NOT NULL AUTO_INCREMENT,
+  `rand_id` varchar(255) NOT NULL,
   `name` varchar(255) NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
@@ -53,7 +54,7 @@ CREATE TABLE `spaces` (
   CONSTRAINT `salon_spaces_fk` FOREIGN KEY (`salon_id`) REFERENCES salons (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-CREATE TABLE `reservation` (
+CREATE TABLE `reservations` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `date` datetime NOT NULL,
   `space_id` bigint NOT NULL,

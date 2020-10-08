@@ -12,7 +12,7 @@ import (
 type Beautician interface {
 	Create(w http.ResponseWriter, r *http.Request)
 	Get(w http.ResponseWriter, r *http.Request)
-	GetAll(w http.ResponseWriter, r *http.Request)
+	Find(w http.ResponseWriter, r *http.Request)
 }
 
 type beautician struct {
@@ -77,18 +77,24 @@ func (b beautician) Get(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-// GetAll
-// @Summary 美容師情報取得
+// Find
+// @Summary 美容師検索
 // @Accept  json
 // @Produce  json
-// @Param data body requestmodel.BeauticianGetAll true "Request body"
-// @Success 200 {object} responsemodel.BeauticianGetAll
+// @Param data body requestmodel.BeauticianFind true "Request body"
+// @Success 200 {object} responsemodel.BeauticianFind
 // @Failure 500 {object} resource.Error "Something went wrong"
-// @Router /api/v1/beautician/all [get]
-func (b beautician) GetAll(w http.ResponseWriter, r *http.Request) {
-	res, err := b.beauticianUsecase.GetAll(r.Context())
+// @Router /api/v1/beautician/find [get]
+func (b beautician) Find(w http.ResponseWriter, r *http.Request) {
+	req, err := request.NewBeauticianFind(r)
 	if err != nil {
-		log.Errorf(r.Context(), "BeauticianGetAll: %v", err)
+		log.Warningf(r.Context(), "BeauticianFind.Request %v", err)
+		factory.ErrorJSON(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+	res, err := b.beauticianUsecase.Find(r.Context(), req)
+	if err != nil {
+		log.Errorf(r.Context(), "BeauticianFind: %v", err)
 		factory.ErrorJSON(w, err.Error(), http.StatusInternalServerError)
 		return
 	}

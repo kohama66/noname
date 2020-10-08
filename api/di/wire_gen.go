@@ -19,7 +19,9 @@ func InitBeautician() handler.Beautician {
 	conn := db.New()
 	beautician := repository.NewBeautician(conn)
 	responseBeautician := response.NewBeautician()
-	usecaseBeautician := usecase.NewBeautician(beautician, responseBeautician)
+	menu := repository.NewMenu(conn)
+	salon := repository.NewSalon(conn)
+	usecaseBeautician := usecase.NewBeautician(beautician, responseBeautician, menu, salon)
 	handlerBeautician := handler.NewBeautician(usecaseBeautician)
 	return handlerBeautician
 }

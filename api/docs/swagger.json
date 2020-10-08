@@ -75,7 +75,7 @@
                 }
             }
         },
-        "/api/v1/beautician/all": {
+        "/api/v1/beautician/find": {
             "get": {
                 "consumes": [
                     "application/json"
@@ -83,7 +83,7 @@
                 "produces": [
                     "application/json"
                 ],
-                "summary": "美容師情報取得",
+                "summary": "美容師検索",
                 "parameters": [
                     {
                         "description": "Request body",
@@ -91,7 +91,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/requestmodel.BeauticianGetAll"
+                            "$ref": "#/definitions/requestmodel.BeauticianFind"
                         }
                     }
                 ],
@@ -99,7 +99,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/responsemodel.BeauticianGetAll"
+                            "$ref": "#/definitions/responsemodel.BeauticianFind"
                         }
                     },
                     "500": {
@@ -202,25 +202,22 @@
                 }
             }
         },
-        "requestmodel.BeauticianGet": {
-            "type": "object"
-        },
-        "requestmodel.BeauticianGetAll": {
+        "requestmodel.BeauticianFind": {
             "type": "object",
             "properties": {
                 "date": {
                     "type": "string"
                 },
-                "menuRandId": {
+                "menuRandID": {
                     "type": "string"
                 },
-                "salonRandId": {
-                    "type": "string"
-                },
-                "time": {
+                "salonRandID": {
                     "type": "string"
                 }
             }
+        },
+        "requestmodel.BeauticianGet": {
+            "type": "object"
         },
         "requestmodel.ReservationCreate": {
             "type": "object",
@@ -313,6 +310,17 @@
                 }
             }
         },
+        "responsemodel.BeauticianFind": {
+            "type": "object",
+            "properties": {
+                "beauticians": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/responsemodel.Beautician"
+                    }
+                }
+            }
+        },
         "responsemodel.BeauticianGet": {
             "type": "object",
             "properties": {
@@ -339,17 +347,6 @@
                 },
                 "updatedAt": {
                     "type": "string"
-                }
-            }
-        },
-        "responsemodel.BeauticianGetAll": {
-            "type": "object",
-            "properties": {
-                "beauticians": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/responsemodel.Beautician"
-                    }
                 }
             }
         },

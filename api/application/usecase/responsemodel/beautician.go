@@ -26,6 +26,6 @@ type BeauticianGet struct {
 	*Beautician `json:"beautician"`
 }
 
-type BeauticianGetAll struct {
+type BeauticianFind struct {
 	Beauticians []*Beautician `json:"beauticians"`
 }

@@ -1,6 +1,8 @@
 package requestmodel
 
-import "github.com/myapp/noname/api/domain/entity"
+import (
+	"github.com/myapp/noname/api/domain/entity"
+)
 
 // BeauticianCreate 美容師登録構造体
 type BeauticianCreate struct {
@@ -28,9 +30,8 @@ type BeauticianGet struct {
 	AuthID string `json:"-"`
 }
 
-type BeauticianGetAll struct {
-	SalonRandID string `json:"salonRandId"`
-	MenuRandID  string `json:"menuRandId"`
-	Date        string `json:"date"`
-	Time        string `json:"time"`
+type BeauticianFind struct {
+	SalonRandID string `schema:"salonRandId"`
+	MenuRandID  string `schema:"menuRandId"`
+	Date        string `schema:"date"`
 }

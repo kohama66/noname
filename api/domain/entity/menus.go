@@ -25,6 +25,7 @@ import (
 // Menu is an object representing the database table.
 type Menu struct {
 	ID        int64     `boil:"id" json:"id" toml:"id" yaml:"id"`
+	RandID    string    `boil:"rand_id" json:"rand_id" toml:"rand_id" yaml:"rand_id"`
 	Name      string    `boil:"name" json:"name" toml:"name" yaml:"name"`
 	CreatedAt time.Time `boil:"created_at" json:"created_at" toml:"created_at" yaml:"created_at"`
 	UpdatedAt time.Time `boil:"updated_at" json:"updated_at" toml:"updated_at" yaml:"updated_at"`
@@ -36,12 +37,14 @@ type Menu struct {
 
 var MenuColumns = struct {
 	ID        string
+	RandID    string
 	Name      string
 	CreatedAt string
 	UpdatedAt string
 	DeletedAt string
 }{
 	ID:        "id",
+	RandID:    "rand_id",
 	Name:      "name",
 	CreatedAt: "created_at",
 	UpdatedAt: "updated_at",
@@ -52,12 +55,14 @@ var MenuColumns = struct {
 
 var MenuWhere = struct {
 	ID        whereHelperint64
+	RandID    whereHelperstring
 	Name      whereHelperstring
 	CreatedAt whereHelpertime_Time
 	UpdatedAt whereHelpertime_Time
 	DeletedAt whereHelpernull_Time
 }{
 	ID:        whereHelperint64{field: "`menus`.`id`"},
+	RandID:    whereHelperstring{field: "`menus`.`rand_id`"},
 	Name:      whereHelperstring{field: "`menus`.`name`"},
 	CreatedAt: whereHelpertime_Time{field: "`menus`.`created_at`"},
 	UpdatedAt: whereHelpertime_Time{field: "`menus`.`updated_at`"},
@@ -85,8 +90,8 @@ func (*menuR) NewStruct() *menuR {
 type menuL struct{}
 
 var (
-	menuAllColumns            = []string{"id", "name", "created_at", "updated_at", "deleted_at"}
-	menuColumnsWithoutDefault = []string{"name", "created_at", "updated_at", "deleted_at"}
+	menuAllColumns            = []string{"id", "rand_id", "name", "created_at", "updated_at", "deleted_at"}
+	menuColumnsWithoutDefault = []string{"rand_id", "name", "created_at", "updated_at", "deleted_at"}
 	menuColumnsWithDefault    = []string{"id"}
 	menuPrimaryKeyColumns     = []string{"id"}
 )
@@ -374,14 +379,14 @@ func (o *Menu) Reservations(mods ...qm.QueryMod) reservationQuery {
 	}
 
 	queryMods = append(queryMods,
-		qm.Where("`reservation`.`menu_id`=?", o.ID),
+		qm.Where("`reservations`.`menu_id`=?", o.ID),
 	)
 
 	query := Reservations(queryMods...)
-	queries.SetFrom(query.Query, "`reservation`")
+	queries.SetFrom(query.Query, "`reservations`")
 
 	if len(queries.GetSelect(query.Query)) == 0 {
-		queries.SetSelect(query.Query, []string{"`reservation`.*"})
+		queries.SetSelect(query.Query, []string{"`reservations`.*"})
 	}
 
 	return query
@@ -426,26 +431,26 @@ func (menuL) LoadReservations(ctx context.Context, e boil.ContextExecutor, singu
 		return nil
 	}
 
-	query := NewQuery(qm.From(`reservation`), qm.WhereIn(`reservation.menu_id in ?`, args...))
+	query := NewQuery(qm.From(`reservations`), qm.WhereIn(`reservations.menu_id in ?`, args...))
 	if mods != nil {
 		mods.Apply(query)
 	}
 
 	results, err := query.QueryContext(ctx, e)
 	if err != nil {
-		return errors.Wrap(err, "failed to eager load reservation")
+		return errors.Wrap(err, "failed to eager load reservations")
 	}
 
 	var resultSlice []*Reservation
 	if err = queries.Bind(results, &resultSlice); err != nil {
-		return errors.Wrap(err, "failed to bind eager loaded slice reservation")
+		return errors.Wrap(err, "failed to bind eager loaded slice reservations")
 	}
 
 	if err = results.Close(); err != nil {
-		return errors.Wrap(err, "failed to close results in eager load on reservation")
+		return errors.Wrap(err, "failed to close results in eager load on reservations")
 	}
 	if err = results.Err(); err != nil {
-		return errors.Wrap(err, "error occurred during iteration of eager loaded relations for reservation")
+		return errors.Wrap(err, "error occurred during iteration of eager loaded relations for reservations")
 	}
 
 	if len(reservationAfterSelectHooks) != 0 {
@@ -496,7 +501,7 @@ func (o *Menu) AddReservations(ctx context.Context, exec boil.ContextExecutor, i
 			}
 		} else {
 			updateQuery := fmt.Sprintf(
-				"UPDATE `reservation` SET %s WHERE %s",
+				"UPDATE `reservations` SET %s WHERE %s",
 				strmangle.SetParamNames("`", "`", 0, []string{"menu_id"}),
 				strmangle.WhereClause("`", "`", 0, reservationPrimaryKeyColumns),
 			)

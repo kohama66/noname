@@ -391,14 +391,14 @@ func (o *Space) Reservations(mods ...qm.QueryMod) reservationQuery {
 	}
 
 	queryMods = append(queryMods,
-		qm.Where("`reservation`.`space_id`=?", o.ID),
+		qm.Where("`reservations`.`space_id`=?", o.ID),
 	)
 
 	query := Reservations(queryMods...)
-	queries.SetFrom(query.Query, "`reservation`")
+	queries.SetFrom(query.Query, "`reservations`")
 
 	if len(queries.GetSelect(query.Query)) == 0 {
-		queries.SetSelect(query.Query, []string{"`reservation`.*"})
+		queries.SetSelect(query.Query, []string{"`reservations`.*"})
 	}
 
 	return query
@@ -544,26 +544,26 @@ func (spaceL) LoadReservations(ctx context.Context, e boil.ContextExecutor, sing
 		return nil
 	}
 
-	query := NewQuery(qm.From(`reservation`), qm.WhereIn(`reservation.space_id in ?`, args...))
+	query := NewQuery(qm.From(`reservations`), qm.WhereIn(`reservations.space_id in ?`, args...))
 	if mods != nil {
 		mods.Apply(query)
 	}
 
 	results, err := query.QueryContext(ctx, e)
 	if err != nil {
-		return errors.Wrap(err, "failed to eager load reservation")
+		return errors.Wrap(err, "failed to eager load reservations")
 	}
 
 	var resultSlice []*Reservation
 	if err = queries.Bind(results, &resultSlice); err != nil {
-		return errors.Wrap(err, "failed to bind eager loaded slice reservation")
+		return errors.Wrap(err, "failed to bind eager loaded slice reservations")
 	}
 
 	if err = results.Close(); err != nil {
-		return errors.Wrap(err, "failed to close results in eager load on reservation")
+		return errors.Wrap(err, "failed to close results in eager load on reservations")
 	}
 	if err = results.Err(); err != nil {
-		return errors.Wrap(err, "error occurred during iteration of eager loaded relations for reservation")
+		return errors.Wrap(err, "error occurred during iteration of eager loaded relations for reservations")
 	}
 
 	if len(reservationAfterSelectHooks) != 0 {
@@ -661,7 +661,7 @@ func (o *Space) AddReservations(ctx context.Context, exec boil.ContextExecutor, 
 			}
 		} else {
 			updateQuery := fmt.Sprintf(
-				"UPDATE `reservation` SET %s WHERE %s",
+				"UPDATE `reservations` SET %s WHERE %s",
 				strmangle.SetParamNames("`", "`", 0, []string{"space_id"}),
 				strmangle.WhereClause("`", "`", 0, reservationPrimaryKeyColumns),
 			)

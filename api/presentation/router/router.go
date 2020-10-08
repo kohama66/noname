@@ -36,7 +36,7 @@ func (r *Router) Routes() {
 		r.Route("/v1", func(r chi.Router) {
 			r.Group(func(r chi.Router) {
 				r.Route("/beautician", func(r chi.Router) {
-					r.Get("/all", beauticianController.GetAll)
+					r.Get("/find", beauticianController.Find)
 					r.Group(func(r chi.Router) {
 						r.Use(middleware.AuthAPI)
 						r.Post("/", beauticianController.Create)

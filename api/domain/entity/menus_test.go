@@ -722,7 +722,7 @@ func testMenusSelect(t *testing.T) {
 }
 
 var (
-	menuDBTypes = map[string]string{`ID`: `bigint`, `Name`: `varchar`, `CreatedAt`: `datetime`, `UpdatedAt`: `datetime`, `DeletedAt`: `datetime`}
+	menuDBTypes = map[string]string{`ID`: `bigint`, `RandID`: `varchar`, `Name`: `varchar`, `CreatedAt`: `datetime`, `UpdatedAt`: `datetime`, `DeletedAt`: `datetime`}
 	_           = bytes.MinRead
 )
 

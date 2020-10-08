@@ -9,7 +9,7 @@ import (
 type Beautician interface {
 	NewBeauticianCreate(ent *entity.Beautician) *responsemodel.BeauticianCreate
 	NewBeauticianGet(ent *entity.Beautician) *responsemodel.BeauticianGet
-	NewBeauticianGetAll(ents []*entity.Beautician) *responsemodel.BeauticianGetAll
+	NewBeauticianFind(ents []*entity.Beautician) *responsemodel.BeauticianFind
 }
 
 type beautician struct {
@@ -48,12 +48,12 @@ func (b *beautician) NewBeauticianGet(ent *entity.Beautician) *responsemodel.Bea
 	}
 }
 
-func (b *beautician) NewBeauticianGetAll(ents []*entity.Beautician) *responsemodel.BeauticianGetAll {
+func (b *beautician) NewBeauticianFind(ents []*entity.Beautician) *responsemodel.BeauticianFind {
 	bs := make([]*responsemodel.Beautician, len(ents))
 	for i, v := range ents {
 		bs[i] = NewResponseModelBeautician(v)
 	}
-	return &responsemodel.BeauticianGetAll{
+	return &responsemodel.BeauticianFind{
 		Beauticians: bs,
 	}
 }

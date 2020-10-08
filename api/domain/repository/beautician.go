@@ -2,6 +2,7 @@ package repository
 
 import (
 	"context"
+	"time"
 
 	"github.com/myapp/noname/api/domain/entity"
 )
@@ -10,5 +11,6 @@ import (
 type Beautician interface {
 	Create(ctx context.Context, ent *entity.Beautician) error
 	GetByAuthID(ctx context.Context, authID string) (*entity.Beautician, error)
-	GetAll(ctx context.Context) (entity.BeauticianSlice, error)
+	Find(ctx context.Context, date time.Time, menu, salon *int64) ([]*entity.Beautician, error)
+	GetAll(ctx context.Context) ([]*entity.Beautician, error)
 }

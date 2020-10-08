@@ -95,7 +95,7 @@ var doc = `{
                 }
             }
         },
-        "/api/v1/beautician/all": {
+        "/api/v1/beautician/find": {
             "get": {
                 "consumes": [
                     "application/json"
@@ -103,7 +103,7 @@ var doc = `{
                 "produces": [
                     "application/json"
                 ],
-                "summary": "美容師情報取得",
+                "summary": "美容師検索",
                 "parameters": [
                     {
                         "description": "Request body",
@@ -111,7 +111,7 @@ var doc = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/requestmodel.BeauticianGetAll"
+                            "$ref": "#/definitions/requestmodel.BeauticianFind"
                         }
                     }
                 ],
@@ -119,7 +119,7 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/responsemodel.BeauticianGetAll"
+                            "$ref": "#/definitions/responsemodel.BeauticianFind"
                         }
                     },
                     "500": {
@@ -222,25 +222,22 @@ var doc = `{
                 }
             }
         },
-        "requestmodel.BeauticianGet": {
-            "type": "object"
-        },
-        "requestmodel.BeauticianGetAll": {
+        "requestmodel.BeauticianFind": {
             "type": "object",
             "properties": {
                 "date": {
                     "type": "string"
                 },
-                "menuRandId": {
+                "menuRandID": {
                     "type": "string"
                 },
-                "salonRandId": {
-                    "type": "string"
-                },
-                "time": {
+                "salonRandID": {
                     "type": "string"
                 }
             }
+        },
+        "requestmodel.BeauticianGet": {
+            "type": "object"
         },
         "requestmodel.ReservationCreate": {
             "type": "object",
@@ -333,6 +330,17 @@ var doc = `{
                 }
             }
         },
+        "responsemodel.BeauticianFind": {
+            "type": "object",
+            "properties": {
+                "beauticians": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/responsemodel.Beautician"
+                    }
+                }
+            }
+        },
         "responsemodel.BeauticianGet": {
             "type": "object",
             "properties": {
@@ -359,17 +367,6 @@ var doc = `{
                 },
                 "updatedAt": {
                     "type": "string"
-                }
-            }
-        },
-        "responsemodel.BeauticianGetAll": {
-            "type": "object",
-            "properties": {
-                "beauticians": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/responsemodel.Beautician"
-                    }
                 }
             }
         },
