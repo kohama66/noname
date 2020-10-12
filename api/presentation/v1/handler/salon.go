@@ -2,6 +2,10 @@ package handler
 
 import (
 	"net/http"
+
+	"github.com/myapp/noname/api/infrastructure/request"
+	"github.com/myapp/noname/api/pkg/log"
+	"github.com/myapp/noname/api/presentation/v1/resource/factory"
 )
 
 type salon struct{}
@@ -25,12 +29,12 @@ func NewSalon() Salon {
 // @Failure 500 {object} resource.Error "Something went wrong"
 // @Router /api/v1/salon/find [get]
 func (s salon) Find(w http.ResponseWriter, r *http.Request) {
-	// req, err := request.NewSalonFind(r)
-	// if err != nil {
-	// 	log.Warningf(r.Context(), "SalonFind.Request %v", err)
-	// 	factory.ErrorJSON(w, err.Error(), http.StatusBadRequest)
-	// 	return
-	// }
+	req, err := request.NewSalonFind(r)
+	if err != nil {
+		log.Warningf(r.Context(), "SalonFind.Request %v", err)
+		factory.ErrorJSON(w, err.Error(), http.StatusBadRequest)
+		return
+	}
 	// res, err := b.salonUsecase.Find(r.Context(), req)
 	// if err != nil {
 	// 	log.Errorf(r.Context(), "SalonFind: %v", err)
