@@ -19,9 +19,13 @@ func NewSalon(conn *db.Conn) repository.Salon {
 	}
 }
 
-func (m *salon) GetByRandID(ctx context.Context, randID string) (*entity.Salon, error) {
+func (s *salon) GetByRandID(ctx context.Context, randID string) (*entity.Salon, error) {
 	return entity.Salons(
 		entity.SalonWhere.RandID.EQ(randID),
 		entity.SalonWhere.DeletedAt.IsNull(),
-	).One(ctx, m.Conn)
+	).One(ctx, s.Conn)
+}
+
+func (s *salon) Find(ctx context.Context) (entity.SalonSlice, error) {
+	return entity.Salons().All(ctx, s.Conn)
 }

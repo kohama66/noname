@@ -26,6 +26,7 @@ type BeauticianGet struct {
 	*Beautician `json:"beautician"`
 }
 
+// BeauticianFind response構造体
 type BeauticianFind struct {
 	Beauticians []*Beautician `json:"beauticians"`
 }
