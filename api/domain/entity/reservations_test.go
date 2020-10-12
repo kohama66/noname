@@ -1001,7 +1001,7 @@ func testReservationsSelect(t *testing.T) {
 }
 
 var (
-	reservationDBTypes = map[string]string{`ID`: `bigint`, `Date`: `date`, `Time`: `time`, `SpaceID`: `bigint`, `BeauticianID`: `bigint`, `GuestID`: `bigint`, `MenuID`: `bigint`, `CreatedAt`: `datetime`, `UpdatedAt`: `datetime`, `DeletedAt`: `datetime`}
+	reservationDBTypes = map[string]string{`ID`: `bigint`, `Date`: `datetime`, `SpaceID`: `bigint`, `BeauticianID`: `bigint`, `GuestID`: `bigint`, `MenuID`: `bigint`, `CreatedAt`: `datetime`, `UpdatedAt`: `datetime`, `DeletedAt`: `datetime`}
 	_                  = bytes.MinRead
 )
 

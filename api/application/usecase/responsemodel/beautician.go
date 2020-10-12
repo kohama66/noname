@@ -25,3 +25,7 @@ type BeauticianCreate struct {
 type BeauticianGet struct {
 	*Beautician `json:"beautician"`
 }
+
+type BeauticianFind struct {
+	Beauticians []*Beautician `json:"beauticians"`
+}

@@ -2,6 +2,7 @@ package usecase
 
 import (
 	"context"
+	"time"
 
 	"github.com/myapp/noname/api/application/usecase/requestmodel"
 	"github.com/myapp/noname/api/application/usecase/responsemodel"
@@ -15,21 +16,28 @@ import (
 type Beautician interface {
 	Create(ctx context.Context, r *requestmodel.BeauticianCreate) (*responsemodel.BeauticianCreate, error)
 	Get(ctx context.Context, r *requestmodel.BeauticianGet) (*responsemodel.BeauticianGet, error)
+	Find(ctx context.Context, r *requestmodel.BeauticianFind) (*responsemodel.BeauticianFind, error)
 }
 
 type beautician struct {
 	beauticianRepository repository.Beautician
 	beauticianResponse   response.Beautician
+	menuRepository       repository.Menu
+	salonRepository      repository.Salon
 }
 
 // NewBeautician usecaseの初期化
 func NewBeautician(
 	beauticianRepository repository.Beautician,
 	beauticianResponse response.Beautician,
+	menuRepository repository.Menu,
+	salonRepository repository.Salon,
 ) Beautician {
 	return &beautician{
 		beauticianRepository: beauticianRepository,
 		beauticianResponse:   beauticianResponse,
+		menuRepository:       menuRepository,
+		salonRepository:      salonRepository,
 	}
 }
 
@@ -43,10 +51,42 @@ func (b *beautician) Create(ctx context.Context, r *requestmodel.BeauticianCreat
 }
 
 func (b *beautician) Get(ctx context.Context, r *requestmodel.BeauticianGet) (*responsemodel.BeauticianGet, error) {
-	ent, err := b.beauticianRepository.Get(ctx, r.ID)
+	ent, err := b.beauticianRepository.GetByAuthID(ctx, r.AuthID)
 	if err != nil {
 		return nil, err
 	}
 	res := b.beauticianResponse.NewBeauticianGet(ent)
 	return res, nil
+}
+
+func (b *beautician) Find(ctx context.Context, r *requestmodel.BeauticianFind) (*responsemodel.BeauticianFind, error) {
+	var date time.Time
+	var menu *int64
+	var salon *int64
+	if r.Date != "" {
+		dt, err := time.Parse("2006-01-02 15:04:05", r.Date)
+		if err != nil {
+			return nil, err
+		}
+		date = dt
+	}
+	if r.MenuRandID != "" {
+		rd, err := b.menuRepository.GetByRandID(ctx, r.MenuRandID)
+		if err != nil {
+			return nil, err
+		}
+		menu = &rd.ID
+	}
+	if r.SalonRandID != "" {
+		sl, err := b.salonRepository.GetByRandID(ctx, r.SalonRandID)
+		if err != nil {
+			return nil, err
+		}
+		salon = &sl.ID
+	}
+	ents, err := b.beauticianRepository.Find(ctx, date, menu, salon)
+	if err != nil {
+		return nil, err
+	}
+	return b.beauticianResponse.NewBeauticianFind(ents), nil
 }

@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 
+	"github.com/gorilla/schema"
 	"github.com/myapp/noname/api/application/usecase/requestmodel"
 	"github.com/myapp/noname/api/pkg/context"
 )
@@ -17,4 +18,14 @@ func NewReservationCreate(req *http.Request) (*requestmodel.ReservationCreate, e
 		return nil, err
 	}
 	return r, err
+}
+
+// NewReservationFindByBeautician 美容師予約情報取得request関数
+func NewReservationFindByBeautician(req *http.Request) (*requestmodel.ReservationFindByBeautician, error) {
+	r := &requestmodel.ReservationFindByBeautician{}
+	r.AuthID = context.AuthID(req.Context())
+	if err := schema.NewDecoder().Decode(r, req.URL.Query()); err != nil {
+		return nil, err
+	}
+	return r, nil
 }

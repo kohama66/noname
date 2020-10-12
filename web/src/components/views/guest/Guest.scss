@@ -1,0 +1,113 @@
+.chooses {
+  display: flex;
+  align-items: center;
+  height: 100vh;
+  .chooses-contents-wrapper {
+    width: 1000px;
+    height: 700px;
+    margin: 0 auto;
+    box-shadow: 2px 2px 5px #dddddd, -2px -2px 5px #eeeeee;
+    display: flex;
+    align-items: center;
+    background-color: rgb(240, 134, 66);
+    .sub-title {
+      writing-mode: vertical-lr;
+      color: #ffbe95;
+      font-size: 110px;
+      padding-left: 20px;
+    }
+    .chooses-contents {
+      display: flex;
+      flex-flow: wrap row;
+      width: 550px;
+      height: 600px;
+      justify-content: space-between;
+      align-items: center;
+      margin: 0 auto;
+      a {
+        width: 45%;
+        height: 45%;
+        text-decoration: none;
+        box-shadow: 3px 3px 5px #e06742, -1px -1px 5px #eb734e;
+        transition-duration: 0.2s;
+        border-radius: 25px;
+        overflow: hidden;
+        background-color: #fff;
+        div {
+          width: 100%;
+          height: 100%;
+          text-align: center;
+          img {
+            width: 100%;
+            height: 75%;
+            object-fit: cover;
+          }
+          h2 {
+            text-align: center;
+            font-size: 20px;
+            white-space: nowrap;
+            background-color: rgb(12, 243, 243);
+            border-radius: 10px;
+            color: rgb(255, 255, 255);
+            display: inline-block;
+            padding: 12px 15px;
+          }
+        }
+      }
+      a:hover {
+        transform: rotate(8deg);
+      }
+    }
+  }
+}
+// #choose-store {
+//   display: flex;
+//   height: 100vh;
+//   align-items: center;
+//   .choose-store-contents {
+//     display: flex;
+//     flex-flow: row wrap;
+//     overflow: scroll;
+//     height: 700px;
+//     width: 1000px;
+//     margin: 0 auto;
+//     background-color: rgb(240, 134, 66);
+//     .choose-store-contents-wrapper {
+//       height: 100%;
+//       width: 800px;
+//       .choose-store-content {
+//         box-shadow: 3px 3px 5px #e06742, -1px -1px 5px #eb734e;
+//         margin: 25px 50px;
+//         cursor: pointer;
+//         figure {
+//           width: 400px;
+//           height: 300px;
+//           img {
+//             width: 100%;
+//             height: 100%;
+//             object-fit: cover;
+//           }
+//         }
+//         div {
+//           width: 400px;
+//           height: 200px;
+//           padding: 10px;
+//           box-sizing: border-box;
+//           h2 {
+//             font-size: 20px;
+//             border-bottom: 1px solid #000;
+//             padding-bottom: 5px;
+//           }
+//           div {
+//             padding: 10px 0;
+//             h3 {
+//               font-size: 16px;
+//               margin-bottom: 10px;
+//               color: #666666;
+//             }
+//           }
+//         }
+//       }
+//     }
+//   }
+// }

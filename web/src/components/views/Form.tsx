@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-// import { getMe } from '../package/api';
+// import { getMe, getReservationBeautician } from '../package/api';
 import 'Form.scss'
 
 const Form: FC = () => (
@@ -13,7 +13,7 @@ const Form: FC = () => (
     <label>メールアドレス</label>
     <input type="text"/>
   </form>
-  {/* <button onClick={getMe}>新規登録する</button> */}
+  {/* <button onClick={getReservationBeautician}>新規登録する</button> */}
   </>
 );
 

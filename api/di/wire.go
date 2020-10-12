@@ -17,6 +17,8 @@ func InitBeautician() handler.Beautician {
 		db.New,
 		response.NewBeautician,
 		repository.NewBeautician,
+		repository.NewSalon,
+		repository.NewMenu,
 		usecase.NewBeautician,
 		handler.NewBeautician,
 	)
@@ -28,6 +30,7 @@ func InitReservation() handler.Reservation {
 		db.New,
 		repository.NewGuest,
 		repository.NewReservation,
+		repository.NewBeautician,
 		response.NewReservation,
 		usecase.NewReservation,
 		handler.NewReservation,

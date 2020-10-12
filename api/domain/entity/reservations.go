@@ -24,16 +24,15 @@ import (
 
 // Reservation is an object representing the database table.
 type Reservation struct {
-	ID           int64       `boil:"id" json:"id" toml:"id" yaml:"id"`
-	Date         null.Time   `boil:"date" json:"date,omitempty" toml:"date" yaml:"date,omitempty"`
-	Time         null.String `boil:"time" json:"time,omitempty" toml:"time" yaml:"time,omitempty"`
-	SpaceID      int64       `boil:"space_id" json:"space_id" toml:"space_id" yaml:"space_id"`
-	BeauticianID int64       `boil:"beautician_id" json:"beautician_id" toml:"beautician_id" yaml:"beautician_id"`
-	GuestID      int64       `boil:"guest_id" json:"guest_id" toml:"guest_id" yaml:"guest_id"`
-	MenuID       int64       `boil:"menu_id" json:"menu_id" toml:"menu_id" yaml:"menu_id"`
-	CreatedAt    time.Time   `boil:"created_at" json:"created_at" toml:"created_at" yaml:"created_at"`
-	UpdatedAt    time.Time   `boil:"updated_at" json:"updated_at" toml:"updated_at" yaml:"updated_at"`
-	DeletedAt    null.Time   `boil:"deleted_at" json:"deleted_at,omitempty" toml:"deleted_at" yaml:"deleted_at,omitempty"`
+	ID           int64     `boil:"id" json:"id" toml:"id" yaml:"id"`
+	Date         time.Time `boil:"date" json:"date" toml:"date" yaml:"date"`
+	SpaceID      int64     `boil:"space_id" json:"space_id" toml:"space_id" yaml:"space_id"`
+	BeauticianID int64     `boil:"beautician_id" json:"beautician_id" toml:"beautician_id" yaml:"beautician_id"`
+	GuestID      int64     `boil:"guest_id" json:"guest_id" toml:"guest_id" yaml:"guest_id"`
+	MenuID       int64     `boil:"menu_id" json:"menu_id" toml:"menu_id" yaml:"menu_id"`
+	CreatedAt    time.Time `boil:"created_at" json:"created_at" toml:"created_at" yaml:"created_at"`
+	UpdatedAt    time.Time `boil:"updated_at" json:"updated_at" toml:"updated_at" yaml:"updated_at"`
+	DeletedAt    null.Time `boil:"deleted_at" json:"deleted_at,omitempty" toml:"deleted_at" yaml:"deleted_at,omitempty"`
 
 	R *reservationR `boil:"-" json:"-" toml:"-" yaml:"-"`
 	L reservationL  `boil:"-" json:"-" toml:"-" yaml:"-"`
@@ -42,7 +41,6 @@ type Reservation struct {
 var ReservationColumns = struct {
 	ID           string
 	Date         string
-	Time         string
 	SpaceID      string
 	BeauticianID string
 	GuestID      string
@@ -53,7 +51,6 @@ var ReservationColumns = struct {
 }{
 	ID:           "id",
 	Date:         "date",
-	Time:         "time",
 	SpaceID:      "space_id",
 	BeauticianID: "beautician_id",
 	GuestID:      "guest_id",
@@ -65,33 +62,9 @@ var ReservationColumns = struct {
 
 // Generated where
 
-type whereHelpernull_String struct{ field string }
-
-func (w whereHelpernull_String) EQ(x null.String) qm.QueryMod {
-	return qmhelper.WhereNullEQ(w.field, false, x)
-}
-func (w whereHelpernull_String) NEQ(x null.String) qm.QueryMod {
-	return qmhelper.WhereNullEQ(w.field, true, x)
-}
-func (w whereHelpernull_String) IsNull() qm.QueryMod    { return qmhelper.WhereIsNull(w.field) }
-func (w whereHelpernull_String) IsNotNull() qm.QueryMod { return qmhelper.WhereIsNotNull(w.field) }
-func (w whereHelpernull_String) LT(x null.String) qm.QueryMod {
-	return qmhelper.Where(w.field, qmhelper.LT, x)
-}
-func (w whereHelpernull_String) LTE(x null.String) qm.QueryMod {
-	return qmhelper.Where(w.field, qmhelper.LTE, x)
-}
-func (w whereHelpernull_String) GT(x null.String) qm.QueryMod {
-	return qmhelper.Where(w.field, qmhelper.GT, x)
-}
-func (w whereHelpernull_String) GTE(x null.String) qm.QueryMod {
-	return qmhelper.Where(w.field, qmhelper.GTE, x)
-}
-
 var ReservationWhere = struct {
 	ID           whereHelperint64
-	Date         whereHelpernull_Time
-	Time         whereHelpernull_String
+	Date         whereHelpertime_Time
 	SpaceID      whereHelperint64
 	BeauticianID whereHelperint64
 	GuestID      whereHelperint64
@@ -100,16 +73,15 @@ var ReservationWhere = struct {
 	UpdatedAt    whereHelpertime_Time
 	DeletedAt    whereHelpernull_Time
 }{
-	ID:           whereHelperint64{field: "`reservation`.`id`"},
-	Date:         whereHelpernull_Time{field: "`reservation`.`date`"},
-	Time:         whereHelpernull_String{field: "`reservation`.`time`"},
-	SpaceID:      whereHelperint64{field: "`reservation`.`space_id`"},
-	BeauticianID: whereHelperint64{field: "`reservation`.`beautician_id`"},
-	GuestID:      whereHelperint64{field: "`reservation`.`guest_id`"},
-	MenuID:       whereHelperint64{field: "`reservation`.`menu_id`"},
-	CreatedAt:    whereHelpertime_Time{field: "`reservation`.`created_at`"},
-	UpdatedAt:    whereHelpertime_Time{field: "`reservation`.`updated_at`"},
-	DeletedAt:    whereHelpernull_Time{field: "`reservation`.`deleted_at`"},
+	ID:           whereHelperint64{field: "`reservations`.`id`"},
+	Date:         whereHelpertime_Time{field: "`reservations`.`date`"},
+	SpaceID:      whereHelperint64{field: "`reservations`.`space_id`"},
+	BeauticianID: whereHelperint64{field: "`reservations`.`beautician_id`"},
+	GuestID:      whereHelperint64{field: "`reservations`.`guest_id`"},
+	MenuID:       whereHelperint64{field: "`reservations`.`menu_id`"},
+	CreatedAt:    whereHelpertime_Time{field: "`reservations`.`created_at`"},
+	UpdatedAt:    whereHelpertime_Time{field: "`reservations`.`updated_at`"},
+	DeletedAt:    whereHelpernull_Time{field: "`reservations`.`deleted_at`"},
 }
 
 // ReservationRels is where relationship names are stored.
@@ -142,8 +114,8 @@ func (*reservationR) NewStruct() *reservationR {
 type reservationL struct{}
 
 var (
-	reservationAllColumns            = []string{"id", "date", "time", "space_id", "beautician_id", "guest_id", "menu_id", "created_at", "updated_at", "deleted_at"}
-	reservationColumnsWithoutDefault = []string{"date", "time", "space_id", "beautician_id", "guest_id", "menu_id", "created_at", "updated_at", "deleted_at"}
+	reservationAllColumns            = []string{"id", "date", "space_id", "beautician_id", "guest_id", "menu_id", "created_at", "updated_at", "deleted_at"}
+	reservationColumnsWithoutDefault = []string{"date", "space_id", "beautician_id", "guest_id", "menu_id", "created_at", "updated_at", "deleted_at"}
 	reservationColumnsWithDefault    = []string{"id"}
 	reservationPrimaryKeyColumns     = []string{"id"}
 )
@@ -362,7 +334,7 @@ func (q reservationQuery) One(ctx context.Context, exec boil.ContextExecutor) (*
 		if errors.Cause(err) == sql.ErrNoRows {
 			return nil, sql.ErrNoRows
 		}
-		return nil, errors.Wrap(err, "entity: failed to execute a one query for reservation")
+		return nil, errors.Wrap(err, "entity: failed to execute a one query for reservations")
 	}
 
 	if err := o.doAfterSelectHooks(ctx, exec); err != nil {
@@ -401,7 +373,7 @@ func (q reservationQuery) Count(ctx context.Context, exec boil.ContextExecutor) 
 
 	err := q.Query.QueryRowContext(ctx, exec).Scan(&count)
 	if err != nil {
-		return 0, errors.Wrap(err, "entity: failed to count reservation rows")
+		return 0, errors.Wrap(err, "entity: failed to count reservations rows")
 	}
 
 	return count, nil
@@ -417,7 +389,7 @@ func (q reservationQuery) Exists(ctx context.Context, exec boil.ContextExecutor)
 
 	err := q.Query.QueryRowContext(ctx, exec).Scan(&count)
 	if err != nil {
-		return false, errors.Wrap(err, "entity: failed to check if reservation exists")
+		return false, errors.Wrap(err, "entity: failed to check if reservations exists")
 	}
 
 	return count > 0, nil
@@ -895,7 +867,7 @@ func (o *Reservation) SetBeautician(ctx context.Context, exec boil.ContextExecut
 	}
 
 	updateQuery := fmt.Sprintf(
-		"UPDATE `reservation` SET %s WHERE %s",
+		"UPDATE `reservations` SET %s WHERE %s",
 		strmangle.SetParamNames("`", "`", 0, []string{"beautician_id"}),
 		strmangle.WhereClause("`", "`", 0, reservationPrimaryKeyColumns),
 	)
@@ -942,7 +914,7 @@ func (o *Reservation) SetGuest(ctx context.Context, exec boil.ContextExecutor, i
 	}
 
 	updateQuery := fmt.Sprintf(
-		"UPDATE `reservation` SET %s WHERE %s",
+		"UPDATE `reservations` SET %s WHERE %s",
 		strmangle.SetParamNames("`", "`", 0, []string{"guest_id"}),
 		strmangle.WhereClause("`", "`", 0, reservationPrimaryKeyColumns),
 	)
@@ -989,7 +961,7 @@ func (o *Reservation) SetMenu(ctx context.Context, exec boil.ContextExecutor, in
 	}
 
 	updateQuery := fmt.Sprintf(
-		"UPDATE `reservation` SET %s WHERE %s",
+		"UPDATE `reservations` SET %s WHERE %s",
 		strmangle.SetParamNames("`", "`", 0, []string{"menu_id"}),
 		strmangle.WhereClause("`", "`", 0, reservationPrimaryKeyColumns),
 	)
@@ -1036,7 +1008,7 @@ func (o *Reservation) SetSpace(ctx context.Context, exec boil.ContextExecutor, i
 	}
 
 	updateQuery := fmt.Sprintf(
-		"UPDATE `reservation` SET %s WHERE %s",
+		"UPDATE `reservations` SET %s WHERE %s",
 		strmangle.SetParamNames("`", "`", 0, []string{"space_id"}),
 		strmangle.WhereClause("`", "`", 0, reservationPrimaryKeyColumns),
 	)
@@ -1073,7 +1045,7 @@ func (o *Reservation) SetSpace(ctx context.Context, exec boil.ContextExecutor, i
 
 // Reservations retrieves all the records using an executor.
 func Reservations(mods ...qm.QueryMod) reservationQuery {
-	mods = append(mods, qm.From("`reservation`"))
+	mods = append(mods, qm.From("`reservations`"))
 	return reservationQuery{NewQuery(mods...)}
 }
 
@@ -1087,7 +1059,7 @@ func FindReservation(ctx context.Context, exec boil.ContextExecutor, iD int64, s
 		sel = strings.Join(strmangle.IdentQuoteSlice(dialect.LQ, dialect.RQ, selectCols), ",")
 	}
 	query := fmt.Sprintf(
-		"select %s from `reservation` where `id`=?", sel,
+		"select %s from `reservations` where `id`=?", sel,
 	)
 
 	q := queries.Raw(query, iD)
@@ -1097,7 +1069,7 @@ func FindReservation(ctx context.Context, exec boil.ContextExecutor, iD int64, s
 		if errors.Cause(err) == sql.ErrNoRows {
 			return nil, sql.ErrNoRows
 		}
-		return nil, errors.Wrap(err, "entity: unable to select from reservation")
+		return nil, errors.Wrap(err, "entity: unable to select from reservations")
 	}
 
 	return reservationObj, nil
@@ -1107,7 +1079,7 @@ func FindReservation(ctx context.Context, exec boil.ContextExecutor, iD int64, s
 // See boil.Columns.InsertColumnSet documentation to understand column list inference for inserts.
 func (o *Reservation) Insert(ctx context.Context, exec boil.ContextExecutor, columns boil.Columns) error {
 	if o == nil {
-		return errors.New("entity: no reservation provided for insertion")
+		return errors.New("entity: no reservations provided for insertion")
 	}
 
 	var err error
@@ -1150,15 +1122,15 @@ func (o *Reservation) Insert(ctx context.Context, exec boil.ContextExecutor, col
 			return err
 		}
 		if len(wl) != 0 {
-			cache.query = fmt.Sprintf("INSERT INTO `reservation` (`%s`) %%sVALUES (%s)%%s", strings.Join(wl, "`,`"), strmangle.Placeholders(dialect.UseIndexPlaceholders, len(wl), 1, 1))
+			cache.query = fmt.Sprintf("INSERT INTO `reservations` (`%s`) %%sVALUES (%s)%%s", strings.Join(wl, "`,`"), strmangle.Placeholders(dialect.UseIndexPlaceholders, len(wl), 1, 1))
 		} else {
-			cache.query = "INSERT INTO `reservation` () VALUES ()%s%s"
+			cache.query = "INSERT INTO `reservations` () VALUES ()%s%s"
 		}
 
 		var queryOutput, queryReturning string
 
 		if len(cache.retMapping) != 0 {
-			cache.retQuery = fmt.Sprintf("SELECT `%s` FROM `reservation` WHERE %s", strings.Join(returnColumns, "`,`"), strmangle.WhereClause("`", "`", 0, reservationPrimaryKeyColumns))
+			cache.retQuery = fmt.Sprintf("SELECT `%s` FROM `reservations` WHERE %s", strings.Join(returnColumns, "`,`"), strmangle.WhereClause("`", "`", 0, reservationPrimaryKeyColumns))
 		}
 
 		cache.query = fmt.Sprintf(cache.query, queryOutput, queryReturning)
@@ -1175,7 +1147,7 @@ func (o *Reservation) Insert(ctx context.Context, exec boil.ContextExecutor, col
 	result, err := exec.ExecContext(ctx, cache.query, vals...)
 
 	if err != nil {
-		return errors.Wrap(err, "entity: unable to insert into reservation")
+		return errors.Wrap(err, "entity: unable to insert into reservations")
 	}
 
 	var lastID int64
@@ -1206,7 +1178,7 @@ func (o *Reservation) Insert(ctx context.Context, exec boil.ContextExecutor, col
 	}
 	err = exec.QueryRowContext(ctx, cache.retQuery, identifierCols...).Scan(queries.PtrsFromMapping(value, cache.retMapping)...)
 	if err != nil {
-		return errors.Wrap(err, "entity: unable to populate default values for reservation")
+		return errors.Wrap(err, "entity: unable to populate default values for reservations")
 	}
 
 CacheNoHooks:
@@ -1248,10 +1220,10 @@ func (o *Reservation) Update(ctx context.Context, exec boil.ContextExecutor, col
 			wl = strmangle.SetComplement(wl, []string{"created_at"})
 		}
 		if len(wl) == 0 {
-			return 0, errors.New("entity: unable to update reservation, could not build whitelist")
+			return 0, errors.New("entity: unable to update reservations, could not build whitelist")
 		}
 
-		cache.query = fmt.Sprintf("UPDATE `reservation` SET %s WHERE %s",
+		cache.query = fmt.Sprintf("UPDATE `reservations` SET %s WHERE %s",
 			strmangle.SetParamNames("`", "`", 0, wl),
 			strmangle.WhereClause("`", "`", 0, reservationPrimaryKeyColumns),
 		)
@@ -1271,12 +1243,12 @@ func (o *Reservation) Update(ctx context.Context, exec boil.ContextExecutor, col
 	var result sql.Result
 	result, err = exec.ExecContext(ctx, cache.query, values...)
 	if err != nil {
-		return 0, errors.Wrap(err, "entity: unable to update reservation row")
+		return 0, errors.Wrap(err, "entity: unable to update reservations row")
 	}
 
 	rowsAff, err := result.RowsAffected()
 	if err != nil {
-		return 0, errors.Wrap(err, "entity: failed to get rows affected by update for reservation")
+		return 0, errors.Wrap(err, "entity: failed to get rows affected by update for reservations")
 	}
 
 	if !cached {
@@ -1294,12 +1266,12 @@ func (q reservationQuery) UpdateAll(ctx context.Context, exec boil.ContextExecut
 
 	result, err := q.Query.ExecContext(ctx, exec)
 	if err != nil {
-		return 0, errors.Wrap(err, "entity: unable to update all for reservation")
+		return 0, errors.Wrap(err, "entity: unable to update all for reservations")
 	}
 
 	rowsAff, err := result.RowsAffected()
 	if err != nil {
-		return 0, errors.Wrap(err, "entity: unable to retrieve rows affected for reservation")
+		return 0, errors.Wrap(err, "entity: unable to retrieve rows affected for reservations")
 	}
 
 	return rowsAff, nil
@@ -1332,7 +1304,7 @@ func (o ReservationSlice) UpdateAll(ctx context.Context, exec boil.ContextExecut
 		args = append(args, pkeyArgs...)
 	}
 
-	sql := fmt.Sprintf("UPDATE `reservation` SET %s WHERE %s",
+	sql := fmt.Sprintf("UPDATE `reservations` SET %s WHERE %s",
 		strmangle.SetParamNames("`", "`", 0, colNames),
 		strmangle.WhereClauseRepeated(string(dialect.LQ), string(dialect.RQ), 0, reservationPrimaryKeyColumns, len(o)))
 
@@ -1361,7 +1333,7 @@ var mySQLReservationUniqueColumns = []string{
 // See boil.Columns documentation for how to properly use updateColumns and insertColumns.
 func (o *Reservation) Upsert(ctx context.Context, exec boil.ContextExecutor, updateColumns, insertColumns boil.Columns) error {
 	if o == nil {
-		return errors.New("entity: no reservation provided for upsert")
+		return errors.New("entity: no reservations provided for upsert")
 	}
 	if !boil.TimestampsAreSkipped(ctx) {
 		currTime := time.Now().In(boil.GetLocation())
@@ -1424,13 +1396,13 @@ func (o *Reservation) Upsert(ctx context.Context, exec boil.ContextExecutor, upd
 		)
 
 		if len(update) == 0 {
-			return errors.New("entity: unable to upsert reservation, could not build update column list")
+			return errors.New("entity: unable to upsert reservations, could not build update column list")
 		}
 
 		ret = strmangle.SetComplement(ret, nzUniques)
-		cache.query = buildUpsertQueryMySQL(dialect, "reservation", update, insert)
+		cache.query = buildUpsertQueryMySQL(dialect, "reservations", update, insert)
 		cache.retQuery = fmt.Sprintf(
-			"SELECT %s FROM `reservation` WHERE %s",
+			"SELECT %s FROM `reservations` WHERE %s",
 			strings.Join(strmangle.IdentQuoteSlice(dialect.LQ, dialect.RQ, ret), ","),
 			strmangle.WhereClause("`", "`", 0, nzUniques),
 		)
@@ -1462,7 +1434,7 @@ func (o *Reservation) Upsert(ctx context.Context, exec boil.ContextExecutor, upd
 	result, err := exec.ExecContext(ctx, cache.query, vals...)
 
 	if err != nil {
-		return errors.Wrap(err, "entity: unable to upsert for reservation")
+		return errors.Wrap(err, "entity: unable to upsert for reservations")
 	}
 
 	var lastID int64
@@ -1485,7 +1457,7 @@ func (o *Reservation) Upsert(ctx context.Context, exec boil.ContextExecutor, upd
 
 	uniqueMap, err = queries.BindMapping(reservationType, reservationMapping, nzUniques)
 	if err != nil {
-		return errors.Wrap(err, "entity: unable to retrieve unique values for reservation")
+		return errors.Wrap(err, "entity: unable to retrieve unique values for reservations")
 	}
 	nzUniqueCols = queries.ValuesFromMapping(reflect.Indirect(reflect.ValueOf(o)), uniqueMap)
 
@@ -1496,7 +1468,7 @@ func (o *Reservation) Upsert(ctx context.Context, exec boil.ContextExecutor, upd
 	}
 	err = exec.QueryRowContext(ctx, cache.retQuery, nzUniqueCols...).Scan(returns...)
 	if err != nil {
-		return errors.Wrap(err, "entity: unable to populate default values for reservation")
+		return errors.Wrap(err, "entity: unable to populate default values for reservations")
 	}
 
 CacheNoHooks:
@@ -1521,7 +1493,7 @@ func (o *Reservation) Delete(ctx context.Context, exec boil.ContextExecutor) (in
 	}
 
 	args := queries.ValuesFromMapping(reflect.Indirect(reflect.ValueOf(o)), reservationPrimaryKeyMapping)
-	sql := "DELETE FROM `reservation` WHERE `id`=?"
+	sql := "DELETE FROM `reservations` WHERE `id`=?"
 
 	if boil.IsDebug(ctx) {
 		writer := boil.DebugWriterFrom(ctx)
@@ -1530,12 +1502,12 @@ func (o *Reservation) Delete(ctx context.Context, exec boil.ContextExecutor) (in
 	}
 	result, err := exec.ExecContext(ctx, sql, args...)
 	if err != nil {
-		return 0, errors.Wrap(err, "entity: unable to delete from reservation")
+		return 0, errors.Wrap(err, "entity: unable to delete from reservations")
 	}
 
 	rowsAff, err := result.RowsAffected()
 	if err != nil {
-		return 0, errors.Wrap(err, "entity: failed to get rows affected by delete for reservation")
+		return 0, errors.Wrap(err, "entity: failed to get rows affected by delete for reservations")
 	}
 
 	if err := o.doAfterDeleteHooks(ctx, exec); err != nil {
@@ -1555,12 +1527,12 @@ func (q reservationQuery) DeleteAll(ctx context.Context, exec boil.ContextExecut
 
 	result, err := q.Query.ExecContext(ctx, exec)
 	if err != nil {
-		return 0, errors.Wrap(err, "entity: unable to delete all from reservation")
+		return 0, errors.Wrap(err, "entity: unable to delete all from reservations")
 	}
 
 	rowsAff, err := result.RowsAffected()
 	if err != nil {
-		return 0, errors.Wrap(err, "entity: failed to get rows affected by deleteall for reservation")
+		return 0, errors.Wrap(err, "entity: failed to get rows affected by deleteall for reservations")
 	}
 
 	return rowsAff, nil
@@ -1586,7 +1558,7 @@ func (o ReservationSlice) DeleteAll(ctx context.Context, exec boil.ContextExecut
 		args = append(args, pkeyArgs...)
 	}
 
-	sql := "DELETE FROM `reservation` WHERE " +
+	sql := "DELETE FROM `reservations` WHERE " +
 		strmangle.WhereClauseRepeated(string(dialect.LQ), string(dialect.RQ), 0, reservationPrimaryKeyColumns, len(o))
 
 	if boil.IsDebug(ctx) {
@@ -1601,7 +1573,7 @@ func (o ReservationSlice) DeleteAll(ctx context.Context, exec boil.ContextExecut
 
 	rowsAff, err := result.RowsAffected()
 	if err != nil {
-		return 0, errors.Wrap(err, "entity: failed to get rows affected by deleteall for reservation")
+		return 0, errors.Wrap(err, "entity: failed to get rows affected by deleteall for reservations")
 	}
 
 	if len(reservationAfterDeleteHooks) != 0 {
@@ -1641,7 +1613,7 @@ func (o *ReservationSlice) ReloadAll(ctx context.Context, exec boil.ContextExecu
 		args = append(args, pkeyArgs...)
 	}
 
-	sql := "SELECT `reservation`.* FROM `reservation` WHERE " +
+	sql := "SELECT `reservations`.* FROM `reservations` WHERE " +
 		strmangle.WhereClauseRepeated(string(dialect.LQ), string(dialect.RQ), 0, reservationPrimaryKeyColumns, len(*o))
 
 	q := queries.Raw(sql, args...)
@@ -1659,7 +1631,7 @@ func (o *ReservationSlice) ReloadAll(ctx context.Context, exec boil.ContextExecu
 // ReservationExists checks if the Reservation row exists.
 func ReservationExists(ctx context.Context, exec boil.ContextExecutor, iD int64) (bool, error) {
 	var exists bool
-	sql := "select exists(select 1 from `reservation` where `id`=? limit 1)"
+	sql := "select exists(select 1 from `reservations` where `id`=? limit 1)"
 
 	if boil.IsDebug(ctx) {
 		writer := boil.DebugWriterFrom(ctx)
@@ -1670,7 +1642,7 @@ func ReservationExists(ctx context.Context, exec boil.ContextExecutor, iD int64)
 
 	err := row.Scan(&exists)
 	if err != nil {
-		return false, errors.Wrap(err, "entity: unable to check if reservation exists")
+		return false, errors.Wrap(err, "entity: unable to check if reservations exists")
 	}
 
 	return exists, nil
