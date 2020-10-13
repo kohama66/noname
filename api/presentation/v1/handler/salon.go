@@ -3,12 +3,15 @@ package handler
 import (
 	"net/http"
 
+	"github.com/myapp/noname/api/application/usecase"
 	"github.com/myapp/noname/api/infrastructure/request"
 	"github.com/myapp/noname/api/pkg/log"
 	"github.com/myapp/noname/api/presentation/v1/resource/factory"
 )
 
-type salon struct{}
+type salon struct {
+	salonUsecase usecase.Salon
+}
 
 // Salon DIInterface
 type Salon interface {
@@ -16,8 +19,12 @@ type Salon interface {
 }
 
 // NewSalon DI初期化関数
-func NewSalon() Salon {
-	return salon{}
+func NewSalon(
+	salonUsecase usecase.Salon,
+) Salon {
+	return salon{
+		salonUsecase: salonUsecase,
+	}
 }
 
 // Find
@@ -35,12 +42,12 @@ func (s salon) Find(w http.ResponseWriter, r *http.Request) {
 		factory.ErrorJSON(w, err.Error(), http.StatusBadRequest)
 		return
 	}
-	// res, err := b.salonUsecase.Find(r.Context(), req)
-	// if err != nil {
-	// 	log.Errorf(r.Context(), "SalonFind: %v", err)
-	// 	factory.ErrorJSON(w, err.Error(), http.StatusInternalServerError)
-	// 	return
-	// }
-	// factory.JSON(w, res)
-	// return
+	res, err := s.salonUsecase.Find(r.Context(), req)
+	if err != nil {
+		log.Errorf(r.Context(), "SalonFind: %v", err)
+		factory.ErrorJSON(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	factory.JSON(w, res)
+	return
 }

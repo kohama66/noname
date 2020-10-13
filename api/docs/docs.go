@@ -202,6 +202,42 @@ var doc = `{
                     }
                 }
             }
+        },
+        "/api/v1/salon/find": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "美容院検索",
+                "parameters": [
+                    {
+                        "description": "Request body",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/requestmodel.SalonFind"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/responsemodel.SalonFind"
+                        }
+                    },
+                    "500": {
+                        "description": "Something went wrong",
+                        "schema": {
+                            "$ref": "#/definitions/resource.Error"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -261,6 +297,17 @@ var doc = `{
             "properties": {
                 "offset": {
                     "type": "integer"
+                }
+            }
+        },
+        "requestmodel.SalonFind": {
+            "type": "object",
+            "properties": {
+                "beauticianRandID": {
+                    "type": "string"
+                },
+                "date": {
+                    "type": "string"
                 }
             }
         },
@@ -429,6 +476,37 @@ var doc = `{
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/responsemodel.Reservation"
+                    }
+                }
+            }
+        },
+        "responsemodel.Salon": {
+            "type": "object",
+            "properties": {
+                "Name": {
+                    "type": "string"
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "randId": {
+                    "type": "string"
+                },
+                "updatedAt": {
+                    "type": "string"
+                }
+            }
+        },
+        "responsemodel.SalonFind": {
+            "type": "object",
+            "properties": {
+                "salons": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/responsemodel.Salon"
                     }
                 }
             }

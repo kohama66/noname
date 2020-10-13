@@ -37,6 +37,13 @@ definitions:
       offset:
         type: integer
     type: object
+  requestmodel.SalonFind:
+    properties:
+      beauticianRandID:
+        type: string
+      date:
+        type: string
+    type: object
   resource.Error:
     properties:
       message:
@@ -145,6 +152,26 @@ definitions:
       reservations:
         items:
           $ref: '#/definitions/responsemodel.Reservation'
+        type: array
+    type: object
+  responsemodel.Salon:
+    properties:
+      Name:
+        type: string
+      createdAt:
+        type: string
+      id:
+        type: integer
+      randId:
+        type: string
+      updatedAt:
+        type: string
+    type: object
+  responsemodel.SalonFind:
+    properties:
+      salons:
+        items:
+          $ref: '#/definitions/responsemodel.Salon'
         type: array
     type: object
 info:
@@ -265,4 +292,27 @@ paths:
           schema:
             $ref: '#/definitions/resource.Error'
       summary: 美容師予約情報取得
+  /api/v1/salon/find:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: Request body
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/requestmodel.SalonFind'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responsemodel.SalonFind'
+        "500":
+          description: Something went wrong
+          schema:
+            $ref: '#/definitions/resource.Error'
+      summary: 美容院検索
 swagger: "2.0"

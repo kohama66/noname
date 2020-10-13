@@ -31,6 +31,7 @@ func (r *Router) Run() {
 func (r *Router) Routes() {
 	beauticianController := di.InitBeautician()
 	reservationController := di.InitReservation()
+	salonController := di.InitSalon()
 
 	r.Route("/api", func(r chi.Router) {
 		r.Route("/v1", func(r chi.Router) {
@@ -49,6 +50,11 @@ func (r *Router) Routes() {
 				r.Route("/reservation", func(r chi.Router) {
 					r.Post("/", reservationController.Create)
 					r.Get("/beautician", reservationController.FindByBeautician)
+				})
+			})
+			r.Group(func(r chi.Router) {
+				r.Route("/salon", func(r chi.Router) {
+					r.Get("/find", salonController.Find)
 				})
 			})
 		})

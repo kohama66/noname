@@ -36,3 +36,12 @@ func InitReservation() handler.Reservation {
 	handlerReservation := handler.NewReservation(usecaseReservation)
 	return handlerReservation
 }
+
+func InitSalon() handler.Salon {
+	conn := db.New()
+	salon := repository.NewSalon(conn)
+	responseSalon := response.NewSalon()
+	usecaseSalon := usecase.NewSalon(salon, responseSalon)
+	handlerSalon := handler.NewSalon(usecaseSalon)
+	return handlerSalon
+}
