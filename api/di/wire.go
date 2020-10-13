@@ -43,6 +43,7 @@ func InitSalon() handler.Salon {
 		db.New,
 		response.NewSalon,
 		repository.NewSalon,
+		repository.NewBeautician,
 		usecase.NewSalon,
 		handler.NewSalon,
 	)

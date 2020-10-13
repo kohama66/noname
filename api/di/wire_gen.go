@@ -41,7 +41,8 @@ func InitSalon() handler.Salon {
 	conn := db.New()
 	salon := repository.NewSalon(conn)
 	responseSalon := response.NewSalon()
-	usecaseSalon := usecase.NewSalon(salon, responseSalon)
+	beautician := repository.NewBeautician(conn)
+	usecaseSalon := usecase.NewSalon(salon, responseSalon, beautician)
 	handlerSalon := handler.NewSalon(usecaseSalon)
 	return handlerSalon
 }
