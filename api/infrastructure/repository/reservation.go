@@ -41,9 +41,10 @@ func (r *reservation) Create(ctx context.Context, ent *entity.Reservation) error
 	return ent.Insert(ctx, r.Conn, boil.Infer())
 }
 
-func (r *reservation) FindByBeautician(ctx context.Context, beauticianID int64, date time.Time) (entity.ReservationSlice, error) {
+func (r *reservation) FindByBeautician(ctx context.Context, beauticianID int64) (entity.ReservationSlice, error) {
+	today, _ := time.Parse("2006-01-02", time.Now().Format("2006-01-02"))
 	return entity.Reservations(
-		qm.Where("date BETWEEN ? AND ?", fmt.Sprint(date), fmt.Sprint(date.AddDate(0, 0, 13))),
+		qm.Where("date BETWEEN ? AND ?", fmt.Sprint(today), fmt.Sprint(today.AddDate(0, 0, 13))),
 		entity.ReservationWhere.BeauticianID.EQ(beauticianID),
 	).All(ctx, r.Conn)
 }

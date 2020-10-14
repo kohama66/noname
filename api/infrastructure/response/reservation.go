@@ -9,6 +9,7 @@ import (
 type Reservation interface {
 	NewReservationCreate(ent *entity.Reservation) *responsemodel.ReservationCreate
 	NewReservationFindByBeautician(ents []*entity.Reservation) *responsemodel.ReservationFindByBeautician
+	NewReservationFind(ents []*entity.Reservation) *responsemodel.ReservationFind
 }
 
 type reservation struct {
@@ -44,6 +45,16 @@ func (r *reservation) NewReservationFindByBeautician(ents []*entity.Reservation)
 		rv[i] = NewResponseModelReservation(v)
 	}
 	return &responsemodel.ReservationFindByBeautician{
+		Reservations: rv,
+	}
+}
+
+func (r *reservation) NewReservationFind(ents []*entity.Reservation) *responsemodel.ReservationFind {
+	rv := make([]*responsemodel.Reservation, len(ents))
+	for i, v := range ents {
+		rv[i] = NewResponseModelReservation(v)
+	}
+	return &responsemodel.ReservationFind{
 		Reservations: rv,
 	}
 }

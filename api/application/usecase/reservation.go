@@ -3,10 +3,10 @@ package usecase
 import (
 	"context"
 	"errors"
-	"time"
 
 	"github.com/myapp/noname/api/application/usecase/requestmodel"
 	"github.com/myapp/noname/api/application/usecase/responsemodel"
+	"github.com/myapp/noname/api/domain/entity"
 	"github.com/myapp/noname/api/domain/repository"
 	"github.com/myapp/noname/api/infrastructure/response"
 )
@@ -15,6 +15,7 @@ import (
 type Reservation interface {
 	Create(ctx context.Context, req *requestmodel.ReservationCreate) (*responsemodel.ReservationCreate, error)
 	FindByBeautician(ctx context.Context, req *requestmodel.ReservationFindByBeautician) (*responsemodel.ReservationFindByBeautician, error)
+	Find(ctx context.Context, req *requestmodel.ReservatioanFind) (*responsemodel.ReservationFind, error)
 }
 
 type reservation struct {
@@ -70,10 +71,25 @@ func (r *reservation) FindByBeautician(ctx context.Context, req *requestmodel.Re
 	if err != nil {
 		return nil, err
 	}
-	today, _ := time.Parse("2006-01-02", time.Now().Format("2006-01-02"))
-	rv, err := r.reservationRepository.FindByBeautician(ctx, bt.ID, today)
+	rv, err := r.reservationRepository.FindByBeautician(ctx, bt.ID)
 	if err != nil {
 		return nil, err
 	}
 	return r.reservationResponse.NewReservationFindByBeautician(rv), nil
+}
+
+func (r *reservation) Find(ctx context.Context, req *requestmodel.ReservatioanFind) (*responsemodel.ReservationFind, error) {
+	var reva []*entity.Reservation
+	if req.BeauticianRandID != "" {
+		bt, err := r.beauticianRepository.GetByRandID(ctx, req.BeauticianRandID)
+		if err != nil {
+			return nil, err
+		}
+		rv, err := r.reservationRepository.FindByBeautician(ctx, bt.ID)
+		if err != nil {
+			return nil, err
+		}
+		reva = rv
+	}
+	return r.reservationResponse.NewReservationFind(reva), nil
 }

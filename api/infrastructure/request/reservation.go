@@ -29,3 +29,12 @@ func NewReservationFindByBeautician(req *http.Request) (*requestmodel.Reservatio
 	}
 	return r, nil
 }
+
+// NewReservationFind 予約検索request関数
+func NewReservationFind(req *http.Request) (*requestmodel.ReservatioanFind, error) {
+	r := &requestmodel.ReservatioanFind{}
+	if err := schema.NewDecoder().Decode(r, req.URL.Query()); err != nil {
+		return nil, err
+	}
+	return r, nil
+}

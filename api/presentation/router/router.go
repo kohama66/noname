@@ -49,6 +49,7 @@ func (r *Router) Routes() {
 				r.Use(middleware.AuthAPI)
 				r.Route("/reservation", func(r chi.Router) {
 					r.Post("/", reservationController.Create)
+					r.Get("/find", reservationController.Find)
 					r.Get("/beautician", reservationController.FindByBeautician)
 				})
 			})
