@@ -37,3 +37,15 @@ func InitReservation() handler.Reservation {
 	)
 	return nil
 }
+
+func InitSalon() handler.Salon {
+	wire.Build(
+		db.New,
+		response.NewSalon,
+		repository.NewSalon,
+		repository.NewBeautician,
+		usecase.NewSalon,
+		handler.NewSalon,
+	)
+	return nil
+}
