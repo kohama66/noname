@@ -24,3 +24,8 @@ type ReservationCreate struct {
 type ReservationFindByBeautician struct {
 	Reservations []*Reservation
 }
+
+// ReservationFind 予約検索 構造体
+type ReservationFind struct {
+	Reservations []*Reservation
+}

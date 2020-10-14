@@ -31,3 +31,8 @@ type ReservationFindByBeautician struct {
 	AuthID string `json:"-"`
 	Offset int64  `schema:"offset"`
 }
+
+// ReservationFind 予約検索
+type ReservationFind struct {
+	BeauticianRandID string `schema:"beauticianRandId"`
+}

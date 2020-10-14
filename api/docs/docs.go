@@ -203,6 +203,42 @@ var doc = `{
                 }
             }
         },
+        "/api/v1/reservation/find": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "予約検索",
+                "parameters": [
+                    {
+                        "description": "Request body",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/requestmodel.ReservationFind"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/responsemodel.ReservationFind"
+                        }
+                    },
+                    "500": {
+                        "description": "Something went wrong",
+                        "schema": {
+                            "$ref": "#/definitions/resource.Error"
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/salon/find": {
             "get": {
                 "consumes": [
@@ -292,6 +328,14 @@ var doc = `{
                 }
             }
         },
+        "requestmodel.ReservationFind": {
+            "type": "object",
+            "properties": {
+                "beauticianRandID": {
+                    "type": "string"
+                }
+            }
+        },
         "requestmodel.ReservationFindByBeautician": {
             "type": "object",
             "properties": {
@@ -304,9 +348,6 @@ var doc = `{
             "type": "object",
             "properties": {
                 "beauticianRandID": {
-                    "type": "string"
-                },
-                "date": {
                     "type": "string"
                 }
             }
@@ -466,6 +507,17 @@ var doc = `{
                 },
                 "updatedAt": {
                     "type": "string"
+                }
+            }
+        },
+        "responsemodel.ReservationFind": {
+            "type": "object",
+            "properties": {
+                "reservations": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/responsemodel.Reservation"
+                    }
                 }
             }
         },

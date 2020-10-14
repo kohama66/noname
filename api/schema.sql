@@ -57,6 +57,7 @@ CREATE TABLE `spaces` (
 CREATE TABLE `reservations` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `date` datetime NOT NULL,
+  `holiday` tinyint(1) NOT NULL,
   `space_id` bigint NOT NULL,
   `beautician_id` bigint NOT NULL,
   `guest_id` bigint NOT NULL,

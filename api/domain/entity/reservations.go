@@ -26,6 +26,7 @@ import (
 type Reservation struct {
 	ID           int64     `boil:"id" json:"id" toml:"id" yaml:"id"`
 	Date         time.Time `boil:"date" json:"date" toml:"date" yaml:"date"`
+	Holiday      bool      `boil:"holiday" json:"holiday" toml:"holiday" yaml:"holiday"`
 	SpaceID      int64     `boil:"space_id" json:"space_id" toml:"space_id" yaml:"space_id"`
 	BeauticianID int64     `boil:"beautician_id" json:"beautician_id" toml:"beautician_id" yaml:"beautician_id"`
 	GuestID      int64     `boil:"guest_id" json:"guest_id" toml:"guest_id" yaml:"guest_id"`
@@ -41,6 +42,7 @@ type Reservation struct {
 var ReservationColumns = struct {
 	ID           string
 	Date         string
+	Holiday      string
 	SpaceID      string
 	BeauticianID string
 	GuestID      string
@@ -51,6 +53,7 @@ var ReservationColumns = struct {
 }{
 	ID:           "id",
 	Date:         "date",
+	Holiday:      "holiday",
 	SpaceID:      "space_id",
 	BeauticianID: "beautician_id",
 	GuestID:      "guest_id",
@@ -62,9 +65,19 @@ var ReservationColumns = struct {
 
 // Generated where
 
+type whereHelperbool struct{ field string }
+
+func (w whereHelperbool) EQ(x bool) qm.QueryMod  { return qmhelper.Where(w.field, qmhelper.EQ, x) }
+func (w whereHelperbool) NEQ(x bool) qm.QueryMod { return qmhelper.Where(w.field, qmhelper.NEQ, x) }
+func (w whereHelperbool) LT(x bool) qm.QueryMod  { return qmhelper.Where(w.field, qmhelper.LT, x) }
+func (w whereHelperbool) LTE(x bool) qm.QueryMod { return qmhelper.Where(w.field, qmhelper.LTE, x) }
+func (w whereHelperbool) GT(x bool) qm.QueryMod  { return qmhelper.Where(w.field, qmhelper.GT, x) }
+func (w whereHelperbool) GTE(x bool) qm.QueryMod { return qmhelper.Where(w.field, qmhelper.GTE, x) }
+
 var ReservationWhere = struct {
 	ID           whereHelperint64
 	Date         whereHelpertime_Time
+	Holiday      whereHelperbool
 	SpaceID      whereHelperint64
 	BeauticianID whereHelperint64
 	GuestID      whereHelperint64
@@ -75,6 +88,7 @@ var ReservationWhere = struct {
 }{
 	ID:           whereHelperint64{field: "`reservations`.`id`"},
 	Date:         whereHelpertime_Time{field: "`reservations`.`date`"},
+	Holiday:      whereHelperbool{field: "`reservations`.`holiday`"},
 	SpaceID:      whereHelperint64{field: "`reservations`.`space_id`"},
 	BeauticianID: whereHelperint64{field: "`reservations`.`beautician_id`"},
 	GuestID:      whereHelperint64{field: "`reservations`.`guest_id`"},
@@ -114,8 +128,8 @@ func (*reservationR) NewStruct() *reservationR {
 type reservationL struct{}
 
 var (
-	reservationAllColumns            = []string{"id", "date", "space_id", "beautician_id", "guest_id", "menu_id", "created_at", "updated_at", "deleted_at"}
-	reservationColumnsWithoutDefault = []string{"date", "space_id", "beautician_id", "guest_id", "menu_id", "created_at", "updated_at", "deleted_at"}
+	reservationAllColumns            = []string{"id", "date", "holiday", "space_id", "beautician_id", "guest_id", "menu_id", "created_at", "updated_at", "deleted_at"}
+	reservationColumnsWithoutDefault = []string{"date", "holiday", "space_id", "beautician_id", "guest_id", "menu_id", "created_at", "updated_at", "deleted_at"}
 	reservationColumnsWithDefault    = []string{"id"}
 	reservationPrimaryKeyColumns     = []string{"id"}
 )

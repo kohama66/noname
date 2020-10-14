@@ -32,6 +32,11 @@ definitions:
       spaceId:
         type: integer
     type: object
+  requestmodel.ReservationFind:
+    properties:
+      beauticianRandID:
+        type: string
+    type: object
   requestmodel.ReservationFindByBeautician:
     properties:
       offset:
@@ -40,8 +45,6 @@ definitions:
   requestmodel.SalonFind:
     properties:
       beauticianRandID:
-        type: string
-      date:
         type: string
     type: object
   resource.Error:
@@ -146,6 +149,13 @@ definitions:
         type: integer
       updatedAt:
         type: string
+    type: object
+  responsemodel.ReservationFind:
+    properties:
+      reservations:
+        items:
+          $ref: '#/definitions/responsemodel.Reservation'
+        type: array
     type: object
   responsemodel.ReservationFindByBeautician:
     properties:
@@ -292,6 +302,29 @@ paths:
           schema:
             $ref: '#/definitions/resource.Error'
       summary: 美容師予約情報取得
+  /api/v1/reservation/find:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: Request body
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/requestmodel.ReservationFind'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responsemodel.ReservationFind'
+        "500":
+          description: Something went wrong
+          schema:
+            $ref: '#/definitions/resource.Error'
+      summary: 予約検索
   /api/v1/salon/find:
     get:
       consumes:
