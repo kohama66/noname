@@ -31,8 +31,8 @@ func NewReservationFindByBeautician(req *http.Request) (*requestmodel.Reservatio
 }
 
 // NewReservationFind 予約検索request関数
-func NewReservationFind(req *http.Request) (*requestmodel.ReservatioanFind, error) {
-	r := &requestmodel.ReservatioanFind{}
+func NewReservationFind(req *http.Request) (*requestmodel.ReservationFind, error) {
+	r := &requestmodel.ReservationFind{}
 	if err := schema.NewDecoder().Decode(r, req.URL.Query()); err != nil {
 		return nil, err
 	}

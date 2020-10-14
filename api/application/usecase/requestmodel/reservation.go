@@ -32,7 +32,7 @@ type ReservationFindByBeautician struct {
 	Offset int64  `schema:"offset"`
 }
 
-// ReservatioanFind 予約検索
-type ReservatioanFind struct {
+// ReservationFind 予約検索
+type ReservationFind struct {
 	BeauticianRandID string `schema:"beauticianRandId"`
 }

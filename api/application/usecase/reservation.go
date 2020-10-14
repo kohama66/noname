@@ -15,7 +15,7 @@ import (
 type Reservation interface {
 	Create(ctx context.Context, req *requestmodel.ReservationCreate) (*responsemodel.ReservationCreate, error)
 	FindByBeautician(ctx context.Context, req *requestmodel.ReservationFindByBeautician) (*responsemodel.ReservationFindByBeautician, error)
-	Find(ctx context.Context, req *requestmodel.ReservatioanFind) (*responsemodel.ReservationFind, error)
+	Find(ctx context.Context, req *requestmodel.ReservationFind) (*responsemodel.ReservationFind, error)
 }
 
 type reservation struct {
@@ -78,7 +78,7 @@ func (r *reservation) FindByBeautician(ctx context.Context, req *requestmodel.Re
 	return r.reservationResponse.NewReservationFindByBeautician(rv), nil
 }
 
-func (r *reservation) Find(ctx context.Context, req *requestmodel.ReservatioanFind) (*responsemodel.ReservationFind, error) {
+func (r *reservation) Find(ctx context.Context, req *requestmodel.ReservationFind) (*responsemodel.ReservationFind, error) {
 	var reva []*entity.Reservation
 	if req.BeauticianRandID != "" {
 		bt, err := r.beauticianRepository.GetByRandID(ctx, req.BeauticianRandID)
