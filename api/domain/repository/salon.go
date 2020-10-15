@@ -9,5 +9,6 @@ import (
 // Salon DIInterface
 type Salon interface {
 	GetByRandID(ctx context.Context, randID string) (*entity.Salon, error)
-	Find(ctx context.Context, beauticianID int64) (entity.SalonSlice, error)
+	GetAll(ctx context.Context) (entity.SalonSlice, error)
+	FindByBeautician(ctx context.Context, beauticianID int64) (entity.SalonSlice, error)
 }
