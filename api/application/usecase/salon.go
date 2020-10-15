@@ -5,6 +5,7 @@ import (
 
 	"github.com/myapp/noname/api/application/usecase/requestmodel"
 	"github.com/myapp/noname/api/application/usecase/responsemodel"
+	"github.com/myapp/noname/api/domain/entity"
 	"github.com/myapp/noname/api/domain/repository"
 	"github.com/myapp/noname/api/infrastructure/response"
 )
@@ -34,17 +35,23 @@ func NewSalon(
 }
 
 func (s *salon) Find(ctx context.Context, r *requestmodel.SalonFind) (*responsemodel.SalonFind, error) {
-	var btid int64
+	var salons entity.SalonSlice
 	if r.BeauticianRandID != "" {
 		bt, err := s.beauticianRepository.GetByRandID(ctx, r.BeauticianRandID)
 		if err != nil {
 			return nil, err
 		}
-		btid = bt.ID
+		sl, err := s.salonRepository.FindByBeautician(ctx, bt.ID)
+		if err != nil {
+			return nil, err
+		}
+		salons = sl
+	} else {
+		sl, err := s.salonRepository.GetAll(ctx)
+		if err != nil {
+			return nil, err
+		}
+		salons = sl
 	}
-	ents, err := s.salonRepository.Find(ctx, btid)
-	if err != nil {
-		return nil, err
-	}
-	return s.salonResponse.NewSalonFind(ents), nil
+	return s.salonResponse.NewSalonFind(salons), nil
 }
