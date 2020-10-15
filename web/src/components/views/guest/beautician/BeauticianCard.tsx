@@ -1,7 +1,7 @@
 import React, { FC, useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 // import { setCheckedBeauticianContext } from '../../../../components/views/guest/Guest'
-import { setCheckedContext } from '../../../../container/views/guest/Guest'
+import { setCheckedContext } from '../../guest'
 
 type props = {
   lastName: string

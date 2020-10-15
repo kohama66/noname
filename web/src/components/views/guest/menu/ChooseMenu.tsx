@@ -2,7 +2,7 @@ import React, { FC, useContext } from 'react';
 import Title from '../parts/Title'
 import MenuBar from './MenuBar'
 import './ChooseMenu.scss'
-import { setCheckedContext } from '../../../../container/views/guest/Guest'
+import { setCheckedContext } from '../../guest'
 import { useHistory } from 'react-router-dom';
 
 const ChooseMenu: FC = () => {

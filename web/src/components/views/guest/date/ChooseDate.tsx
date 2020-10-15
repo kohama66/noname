@@ -1,7 +1,7 @@
 import React, { FC, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import Schedule from '../../../../container/views/guest/date/Schedule';
-import { setCheckedContext } from '../../../../container/views/guest/Guest';
+import { setCheckedContext } from '../../guest';
 import Title from '../parts/Title'
 import './ChooseDate.scss'
 

@@ -21,10 +21,11 @@ const ChoosePlate: FC<ChoosePlateProps> = ({
     }
   },[])
   return (
-    <Link to={match.path + path} style={{filter: `brightness(${checkedColor}%)`}}>
+    <Link to={match.path + path} style={{filter: `brightness(${checkedColor}%)`}} className="choose-plate">
       <div>
         <img src={image} alt="" />
         <h2>{text}</h2>
+        <p></p>
       </div>
     </Link>
   )

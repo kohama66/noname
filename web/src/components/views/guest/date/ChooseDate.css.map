@@ -1,9 +1,0 @@
-{
-    "version": 3,
-    "mappings": "AAAA,AAAA,YAAY,CAAC;EACX,OAAO,EAAE,IAAI;EACb,MAAM,EAAE,KAAK;EACb,WAAW,EAAE,MAAM;CACpB;;AAED,AAAA,qBAAqB,CAAA;EACnB,KAAK,EAAE,MAAM;EACb,MAAM,EAAE,KAAK;EACb,OAAO,EAAE,IAAI;EACb,eAAe,EAAE,MAAM;EACvB,WAAW,EAAE,MAAM;EACnB,MAAM,EAAE,MAAM;CACf",
-    "sources": [
-        "ChooseDate.scss"
-    ],
-    "names": [],
-    "file": "ChooseDate.css"
-}

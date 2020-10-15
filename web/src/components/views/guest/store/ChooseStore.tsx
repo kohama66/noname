@@ -1,7 +1,7 @@
 import React, { FC, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import Title from '../parts/Title'
-import { setCheckedContext } from '../../../../container/views/guest/Guest'
+import { setCheckedContext } from '../../guest'
 import './ChooseStore.scss'
 
 const ChooseStore: FC = () => {
