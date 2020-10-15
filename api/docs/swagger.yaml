@@ -21,6 +21,11 @@ definitions:
     type: object
   requestmodel.BeauticianGet:
     type: object
+  requestmodel.MenuFind:
+    properties:
+      beauticianRandID:
+        type: string
+    type: object
   requestmodel.ReservationCreate:
     properties:
       beauticiaId:
@@ -115,6 +120,26 @@ definitions:
         type: string
       updatedAt:
         type: string
+    type: object
+  responsemodel.Menu:
+    properties:
+      Name:
+        type: string
+      createdAt:
+        type: string
+      id:
+        type: integer
+      randId:
+        type: string
+      updatedAt:
+        type: string
+    type: object
+  responsemodel.MenuFind:
+    properties:
+      menus:
+        items:
+          $ref: '#/definitions/responsemodel.Menu'
+        type: array
     type: object
   responsemodel.Reservation:
     properties:
@@ -256,6 +281,29 @@ paths:
           schema:
             $ref: '#/definitions/resource.Error'
       summary: 美容師検索
+  /api/v1/menu/find:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: Request body
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/requestmodel.MenuFind'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responsemodel.MenuFind'
+        "500":
+          description: Something went wrong
+          schema:
+            $ref: '#/definitions/resource.Error'
+      summary: メニュー検索
   /api/v1/reservation:
     post:
       consumes:

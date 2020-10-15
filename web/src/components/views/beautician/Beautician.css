@@ -1,0 +1,149 @@
+@charset "UTF-8";
+#beautician {
+  width: 100%;
+  height: 100vh;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+#beautician .inner {
+  background-color: #fff;
+  height: 500px;
+  width: 800px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+#beautician .inner figure {
+  width: 350px;
+  height: 450px;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  position: relative;
+}
+
+#beautician .inner figure img {
+  -o-object-fit: cover;
+     object-fit: cover;
+  -o-object-position: -250px 0;
+     object-position: -250px 0;
+  width: 100%;
+  height: 100%;
+}
+
+#beautician .inner figure div {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #ffffffcc;
+}
+
+#beautician .inner .signIn {
+  width: 350px;
+  height: 450px;
+  border: 1px solid #000;
+  text-align: center;
+  padding-top: 50px;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+#beautician .inner .signIn label {
+  display: block;
+  font-size: 18px;
+  margin: 10px 0;
+}
+
+#beautician .inner .signIn input {
+  display: block;
+  width: 260px;
+  padding: 10px;
+  margin: 0 auto;
+  margin-bottom: 30px;
+}
+
+#beautician .inner .signIn button {
+  background-color: red;
+  color: #fff;
+  font-size: 18px;
+  border: none;
+  width: 240px;
+  height: 50px;
+  margin-top: 80px;
+}
+
+#schedule {
+  background-color: #f08642;
+  height: 700px;
+  width: 1000px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-shadow: 2px 2px 5px #dddddd, -2px -2px 5px #eeeeee;
+          box-shadow: 2px 2px 5px #dddddd, -2px -2px 5px #eeeeee;
+}
+
+#schedule h2 {
+  font-size: 110px;
+  color: #ffbe95;
+  text-align: center;
+  -webkit-writing-mode: vertical-lr;
+      -ms-writing-mode: tb-lr;
+          writing-mode: vertical-lr;
+  padding-left: 10px;
+}
+
+#schedule table {
+  border-radius: 2px;
+  margin: 0 auto;
+  color: #ffbe95;
+}
+
+#schedule table tr,
+#schedule table th,
+#schedule table td {
+  width: 55px;
+  height: 45px;
+  text-align: center;
+  line-height: 45px;
+  -webkit-transition-duration: .2s;
+          transition-duration: .2s;
+}
+
+#schedule table tr th:not(:nth-of-type(1))::after {
+  content: "日";
+}
+
+#schedule table tr td:not(:nth-of-type(1)) {
+  cursor: pointer;
+  border: 1px solid #ffbe95;
+}
+
+#schedule table tr td:not(:nth-of-type(1))::after {
+  font-size: 20px;
+}
+
+#schedule table tr td:not(:nth-of-type(1)):hover {
+  background-color: #ffbe95;
+}
+/*# sourceMappingURL=Beautician.css.map */

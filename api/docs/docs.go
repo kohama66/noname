@@ -131,6 +131,42 @@ var doc = `{
                 }
             }
         },
+        "/api/v1/menu/find": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "メニュー検索",
+                "parameters": [
+                    {
+                        "description": "Request body",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/requestmodel.MenuFind"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/responsemodel.MenuFind"
+                        }
+                    },
+                    "500": {
+                        "description": "Something went wrong",
+                        "schema": {
+                            "$ref": "#/definitions/resource.Error"
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/reservation": {
             "post": {
                 "consumes": [
@@ -311,6 +347,14 @@ var doc = `{
         "requestmodel.BeauticianGet": {
             "type": "object"
         },
+        "requestmodel.MenuFind": {
+            "type": "object",
+            "properties": {
+                "beauticianRandID": {
+                    "type": "string"
+                }
+            }
+        },
         "requestmodel.ReservationCreate": {
             "type": "object",
             "properties": {
@@ -455,6 +499,37 @@ var doc = `{
                 },
                 "updatedAt": {
                     "type": "string"
+                }
+            }
+        },
+        "responsemodel.Menu": {
+            "type": "object",
+            "properties": {
+                "Name": {
+                    "type": "string"
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "randId": {
+                    "type": "string"
+                },
+                "updatedAt": {
+                    "type": "string"
+                }
+            }
+        },
+        "responsemodel.MenuFind": {
+            "type": "object",
+            "properties": {
+                "menus": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/responsemodel.Menu"
+                    }
                 }
             }
         },

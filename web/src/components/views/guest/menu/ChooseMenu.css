@@ -1,0 +1,84 @@
+#choose-menu {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  height: 100vh;
+}
+
+.choose-menu-contents {
+  margin: 0 auto;
+  width: 1000px;
+  height: 700px;
+  background-color: #f08642;
+  overflow: scroll;
+  -webkit-box-shadow: 2px 2px 5px #dddddd, -2px -2px 5px #eeeeee;
+          box-shadow: 2px 2px 5px #dddddd, -2px -2px 5px #eeeeee;
+  position: relative;
+}
+
+.choose-menu-content {
+  cursor: pointer;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 800px;
+  height: 100px;
+  -webkit-box-shadow: 3px 3px 5px #e06742, -1px -1px 5px #eb734e;
+          box-shadow: 3px 3px 5px #e06742, -1px -1px 5px #eb734e;
+  margin: 30px auto;
+  -webkit-transition-duration: 0.2s;
+          transition-duration: 0.2s;
+  border-radius: 25px;
+  border: none;
+  background-color: #fff;
+}
+
+.choose-menu-content figure {
+  width: 100px;
+  height: 100%;
+  padding: 15px;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+.choose-menu-content figure img {
+  width: 100%;
+  height: 100%;
+}
+
+.choose-menu-content div {
+  height: 100%;
+  width: 700px;
+  text-align: center;
+  padding-left: 0px;
+}
+
+.choose-menu-content div h2 {
+  font-size: 25px;
+  line-height: 100px;
+  letter-spacing: 0.1em;
+}
+
+button:focus {
+  outline: 0;
+}
+
+.fin-btn {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  width: 150px;
+  height: 150px;
+  font-size: 40px;
+  border: 5px solid #0cf3f3;
+  background-color: transparent;
+  color: #0cf3f3;
+  font-weight: bold;
+  border-radius: 50%;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+}
+/*# sourceMappingURL=ChooseMenu.css.map */

@@ -46,3 +46,13 @@ func InitSalon() handler.Salon {
 	handlerSalon := handler.NewSalon(usecaseSalon)
 	return handlerSalon
 }
+
+func InitMenu() handler.Menu {
+	conn := db.New()
+	menu := repository.NewMenu(conn)
+	responseMenu := response.NewMenu()
+	beautician := repository.NewBeautician(conn)
+	usecaseMenu := usecase.NewMenu(menu, responseMenu, beautician)
+	handlerMenu := handler.NewMenu(usecaseMenu)
+	return handlerMenu
+}
