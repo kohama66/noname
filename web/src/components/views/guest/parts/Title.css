@@ -1,0 +1,19 @@
+.choose-title {
+  margin: 0 0 0 50px;
+  height: 700px;
+  -webkit-box-shadow: 2px 2px 5px #dddddd, -2px -2px 5px #eeeeee;
+          box-shadow: 2px 2px 5px #dddddd, -2px -2px 5px #eeeeee;
+}
+
+.choose-title h1 {
+  font-size: 40px;
+  line-height: 300px;
+  -webkit-writing-mode: vertical-lr;
+      -ms-writing-mode: tb-lr;
+          writing-mode: vertical-lr;
+}
+
+.choose-title img {
+  width: 300px;
+}
+/*# sourceMappingURL=Title.css.map */

@@ -11,7 +11,7 @@ type Salon struct {
 	UpdatedAt time.Time `json:"updatedAt"`
 }
 
-// SalonFind response構造体
+// SalonFind 美容院検索 response構造体
 type SalonFind struct {
 	Salons []*Salon `json:"salons"`
 }

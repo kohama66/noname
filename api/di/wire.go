@@ -49,3 +49,14 @@ func InitSalon() handler.Salon {
 	)
 	return nil
 }
+
+func InitMenu() handler.Menu {
+	wire.Build(
+		db.New,
+		response.NewMenu,
+		repository.NewMenu,
+		usecase.NewMenu,
+		handler.NewMenu,
+	)
+	return nil
+}

@@ -32,6 +32,7 @@ func (r *Router) Routes() {
 	beauticianController := di.InitBeautician()
 	reservationController := di.InitReservation()
 	salonController := di.InitSalon()
+	menuController := di.InitMenu()
 
 	r.Route("/api", func(r chi.Router) {
 		r.Route("/v1", func(r chi.Router) {
@@ -56,6 +57,11 @@ func (r *Router) Routes() {
 			r.Group(func(r chi.Router) {
 				r.Route("/salon", func(r chi.Router) {
 					r.Get("/find", salonController.Find)
+				})
+			})
+			r.Group(func(r chi.Router) {
+				r.Route("/menu", func(r chi.Router) {
+					r.Get("/find", menuController.Find)
 				})
 			})
 		})

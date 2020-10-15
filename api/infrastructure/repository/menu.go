@@ -25,3 +25,7 @@ func (m *menu) GetByRandID(ctx context.Context, randID string) (*entity.Menu, er
 		entity.MenuWhere.DeletedAt.IsNull(),
 	).One(ctx, m.Conn)
 }
+
+func (m *menu) Find(ctx context.Context) (entity.MenuSlice, error) {
+	return entity.Menus().All(ctx, m.Conn)
+}
