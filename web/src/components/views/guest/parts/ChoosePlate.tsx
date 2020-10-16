@@ -1,5 +1,6 @@
 import React, { FC, useEffect, useState } from 'react';
 import { Link, useRouteMatch } from 'react-router-dom';
+import "./ChoosePlate.scss"
 
 export interface ChoosePlateProps {
   text: string
@@ -25,7 +26,6 @@ const ChoosePlate: FC<ChoosePlateProps> = ({
       <div>
         <img src={image} alt="" />
         <h2>{text}</h2>
-        <p></p>
       </div>
     </Link>
   )

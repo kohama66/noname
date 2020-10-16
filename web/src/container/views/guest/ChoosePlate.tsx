@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { Link, useRouteMatch } from 'react-router-dom';
-import ChoosePlateComponent, { ChoosePlateProps } from '../../../components/views/guest/ChoosePlate'
+import ChoosePlateComponent, { ChoosePlateProps } from '../../../components/views/guest/parts/ChoosePlate'
 
 const ChoosePlate: FC<ChoosePlateProps> = (props) => {
   const match = useRouteMatch()
