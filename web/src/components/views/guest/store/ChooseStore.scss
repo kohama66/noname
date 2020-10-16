@@ -25,10 +25,11 @@
   div{
     color: $blackFontColor;
     box-sizing: border-box;
-    padding: 15px;
+    padding: 20px 15px;
     h3{
-      font-size: 18px;
+      font-size: 22px;
       margin-bottom: 30px;
+      letter-spacing: .05em;
     }
     p{
       line-height: 1.4em;
