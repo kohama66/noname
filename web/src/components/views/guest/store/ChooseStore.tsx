@@ -4,20 +4,27 @@ import Title from '../parts/Title'
 import { setCheckedContext } from '../../guest'
 import './ChooseStore.scss'
 import ChooseCard from '../parts/ChooseCard/ChooseCard';
+import { Salon } from '../../../../package/interface/Salon';
 
-const ChooseStore: FC = () => {
-  const history = useHistory()
-  const setChecked = useContext(setCheckedContext)
+interface props {
+  stores: Salon[]
+}
 
-  const handleStore = () => {
-    setChecked("store")
-    history.push("/guest")
-  }
+const ChooseStore: FC<props> = (props) => {
+  // const history = useHistory()
+  // const setChecked = useContext(setCheckedContext)
+
+  // const handleStore = () => {
+  //   setChecked("store")
+  //   history.push("/guest")
+  // }
   return (
     <section id="choose-store">
       <Title title="SALON" text="お店から選ぶ" />
       <div className="choose-store-card-wrapper">
-        <ChooseCard image="/img/salan.jpg" type="store" />
+        {props.stores.map((store) => {
+          return <ChooseCard image="/img/salan.jpg" type="store" content={store} />
+        })}
       </div>
       {/* <Title titleText={"店舗を選ぶ"} image={"/img/thinkmen.png"} />
       <div className="choose-store-contents">

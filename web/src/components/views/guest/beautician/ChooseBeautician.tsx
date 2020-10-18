@@ -13,7 +13,7 @@ const ChooseBeautician: FC<props> = ({ beauticians }) => {
     <div id="choose-beautician">
       <Title title="BEAUTICIAN" text="美容師から選ぶ" />
       <div className="choose-beautician-wrapper">
-        <ChooseCard type="beautician" />
+        {/* <ChooseCard type="beautician" /> */}
       </div>
       {/* <div className="choose-beautician-contents">
         <h2 className="sub-title">BEAUTICIAN</h2>

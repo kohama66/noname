@@ -1,7 +1,7 @@
 import Axios, { AxiosPromise } from 'axios';
 import { salonsRequest } from '../interface/request/Salon';
 import { ReservationFindByBeautician, BeauticianGetAll } from '../interface/response/Reservation'
-import { salonResponse } from '../interface/response/Salon';
+import { salonResponse, salonsResponse } from '../interface/response/Salon';
 
 const axios = Axios.create({
   baseURL: "http://localhost:8080",
@@ -71,6 +71,6 @@ const get = <T>(url: string, data?: object): Promise<T> => {
   return requestAwait(axios.get(url, data))
 }
 
-export const findSalon = async (request?: salonsRequest): Promise<salonResponse> => {
-  return get<salonResponse>("/api/v1/salon/find", request)
+export const findSalon = async (request?: salonsRequest): Promise<salonsResponse> => {
+  return get<salonsResponse>("/api/v1/salon/find", request)
 }
