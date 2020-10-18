@@ -610,7 +610,16 @@ var doc = `{
         "responsemodel.Salon": {
             "type": "object",
             "properties": {
-                "Name": {
+                "addressCode": {
+                    "type": "string"
+                },
+                "addressOther": {
+                    "type": "string"
+                },
+                "city": {
+                    "type": "string"
+                },
+                "closingHours": {
                     "type": "string"
                 },
                 "createdAt": {
@@ -619,7 +628,25 @@ var doc = `{
                 "id": {
                     "type": "integer"
                 },
+                "name": {
+                    "type": "string"
+                },
+                "openingHours": {
+                    "type": "string"
+                },
+                "phoneNumber": {
+                    "type": "string"
+                },
+                "postalCode": {
+                    "type": "string"
+                },
+                "prefectures": {
+                    "type": "string"
+                },
                 "randId": {
+                    "type": "string"
+                },
+                "town": {
                     "type": "string"
                 },
                 "updatedAt": {

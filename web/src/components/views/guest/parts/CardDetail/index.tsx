@@ -9,8 +9,10 @@ interface props {
 
 const CardDetail: FC<props> = (props) => {
   if (props.type == "store") {
-    return <StoreCardDetail name={props.content.name} phoneNumber="075-353-5390" businessHours="営業時間: 09:00 ~ 21:00"
-      postalCode="〒600-8216" address="京都府京都市下京区東塩小路町５５７−１ Station７階" />
+    return <StoreCardDetail name={props.content.name} phoneNumber={props.content.phoneNumber} businessHours={`営業時間: ${props.content.openingHours} ~ ${props.content.closingHours}`}
+      postalCode={`〒 ${props.content.postalCode}`}
+      address={`${props.content.prefectures}${props.content.city}${props.content.town}${props.content.addressCode}${props.content.addressOther}`}
+    />
   } else if (props.type == "beautician") {
     return <BeauticianCardDetail name="山田 太郎" phoneNumber="09012345678" lineId="TEST" comemnt="お客様に似合う最適なスタイルを提供致します！" instaLink="test" />
   }
