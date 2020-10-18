@@ -1,7 +1,7 @@
 import React, { FC, useState, createContext } from 'react';
 import GuestComponent from '../../../components/views/guest/Guest'
 import ChooseBeautician from '../../../container/views/guest/beautician/ChooseBeautician'
-import ChooseStore from '../../../components/views/guest/store/ChooseStore'
+import ChooseStore from '../guest/store'
 import ChooseDate from '../../../components/views/guest/date/ChooseDate'
 import ChooseMenu from '../../../components/views/guest/menu/ChooseMenu'
 import {

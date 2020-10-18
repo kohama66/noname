@@ -1,7 +1,8 @@
 import React, { FC, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
-import Schedule from '../../../../container/views/guest/date/Schedule';
+// import Schedule from '../../../../container/views/guest/date/Schedule';
 import { setCheckedContext } from '../../guest';
+import Schedule from '../../parts/Schedule';
 import Title from '../parts/Title'
 import './ChooseDate.scss'
 
@@ -16,8 +17,8 @@ const ChooseDate: FC = () => {
 
   return (
     <section id="choose-date">
-      <Title titleText={"日付を選ぶ"} image={"/img/choose1.png"}/>
-      <div className="choose-date-contents">
+      <Title title="SCHEDULE" text="日付から選ぶ" />
+      <div className="shedule-wrapper">
         <Schedule />
       </div>
     </section>

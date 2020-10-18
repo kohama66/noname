@@ -1,5 +1,7 @@
-import Axios from 'axios';
+import Axios, { AxiosPromise } from 'axios';
+import { salonsRequest } from '../interface/request/Salon';
 import { ReservationFindByBeautician, BeauticianGetAll } from '../interface/response/Reservation'
+import { salonResponse } from '../interface/response/Salon';
 
 const axios = Axios.create({
   baseURL: "http://localhost:8080",
@@ -54,4 +56,21 @@ export const getAllBeauticians = async () => {
         console.log('Error', err.message)
     }
   }
+}
+
+const requestAwait = async <T>(request: Promise<AxiosPromise<T>>): Promise<T> => {
+  try {
+     const response = await request
+     return response.data
+  } catch (err) {
+    throw new Error(err)
+  }
+}
+
+const get = <T>(url: string, data?: object): Promise<T> => {
+  return requestAwait(axios.get(url, data))
+}
+
+export const findSalon = async (request?: salonsRequest): Promise<salonResponse> => {
+  return get<salonResponse>("/api/v1/salon/find", request)
 }

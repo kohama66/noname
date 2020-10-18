@@ -18,10 +18,7 @@ const Guest: FC<GuestProps> = (props) => {
   // const [checkedColor, setCheckedColor] = useState("100%")
   return (
     <article className="chooses">
-      <div className="heading">
-        <h2>SELECT</h2>
-        <p>何から選びますか？</p>
-      </div>
+      <Title text="何から選びますか？" title="SELECT" />
       <div className="chooses-contents-wrapper">
         <div className="chooses-contents">
           <ChoosePlate text={"お店で選ぶ"} image={"img/1.png"} path={"/store"} checked={props.checkedStore} />

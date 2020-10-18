@@ -1,14 +1,14 @@
-.choose-title {
-  margin: 0 0 0 50px;
-  height: 700px;
-  box-shadow: 2px 2px 5px #e0703b, -2px -2px 5px #dab3a3;
-  background-color: #fff;
-  h1 {
+@import "../../../../css/common.scss";
+.heading{
+  text-align: center;
+  h2{
+    color: $blackFontColor;
     font-size: 40px;
-    line-height: 300px;
-    writing-mode: vertical-lr;
+    letter-spacing: .1em;
   }
-  img {
-    width: 300px;
+  p{
+    color: $blackFontColor;
+    font-weight: bold;
+    line-height: 1.5em;
   }
 }

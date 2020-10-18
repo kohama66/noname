@@ -8,19 +8,6 @@
   flex-flow: column nowrap;
   justify-content: center;
   align-items: center;
-  .heading{
-    text-align: center;
-    h2{
-      color: $blackFontColor;
-      font-size: 40px;
-      letter-spacing: .1em;
-    }
-    p{
-      color: $blackFontColor;
-      font-weight: bold;
-      line-height: 1.5em;
-    }
-  }
   .chooses-contents-wrapper {
     .chooses-contents {
       width: 600px;

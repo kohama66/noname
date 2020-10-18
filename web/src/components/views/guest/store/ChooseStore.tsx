@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom';
 import Title from '../parts/Title'
 import { setCheckedContext } from '../../guest'
 import './ChooseStore.scss'
+import ChooseCard from '../parts/ChooseCard/ChooseCard';
 
 const ChooseStore: FC = () => {
   const history = useHistory()
@@ -14,18 +15,9 @@ const ChooseStore: FC = () => {
   }
   return (
     <section id="choose-store">
-      <div className="choose-store-card">
-        <figure>
-          <img src="/img/salan.jpg" alt="" />
-        </figure>
-        <div>
-          <h3>AUBE hair vogue 京都3号店</h3>
-          <p>075-353-5390</p>
-          <p>営業時間: 09:00 ~ 21:00</p>
-          <p>〒600-8216</p>
-          <p>京都府京都市下京区東塩小路町５５７−１ Station７階</p>
-          <p></p>
-        </div>
+      <Title title="SALON" text="お店から選ぶ" />
+      <div className="choose-store-card-wrapper">
+        <ChooseCard image="/img/salan.jpg" type="store" />
       </div>
       {/* <Title titleText={"店舗を選ぶ"} image={"/img/thinkmen.png"} />
       <div className="choose-store-contents">
