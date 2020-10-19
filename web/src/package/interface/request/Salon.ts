@@ -1,3 +1,3 @@
 export interface salonsRequest {
-  "beauticianRandID": string
+  "beauticianRandId": string
 }

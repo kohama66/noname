@@ -7,12 +7,13 @@ interface props {
   image?: string
   type: "store" | "beautician"
   content: Salon
+  handleSelect: (id: string, type: "beautician" | "store") => void
 }
 
 const ChooseCard: FC<props> = (props) => {
 
   return (
-    <div className="choose-card">
+    <div className="choose-card" onClick={() => props.handleSelect(props.content.randId, props.type)} >
       <figure>
         <img src={props.image} alt="" />
       </figure>

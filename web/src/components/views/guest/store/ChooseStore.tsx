@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import Title from '../parts/Title'
 import { setCheckedContext } from '../../guest'
 import './ChooseStore.scss'
-import ChooseCard from '../parts/ChooseCard/ChooseCard';
+import ChooseCard from '../parts/ChooseCard';
 import { Salon } from '../../../../package/interface/Salon';
 
 interface props {
@@ -22,8 +22,8 @@ const ChooseStore: FC<props> = (props) => {
     <section id="choose-store">
       <Title title="SALON" text="お店から選ぶ" />
       <div className="choose-store-card-wrapper">
-        {props.stores.map((store) => {
-          return <ChooseCard image="/img/salan.jpg" type="store" content={store} />
+        {props.stores.map((store, id) => {
+          return <ChooseCard image="/img/salan.jpg" type="store" content={store} key={id} />
         })}
       </div>
       {/* <Title titleText={"店舗を選ぶ"} image={"/img/thinkmen.png"} />

@@ -1,22 +1,27 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useContext, useEffect, useState } from 'react';
+import { BeauticainIDContext } from '..';
 import { findSalon } from '../../../../package/api';
-import { salonsResponse } from '../../../../package/interface/response/Salon';
 import { Salon } from '../../../../package/interface/Salon';
 import ChooseStoreComponent from './ChooseStore';
 
 const ChooseStore: FC = () => {
   const [stores, setStores] = useState<Salon[]>([])
-  const handleSalon = async () => {
+
+  const beauticianID = useContext(BeauticainIDContext)
+
+  const findStores = async () => {
     try {
-      const response = await findSalon()
+      const response = await findSalon(beauticianID)
       setStores(response.salons)
     } catch (err) {
       console.log(err)
     }
   }
+
   useEffect(() => {
-    handleSalon()
+    findStores()
   },[])
+
   return (
     <ChooseStoreComponent stores={stores} />
   )

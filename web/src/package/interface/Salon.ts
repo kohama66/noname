@@ -8,5 +8,6 @@ export interface Salon {
   phoneNumber: string
   postalCode: string
   prefectures: string
+  randId: string
   town: string
 }
