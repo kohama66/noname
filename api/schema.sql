@@ -7,7 +7,8 @@ CREATE TABLE `beauticians` (
   `age` bigint NOT NULL,
   `phone_number` varchar(255) NOT NULL,
   `line_id` varchar(255) NOT NULL,
-  
+  `instagram_id` varchar(255) NOT NULL,
+  `comment` varchar(255) NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   `deleted_at` datetime DEFAULT NULL,

@@ -31,6 +31,9 @@ type Beautician struct {
 	LastName    string    `boil:"last_name" json:"last_name" toml:"last_name" yaml:"last_name"`
 	Age         int64     `boil:"age" json:"age" toml:"age" yaml:"age"`
 	PhoneNumber string    `boil:"phone_number" json:"phone_number" toml:"phone_number" yaml:"phone_number"`
+	LineID      string    `boil:"line_id" json:"line_id" toml:"line_id" yaml:"line_id"`
+	InstagramID string    `boil:"instagram_id" json:"instagram_id" toml:"instagram_id" yaml:"instagram_id"`
+	Comment     string    `boil:"comment" json:"comment" toml:"comment" yaml:"comment"`
 	CreatedAt   time.Time `boil:"created_at" json:"created_at" toml:"created_at" yaml:"created_at"`
 	UpdatedAt   time.Time `boil:"updated_at" json:"updated_at" toml:"updated_at" yaml:"updated_at"`
 	DeletedAt   null.Time `boil:"deleted_at" json:"deleted_at,omitempty" toml:"deleted_at" yaml:"deleted_at,omitempty"`
@@ -47,6 +50,9 @@ var BeauticianColumns = struct {
 	LastName    string
 	Age         string
 	PhoneNumber string
+	LineID      string
+	InstagramID string
+	Comment     string
 	CreatedAt   string
 	UpdatedAt   string
 	DeletedAt   string
@@ -58,6 +64,9 @@ var BeauticianColumns = struct {
 	LastName:    "last_name",
 	Age:         "age",
 	PhoneNumber: "phone_number",
+	LineID:      "line_id",
+	InstagramID: "instagram_id",
+	Comment:     "comment",
 	CreatedAt:   "created_at",
 	UpdatedAt:   "updated_at",
 	DeletedAt:   "deleted_at",
@@ -89,6 +98,9 @@ var BeauticianWhere = struct {
 	LastName    whereHelperstring
 	Age         whereHelperint64
 	PhoneNumber whereHelperstring
+	LineID      whereHelperstring
+	InstagramID whereHelperstring
+	Comment     whereHelperstring
 	CreatedAt   whereHelpertime_Time
 	UpdatedAt   whereHelpertime_Time
 	DeletedAt   whereHelpernull_Time
@@ -100,6 +112,9 @@ var BeauticianWhere = struct {
 	LastName:    whereHelperstring{field: "`beauticians`.`last_name`"},
 	Age:         whereHelperint64{field: "`beauticians`.`age`"},
 	PhoneNumber: whereHelperstring{field: "`beauticians`.`phone_number`"},
+	LineID:      whereHelperstring{field: "`beauticians`.`line_id`"},
+	InstagramID: whereHelperstring{field: "`beauticians`.`instagram_id`"},
+	Comment:     whereHelperstring{field: "`beauticians`.`comment`"},
 	CreatedAt:   whereHelpertime_Time{field: "`beauticians`.`created_at`"},
 	UpdatedAt:   whereHelpertime_Time{field: "`beauticians`.`updated_at`"},
 	DeletedAt:   whereHelpernull_Time{field: "`beauticians`.`deleted_at`"},
@@ -126,8 +141,8 @@ func (*beauticianR) NewStruct() *beauticianR {
 type beauticianL struct{}
 
 var (
-	beauticianAllColumns            = []string{"id", "auth_id", "rand_id", "first_name", "last_name", "age", "phone_number", "created_at", "updated_at", "deleted_at"}
-	beauticianColumnsWithoutDefault = []string{"auth_id", "rand_id", "first_name", "last_name", "age", "phone_number", "created_at", "updated_at", "deleted_at"}
+	beauticianAllColumns            = []string{"id", "auth_id", "rand_id", "first_name", "last_name", "age", "phone_number", "line_id", "instagram_id", "comment", "created_at", "updated_at", "deleted_at"}
+	beauticianColumnsWithoutDefault = []string{"auth_id", "rand_id", "first_name", "last_name", "age", "phone_number", "line_id", "instagram_id", "comment", "created_at", "updated_at", "deleted_at"}
 	beauticianColumnsWithDefault    = []string{"id"}
 	beauticianPrimaryKeyColumns     = []string{"id"}
 )

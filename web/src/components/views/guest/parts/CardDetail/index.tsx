@@ -14,7 +14,7 @@ const CardDetail: FC<props> = (props) => {
       postalCode={props.content.postalCode} prefectures={props.content.prefectures} city={props.content.city}
       town={props.content.town} addressCode={props.content.addressCode} addressOther={props.content.addressOther} />
   } else if (isBeauticianCardDetail(props.content)) {
-    return <BeauticianCardDetail name="山田 太郎" phoneNumber="09012345678" lineId="TEST" comemnt="お客様に似合う最適なスタイルを提供致します！" instaLink="test" />
+    return <BeauticianCardDetail firstName={props.content.firstName} lasttName={props.content.lastName} phoneNumber={props.content.phoneNumber} lineId={props.content.lineId} comment={props.content.comment} instagramId={props.content.instagramId} />
   }
   return (
     <div>???</div>

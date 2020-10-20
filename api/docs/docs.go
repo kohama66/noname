@@ -410,6 +410,9 @@ var doc = `{
                 "age": {
                     "type": "integer"
                 },
+                "comment": {
+                    "type": "string"
+                },
                 "createdAt": {
                     "type": "string"
                 },
@@ -419,7 +422,13 @@ var doc = `{
                 "id": {
                     "type": "integer"
                 },
+                "instagramId": {
+                    "type": "string"
+                },
                 "lastName": {
+                    "type": "string"
+                },
+                "lineId": {
                     "type": "string"
                 },
                 "phoneNumber": {
@@ -439,6 +448,9 @@ var doc = `{
                 "age": {
                     "type": "integer"
                 },
+                "comment": {
+                    "type": "string"
+                },
                 "createdAt": {
                     "type": "string"
                 },
@@ -448,7 +460,13 @@ var doc = `{
                 "id": {
                     "type": "integer"
                 },
+                "instagramId": {
+                    "type": "string"
+                },
                 "lastName": {
+                    "type": "string"
+                },
+                "lineId": {
                     "type": "string"
                 },
                 "phoneNumber": {
@@ -479,6 +497,9 @@ var doc = `{
                 "age": {
                     "type": "integer"
                 },
+                "comment": {
+                    "type": "string"
+                },
                 "createdAt": {
                     "type": "string"
                 },
@@ -488,7 +509,13 @@ var doc = `{
                 "id": {
                     "type": "integer"
                 },
+                "instagramId": {
+                    "type": "string"
+                },
                 "lastName": {
+                    "type": "string"
+                },
+                "lineId": {
                     "type": "string"
                 },
                 "phoneNumber": {

@@ -1,13 +1,13 @@
 export interface Salon {
-  addressCode: string
-  addressOther: string
-  city: string
-  closingHours: string
-  name: string
-  openingHours: string
-  phoneNumber: string
-  postalCode: string
-  prefectures: string
-  randId: string
-  town: string
+	randId: string
+	name: string
+	phoneNumber: string
+	openingHours: string
+	closingHours: string
+	postalCode: string
+	prefectures: string
+	city: string
+	town: string
+	addressCode: string
+	addressOther: string
 }

@@ -390,6 +390,9 @@
                 "age": {
                     "type": "integer"
                 },
+                "comment": {
+                    "type": "string"
+                },
                 "createdAt": {
                     "type": "string"
                 },
@@ -399,7 +402,13 @@
                 "id": {
                     "type": "integer"
                 },
+                "instagramId": {
+                    "type": "string"
+                },
                 "lastName": {
+                    "type": "string"
+                },
+                "lineId": {
                     "type": "string"
                 },
                 "phoneNumber": {
@@ -419,6 +428,9 @@
                 "age": {
                     "type": "integer"
                 },
+                "comment": {
+                    "type": "string"
+                },
                 "createdAt": {
                     "type": "string"
                 },
@@ -428,7 +440,13 @@
                 "id": {
                     "type": "integer"
                 },
+                "instagramId": {
+                    "type": "string"
+                },
                 "lastName": {
+                    "type": "string"
+                },
+                "lineId": {
                     "type": "string"
                 },
                 "phoneNumber": {
@@ -459,6 +477,9 @@
                 "age": {
                     "type": "integer"
                 },
+                "comment": {
+                    "type": "string"
+                },
                 "createdAt": {
                     "type": "string"
                 },
@@ -468,7 +489,13 @@
                 "id": {
                     "type": "integer"
                 },
+                "instagramId": {
+                    "type": "string"
+                },
                 "lastName": {
+                    "type": "string"
+                },
+                "lineId": {
                     "type": "string"
                 },
                 "phoneNumber": {

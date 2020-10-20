@@ -34,29 +34,30 @@ export const StoreCardDetail: FC<StoreCardDetailProps> = (props) => {
 }
 
 export interface BeauticianCardDetailProps {
-  name: string
+  firstName: string
+  lasttName: string
   phoneNumber: string
   lineId: string
-  comemnt: string
-  instaLink: string
+  comment: string
+  instagramId: string
 }
 
 export const isBeauticianCardDetail = (arg: any): arg is BeauticianCardDetailProps => {
   return arg !== null &&
     typeof arg === "object" &&
-    typeof arg.name === "string" && arg.phoneNumber === "string" &&
-    arg.lineId === "string" && arg.comment === "string" && arg.instalink === "strng"
+    typeof arg.firstName === "string" && typeof arg.lastName === "string" && typeof arg.phoneNumber === "string" &&
+    typeof arg.lineId === "string" && typeof arg.comment === "string" && typeof arg.instagramId === "string"
 }
 
 export const BeauticianCardDetail: FC<BeauticianCardDetailProps> = (props) => {
   return (
     <div>
-      <h3>{props.name}</h3>
+      <h3>{props.lasttName + props.firstName}</h3>
       <p>LINE ID: {props.lineId}</p>
       <p>{props.phoneNumber}</p>
       <p>コメント</p>
-      <p>{props.comemnt}</p>
-      <a href={props.instaLink} className="fab fa-instagram fa-2x"></a>
+      <p>{props.comment}</p>
+      <a href={props.instagramId} className="fab fa-instagram fa-2x"></a>
     </div>
   )
 }
