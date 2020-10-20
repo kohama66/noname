@@ -1,6 +1,5 @@
-import React, { FC, useContext, useEffect, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { Link, useRouteMatch } from 'react-router-dom';
-import { GeterSelectCpntext } from '../..';
 import "./ChoosePlate.scss"
 
 export interface ChoosePlateProps {

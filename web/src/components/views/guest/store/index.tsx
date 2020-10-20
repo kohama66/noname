@@ -1,6 +1,6 @@
 import React, { FC, useContext, useEffect, useState } from 'react';
 import { BeauticainIDContext } from '..';
-import { findSalon } from '../../../../package/api';
+import { findSalons } from '../../../../package/api';
 import { Salon } from '../../../../package/interface/Salon';
 import ChooseStoreComponent from './ChooseStore';
 
@@ -9,9 +9,9 @@ const ChooseStore: FC = () => {
 
   const beauticianID = useContext(BeauticainIDContext)
 
-  const findStores = async () => {
+  const handleFindStores = async () => {
     try {
-      const response = await findSalon(beauticianID)
+      const response = await findSalons(beauticianID)
       setStores(response.salons)
     } catch (err) {
       console.log(err)
@@ -19,7 +19,7 @@ const ChooseStore: FC = () => {
   }
 
   useEffect(() => {
-    findStores()
+    handleFindStores()
   },[])
 
   return (

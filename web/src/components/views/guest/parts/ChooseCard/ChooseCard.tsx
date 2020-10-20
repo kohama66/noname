@@ -1,4 +1,5 @@
 import React, { FC } from 'react';
+import { Beautician } from '../../../../../package/interface/Beautician';
 import { Salon } from '../../../../../package/interface/Salon';
 import CardDetail from '../CardDetail';
 import "./ChooseCard.scss"
@@ -6,7 +7,7 @@ import "./ChooseCard.scss"
 interface props {
   image?: string
   type: "store" | "beautician"
-  content: Salon
+  content: Salon | Beautician
   handleSelect: (id: string, type: "beautician" | "store") => void
 }
 

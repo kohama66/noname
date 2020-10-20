@@ -1,14 +1,16 @@
 import React, { FC, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import { SelectContext } from '../..';
+import { Beautician } from '../../../../../package/interface/Beautician';
 import { Salon } from '../../../../../package/interface/Salon';
 import ChooseCardComponent from './ChooseCard';
 
 interface props {
   image?: string
   type: "store" | "beautician"
-  content: Salon
+  content: Salon | Beautician
 }
+
 
 const ChooseCard: FC<props> = (props) => {
   const history = useHistory()

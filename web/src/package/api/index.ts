@@ -1,5 +1,7 @@
 import Axios, { AxiosPromise } from 'axios';
-import { ReservationFindByBeautician, BeauticianGetAll } from '../interface/response/Reservation'
+import { BeauticianGetAll } from '../interface/Beautician';
+import { beauticiansResponse } from '../interface/response/Beautician';
+import { ReservationFindByBeautician } from '../interface/response/Reservation'
 import { salonResponse, salonsResponse } from '../interface/response/Salon';
 
 const axios = Axios.create({
@@ -59,8 +61,8 @@ export const getAllBeauticians = async () => {
 
 const requestAwait = async <T>(request: Promise<AxiosPromise<T>>): Promise<T> => {
   try {
-     const response = await request
-     return response.data
+    const response = await request
+    return response.data
   } catch (err) {
     throw new Error(err)
   }
@@ -70,10 +72,20 @@ const get = <T>(url: string, data?: object): Promise<T> => {
   return requestAwait(axios.get(url, data))
 }
 
-export const findSalon = async (id: string): Promise<salonsResponse> => {
+export const findSalons = async (id: string): Promise<salonsResponse> => {
   return get<salonsResponse>("/api/v1/salon/find", {
     params: {
       beauticianRandId: id
+    }
+  })
+}
+
+export const findBeauticians = async (date?: string, menuRandID?: string, salonRandID?: string): Promise<beauticiansResponse> => {
+  return get<beauticiansResponse>("/api/v1/beautician/find", {
+    params: {
+      date: date,
+      menuRandID: menuRandID,
+      salonRandID: salonRandID
     }
   })
 }

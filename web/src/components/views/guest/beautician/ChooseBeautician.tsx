@@ -1,19 +1,21 @@
 import React, { FC, useState } from 'react';
-import { BeauticianGetAll } from '../../../../package/interface/response/Reservation'
 import Title from '../parts/Title'
 import "./ChooseBeautician.scss"
-import ChooseCard from '../parts/ChooseCard/ChooseCard';
+import ChooseCard from '../parts/ChooseCard';
+import { Beautician } from '../../../../package/interface/Beautician';
 
 type props = {
-  beauticians?: BeauticianGetAll
+  beauticians: Beautician[]
 }
 
-const ChooseBeautician: FC<props> = ({ beauticians }) => {
+const ChooseBeautician: FC<props> = (props) => {
   return (
     <div id="choose-beautician">
       <Title title="BEAUTICIAN" text="美容師から選ぶ" />
       <div className="choose-beautician-wrapper">
-        {/* <ChooseCard type="beautician" /> */}
+        {props.beauticians.map((beautician, i) => {
+          return <ChooseCard type="beautician" image="/img/beautician_1.jpg" content={beautician} />
+        })}
       </div>
       {/* <div className="choose-beautician-contents">
         <h2 className="sub-title">BEAUTICIAN</h2>
