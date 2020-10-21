@@ -1,6 +1,6 @@
 import React, { FC, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
-import Title from '../parts/Title'
+import Title from '../parts/Title/Title'
 import { setCheckedContext } from '../../guest'
 import './ChooseStore.scss'
 import ChooseCard from '../parts/ChooseCard';

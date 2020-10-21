@@ -1,5 +1,5 @@
 import React, { FC, useState } from 'react';
-import Title from '../parts/Title'
+import Title from '../parts/Title/Title'
 import "./ChooseBeautician.scss"
 import ChooseCard from '../parts/ChooseCard';
 import { Beautician } from '../../../../package/interface/Beautician';

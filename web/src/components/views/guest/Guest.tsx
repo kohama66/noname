@@ -3,9 +3,8 @@ import {
   useRouteMatch,
   Link,
 } from "react-router-dom";
-import { GeterSelectCpntext } from '.';
 import ChoosePlate from './parts/ChoosePlate';
-import Title from './parts/Title';
+import Title from './parts/Title/Title';
 
 const Guest: FC = () => {
   const match = useRouteMatch();

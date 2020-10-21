@@ -6,7 +6,7 @@ import "time"
 type Menu struct {
 	ID        int64     `json:"id"`
 	RandID    string    `json:"randId"`
-	Name      string    `json:"Name"`
+	Name      string    `json:"name"`
 	CreatedAt time.Time `json:"createdAt"`
 	UpdatedAt time.Time `json:"updatedAt"`
 }

@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 // import Schedule from '../../../../container/views/guest/date/Schedule';
 import { setCheckedContext } from '../../guest';
 import Schedule from '../../parts/Schedule';
-import Title from '../parts/Title'
+import Title from '../parts/Title/Title'
 import './ChooseDate.scss'
 
 const ChooseDate: FC = () => {

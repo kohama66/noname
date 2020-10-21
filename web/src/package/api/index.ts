@@ -1,8 +1,9 @@
 import Axios, { AxiosPromise } from 'axios';
 import { BeauticianGetAll } from '../interface/Beautician';
 import { beauticiansResponse } from '../interface/response/Beautician';
+import { menusResponse } from '../interface/response/Menu';
 import { ReservationFindByBeautician } from '../interface/response/Reservation'
-import { salonResponse, salonsResponse } from '../interface/response/Salon';
+import { salonsResponse } from '../interface/response/Salon';
 
 const axios = Axios.create({
   baseURL: "http://localhost:8080",
@@ -86,6 +87,14 @@ export const findBeauticians = async (date?: string, menuRandID?: string, salonR
       date: date,
       menuRandID: menuRandID,
       salonRandID: salonRandID
+    }
+  })
+}
+
+export const findMenus = async (beauticianRandID?: string): Promise<menusResponse> => {
+  return get<menusResponse>("/api/v1/menu/find", {
+    params: {
+      beauticianRandID: beauticianRandID
     }
   })
 }

@@ -1,5 +1,5 @@
 import React, { FC, useContext, useEffect, useState } from 'react';
-import { GeterSelectCpntext } from '../..';
+import { GeterSelectIDContext } from '../..';
 import ChoosePlateComponent from './ChoosePlate'
 
 interface props {
@@ -11,9 +11,9 @@ const ChoosePlate: FC<props> = (props) => {
   const [title, setTitle] = useState("")
   const [linkPath, setLinkPath] = useState("")
   const [checked, setChecked] = useState(false)
-  const geterSelect = useContext(GeterSelectCpntext)
+  const geterSelect = useContext(GeterSelectIDContext)
 
-  const setPlateData = (image: string, title: string, path: string, value: string) => {
+  const setPlateData = (image: string, title: string, path: string, value: string | string[]) => {
     setImage(image)
     setTitle(title)
     setLinkPath(path)

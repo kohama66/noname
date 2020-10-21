@@ -8,13 +8,13 @@ interface props {
   image?: string
   type: "store" | "beautician"
   content: Salon | Beautician
-  handleSelect: (id: string, type: "beautician" | "store") => void
+  handleSetSelect: (id: string, type: "beautician" | "store") => void
 }
 
 const ChooseCard: FC<props> = (props) => {
 
   return (
-    <div className="choose-card" onClick={() => props.handleSelect(props.content.randId, props.type)} >
+    <div className="choose-card" onClick={() => props.handleSetSelect(props.content.randId, props.type)} >
       <figure>
         <img src={props.image} alt="" />
       </figure>
