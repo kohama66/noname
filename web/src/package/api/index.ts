@@ -2,7 +2,7 @@ import Axios, { AxiosPromise } from 'axios';
 import { BeauticianGetAll } from '../interface/Beautician';
 import { beauticiansResponse } from '../interface/response/Beautician';
 import { menusResponse } from '../interface/response/Menu';
-import { ReservationFindByBeautician } from '../interface/response/Reservation'
+import { reservationsResponse } from '../interface/response/Reservation'
 import { salonsResponse } from '../interface/response/Salon';
 
 const axios = Axios.create({
@@ -28,7 +28,7 @@ export const getMe = () => (
 
 export const getReservationBeautician = async () => {
   try {
-    const response = await axios.get<ReservationFindByBeautician>("/api/v1/reservation/beautician")
+    const response = await axios.get("/api/v1/reservation/beautician")
     const { data, status } = response
     switch (status) {
       case 200:
@@ -93,6 +93,14 @@ export const findBeauticians = async (date?: string, menuRandID?: string, salonR
 
 export const findMenus = async (beauticianRandID?: string): Promise<menusResponse> => {
   return get<menusResponse>("/api/v1/menu/find", {
+    params: {
+      beauticianRandID: beauticianRandID
+    }
+  })
+}
+
+export const findReservation = async (beauticianRandID?: string): Promise<reservationsResponse> => {
+  return get<reservationsResponse>('/api/v1/reservation/find', {
     params: {
       beauticianRandID: beauticianRandID
     }

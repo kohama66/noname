@@ -1,4 +1,5 @@
 import React, { FC } from 'react';
+import SquareComponent from './Square'
 
 interface props {
   id?: number
@@ -7,8 +8,9 @@ interface props {
 }
 
 const Square: FC<props> = (props) => {
+  
   return (
-  <td>{props.id}</td>
+    <SquareComponent id={props.id} day={props.day} time={props.time}/>
   )
 }
 

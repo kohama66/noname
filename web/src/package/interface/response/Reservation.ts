@@ -1,8 +1,5 @@
-export interface Reservation {
-  date: string;
-  time: string;
-}
+import { Reservation } from "../Reservation";
 
-export interface ReservationFindByBeautician {
-  Reservations: Reservation[]
+export interface reservationsResponse {
+  reservations: Reservation[]
 }

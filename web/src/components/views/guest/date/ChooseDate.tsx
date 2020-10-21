@@ -1,20 +1,14 @@
 import React, { FC, useContext } from 'react';
-import { useHistory } from 'react-router-dom';
-// import Schedule from '../../../../container/views/guest/date/Schedule';
-import { setCheckedContext } from '../../guest';
+import { Reservation } from '../../../../package/interface/Reservation';
 import Schedule from '../../parts/Schedule';
 import Title from '../parts/Title/Title'
 import './ChooseDate.scss'
 
-const ChooseDate: FC = () => {
-  const history = useHistory()
-  const setChecked = useContext(setCheckedContext)
+interface props {
+  reservation: Reservation[]
+}
 
-  const handleMenu = () => {
-    setChecked("date")
-    history.push("/guest")
-  }
-
+const ChooseDate: FC<props> = (props) => {
   return (
     <section id="choose-date">
       <Title title="SCHEDULE" text="日付から選ぶ" />

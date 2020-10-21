@@ -16,7 +16,7 @@ interface props {
 
 const MenuBar: FC<props> = (props) => {
   return (
-    <button className="menu-bar">
+    <div className="menu-bar">
       <figure>
         {/* <img src={props.image} alt="メニューイメージ" /> */}
       </figure>
@@ -26,7 +26,7 @@ const MenuBar: FC<props> = (props) => {
       <button className="toggleBtn">
         <div style={props.style} onClick={props.handleCheck}></div>
       </button>
-    </button>
+    </div>
   )
 }
 

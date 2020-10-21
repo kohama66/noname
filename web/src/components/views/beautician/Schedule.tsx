@@ -1,18 +1,18 @@
 import React, { FC, useState, useEffect } from 'react';
 import DaySquare from './DaySquare';
 import Square from './Square';
-import { ReservationFindByBeautician } from '../../../package/interface/response/Reservation'
+// import { ReservationFindByBeautician } from '../../../package/interface/response/Reservation'
 
 interface props {
-  reservation?: ReservationFindByBeautician | undefined
+  // reservation?: ReservationFindByBeautician | undefined
   weeks?: number[]
 }
 
-const Schedule: FC<props> = ({ reservation, weeks }) => {
+const Schedule: FC<props> = (props) => {
   const times = [9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
   return (
     <section id="schedule">
-      <h2>SEPTEMBER</h2>
+      {/* <h2>SEPTEMBER</h2>
       <table>
         <tbody>
           <tr>
@@ -41,7 +41,7 @@ const Schedule: FC<props> = ({ reservation, weeks }) => {
             </tr>
           })}
         </tbody>
-      </table>
+      </table> */}
     </section>
   )
 };

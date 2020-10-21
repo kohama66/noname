@@ -1,10 +1,10 @@
 import React, { FC } from 'react';
 
-interface DaySqusreProps {
+interface props {
   day: number;
 }
 
-const DaySquare: FC<DaySqusreProps> = ({day}) => {
+const DaySquare: FC<props> = ({day}) => {
   return (
   <th>{day}</th>
   )

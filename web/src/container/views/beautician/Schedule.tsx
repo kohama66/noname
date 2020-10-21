@@ -1,10 +1,10 @@
 import React, { FC, useState, useEffect } from 'react';
 import ScheduleComponent from "../../../components/views/beautician/Schedule"
 import { getReservationBeautician } from '../../../package/api/index';
-import { ReservationFindByBeautician } from '../../../package/interface/response/Reservation'
+// import { ReservationFindByBeautician } from '../../../package/interface/response/Reservation'
 
 const Schedule: FC = () => {
-  const [reservation, setReservation] = useState<ReservationFindByBeautician>()
+  const [reservation, setReservation] = useState()
   const [twoWeeks, setTowWeeks ] = useState<number[]>([])
   const handleReservation = async () => {
     const response = await getReservationBeautician()
@@ -24,7 +24,8 @@ const Schedule: FC = () => {
     getToday()
   }, [])
   return (
-    <ScheduleComponent reservation={reservation} weeks={twoWeeks}/>
+    // <ScheduleComponent reservation={reservation} weeks={twoWeeks}/>
+    <div></div>
   )
 };
 

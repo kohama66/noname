@@ -1,27 +1,36 @@
 import React, { FC, useState, useEffect } from 'react';
-import { ReservationFindByBeautician } from '../../../../package/interface/response/Reservation';
 import ScheduleComponent from "./Schedule"
 
 const Schedule: FC = () => {
   // const [reservation, setReservation] = useState<ReservationFindByBeautician>()
-  const [twoWeeks, setTowWeeks] = useState<number[]>([])
+  const [twoWeeks, setTwoWeeks] = useState<Date[]>([])
   const handleReservation = async () => {
     // const response = await getReservationBeautician()
     // setReservation(response)
   }
-  const getToday = () => {
-    let weeks = []
-    let today = new Date();
+  // const getWeek = () => {
+  //   let weeks = []
+  //   let today = new Date();
+  //   for (let i = 0; i < 14; i++) {
+  //     weeks.push(today.getDate());
+  //     today.setDate(today.getDate() + 1)
+  //   }
+  //   setTowWeeks(weeks)
+  // }
+  const getWeek = () => {
+    const weeks = []
     for (let i = 0; i < 14; i++) {
-      weeks.push(today.getDate());
-      today.setDate(today.getDate() + 1)
+      weeks.push(new Date())
+      weeks[i].setDate(weeks[i].getDate() + i)
     }
-    setTowWeeks(weeks)
+    setTwoWeeks(weeks)
   }
+
   useEffect(() => {
     handleReservation()
-    getToday()
+    getWeek()
   }, [])
+
   return (
     <ScheduleComponent weeks={twoWeeks} />
   )

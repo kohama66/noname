@@ -1,9 +1,9 @@
 import React, { FC, useState, createContext } from 'react';
 import GuestComponent from '../../../components/views/guest/Guest'
 import ChooseBeautician from "./beautician"
-import ChooseStore from '../guest/store'
-import ChooseDate from '../../../components/views/guest/date/ChooseDate'
-import ChooseMenu from '../guest/menu'
+import ChooseStore from './store'
+import ChooseDate from './date'
+import ChooseMenu from './menu'
 import {
   BrowserRouter as Router,
   Switch,
