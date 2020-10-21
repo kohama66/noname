@@ -1,14 +1,12 @@
 import React, { FC } from 'react';
 
 interface props {
-  id?: number
-  day: number
-  time: number
+  clickFunction: () => void
 }
 
 const Square: FC<props> = (props) => {
   return (
-  <td>{props.id}</td>
+    <td onClick={() => props.clickFunction()}></td>
   )
 }
 

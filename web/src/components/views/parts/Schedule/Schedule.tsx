@@ -39,7 +39,7 @@ const Schedule: FC<props> = (props) => {
                 //     })
                 //   }
                 // }
-                return <Square id={d} key={i} day={day.getDate()} time={time}/>
+                return <Square key={i} day={day} time={time}/>
               })}
             </tr>
           })}
