@@ -14,7 +14,7 @@ const ChooseBeautician: FC<props> = (props) => {
       <Title title="BEAUTICIAN" text="美容師から選ぶ" />
       <div className="choose-beautician-wrapper">
         {props.beauticians.map((beautician, i) => {
-          return <ChooseCard type="beautician" image="/img/beautician_1.jpg" content={beautician} />
+          return <ChooseCard key={i} type="beautician" image="/img/beautician_1.jpg" content={beautician} />
         })}
       </div>
       {/* <div className="choose-beautician-contents">

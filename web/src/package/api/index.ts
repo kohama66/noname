@@ -85,8 +85,8 @@ export const findBeauticians = async (date?: string, menuRandID?: string, salonR
   return get<beauticiansResponse>("/api/v1/beautician/find", {
     params: {
       date: date,
-      menuRandID: menuRandID,
-      salonRandID: salonRandID
+      menuRandId: menuRandID,
+      salonRandId: salonRandID
     }
   })
 }
@@ -94,7 +94,7 @@ export const findBeauticians = async (date?: string, menuRandID?: string, salonR
 export const findMenus = async (beauticianRandID?: string): Promise<menusResponse> => {
   return get<menusResponse>("/api/v1/menu/find", {
     params: {
-      beauticianRandID: beauticianRandID
+      beauticianRandId: beauticianRandID
     }
   })
 }
@@ -102,7 +102,7 @@ export const findMenus = async (beauticianRandID?: string): Promise<menusRespons
 export const findReservation = async (beauticianRandID?: string): Promise<reservationsResponse> => {
   return get<reservationsResponse>('/api/v1/reservation/find', {
     params: {
-      beauticianRandID: beauticianRandID
+      beauticianRandId: beauticianRandID
     }
   })
 }

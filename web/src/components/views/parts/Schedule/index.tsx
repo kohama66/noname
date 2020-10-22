@@ -1,13 +1,14 @@
 import React, { FC, useState, useEffect } from 'react';
+import { Reservation } from '../../../../package/interface/Reservation';
 import ScheduleComponent from "./Schedule"
 
-const Schedule: FC = () => {
+interface props {
+  reservations: Reservation[]
+}
+
+const Schedule: FC<props> = (props) => {
   const [twoWeeks, setTwoWeeks] = useState<Date[]>([])
-  
-  const handleReservation = async () => {
-    // const response = await getReservationBeautician()
-    // setReservation(response)
-  }
+
   const getWeek = () => {
     const weeks = []
     for (let i = 0; i < 14; i++) {
@@ -18,12 +19,11 @@ const Schedule: FC = () => {
   }
 
   useEffect(() => {
-    handleReservation()
     getWeek()
   }, [])
 
   return (
-    <ScheduleComponent weeks={twoWeeks} />
+    <ScheduleComponent weeks={twoWeeks} reservations={props.reservations} />
   )
 };
 

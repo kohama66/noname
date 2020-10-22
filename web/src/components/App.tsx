@@ -1,7 +1,6 @@
 import React, { FC } from 'react';
 import './App.scss';
 import {Home, Beautician, Guest} from './endpoint'
-// import { getReservationBeautician } from '../package/api/index';
 import {
   BrowserRouter as Router,
   Switch,

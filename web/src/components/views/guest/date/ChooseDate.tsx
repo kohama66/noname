@@ -5,7 +5,7 @@ import Title from '../parts/Title/Title'
 import './ChooseDate.scss'
 
 interface props {
-  reservation: Reservation[]
+  reservations: Reservation[]
 }
 
 const ChooseDate: FC<props> = (props) => {
@@ -13,7 +13,7 @@ const ChooseDate: FC<props> = (props) => {
     <section id="choose-date">
       <Title title="SCHEDULE" text="日付から選ぶ" />
       <div className="shedule-wrapper">
-        <Schedule />
+        <Schedule reservations={props.reservations}/>
       </div>
     </section>
   )

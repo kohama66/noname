@@ -5,7 +5,7 @@ import "./Schedule.scss"
 import { Reservation } from '../../../../package/interface/Reservation';
 
 interface props {
-  reservation?: Reservation[]
+  reservations: Reservation[]
   weeks: Date[]
 }
 
@@ -17,9 +17,6 @@ const Schedule: FC<props> = (props) => {
         <tbody>
           <tr>
             <th></th>
-            {/* {props.weeks?.map((day, i) => {
-              return <DaySquare day={day} key={i} />
-            })} */}
             {props.weeks.map((day, i) => {
               return <DaySquare day={day.getDate()} key={i} />
             })}
@@ -28,18 +25,7 @@ const Schedule: FC<props> = (props) => {
             return <tr key={i}>
               <td>{time}時</td>
               {props.weeks.map((day, i) => {
-                let d
-                // if (props.reservation) {
-                //   {
-                //     props.reservation.map((res) => {
-                //       const resday = new Date(res.date)
-                //       if (day == resday.getDate() && time + ":00:00" == res.date) {
-                //         d = resday.getDate()
-                //       }
-                //     })
-                //   }
-                // }
-                return <Square key={i} day={day} time={time}/>
+                return <Square key={i} day={day} time={time} reservations={props.reservations} />
               })}
             </tr>
           })}
