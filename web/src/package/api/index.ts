@@ -1,9 +1,9 @@
 import Axios, { AxiosPromise } from 'axios';
-import { BeauticianGetAll } from '../interface/Beautician';
 import { beauticiansResponse } from '../interface/response/Beautician';
 import { menusResponse } from '../interface/response/Menu';
 import { reservationsResponse } from '../interface/response/Reservation'
 import { salonsResponse } from '../interface/response/Salon';
+import qs from "qs"
 
 const axios = Axios.create({
   baseURL: "http://localhost:8080",
@@ -13,52 +13,6 @@ const axios = Axios.create({
     "X-DEBUG-ID": "test1"
   }
 })
-
-export const getMe = () => (
-  axios.get("/api/v1/beautician", {})
-    .then((res) => {
-      console.log("ok")
-      console.log(res)
-    })
-    .catch((error) => {
-      console.log("NG")
-      console.log(error)
-    })
-);
-
-export const getReservationBeautician = async () => {
-  try {
-    const response = await axios.get("/api/v1/reservation/beautician")
-    const { data, status } = response
-    switch (status) {
-      case 200:
-        if (data) return data
-        return
-      default:
-        console.log("200以外")
-        if (data) return data
-        return
-    }
-  } catch (err) {
-    console.log(err)
-  }
-};
-
-export const getAllBeauticians = async () => {
-  try {
-    const response = await axios.get<BeauticianGetAll>("api/v1/beautician/all")
-    return response.data
-  } catch (err) {
-    switch (err) {
-      case err.response:
-        console.log(err.response)
-      case err.request:
-        console.log(err.request)
-      default:
-        console.log('Error', err.message)
-    }
-  }
-}
 
 const requestAwait = async <T>(request: Promise<AxiosPromise<T>>): Promise<T> => {
   try {
@@ -81,12 +35,14 @@ export const findSalons = async (id: string): Promise<salonsResponse> => {
   })
 }
 
-export const findBeauticians = async (date?: string, menuRandID?: string, salonRandID?: string): Promise<beauticiansResponse> => {
+export const findBeauticians = async (date?: string, menuRandIDs?: string[], salonRandID?: string): Promise<beauticiansResponse> => {
   return get<beauticiansResponse>("/api/v1/beautician/find", {
     params: {
       date: date,
-      menuRandId: menuRandID,
+      menuRandIds: menuRandIDs,
       salonRandId: salonRandID
+    }, paramsSerializer: (params: any) => {
+      return qs.stringify(params, { arrayFormat: 'repeat' });
     }
   })
 }

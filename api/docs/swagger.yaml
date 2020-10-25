@@ -14,8 +14,10 @@ definitions:
     properties:
       date:
         type: string
-      menuRandID:
-        type: string
+      menuRandIDs:
+        items:
+          type: string
+        type: array
       salonRandID:
         type: string
     type: object
@@ -141,12 +143,12 @@ definitions:
     type: object
   responsemodel.Menu:
     properties:
-      Name:
-        type: string
       createdAt:
         type: string
       id:
         type: integer
+      name:
+        type: string
       randId:
         type: string
       updatedAt:

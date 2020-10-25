@@ -336,8 +336,11 @@ var doc = `{
                 "date": {
                     "type": "string"
                 },
-                "menuRandID": {
-                    "type": "string"
+                "menuRandIDs": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
                 },
                 "salonRandID": {
                     "type": "string"
@@ -532,14 +535,14 @@ var doc = `{
         "responsemodel.Menu": {
             "type": "object",
             "properties": {
-                "Name": {
-                    "type": "string"
-                },
                 "createdAt": {
                     "type": "string"
                 },
                 "id": {
                     "type": "integer"
+                },
+                "name": {
+                    "type": "string"
                 },
                 "randId": {
                     "type": "string"
