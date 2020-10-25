@@ -1,10 +1,8 @@
-import { type } from 'os';
 import React, { FC, useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { GeterSelectIDContext, SetSelectContext } from '..';
 import { findMenus } from '../../../../package/api';
 import { Menu } from '../../../../package/interface/Menu';
-import { Beautician } from '../../../endpoint';
 import ChooseMenuComponent from './ChooseMenu'
 
 const ChooseMenu: FC = () => {

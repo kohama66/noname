@@ -11,17 +11,11 @@ import {
   useRouteMatch,
 } from "react-router-dom";
 
-export const setCheckedContext = createContext((checkName: string) => { });
 export const SetSelectContext = createContext((id: string | string[], type: "beautician" | "store" | "date" | "menu") => { });
 export const GeterSelectIDContext = createContext((type: "beautician" | "store" | "date" | "menu"): string | string[] => "")
 
 const Guest: FC = () => {
-  const match = useRouteMatch();
-
-  const [checkedBeautician, setCheckedBeautician] = useState(false)
-  const [checkedStore, setCheckedStore] = useState(false)
-  const [checkedMenu, setCheckedMenu] = useState(false)
-  const [checkedDate, setCheckedDate] = useState(false)
+  const match = useRouteMatch()
   const [beauticianID, setBeauticainID] = useState<string>("")
   const [storeID, setStoreID] = useState<string>("")
   const [menuIDs, setMenuIDs] = useState<string[]>([])
@@ -68,24 +62,7 @@ const Guest: FC = () => {
     }
   }
 
-  const handleChecked = (checkName: string) => {
-    switch (checkName) {
-      case "store":
-        setCheckedStore(true)
-        break
-      case "beautician":
-        setCheckedBeautician(true)
-        break
-      case "menu":
-        setCheckedMenu(true)
-        break
-      case "date":
-        setCheckedDate(true)
-        break
-    }
-  }
   return (
-    <setCheckedContext.Provider value={handleChecked} >
       <SetSelectContext.Provider value={handleSetSelect}>
         <GeterSelectIDContext.Provider value={geterSelectID}>
           <Router>
@@ -100,7 +77,6 @@ const Guest: FC = () => {
           </Router>
         </GeterSelectIDContext.Provider>
       </SetSelectContext.Provider>
-    </setCheckedContext.Provider>
   )
 }
 

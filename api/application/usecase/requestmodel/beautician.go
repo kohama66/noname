@@ -31,7 +31,7 @@ type BeauticianGet struct {
 }
 
 type BeauticianFind struct {
-	SalonRandID string `schema:"salonRandId"`
-	MenuRandID  string `schema:"menuRandId"`
-	Date        string `schema:"date"`
+	SalonRandID string   `schema:"salonRandId"`
+	MenuRandIDs []string `schema:"menuRandIds"`
+	Date        string   `schema:"date"`
 }

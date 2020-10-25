@@ -1,5 +1,4 @@
 import React, { FC } from 'react';
-import { Path } from 'typescript';
 import './Title.scss'
 
 interface TitleProps {

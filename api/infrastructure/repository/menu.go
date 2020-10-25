@@ -41,3 +41,14 @@ func (m *menu) FindByBeautician(ctx context.Context, beauticianID int64) (entity
 		entity.MenuWhere.DeletedAt.IsNull(),
 	).All(ctx, m.Conn)
 }
+
+func (m *menu) FindByRandID(ctx context.Context, randIDs []string) (entity.MenuSlice, error) {
+	convertedRandIDs := make([]interface{}, len(randIDs))
+	for i, v := range randIDs {
+		convertedRandIDs[i] = v
+	}
+	return entity.Menus(
+		qm.WhereIn("rand_id IN ?", convertedRandIDs...),
+		entity.MenuWhere.DeletedAt.IsNull(),
+	).All(ctx, m.Conn)
+}

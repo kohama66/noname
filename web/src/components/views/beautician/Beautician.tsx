@@ -1,5 +1,4 @@
 import React, { FC } from 'react';
-import Schedule from '../../../container/views/beautician/Schedule';
 import {
   BrowserRouter as Router,
   Switch,
@@ -14,7 +13,7 @@ const Beautician: FC = () => {
       <Router>
         <Switch>
           <Route path={match.path + "/aaa"} component={signIn} />
-          <Route path={match.path} component={Schedule} />
+          {/* <Route path={match.path} component={Schedule} /> */}
         </ Switch>
       </Router>
     </div>

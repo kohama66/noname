@@ -17,14 +17,6 @@ const ChooseBeautician: FC<props> = (props) => {
           return <ChooseCard key={i} type="beautician" image="/img/beautician_1.jpg" content={beautician} />
         })}
       </div>
-      {/* <div className="choose-beautician-contents">
-        <h2 className="sub-title">BEAUTICIAN</h2>
-        <div className="choose-beautician-contents-wrapper">
-          {beauticians?.beauticians.map((beautician, i) => {
-            return <BeauticianCard lastName={beautician.lastName} key={i} randId={beautician.randId} />
-          })}
-        </div>
-      </div> */}
     </div>
   )
 }
