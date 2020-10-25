@@ -8,7 +8,6 @@ import Title from './parts/Title/Title';
 
 const Guest: FC = () => {
   const match = useRouteMatch();
-  // const [checkedColor, setCheckedColor] = useState("100%")
   return (
     <article className="chooses">
       <Title text="何から選びますか？" title="SELECT" />

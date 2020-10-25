@@ -10,6 +10,7 @@ import {
   Route,
   useRouteMatch,
 } from "react-router-dom";
+import FinalComfirmation from '../finalComfirmation/FinalComfirmation';
 
 export const SetSelectContext = createContext((id: string | string[], type: "beautician" | "store" | "date" | "menu") => { });
 export const GeterSelectIDContext = createContext((type: "beautician" | "store" | "date" | "menu"): string | string[] => "")
@@ -45,6 +46,7 @@ const Guest: FC = () => {
         break
     }
   }
+  
   const geterSelectID = (type: "beautician" | "store" | "date" | "menu"): string | string[] => {
     switch (type) {
       case "beautician":
@@ -73,6 +75,7 @@ const Guest: FC = () => {
               <Route exact path={match.path + "/store"} render={() => <ChooseStore />} />
               <Route exact path={match.path + "/date"} render={() => <ChooseDate />} />
               <Route exact path={match.path + "/menu"} render={() => <ChooseMenu />} />
+              <Route exact path={match.path + "/final_comfirmation"} component={FinalComfirmation} />
             </Switch>
           </Router>
         </GeterSelectIDContext.Provider>

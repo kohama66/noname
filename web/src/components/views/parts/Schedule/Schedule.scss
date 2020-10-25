@@ -17,7 +17,6 @@
       }
       tr {
         th:not(:nth-of-type(1))::after {
-          // content: "日";
           padding: 0 20px;
         }
         td:not(:nth-of-type(1)) {

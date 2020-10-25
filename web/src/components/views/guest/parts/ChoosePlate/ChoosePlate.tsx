@@ -11,16 +11,20 @@ export interface ChoosePlateProps {
 
 const ChoosePlate: FC<ChoosePlateProps> = (props) => {
   const match = useRouteMatch()
-  const [checkedColor, setCheckedColor] = useState("100")
+  const [checked, setChecked] = useState<boolean>(false)
+
+  const handleChangeChecedView = () => {
+
+  }
 
   useEffect(() => {
     if (props.checked) {
-      setCheckedColor("50")
+      setChecked(true)
     }
-  }, [props.checked])
+  })
 
   return (
-    <Link to={match.path + props.path} style={{ filter: `brightness(${checkedColor}%)` }} className="choose-plate">
+    <Link to={match.path + props.path} className={"choose-plate" + (checked ? " choose-plate-checked": "")}>
       <div>
         <img src={props.image} alt="" />
         <h2>{props.title}</h2>

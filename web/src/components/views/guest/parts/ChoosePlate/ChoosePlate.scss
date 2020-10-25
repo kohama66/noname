@@ -32,6 +32,9 @@
     }
   }
 }
+.choose-plate-checked{
+  filter: brightness(50%);
+}
 .choose-plate:hover{
   transform: translateY(-10px);
 }

@@ -38,7 +38,7 @@ const ChoosePlate: FC<props> = (props) => {
         setPlateData("img/4.png", "日付を選ぶ", "/date", selectValue)
         break
     }
-  }, [])
+  },[])
 
   return (
     <ChoosePlateComponent image={image} title={title} path={linkPath} checked={checked} />
