@@ -13,6 +13,7 @@ import (
 // Menu DIinterface
 type Menu interface {
 	Find(ctx context.Context, r *requestmodel.MenuFind) (*responsemodel.MenuFind, error)
+	FindByBeauticianWithMenuRandIDs(ctx context.Context, r *requestmodel.MenuFindByBeauticianWithMenuRandIDs) (*responsemodel.MenuFindByBeauticianWithMenuRandIDs, error)
 }
 
 type menu struct {
@@ -54,4 +55,16 @@ func (m *menu) Find(ctx context.Context, r *requestmodel.MenuFind) (*responsemod
 		menus = mn
 	}
 	return m.menuResponse.NewMenuFind(menus), nil
+}
+
+func (m *menu) FindByBeauticianWithMenuRandIDs(ctx context.Context, r *requestmodel.MenuFindByBeauticianWithMenuRandIDs) (*responsemodel.MenuFindByBeauticianWithMenuRandIDs, error) {
+	bt, err := m.beauticianRepository.GetByRandID(ctx, r.BeauticianRandID)
+	if err != nil {
+		return nil, err
+	}
+	mns, err := m.menuRepository.FindByBeauticianWithMenuRandIDs(ctx, bt.ID, r.MenuRandIDs)
+	if err != nil {
+		return nil, err
+	}
+	return m.menuResponse.NewFindByBeauticianWithMenuRandIDs(mns), nil
 }

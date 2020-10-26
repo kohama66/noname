@@ -52,3 +52,12 @@ func (m *menu) FindByRandID(ctx context.Context, randIDs []string) (entity.MenuS
 		entity.MenuWhere.DeletedAt.IsNull(),
 	).All(ctx, m.Conn)
 }
+
+func (m *menu) FindByBeauticianWithMenuRandIDs(ctx context.Context, beauticianID int64, menuIDs []string) (entity.BeauticianMenuSlice, error) {
+	return entity.BeauticianMenus(
+		qm.InnerJoin("menus ON menus.id = beautician_menus.menu_id"),
+		entity.MenuWhere.RandID.IN(menuIDs),
+		entity.BeauticianMenuWhere.BeauticianID.EQ(beauticianID),
+		entity.BeauticianMenuWhere.DeletedAt.IsNull(),
+	).All(ctx, m.Conn)
+}

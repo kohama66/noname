@@ -26,40 +26,6 @@ var doc = `{
     "basePath": "{{.BasePath}}",
     "paths": {
         "/api/v1/beautician": {
-            "get": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "summary": "美容師情報取得",
-                "parameters": [
-                    {
-                        "description": "Request body",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/requestmodel.BeauticianGet"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/responsemodel.BeauticianGet"
-                        }
-                    },
-                    "500": {
-                        "description": "Something went wrong",
-                        "schema": {
-                            "$ref": "#/definitions/resource.Error"
-                        }
-                    }
-                }
-            },
             "post": {
                 "consumes": [
                     "application/json"
@@ -131,6 +97,42 @@ var doc = `{
                 }
             }
         },
+        "/api/v1/beautician/{randID}": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "美容師情報取得",
+                "parameters": [
+                    {
+                        "description": "Request body",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/requestmodel.BeauticianGet"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/responsemodel.BeauticianGet"
+                        }
+                    },
+                    "500": {
+                        "description": "Something went wrong",
+                        "schema": {
+                            "$ref": "#/definitions/resource.Error"
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/menu/find": {
             "get": {
                 "consumes": [
@@ -156,6 +158,42 @@ var doc = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/responsemodel.MenuFind"
+                        }
+                    },
+                    "500": {
+                        "description": "Something went wrong",
+                        "schema": {
+                            "$ref": "#/definitions/resource.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/menu/find/{beauticianRandID}": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "美容師の詳細メニュー取得",
+                "parameters": [
+                    {
+                        "description": "Request body",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/requestmodel.MenuFindByBeauticianWithMenuRandIDs"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/responsemodel.MenuFindByBeauticianWithMenuRandIDs"
                         }
                     },
                     "500": {
@@ -358,6 +396,20 @@ var doc = `{
                 }
             }
         },
+        "requestmodel.MenuFindByBeauticianWithMenuRandIDs": {
+            "type": "object",
+            "properties": {
+                "beauticianRandID": {
+                    "type": "string"
+                },
+                "menuRandIDs": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
         "requestmodel.ReservationCreate": {
             "type": "object",
             "properties": {
@@ -532,6 +584,26 @@ var doc = `{
                 }
             }
         },
+        "responsemodel.BeauticianMenu": {
+            "type": "object",
+            "properties": {
+                "beautician_id": {
+                    "type": "integer"
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "menu_id": {
+                    "type": "integer"
+                },
+                "price": {
+                    "type": "integer"
+                },
+                "updatedAt": {
+                    "type": "string"
+                }
+            }
+        },
         "responsemodel.Menu": {
             "type": "object",
             "properties": {
@@ -559,6 +631,17 @@ var doc = `{
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/responsemodel.Menu"
+                    }
+                }
+            }
+        },
+        "responsemodel.MenuFindByBeauticianWithMenuRandIDs": {
+            "type": "object",
+            "properties": {
+                "findByBeauticianWithMenuRandIds": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/responsemodel.BeauticianMenu"
                     }
                 }
             }

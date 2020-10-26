@@ -1,5 +1,5 @@
 import Axios, { AxiosPromise } from 'axios';
-import { beauticiansResponse } from '../interface/response/Beautician';
+import { beauticianResponse, beauticiansResponse } from '../interface/response/Beautician';
 import { menusResponse } from '../interface/response/Menu';
 import { reservationsResponse } from '../interface/response/Reservation'
 import { salonsResponse } from '../interface/response/Salon';
@@ -61,4 +61,8 @@ export const findReservation = async (beauticianRandID?: string): Promise<reserv
       beauticianRandId: beauticianRandID
     }
   })
+}
+
+export const getBeautician = async (randID: string): Promise<beauticianResponse> => {
+  return get<beauticianResponse>(`api/v1/beautician/${randID}`)
 }

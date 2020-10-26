@@ -50,14 +50,14 @@ func (b *beautician) Create(ctx context.Context, r *requestmodel.BeauticianCreat
 	return res, nil
 }
 
-func (b *beautician) Get(ctx context.Context, r *requestmodel.BeauticianGet) (*responsemodel.BeauticianGet, error) {
-	ent, err := b.beauticianRepository.GetByAuthID(ctx, r.AuthID)
-	if err != nil {
-		return nil, err
-	}
-	res := b.beauticianResponse.NewBeauticianGet(ent)
-	return res, nil
-}
+// func (b *beautician) Get(ctx context.Context, r *requestmodel.BeauticianGet) (*responsemodel.BeauticianGet, error) {
+// 	ent, err := b.beauticianRepository.GetByAuthID(ctx, r.AuthID)
+// 	if err != nil {
+// 		return nil, err
+// 	}
+// 	res := b.beauticianResponse.NewBeauticianGet(ent)
+// 	return res, nil
+// }
 
 func (b *beautician) Find(ctx context.Context, r *requestmodel.BeauticianFind) (*responsemodel.BeauticianFind, error) {
 	var date time.Time
@@ -91,4 +91,13 @@ func (b *beautician) Find(ctx context.Context, r *requestmodel.BeauticianFind) (
 		return nil, err
 	}
 	return b.beauticianResponse.NewBeauticianFind(ents), nil
+}
+
+func (b *beautician) Get(ctx context.Context, r *requestmodel.BeauticianGet) (*responsemodel.BeauticianGet, error) {
+	ent, err := b.beauticianRepository.GetByRandID(ctx, r.RandID)
+	if err != nil {
+		return nil, err
+	}
+	res := b.beauticianResponse.NewBeauticianGet(ent)
+	return res, nil
 }

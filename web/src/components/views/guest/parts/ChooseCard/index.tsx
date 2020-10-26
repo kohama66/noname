@@ -17,8 +17,8 @@ const ChooseCard: FC<props> = (props) => {
 
   const setSelectCtx = useContext(SetSelectContext)
 
-  const handleSetSelect = (id: string, type: "store" | "beautician") => {
-    setSelectCtx(id, type)
+  const handleSetSelect = (id: string, type: "store" | "beautician", content: Beautician | Salon) => {
+    setSelectCtx(id, type, content)
     history.push("/guest")
   }
 

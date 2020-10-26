@@ -59,7 +59,7 @@ func (b beautician) Create(w http.ResponseWriter, r *http.Request) {
 // @Param data body requestmodel.BeauticianGet true "Request body"
 // @Success 200 {object} responsemodel.BeauticianGet
 // @Failure 500 {object} resource.Error "Something went wrong"
-// @Router /api/v1/beautician [get]
+// @Router /api/v1/beautician/{randID} [get]
 func (b beautician) Get(w http.ResponseWriter, r *http.Request) {
 	req, err := request.NewBeauticianGet(r)
 	if err != nil {

@@ -10,9 +10,11 @@ import {
   Route,
   useRouteMatch,
 } from "react-router-dom";
-import FinalComfirmation from '../finalComfirmation/FinalComfirmation';
+import FinalComfirmation from '../finalComfirmation';
+import { Beautician, isBeauticianInterface } from '../../../package/interface/Beautician';
+import { Salon } from '../../../package/interface/Salon';
 
-export const SetSelectContext = createContext((id: string | string[], type: "beautician" | "store" | "date" | "menu") => { });
+export const SetSelectContext = createContext((id: string | string[], type: "beautician" | "store" | "date" | "menu", content?: Beautician | Salon) => { });
 export const GeterSelectIDContext = createContext((type: "beautician" | "store" | "date" | "menu"): string | string[] => "")
 
 const Guest: FC = () => {
@@ -21,6 +23,35 @@ const Guest: FC = () => {
   const [storeID, setStoreID] = useState<string>("")
   const [menuIDs, setMenuIDs] = useState<string[]>([])
   const [date, setDate] = useState<string>("")
+
+  // const [beautician, setBeauticain] = useState<Beautician>()
+  // const [store, setStore] = useState<Salon>()
+  // const [menus, setMenus] = useState<Menu[]>([])
+
+  // const handleSetSelect = (type: "beautician" | "store" | "date" | "menu", content: Beautician | Salon | Menu[] | string): void => {
+  //   switch (type) {
+  //     case "beautician":
+  //       if (isBeauticianInterface(content)) {
+  //         setBeauticain(content)
+  //       }
+  //       break
+  //     case "store":
+  //       if (isSalonInterface(content)) {
+  //         setStore(content)
+  //       }
+  //       break
+  //     case "date":
+  //       if (typeof content === "string") {
+  //         setDate(content)
+  //       }
+  //       break
+  //     case "menu":
+  //       if (isMenusInterface(content)) {
+  //         setMenus(content)
+  //       }
+  //       break
+  //   }
+  // }
 
   const handleSetSelect = (id: string | string[], type: "beautician" | "store" | "date" | "menu"): void => {
     switch (type) {
@@ -36,6 +67,7 @@ const Guest: FC = () => {
         break
       case "date":
         if (typeof id === "string") {
+          console.log(id)
           setDate(id)
         }
         break
@@ -46,7 +78,7 @@ const Guest: FC = () => {
         break
     }
   }
-  
+
   const geterSelectID = (type: "beautician" | "store" | "date" | "menu"): string | string[] => {
     switch (type) {
       case "beautician":
@@ -65,21 +97,21 @@ const Guest: FC = () => {
   }
 
   return (
-      <SetSelectContext.Provider value={handleSetSelect}>
-        <GeterSelectIDContext.Provider value={geterSelectID}>
-          <Router>
-            <Switch>
-              {/* <Route exact path={match.path} render={() => <GuestComponent checkedBeautician={checkedBeautician} checkedStore={checkedStore} checkedMenu={checkedMenu} checkedDate={checkedDate} />} /> */}
-              <Route exact path={match.path} component={GuestComponent} />
-              <Route exact path={match.path + "/beautician"} render={() => <ChooseBeautician />} />
-              <Route exact path={match.path + "/store"} render={() => <ChooseStore />} />
-              <Route exact path={match.path + "/date"} render={() => <ChooseDate />} />
-              <Route exact path={match.path + "/menu"} render={() => <ChooseMenu />} />
-              <Route exact path={match.path + "/final_comfirmation"} component={FinalComfirmation} />
-            </Switch>
-          </Router>
-        </GeterSelectIDContext.Provider>
-      </SetSelectContext.Provider>
+    <SetSelectContext.Provider value={handleSetSelect}>
+      <GeterSelectIDContext.Provider value={geterSelectID}>
+        <Router>
+          <Switch>
+            {/* <Route exact path={match.path} render={() => <GuestComponent checkedBeautician={checkedBeautician} checkedStore={checkedStore} checkedMenu={checkedMenu} checkedDate={checkedDate} />} /> */}
+            <Route exact path={match.path} component={GuestComponent} />
+            <Route exact path={match.path + "/beautician"} render={() => <ChooseBeautician />} />
+            <Route exact path={match.path + "/store"} render={() => <ChooseStore />} />
+            <Route exact path={match.path + "/date"} render={() => <ChooseDate />} />
+            <Route exact path={match.path + "/menu"} render={() => <ChooseMenu />} />
+            <Route exact path={match.path + "/final_comfirmation"} component={FinalComfirmation} />
+          </Switch>
+        </Router>
+      </GeterSelectIDContext.Provider>
+    </SetSelectContext.Provider>
   )
 }
 

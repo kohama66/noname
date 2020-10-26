@@ -42,7 +42,7 @@ func (r *Router) Routes() {
 					r.Group(func(r chi.Router) {
 						r.Use(middleware.AuthAPI)
 						r.Post("/", beauticianController.Create)
-						r.Get("/", beauticianController.Get)
+						r.Get("/{randID}", beauticianController.Get)
 					})
 				})
 			})
@@ -62,6 +62,7 @@ func (r *Router) Routes() {
 			r.Group(func(r chi.Router) {
 				r.Route("/menu", func(r chi.Router) {
 					r.Get("/find", menuController.Find)
+					r.Get("/find/{beauticianRandID}", menuController.FindByBeauticianWithMenuRandID)
 				})
 			})
 		})

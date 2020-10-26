@@ -13,10 +13,6 @@ const ChoosePlate: FC<ChoosePlateProps> = (props) => {
   const match = useRouteMatch()
   const [checked, setChecked] = useState<boolean>(false)
 
-  const handleChangeChecedView = () => {
-
-  }
-
   useEffect(() => {
     if (props.checked) {
       setChecked(true)

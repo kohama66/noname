@@ -11,3 +11,12 @@ export interface Beautician {
 export interface BeauticianGetAll {
   beauticians: Beautician[]
 }
+
+export const initBeautician: Beautician = <Beautician>{}
+
+export const isBeauticianInterface = (arg: any): arg is Beautician => {
+  return arg !== null &&
+    typeof arg === "object" &&
+    typeof arg.firstName === "string" && typeof arg.lastName === "string" && typeof arg.phoneNumber === "string" &&
+    typeof arg.lineId === "string" && typeof arg.comment === "string" && typeof arg.instagramId === "string"
+}
