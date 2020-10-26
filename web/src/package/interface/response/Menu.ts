@@ -1,4 +1,4 @@
-import { Menu } from "../Menu";
+import { Menu, MenuDetail } from "../Menu";
 
 export interface menuResponse {
   menu: Menu
@@ -6,4 +6,12 @@ export interface menuResponse {
 
 export interface menusResponse {
   menus: Menu[]
+}
+
+export interface menuDetailResponse {
+  menuDetail: MenuDetail
+}
+
+export interface menuDetailsResponse {
+  menuDetails: MenuDetail[]
 }

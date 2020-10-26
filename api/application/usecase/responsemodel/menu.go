@@ -19,13 +19,18 @@ type MenuFind struct {
 // BeauticianMenu response構造体
 type BeauticianMenu struct {
 	Price        int64     `json:"price"`
-	BeauticianID int64     `json:"beautician_id"`
-	MenuID       int64     `json:"menu_id"`
+	BeauticianID int64     `json:"beauticianId"`
+	MenuID       int64     `json:"menuId"`
+	Name         string    `json:"name"`
 	CreatedAt    time.Time `json:"createdAt"`
 	UpdatedAt    time.Time `json:"updatedAt"`
 }
 
 // MenuFindByBeauticianWithMenuRandIDs 美容師の詳細メニュー取得
 type MenuFindByBeauticianWithMenuRandIDs struct {
-	BeauticianMenus []*BeauticianMenu `json:"findByBeauticianWithMenuRandIds"`
+	// Price        int64  `json:"price"`
+	// Name         string `json:"name"`
+	// BeauticianID int64  `json:"beauticianId"`
+	// MenuID       int64  `json:"menuId"`
+	BeauticianMenus []*BeauticianMenu `json:"beauticianMenus"`
 }

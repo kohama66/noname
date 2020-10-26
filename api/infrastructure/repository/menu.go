@@ -59,5 +59,6 @@ func (m *menu) FindByBeauticianWithMenuRandIDs(ctx context.Context, beauticianID
 		entity.MenuWhere.RandID.IN(menuIDs),
 		entity.BeauticianMenuWhere.BeauticianID.EQ(beauticianID),
 		entity.BeauticianMenuWhere.DeletedAt.IsNull(),
+		qm.Load(entity.BeauticianMenuRels.Menu),
 	).All(ctx, m.Conn)
 }

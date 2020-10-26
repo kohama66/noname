@@ -122,14 +122,17 @@ var BeauticianWhere = struct {
 
 // BeauticianRels is where relationship names are stored.
 var BeauticianRels = struct {
-	Reservations string
+	BeauticianMenus string
+	Reservations    string
 }{
-	Reservations: "Reservations",
+	BeauticianMenus: "BeauticianMenus",
+	Reservations:    "Reservations",
 }
 
 // beauticianR is where relationships are stored.
 type beauticianR struct {
-	Reservations ReservationSlice
+	BeauticianMenus BeauticianMenuSlice
+	Reservations    ReservationSlice
 }
 
 // NewStruct creates a new relationship struct
@@ -422,6 +425,27 @@ func (q beauticianQuery) Exists(ctx context.Context, exec boil.ContextExecutor) 
 	return count > 0, nil
 }
 
+// BeauticianMenus retrieves all the beautician_menu's BeauticianMenus with an executor.
+func (o *Beautician) BeauticianMenus(mods ...qm.QueryMod) beauticianMenuQuery {
+	var queryMods []qm.QueryMod
+	if len(mods) != 0 {
+		queryMods = append(queryMods, mods...)
+	}
+
+	queryMods = append(queryMods,
+		qm.Where("`beautician_menus`.`beautician_id`=?", o.ID),
+	)
+
+	query := BeauticianMenus(queryMods...)
+	queries.SetFrom(query.Query, "`beautician_menus`")
+
+	if len(queries.GetSelect(query.Query)) == 0 {
+		queries.SetSelect(query.Query, []string{"`beautician_menus`.*"})
+	}
+
+	return query
+}
+
 // Reservations retrieves all the reservation's Reservations with an executor.
 func (o *Beautician) Reservations(mods ...qm.QueryMod) reservationQuery {
 	var queryMods []qm.QueryMod
@@ -441,6 +465,101 @@ func (o *Beautician) Reservations(mods ...qm.QueryMod) reservationQuery {
 	}
 
 	return query
+}
+
+// LoadBeauticianMenus allows an eager lookup of values, cached into the
+// loaded structs of the objects. This is for a 1-M or N-M relationship.
+func (beauticianL) LoadBeauticianMenus(ctx context.Context, e boil.ContextExecutor, singular bool, maybeBeautician interface{}, mods queries.Applicator) error {
+	var slice []*Beautician
+	var object *Beautician
+
+	if singular {
+		object = maybeBeautician.(*Beautician)
+	} else {
+		slice = *maybeBeautician.(*[]*Beautician)
+	}
+
+	args := make([]interface{}, 0, 1)
+	if singular {
+		if object.R == nil {
+			object.R = &beauticianR{}
+		}
+		args = append(args, object.ID)
+	} else {
+	Outer:
+		for _, obj := range slice {
+			if obj.R == nil {
+				obj.R = &beauticianR{}
+			}
+
+			for _, a := range args {
+				if a == obj.ID {
+					continue Outer
+				}
+			}
+
+			args = append(args, obj.ID)
+		}
+	}
+
+	if len(args) == 0 {
+		return nil
+	}
+
+	query := NewQuery(qm.From(`beautician_menus`), qm.WhereIn(`beautician_menus.beautician_id in ?`, args...))
+	if mods != nil {
+		mods.Apply(query)
+	}
+
+	results, err := query.QueryContext(ctx, e)
+	if err != nil {
+		return errors.Wrap(err, "failed to eager load beautician_menus")
+	}
+
+	var resultSlice []*BeauticianMenu
+	if err = queries.Bind(results, &resultSlice); err != nil {
+		return errors.Wrap(err, "failed to bind eager loaded slice beautician_menus")
+	}
+
+	if err = results.Close(); err != nil {
+		return errors.Wrap(err, "failed to close results in eager load on beautician_menus")
+	}
+	if err = results.Err(); err != nil {
+		return errors.Wrap(err, "error occurred during iteration of eager loaded relations for beautician_menus")
+	}
+
+	if len(beauticianMenuAfterSelectHooks) != 0 {
+		for _, obj := range resultSlice {
+			if err := obj.doAfterSelectHooks(ctx, e); err != nil {
+				return err
+			}
+		}
+	}
+	if singular {
+		object.R.BeauticianMenus = resultSlice
+		for _, foreign := range resultSlice {
+			if foreign.R == nil {
+				foreign.R = &beauticianMenuR{}
+			}
+			foreign.R.Beautician = object
+		}
+		return nil
+	}
+
+	for _, foreign := range resultSlice {
+		for _, local := range slice {
+			if local.ID == foreign.BeauticianID {
+				local.R.BeauticianMenus = append(local.R.BeauticianMenus, foreign)
+				if foreign.R == nil {
+					foreign.R = &beauticianMenuR{}
+				}
+				foreign.R.Beautician = local
+				break
+			}
+		}
+	}
+
+	return nil
 }
 
 // LoadReservations allows an eager lookup of values, cached into the
@@ -535,6 +654,59 @@ func (beauticianL) LoadReservations(ctx context.Context, e boil.ContextExecutor,
 		}
 	}
 
+	return nil
+}
+
+// AddBeauticianMenus adds the given related objects to the existing relationships
+// of the beautician, optionally inserting them as new records.
+// Appends related to o.R.BeauticianMenus.
+// Sets related.R.Beautician appropriately.
+func (o *Beautician) AddBeauticianMenus(ctx context.Context, exec boil.ContextExecutor, insert bool, related ...*BeauticianMenu) error {
+	var err error
+	for _, rel := range related {
+		if insert {
+			rel.BeauticianID = o.ID
+			if err = rel.Insert(ctx, exec, boil.Infer()); err != nil {
+				return errors.Wrap(err, "failed to insert into foreign table")
+			}
+		} else {
+			updateQuery := fmt.Sprintf(
+				"UPDATE `beautician_menus` SET %s WHERE %s",
+				strmangle.SetParamNames("`", "`", 0, []string{"beautician_id"}),
+				strmangle.WhereClause("`", "`", 0, beauticianMenuPrimaryKeyColumns),
+			)
+			values := []interface{}{o.ID, rel.BeauticianID, rel.MenuID}
+
+			if boil.IsDebug(ctx) {
+				writer := boil.DebugWriterFrom(ctx)
+				fmt.Fprintln(writer, updateQuery)
+				fmt.Fprintln(writer, values)
+			}
+			if _, err = exec.ExecContext(ctx, updateQuery, values...); err != nil {
+				return errors.Wrap(err, "failed to update foreign table")
+			}
+
+			rel.BeauticianID = o.ID
+		}
+	}
+
+	if o.R == nil {
+		o.R = &beauticianR{
+			BeauticianMenus: related,
+		}
+	} else {
+		o.R.BeauticianMenus = append(o.R.BeauticianMenus, related...)
+	}
+
+	for _, rel := range related {
+		if rel.R == nil {
+			rel.R = &beauticianMenuR{
+				Beautician: o,
+			}
+		} else {
+			rel.R.Beautician = o
+		}
+	}
 	return nil
 }
 

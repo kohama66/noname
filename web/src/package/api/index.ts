@@ -1,6 +1,6 @@
 import Axios, { AxiosPromise } from 'axios';
 import { beauticianResponse, beauticiansResponse } from '../interface/response/Beautician';
-import { menusResponse } from '../interface/response/Menu';
+import { menuDetailsResponse, menusResponse } from '../interface/response/Menu';
 import { reservationsResponse } from '../interface/response/Reservation'
 import { salonsResponse } from '../interface/response/Salon';
 import qs from "qs"
@@ -35,11 +35,11 @@ export const findSalons = async (id: string): Promise<salonsResponse> => {
   })
 }
 
-export const findBeauticians = async (date?: string, menuRandIDs?: string[], salonRandID?: string): Promise<beauticiansResponse> => {
+export const findBeauticians = async (date?: string, menuIDs?: string[], salonRandID?: string): Promise<beauticiansResponse> => {
   return get<beauticiansResponse>("/api/v1/beautician/find", {
     params: {
       date: date,
-      menuRandIds: menuRandIDs,
+      menuRandIds: menuIDs,
       salonRandId: salonRandID
     }, paramsSerializer: (params: any) => {
       return qs.stringify(params, { arrayFormat: 'repeat' });
@@ -65,4 +65,14 @@ export const findReservation = async (beauticianRandID?: string): Promise<reserv
 
 export const getBeautician = async (randID: string): Promise<beauticianResponse> => {
   return get<beauticianResponse>(`api/v1/beautician/${randID}`)
+}
+
+export const findMenuDetails = async (beauticianID: string, menuIDs?: string[]): Promise<menuDetailsResponse> => {
+  return get<menuDetailsResponse>(`api/v1/beautician/${beauticianID}`, {
+    params: {
+      menuRandIds: menuIDs,
+    }, paramsSerializer: (params: any) => {
+      return qs.stringify(params, { arrayFormat: 'repeat' })
+    }
+  })
 }

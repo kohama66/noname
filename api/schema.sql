@@ -100,5 +100,7 @@ CREATE TABLE `beautician_menus` (
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   `deleted_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`beautician_id`, `menu_id`)
+  PRIMARY KEY (`beautician_id`, `menu_id`),
+  CONSTRAINT `beautician_beautician_menus_fk` FOREIGN KEY (`beautician_id`) REFERENCES beauticians (`id`),
+  CONSTRAINT `menu_beautician_menus_fk` FOREIGN KEY (`menu_id`) REFERENCES menus (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

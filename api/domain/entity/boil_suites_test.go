@@ -154,6 +154,8 @@ func TestInsert(t *testing.T) {
 // TestToOne tests cannot be run in parallel
 // or deadlocks can occur.
 func TestToOne(t *testing.T) {
+	t.Run("BeauticianMenuToBeauticianUsingBeautician", testBeauticianMenuToOneBeauticianUsingBeautician)
+	t.Run("BeauticianMenuToMenuUsingMenu", testBeauticianMenuToOneMenuUsingMenu)
 	t.Run("ReservationToBeauticianUsingBeautician", testReservationToOneBeauticianUsingBeautician)
 	t.Run("ReservationToGuestUsingGuest", testReservationToOneGuestUsingGuest)
 	t.Run("ReservationToMenuUsingMenu", testReservationToOneMenuUsingMenu)
@@ -168,8 +170,10 @@ func TestOneToOne(t *testing.T) {}
 // TestToMany tests cannot be run in parallel
 // or deadlocks can occur.
 func TestToMany(t *testing.T) {
+	t.Run("BeauticianToBeauticianMenus", testBeauticianToManyBeauticianMenus)
 	t.Run("BeauticianToReservations", testBeauticianToManyReservations)
 	t.Run("GuestToReservations", testGuestToManyReservations)
+	t.Run("MenuToBeauticianMenus", testMenuToManyBeauticianMenus)
 	t.Run("MenuToReservations", testMenuToManyReservations)
 	t.Run("SalonToSpaces", testSalonToManySpaces)
 	t.Run("SpaceToReservations", testSpaceToManyReservations)
@@ -178,6 +182,8 @@ func TestToMany(t *testing.T) {
 // TestToOneSet tests cannot be run in parallel
 // or deadlocks can occur.
 func TestToOneSet(t *testing.T) {
+	t.Run("BeauticianMenuToBeauticianUsingBeauticianMenus", testBeauticianMenuToOneSetOpBeauticianUsingBeautician)
+	t.Run("BeauticianMenuToMenuUsingBeauticianMenus", testBeauticianMenuToOneSetOpMenuUsingMenu)
 	t.Run("ReservationToBeauticianUsingReservations", testReservationToOneSetOpBeauticianUsingBeautician)
 	t.Run("ReservationToGuestUsingReservations", testReservationToOneSetOpGuestUsingGuest)
 	t.Run("ReservationToMenuUsingReservations", testReservationToOneSetOpMenuUsingMenu)
@@ -200,8 +206,10 @@ func TestOneToOneRemove(t *testing.T) {}
 // TestToManyAdd tests cannot be run in parallel
 // or deadlocks can occur.
 func TestToManyAdd(t *testing.T) {
+	t.Run("BeauticianToBeauticianMenus", testBeauticianToManyAddOpBeauticianMenus)
 	t.Run("BeauticianToReservations", testBeauticianToManyAddOpReservations)
 	t.Run("GuestToReservations", testGuestToManyAddOpReservations)
+	t.Run("MenuToBeauticianMenus", testMenuToManyAddOpBeauticianMenus)
 	t.Run("MenuToReservations", testMenuToManyAddOpReservations)
 	t.Run("SalonToSpaces", testSalonToManyAddOpSpaces)
 	t.Run("SpaceToReservations", testSpaceToManyAddOpReservations)

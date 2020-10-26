@@ -3,6 +3,15 @@ export interface Menu {
   name: string
 }
 
+export interface MenuDetail {
+  menuId: number
+  beauticianId: number
+  price: number
+  name: string
+}
+
+export const initMenuDetail: MenuDetail = <MenuDetail>{}
+
 export const isMenuInterface = (arg: any): arg is Menu => {
   return arg !== null &&
     typeof arg === "object" &&

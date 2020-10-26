@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
 import { Beautician } from '../../../package/interface/Beautician';
+import { MenuDetail } from '../../../package/interface/Menu';
 import { Salon } from '../../../package/interface/Salon';
 import ChooseCard from '../guest/parts/ChooseCard';
 import Title from '../guest/parts/Title/Title';
@@ -9,6 +10,7 @@ interface props {
   beautician: Beautician
   store: Salon
   date: string
+  menus: MenuDetail[]
 }
 
 const FinalComfirmation: FC<props> = (props) => {
@@ -22,16 +24,16 @@ const FinalComfirmation: FC<props> = (props) => {
           <h2>メニュー</h2>
           <div>
             <ul>
-              <li>カット</li>
-              <li>カラー</li>
-              <li>パーマ</li>
+              {props.menus.map((menu) => {
+                return <li>{menu.name}</li>
+              })}
             </ul>
           </div>
         </div>
         <div className="final-comfirmation-content">
           <h2>日付</h2>
           <div>
-            <p>2020-10-26 09:00:00</p>
+            <p>{props.date}</p>
           </div>
         </div>
       </div>

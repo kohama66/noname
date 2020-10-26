@@ -44,6 +44,7 @@ func NewBeauticianMenuResponsemodel(ent *entity.BeauticianMenu) *responsemodel.B
 		Price:        ent.Price,
 		BeauticianID: ent.BeauticianID,
 		MenuID:       ent.MenuID,
+		Name:         ent.R.Menu.Name,
 		CreatedAt:    ent.CreatedAt,
 		UpdatedAt:    ent.UpdatedAt,
 	}
