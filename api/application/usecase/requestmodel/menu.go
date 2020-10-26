@@ -7,6 +7,6 @@ type MenuFind struct {
 
 // MenuFindByBeauticianWithMenuRandIDs 美容師の詳細メニュー取得
 type MenuFindByBeauticianWithMenuRandIDs struct {
-	BeauticianRandID string   `schema:"-"`
+	BeauticianRandID string   `json:"-"`
 	MenuRandIDs      []string `schema:"menuRandIds"`
 }

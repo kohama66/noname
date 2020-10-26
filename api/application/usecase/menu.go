@@ -2,6 +2,7 @@ package usecase
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/myapp/noname/api/application/usecase/requestmodel"
 	"github.com/myapp/noname/api/application/usecase/responsemodel"
@@ -60,10 +61,12 @@ func (m *menu) Find(ctx context.Context, r *requestmodel.MenuFind) (*responsemod
 func (m *menu) FindByBeauticianWithMenuRandIDs(ctx context.Context, r *requestmodel.MenuFindByBeauticianWithMenuRandIDs) (*responsemodel.MenuFindByBeauticianWithMenuRandIDs, error) {
 	bt, err := m.beauticianRepository.GetByRandID(ctx, r.BeauticianRandID)
 	if err != nil {
+		fmt.Println("こっち")
 		return nil, err
 	}
 	mns, err := m.menuRepository.FindByBeauticianWithMenuRandIDs(ctx, bt.ID, r.MenuRandIDs)
 	if err != nil {
+		fmt.Println("ここ")
 		return nil, err
 	}
 	return m.menuResponse.NewFindByBeauticianWithMenuRandIDs(mns), nil

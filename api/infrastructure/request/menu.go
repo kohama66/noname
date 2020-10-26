@@ -23,7 +23,7 @@ func NewMenuFindByBeauticianWithMenuRandIDs(req *http.Request) (*requestmodel.Me
 	if err := schema.NewDecoder().Decode(r, req.URL.Query()); err != nil {
 		return nil, err
 	}
-	BeauticianRandID := chi.URLParam(req, "BeauticianRandID")
+	BeauticianRandID := chi.URLParam(req, "beauticianRandID")
 	r.BeauticianRandID = BeauticianRandID
 	return r, nil
 }
