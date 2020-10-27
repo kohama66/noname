@@ -17,7 +17,7 @@ export const initSalon: Salon = <Salon>{}
 export const isSalonInterface = (arg: any): arg is Salon => {
   return arg !== null &&
     typeof arg === "object" &&
-		typeof arg.randID === "string" && typeof arg.name === "string" && typeof arg.phoneNumber === "string" &&
+		typeof arg.randId === "string" && typeof arg.name === "string" && typeof arg.phoneNumber === "string" &&
 		typeof arg.openingHours === "string" && typeof arg.closingHours === "string" && typeof arg.postalCode === "string" &&
 		typeof arg.prefectures === "string" && typeof arg.city === "string" && typeof arg.town === "string" && typeof arg.addressCode === "string" &&
 		typeof arg.addressOther === "string"

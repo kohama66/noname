@@ -1,6 +1,6 @@
 import React, { FC, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
-import { SetSelectContext } from '../..';
+import { SetSelectValueContext } from '../..';
 import { Beautician } from '../../../../../package/interface/Beautician';
 import { Salon } from '../../../../../package/interface/Salon';
 import ChooseCardComponent from './ChooseCard';
@@ -15,10 +15,10 @@ interface props {
 const ChooseCard: FC<props> = (props) => {
   const history = useHistory()
 
-  const setSelectCtx = useContext(SetSelectContext)
+  const setSelectValue = useContext(SetSelectValueContext)
 
   const handleSetSelect = (id: string, type: "store" | "beautician", content: Beautician | Salon) => {
-    setSelectCtx(id, type, content)
+    setSelectValue(content)
     history.push("/guest")
   }
 

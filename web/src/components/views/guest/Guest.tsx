@@ -1,8 +1,9 @@
-import React, { FC, useState, useEffect, useContext } from 'react';
+import React, { FC } from 'react';
 import {
   useRouteMatch,
   Link,
 } from "react-router-dom";
+import Popup from '../parts/Popup';
 import ChoosePlate from './parts/ChoosePlate';
 import Title from './parts/Title/Title';
 
@@ -19,6 +20,7 @@ const Guest: FC = () => {
           <ChoosePlate type="date" />
         </div>
       </div>
+      {/* <Popup/> */}
     </article>
   )
 }

@@ -11,97 +11,78 @@ import {
   useRouteMatch,
 } from "react-router-dom";
 import FinalComfirmation from '../finalComfirmation';
-import { Beautician, isBeauticianInterface } from '../../../package/interface/Beautician';
-import { Salon } from '../../../package/interface/Salon';
+import { Beautician, initBeautician, isBeauticianInterface } from '../../../package/interface/Beautician';
+import { initSalon, isSalonInterface, Salon } from '../../../package/interface/Salon';
+import { Menu } from '../../../package/interface/Menu';
 
-export const SetSelectContext = createContext((id: string | string[], type: "beautician" | "store" | "date" | "menu", content?: Beautician | Salon) => { });
+export const SetSelectValueContext = createContext((value: Beautician | Salon | Menu[] | string) => { });
 export const GeterSelectIDContext = createContext((type: "beautician" | "store" | "date" | "menu"): string | string[] => "")
 
 const Guest: FC = () => {
   const match = useRouteMatch()
-  const [beauticianID, setBeauticainID] = useState<string>("")
-  const [storeID, setStoreID] = useState<string>("")
-  const [menuIDs, setMenuIDs] = useState<string[]>([])
-  const [date, setDate] = useState<string>("")
 
-  // const [beautician, setBeauticain] = useState<Beautician>()
-  // const [store, setStore] = useState<Salon>()
-  // const [menus, setMenus] = useState<Menu[]>([])
+  const [beautician, setBeautician] = useState<Beautician>(initBeautician)
+  const [store, setStore] = useState<Salon>(initSalon)
+  const [menus, setMenus] = useState<Menu[]>([])
+  const [reservationDate, setReservationDate] = useState<string>("")
 
-  // const handleSetSelect = (type: "beautician" | "store" | "date" | "menu", content: Beautician | Salon | Menu[] | string): void => {
-  //   switch (type) {
-  //     case "beautician":
-  //       if (isBeauticianInterface(content)) {
-  //         setBeauticain(content)
-  //       }
-  //       break
-  //     case "store":
-  //       if (isSalonInterface(content)) {
-  //         setStore(content)
-  //       }
-  //       break
-  //     case "date":
-  //       if (typeof content === "string") {
-  //         setDate(content)
-  //       }
-  //       break
-  //     case "menu":
-  //       if (isMenusInterface(content)) {
-  //         setMenus(content)
-  //       }
-  //       break
+  const handleSetSelectValue = (value: Beautician | Salon | Menu[] | string) => {
+    if (isBeauticianInterface(value)) {
+      setBeautician(value)
+    } else if (isSalonInterface(value)) {
+      setStore(value)
+    } else if (typeof value === "string") {
+      setReservationDate(value)
+    } else if (Object.prototype.toString.call(value) === "[object Array]" && Array.isArray(value) && value.length !== 0) {
+      setMenus(value)
+    }
+    // if (beautician !== undefined && store !== undefined && menus.length !== 0 && reservationDate !== "") {
+    //   console.log("kkk")
+    // }
+  }
+
+  // const hd = () => {
+  //   if (beautician !== undefined && store !== undefined && menus.length !== 0 && reservationDate !== "") {
+  //     console.log("kkk")
   //   }
   // }
-
-  const handleSetSelect = (id: string | string[], type: "beautician" | "store" | "date" | "menu"): void => {
-    switch (type) {
-      case "beautician":
-        if (typeof id === "string") {
-          setBeauticainID(id)
-        }
-        break
-      case "store":
-        if (typeof id === "string") {
-          setStoreID(id)
-        }
-        break
-      case "date":
-        if (typeof id === "string") {
-          console.log(id)
-          setDate(id)
-        }
-        break
-      case "menu":
-        if (typeof id !== "string") {
-          setMenuIDs(id)
-        }
-        break
-    }
-  }
 
   const geterSelectID = (type: "beautician" | "store" | "date" | "menu"): string | string[] => {
     switch (type) {
       case "beautician":
-        return beauticianID;
+        if (beautician !== initBeautician) {
+          return beautician.randId;
+        } else {
+          return ""
+        }
         break
       case "store":
-        return storeID;
+        if (store !== initSalon) {
+          return store.randId;
+        } else {
+          return ""
+        }
         break
       case "date":
-        return date;
+        return reservationDate;
         break
       case "menu":
-        return menuIDs;
+        const menuIDs: string[] = []
+        if (Object.prototype.toString.call(menus) === "[object Array]" && Array.isArray(menus)) {
+          menus.map((menu) => {
+            menuIDs.push(menu.randId)
+          })
+        }
+        return menuIDs
         break
     }
   }
 
   return (
-    <SetSelectContext.Provider value={handleSetSelect}>
+    <SetSelectValueContext.Provider value={handleSetSelectValue}>
       <GeterSelectIDContext.Provider value={geterSelectID}>
         <Router>
           <Switch>
-            {/* <Route exact path={match.path} render={() => <GuestComponent checkedBeautician={checkedBeautician} checkedStore={checkedStore} checkedMenu={checkedMenu} checkedDate={checkedDate} />} /> */}
             <Route exact path={match.path} component={GuestComponent} />
             <Route exact path={match.path + "/beautician"} render={() => <ChooseBeautician />} />
             <Route exact path={match.path + "/store"} render={() => <ChooseStore />} />
@@ -111,7 +92,7 @@ const Guest: FC = () => {
           </Switch>
         </Router>
       </GeterSelectIDContext.Provider>
-    </SetSelectContext.Provider>
+    </SetSelectValueContext.Provider>
   )
 }
 

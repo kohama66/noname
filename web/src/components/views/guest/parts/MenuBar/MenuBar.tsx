@@ -3,15 +3,8 @@ import "./MenuBar.scss"
 
 interface props {
   name: string
+  check: boolean
   handleCheck: () => void
-  style: {
-    backgroundColor: string;
-    boxShadow: string;
-    top: string;
-    bottom: string;
-    marginTop: string;
-  }
-
 }
 
 const MenuBar: FC<props> = (props) => {
@@ -23,8 +16,8 @@ const MenuBar: FC<props> = (props) => {
       <div>
         <h2>{props.name}</h2>
       </div>
-      <button className="toggleBtn">
-        <div style={props.style} onClick={props.handleCheck}></div>
+      <button className={"toggleBtn" + (props.check ? " toggleBtn_check": "")}>
+        <div onClick={props.handleCheck}></div>
       </button>
     </div>
   )

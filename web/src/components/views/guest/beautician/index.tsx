@@ -10,11 +10,11 @@ const ChooseBeautician: FC = () => {
 
   const handleFindBeauticians = async () => {
     const storeID = geterSelect("store")
-    const dateID = geterSelect("date")
+    const date = geterSelect("date")
     const menuIDs = geterSelect("menu")
     try {
-      if (typeof dateID === "string" && typeof storeID === "string" && typeof menuIDs === "object") {
-        const response = await findBeauticians(dateID, menuIDs, storeID)
+      if (typeof date === "string" && typeof storeID === "string" && Array.isArray(menuIDs)) {
+        const response = await findBeauticians(date, menuIDs, storeID)
         setBeauticians(response.beauticians)
       }
     } catch (err) {

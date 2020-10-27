@@ -1,6 +1,6 @@
 import React, { FC, useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { GeterSelectIDContext, SetSelectContext } from '..';
+import { GeterSelectIDContext, SetSelectValueContext } from '..';
 import { findMenus } from '../../../../package/api';
 import { Menu } from '../../../../package/interface/Menu';
 import ChooseMenuComponent from './ChooseMenu'
@@ -8,9 +8,9 @@ import ChooseMenuComponent from './ChooseMenu'
 const ChooseMenu: FC = () => {
   const history = useHistory()
   const [menus, setMenus] = useState<Menu[]>([])
-  const [MenuIDs, setMenuIDs] = useState<{ [key: string]: string }>({})
+  const [menuValues, setMenuValues] = useState<{ [key: string]: Menu }>({})
   const geterSelectID = useContext(GeterSelectIDContext)
-  const setSelectMenu = useContext(SetSelectContext)
+  const setSelectValue = useContext(SetSelectValueContext)
 
   const handleFindMenus = async () => {
     const beauticianID = geterSelectID("beautician")
@@ -23,19 +23,19 @@ const ChooseMenu: FC = () => {
       console.log(err)
     }
   }
-  const handleSetMenuIDs = (key: string, id: string, check: boolean): void => {
+  const handleSetMenuValues = (key: string, value: Menu, check: boolean): void => {
     if (check) {
-      MenuIDs[key] = id
+      menuValues[key] = value
     } else {
-      delete MenuIDs[key]
+      delete menuValues[key]
     }
   }
   const handleSetSelect = () => {
-    const IDs: string[] = []
-    Object.entries(MenuIDs).forEach(([key, value]) => {
-      IDs.push(value)
-    });
-    setSelectMenu(IDs, "menu")
+    const selectMenus: Menu[] = []
+    Object.entries(menuValues).forEach(([key, value]) => {
+      selectMenus.push(value)
+    })
+    setSelectValue(selectMenus)
     history.push("/guest")
   }
 
@@ -44,7 +44,7 @@ const ChooseMenu: FC = () => {
   }, [])
 
   return (
-    <ChooseMenuComponent menus={menus} handleSetSelect={handleSetSelect} handleSetIDs={handleSetMenuIDs} />
+    <ChooseMenuComponent menus={menus} handleSetSelect={handleSetSelect} handleSetMenuValues={handleSetMenuValues} />
   )
 }
 
