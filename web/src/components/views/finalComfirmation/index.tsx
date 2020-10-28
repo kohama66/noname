@@ -11,6 +11,7 @@ const FinalComfirmation: FC = () => {
   const [store, setStore] = useState<Salon>(initSalon)
   const [date, setDate] = useState<string>("")
   const [menus, setMenus] = useState<MenuDetail[]>([])
+  const [totalPrice, setTotalPrice] = useState<number>(0)
 
   const geterSelectValue = useContext(GeterSelectValueContext)
   const geterSelectID = useContext(GeterSelectIDContext)
@@ -20,10 +21,16 @@ const FinalComfirmation: FC = () => {
     const menuIDs = geterSelectID("menu")
     try {
       if (typeof menuIDs === "object" && menuIDs.length !== 0 && beautician !== initBeautician) {
-        setMenus((await findMenuDetails(beautician.randId, menuIDs)).beauticianMenus)
+        const menuDetails = await findMenuDetails(beautician.randId, menuIDs)
+        setMenus(menuDetails.beauticianMenus)
         setBeautician(beautician)
         setStore(store)
         setDate(date)
+        let totalPrice: number = 0
+        menuDetails.beauticianMenus.map((detail) => {
+          totalPrice += detail.price
+        })
+        setTotalPrice(totalPrice)
       }
     } catch (error) {
       console.log(error)
@@ -35,7 +42,7 @@ const FinalComfirmation: FC = () => {
   }, [])
 
   return (
-    < FinalComfirmationComponent beautician={beautician} store={store} date={date} menus={menus} />
+    < FinalComfirmationComponent beautician={beautician} store={store} date={date} menus={menus} totalPrice={totalPrice} />
   )
 }
 

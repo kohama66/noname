@@ -11,6 +11,7 @@ interface props {
   store: Salon
   date: string
   menus: MenuDetail[]
+  totalPrice: number
 }
 
 const FinalComfirmation: FC<props> = (props) => {
@@ -30,7 +31,6 @@ const FinalComfirmation: FC<props> = (props) => {
           <h2>日付</h2>
           <div>
             <p>{props.date}</p>
-            {/* <p>2020年10-25 12:00:00</p> */}
           </div>
           <h2>メニュー</h2>
           <div>
@@ -41,16 +41,10 @@ const FinalComfirmation: FC<props> = (props) => {
                   <dd>{menu.price}</dd>
                 </>
               })}
-              {/* <dt>カット</dt>
-              <dd>1200</dd>
-              <dt>パーマ</dt>
-              <dd>3500</dd>
-              <dt>カラー</dt>
-              <dd>1800</dd> */}
             </dl>
             <div className="total-price">
               <h2>合計</h2>
-              {/* <p>5500</p> */}
+              <p>{props.totalPrice}</p>
             </div>
           </div>
         </div>
