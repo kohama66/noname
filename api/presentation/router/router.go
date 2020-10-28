@@ -2,8 +2,7 @@ package router
 
 import (
 	"fmt"
-	"net/http"
-
+	"
 	"github.com/go-chi/chi"
 	"github.com/myapp/noname/api/di"
 

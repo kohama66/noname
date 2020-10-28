@@ -143,7 +143,6 @@ func (b *beautician) Find(ctx context.Context, date time.Time, salon *int64, men
 			m[v.ID]++
 			if count == 1 {
 				beauticians = append(beauticians, v)
-				fmt.Println(beauticians)
 			}
 		} else if ct < count {
 			m[v.ID]++
