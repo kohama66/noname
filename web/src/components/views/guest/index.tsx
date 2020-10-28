@@ -1,4 +1,4 @@
-import React, { FC, useState, createContext } from 'react';
+import React, { FC, useState, createContext, useEffect } from 'react';
 import GuestComponent from '../../../components/views/guest/Guest'
 import ChooseBeautician from "./beautician"
 import ChooseStore from './store'
@@ -9,22 +9,27 @@ import {
   Switch,
   Route,
   useRouteMatch,
+  useHistory,
 } from "react-router-dom";
 import FinalComfirmation from '../finalComfirmation';
 import { Beautician, initBeautician, isBeauticianInterface } from '../../../package/interface/Beautician';
 import { initSalon, isSalonInterface, Salon } from '../../../package/interface/Salon';
 import { Menu } from '../../../package/interface/Menu';
 
+// コンテキスト
 export const SetSelectValueContext = createContext((value: Beautician | Salon | Menu[] | string) => { });
-export const GeterSelectIDContext = createContext((type: "beautician" | "store" | "date" | "menu"): string | string[] => "")
+export const GeterSelectIDContext = createContext((type: "beautician" | "store" | "date" | "menu"): string | string[] | undefined => "")
+export const GeterSelectValueContext = createContext((): [Beautician, Salon, Menu[], string] => [initBeautician, initSalon, [], ""])
 
 const Guest: FC = () => {
   const match = useRouteMatch()
+  const history = useHistory()
 
   const [beautician, setBeautician] = useState<Beautician>(initBeautician)
   const [store, setStore] = useState<Salon>(initSalon)
   const [menus, setMenus] = useState<Menu[]>([])
   const [reservationDate, setReservationDate] = useState<string>("")
+  const [allSelected, setAllSelected] = useState<boolean>(false)
 
   const handleSetSelectValue = (value: Beautician | Salon | Menu[] | string) => {
     if (isBeauticianInterface(value)) {
@@ -36,35 +41,29 @@ const Guest: FC = () => {
     } else if (Object.prototype.toString.call(value) === "[object Array]" && Array.isArray(value) && value.length !== 0) {
       setMenus(value)
     }
-    // if (beautician !== undefined && store !== undefined && menus.length !== 0 && reservationDate !== "") {
-    //   console.log("kkk")
-    // }
   }
-
-  // const hd = () => {
-  //   if (beautician !== undefined && store !== undefined && menus.length !== 0 && reservationDate !== "") {
-  //     console.log("kkk")
-  //   }
-  // }
-
-  const geterSelectID = (type: "beautician" | "store" | "date" | "menu"): string | string[] => {
+  const geterSelectID = (type: "beautician" | "store" | "date" | "menu"): string | string[] | undefined => {
     switch (type) {
       case "beautician":
         if (beautician !== initBeautician) {
           return beautician.randId;
         } else {
-          return ""
+          return undefined
         }
         break
       case "store":
         if (store !== initSalon) {
           return store.randId;
         } else {
-          return ""
+          return undefined
         }
         break
       case "date":
-        return reservationDate;
+        if (reservationDate !== "") {
+          return reservationDate;
+        } else {
+          return undefined
+        }
         break
       case "menu":
         const menuIDs: string[] = []
@@ -77,20 +76,46 @@ const Guest: FC = () => {
         break
     }
   }
+  const geterSelectValue = (): [Beautician, Salon, Menu[], string] => {
+    return [beautician, store, menus, reservationDate]
+  }
+
+  useEffect(() => {
+    // let allSelected: boolean = false
+    // const allSelectedCheck = () => {
+    //   if (beautician !== undefined && store !== undefined && menus.length !== 0 && reservationDate !== "") {
+    // setAllSelected(true)
+    // allSelected = true
+    //     history.push(match.path + "/final_comfirmation")
+    //   }
+    // }
+    // const jumpFinalPage = (allSelected: boolean) => {
+    //   if (allSelected){
+    //     history.push(match.path + "/final_comfirmation")
+    //   } else {
+    //     console.log(allSelected)
+    //   }
+    // }
+    // allSelectedCheck()
+    // jumpFinalPage(allSelected)
+    // history.push("guest/final_comfirmation")
+  }, [beautician, store, menus, reservationDate])
 
   return (
     <SetSelectValueContext.Provider value={handleSetSelectValue}>
       <GeterSelectIDContext.Provider value={geterSelectID}>
-        <Router>
-          <Switch>
-            <Route exact path={match.path} component={GuestComponent} />
-            <Route exact path={match.path + "/beautician"} render={() => <ChooseBeautician />} />
-            <Route exact path={match.path + "/store"} render={() => <ChooseStore />} />
-            <Route exact path={match.path + "/date"} render={() => <ChooseDate />} />
-            <Route exact path={match.path + "/menu"} render={() => <ChooseMenu />} />
-            <Route exact path={match.path + "/final_comfirmation"} component={FinalComfirmation} />
-          </Switch>
-        </Router>
+        <GeterSelectValueContext.Provider value={geterSelectValue}>
+          <Router>
+            <Switch>
+              <Route exact path={match.path} render={() => <GuestComponent allSelectCheck={allSelected} />} />
+              <Route exact path={match.path + "/beautician"} render={() => <ChooseBeautician />} />
+              <Route exact path={match.path + "/store"} render={() => <ChooseStore />} />
+              <Route exact path={match.path + "/date"} render={() => <ChooseDate />} />
+              <Route exact path={match.path + "/menu"} render={() => <ChooseMenu />} />
+              <Route exact path={match.path + "/final_comfirmation"} component={FinalComfirmation} />
+            </Switch>
+          </Router>
+        </GeterSelectValueContext.Provider>
       </GeterSelectIDContext.Provider>
     </SetSelectValueContext.Provider>
   )

@@ -13,7 +13,7 @@ const ChooseBeautician: FC = () => {
     const date = geterSelect("date")
     const menuIDs = geterSelect("menu")
     try {
-      if (typeof date === "string" && typeof storeID === "string" && Array.isArray(menuIDs)) {
+      if ((typeof date === "string" || date == null )&& ( typeof storeID === "string" || storeID == null ) && Array.isArray(menuIDs)) {
         const response = await findBeauticians(date, menuIDs, storeID)
         setBeauticians(response.beauticians)
       }

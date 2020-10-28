@@ -15,7 +15,7 @@ const ChooseMenu: FC = () => {
   const handleFindMenus = async () => {
     const beauticianID = geterSelectID("beautician")
     try {
-      if (typeof beauticianID === "string") {
+      if (typeof beauticianID === "string" || beauticianID == null) {
         const response = await findMenus(beauticianID)
         setMenus(response.menus)
       }

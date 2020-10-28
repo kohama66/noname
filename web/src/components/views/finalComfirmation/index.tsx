@@ -3,7 +3,7 @@ import { findMenuDetails, getBeautician } from '../../../package/api';
 import { Beautician, initBeautician } from '../../../package/interface/Beautician';
 import { MenuDetail } from '../../../package/interface/Menu';
 import { initSalon, Salon } from '../../../package/interface/Salon';
-import { GeterSelectIDContext } from '../guest';
+import { GeterSelectIDContext, GeterSelectValueContext } from '../guest';
 import FinalComfirmationComponent from "./FinalComfirmation"
 
 const FinalComfirmation: FC = () => {
@@ -12,18 +12,18 @@ const FinalComfirmation: FC = () => {
   const [date, setDate] = useState<string>("")
   const [menus, setMenus] = useState<MenuDetail[]>([])
 
-  const geterSelect = useContext(GeterSelectIDContext)
+  const geterSelectValue = useContext(GeterSelectValueContext)
+  const geterSelectID = useContext(GeterSelectIDContext)
 
   const handleGetAllSelected = async () => {
-    const beauticianID = geterSelect("beautician")
-    // const storeID = geterSelect("store")
-    const date = geterSelect("date")
-    const menuIDs = geterSelect("menu")
+    const [beautician, store, _, date] = geterSelectValue()
+    const menuIDs = geterSelectID("menu")
     try {
-      if (typeof beauticianID === "string" && typeof date === "string" && typeof menuIDs === "object") {
-        setBeautician((await getBeautician(beauticianID)).beautician)
-        setDate(date)
+      if (typeof menuIDs === "object") {
         setMenus((await findMenuDetails(beautician.randId, menuIDs)).menuDetails)
+        setBeautician(beautician)
+        setStore(store)
+        setDate(date)
       }
     } catch (error) {
       console.log(error)

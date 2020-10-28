@@ -12,7 +12,7 @@ const ChooseStore: FC = () => {
   const handleFindStores = async () => {
     const beauticianID = geterSelect("beautician")
     try {
-      if (typeof beauticianID === "string") {
+      if (typeof beauticianID === "string" || beauticianID == null) {
         const response = await findSalons(beauticianID)
         setStores(response.salons)
       }

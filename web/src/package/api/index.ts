@@ -27,7 +27,7 @@ const get = <T>(url: string, data?: object): Promise<T> => {
   return requestAwait(axios.get(url, data))
 }
 
-export const findSalons = async (id: string): Promise<salonsResponse> => {
+export const findSalons = async (id?: string): Promise<salonsResponse> => {
   return get<salonsResponse>("/api/v1/salon/find", {
     params: {
       beauticianRandId: id

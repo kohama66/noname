@@ -13,11 +13,11 @@ const ChoosePlate: FC<props> = (props) => {
   const [checked, setChecked] = useState(false)
   const geterSelect = useContext(GeterSelectIDContext)
 
-  const setPlateData = (image: string, title: string, path: string, value: string | string[]) => {
+  const setPlateData = (image: string, title: string, path: string, value: string | string[] | undefined) => {
     setImage(image)
     setTitle(title)
     setLinkPath(path)
-    if (value !== undefined && value !== "" && value.length !== 0) {
+    if (value !== undefined && value !== "" && value !== null && value.length !== 0) {
       setChecked(true)
     }
   }

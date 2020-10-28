@@ -1,14 +1,13 @@
 import React, { FC } from 'react';
-import {
-  useRouteMatch,
-  Link,
-} from "react-router-dom";
 import Popup from '../parts/Popup';
 import ChoosePlate from './parts/ChoosePlate';
 import Title from './parts/Title/Title';
 
-const Guest: FC = () => {
-  const match = useRouteMatch();
+interface props {
+  allSelectCheck: boolean
+}
+
+const Guest: FC<props> = (props) => {
   return (
     <article className="chooses">
       <Title text="何から選びますか？" title="SELECT" />
@@ -20,7 +19,7 @@ const Guest: FC = () => {
           <ChoosePlate type="date" />
         </div>
       </div>
-      {/* <Popup/> */}
+      <Popup allSelectCheck={props.allSelectCheck}/>
     </article>
   )
 }
