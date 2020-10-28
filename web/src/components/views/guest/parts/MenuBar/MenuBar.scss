@@ -1,0 +1,65 @@
+@import "../../../../../css/common.scss";
+
+.menu-bar {
+  background-color: #fff;
+  border: none;
+  display: flex;
+  height: 150px;
+  width: 380px;
+  border-radius: 15px;
+  align-items: center;
+  box-sizing: border-box;
+  padding: 0 20px;
+  margin: 10px 0;
+  @include whiteShadow;
+  figure {
+    width: 100px;
+    height: 100px;
+    background-color: $orangeColor1;
+    border-radius: 15px;
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+  div {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    padding: 0 15px;
+    h2 {
+      color: $blackFontColor;
+      font-size: 18px;
+      letter-spacing: 0.1em;
+      text-align: left;
+    }
+  }
+  .toggleBtn {
+    background-color: #ebebeb;
+    border: none;
+    width: 50px;
+    height: 90px;
+    border-radius: 50px;
+    margin-left: auto;
+    padding: 5px;
+    display: flex;
+    align-items: flex-start;
+    transition-duration: 0.3s;
+    div {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+      transition-duration: 0.3s;
+      background-color: #fff;
+    }
+  }
+  .toggleBtn_check{
+    background-color: #ffe260;
+    box-shadow: 0px 0px 20px #ffff60;
+    div{
+      margin-top: 40px;
+    }
+  }
+}

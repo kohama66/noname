@@ -494,6 +494,84 @@ func testBeauticiansInsertWhitelist(t *testing.T) {
 	}
 }
 
+func testBeauticianToManyBeauticianMenus(t *testing.T) {
+	var err error
+	ctx := context.Background()
+	tx := MustTx(boil.BeginTx(ctx, nil))
+	defer func() { _ = tx.Rollback() }()
+
+	var a Beautician
+	var b, c BeauticianMenu
+
+	seed := randomize.NewSeed()
+	if err = randomize.Struct(seed, &a, beauticianDBTypes, true, beauticianColumnsWithDefault...); err != nil {
+		t.Errorf("Unable to randomize Beautician struct: %s", err)
+	}
+
+	if err := a.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+
+	if err = randomize.Struct(seed, &b, beauticianMenuDBTypes, false, beauticianMenuColumnsWithDefault...); err != nil {
+		t.Fatal(err)
+	}
+	if err = randomize.Struct(seed, &c, beauticianMenuDBTypes, false, beauticianMenuColumnsWithDefault...); err != nil {
+		t.Fatal(err)
+	}
+
+	b.BeauticianID = a.ID
+	c.BeauticianID = a.ID
+
+	if err = b.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+	if err = c.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+
+	check, err := a.BeauticianMenus().All(ctx, tx)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	bFound, cFound := false, false
+	for _, v := range check {
+		if v.BeauticianID == b.BeauticianID {
+			bFound = true
+		}
+		if v.BeauticianID == c.BeauticianID {
+			cFound = true
+		}
+	}
+
+	if !bFound {
+		t.Error("expected to find b")
+	}
+	if !cFound {
+		t.Error("expected to find c")
+	}
+
+	slice := BeauticianSlice{&a}
+	if err = a.L.LoadBeauticianMenus(ctx, tx, false, (*[]*Beautician)(&slice), nil); err != nil {
+		t.Fatal(err)
+	}
+	if got := len(a.R.BeauticianMenus); got != 2 {
+		t.Error("number of eager loaded records wrong, got:", got)
+	}
+
+	a.R.BeauticianMenus = nil
+	if err = a.L.LoadBeauticianMenus(ctx, tx, true, &a, nil); err != nil {
+		t.Fatal(err)
+	}
+	if got := len(a.R.BeauticianMenus); got != 2 {
+		t.Error("number of eager loaded records wrong, got:", got)
+	}
+
+	if t.Failed() {
+		t.Logf("%#v", check)
+	}
+}
+
 func testBeauticianToManyReservations(t *testing.T) {
 	var err error
 	ctx := context.Background()
@@ -572,6 +650,81 @@ func testBeauticianToManyReservations(t *testing.T) {
 	}
 }
 
+func testBeauticianToManyAddOpBeauticianMenus(t *testing.T) {
+	var err error
+
+	ctx := context.Background()
+	tx := MustTx(boil.BeginTx(ctx, nil))
+	defer func() { _ = tx.Rollback() }()
+
+	var a Beautician
+	var b, c, d, e BeauticianMenu
+
+	seed := randomize.NewSeed()
+	if err = randomize.Struct(seed, &a, beauticianDBTypes, false, strmangle.SetComplement(beauticianPrimaryKeyColumns, beauticianColumnsWithoutDefault)...); err != nil {
+		t.Fatal(err)
+	}
+	foreigners := []*BeauticianMenu{&b, &c, &d, &e}
+	for _, x := range foreigners {
+		if err = randomize.Struct(seed, x, beauticianMenuDBTypes, false, strmangle.SetComplement(beauticianMenuPrimaryKeyColumns, beauticianMenuColumnsWithoutDefault)...); err != nil {
+			t.Fatal(err)
+		}
+	}
+
+	if err := a.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+	if err = b.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+	if err = c.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+
+	foreignersSplitByInsertion := [][]*BeauticianMenu{
+		{&b, &c},
+		{&d, &e},
+	}
+
+	for i, x := range foreignersSplitByInsertion {
+		err = a.AddBeauticianMenus(ctx, tx, i != 0, x...)
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		first := x[0]
+		second := x[1]
+
+		if a.ID != first.BeauticianID {
+			t.Error("foreign key was wrong value", a.ID, first.BeauticianID)
+		}
+		if a.ID != second.BeauticianID {
+			t.Error("foreign key was wrong value", a.ID, second.BeauticianID)
+		}
+
+		if first.R.Beautician != &a {
+			t.Error("relationship was not added properly to the foreign slice")
+		}
+		if second.R.Beautician != &a {
+			t.Error("relationship was not added properly to the foreign slice")
+		}
+
+		if a.R.BeauticianMenus[i*2] != first {
+			t.Error("relationship struct slice not set to correct value")
+		}
+		if a.R.BeauticianMenus[i*2+1] != second {
+			t.Error("relationship struct slice not set to correct value")
+		}
+
+		count, err := a.BeauticianMenus().Count(ctx, tx)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if want := int64((i + 1) * 2); count != want {
+			t.Error("want", want, "got", count)
+		}
+	}
+}
 func testBeauticianToManyAddOpReservations(t *testing.T) {
 	var err error
 
@@ -722,7 +875,7 @@ func testBeauticiansSelect(t *testing.T) {
 }
 
 var (
-	beauticianDBTypes = map[string]string{`ID`: `bigint`, `AuthID`: `varchar`, `RandID`: `varchar`, `FirstName`: `varchar`, `LastName`: `varchar`, `Age`: `bigint`, `PhoneNumber`: `varchar`, `CreatedAt`: `datetime`, `UpdatedAt`: `datetime`, `DeletedAt`: `datetime`}
+	beauticianDBTypes = map[string]string{`ID`: `bigint`, `AuthID`: `varchar`, `RandID`: `varchar`, `FirstName`: `varchar`, `LastName`: `varchar`, `Age`: `bigint`, `PhoneNumber`: `varchar`, `LineID`: `varchar`, `InstagramID`: `varchar`, `Comment`: `varchar`, `CreatedAt`: `datetime`, `UpdatedAt`: `datetime`, `DeletedAt`: `datetime`}
 	_                 = bytes.MinRead
 )
 

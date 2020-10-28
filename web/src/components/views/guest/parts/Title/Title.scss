@@ -1,0 +1,14 @@
+@import "../../../../../css/common.scss";
+.heading{
+  text-align: center;
+  h2{
+    color: $blackFontColor;
+    font-size: 40px;
+    letter-spacing: .1em;
+  }
+  p{
+    color: $blackFontColor;
+    font-weight: bold;
+    line-height: 1.5em;
+  }
+}

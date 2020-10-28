@@ -17,15 +17,15 @@ type Reservation struct {
 
 // ReservationCreate 予約作成 構造体
 type ReservationCreate struct {
-	*Reservation
+	*Reservation `json:"reservation"`
 }
 
 // ReservationFindByBeautician 美容師予約情報取得 構造体
 type ReservationFindByBeautician struct {
-	Reservations []*Reservation
+	Reservations []*Reservation `json:"reservations"`
 }
 
 // ReservationFind 予約検索 構造体
 type ReservationFind struct {
-	Reservations []*Reservation
+	Reservations []*Reservation `json:"reservations"`
 }

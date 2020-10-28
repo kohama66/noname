@@ -494,6 +494,215 @@ func testBeauticianMenusInsertWhitelist(t *testing.T) {
 	}
 }
 
+func testBeauticianMenuToOneBeauticianUsingBeautician(t *testing.T) {
+	ctx := context.Background()
+	tx := MustTx(boil.BeginTx(ctx, nil))
+	defer func() { _ = tx.Rollback() }()
+
+	var local BeauticianMenu
+	var foreign Beautician
+
+	seed := randomize.NewSeed()
+	if err := randomize.Struct(seed, &local, beauticianMenuDBTypes, false, beauticianMenuColumnsWithDefault...); err != nil {
+		t.Errorf("Unable to randomize BeauticianMenu struct: %s", err)
+	}
+	if err := randomize.Struct(seed, &foreign, beauticianDBTypes, false, beauticianColumnsWithDefault...); err != nil {
+		t.Errorf("Unable to randomize Beautician struct: %s", err)
+	}
+
+	if err := foreign.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+
+	local.BeauticianID = foreign.ID
+	if err := local.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+
+	check, err := local.Beautician().One(ctx, tx)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if check.ID != foreign.ID {
+		t.Errorf("want: %v, got %v", foreign.ID, check.ID)
+	}
+
+	slice := BeauticianMenuSlice{&local}
+	if err = local.L.LoadBeautician(ctx, tx, false, (*[]*BeauticianMenu)(&slice), nil); err != nil {
+		t.Fatal(err)
+	}
+	if local.R.Beautician == nil {
+		t.Error("struct should have been eager loaded")
+	}
+
+	local.R.Beautician = nil
+	if err = local.L.LoadBeautician(ctx, tx, true, &local, nil); err != nil {
+		t.Fatal(err)
+	}
+	if local.R.Beautician == nil {
+		t.Error("struct should have been eager loaded")
+	}
+}
+
+func testBeauticianMenuToOneMenuUsingMenu(t *testing.T) {
+	ctx := context.Background()
+	tx := MustTx(boil.BeginTx(ctx, nil))
+	defer func() { _ = tx.Rollback() }()
+
+	var local BeauticianMenu
+	var foreign Menu
+
+	seed := randomize.NewSeed()
+	if err := randomize.Struct(seed, &local, beauticianMenuDBTypes, false, beauticianMenuColumnsWithDefault...); err != nil {
+		t.Errorf("Unable to randomize BeauticianMenu struct: %s", err)
+	}
+	if err := randomize.Struct(seed, &foreign, menuDBTypes, false, menuColumnsWithDefault...); err != nil {
+		t.Errorf("Unable to randomize Menu struct: %s", err)
+	}
+
+	if err := foreign.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+
+	local.MenuID = foreign.ID
+	if err := local.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+
+	check, err := local.Menu().One(ctx, tx)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if check.ID != foreign.ID {
+		t.Errorf("want: %v, got %v", foreign.ID, check.ID)
+	}
+
+	slice := BeauticianMenuSlice{&local}
+	if err = local.L.LoadMenu(ctx, tx, false, (*[]*BeauticianMenu)(&slice), nil); err != nil {
+		t.Fatal(err)
+	}
+	if local.R.Menu == nil {
+		t.Error("struct should have been eager loaded")
+	}
+
+	local.R.Menu = nil
+	if err = local.L.LoadMenu(ctx, tx, true, &local, nil); err != nil {
+		t.Fatal(err)
+	}
+	if local.R.Menu == nil {
+		t.Error("struct should have been eager loaded")
+	}
+}
+
+func testBeauticianMenuToOneSetOpBeauticianUsingBeautician(t *testing.T) {
+	var err error
+
+	ctx := context.Background()
+	tx := MustTx(boil.BeginTx(ctx, nil))
+	defer func() { _ = tx.Rollback() }()
+
+	var a BeauticianMenu
+	var b, c Beautician
+
+	seed := randomize.NewSeed()
+	if err = randomize.Struct(seed, &a, beauticianMenuDBTypes, false, strmangle.SetComplement(beauticianMenuPrimaryKeyColumns, beauticianMenuColumnsWithoutDefault)...); err != nil {
+		t.Fatal(err)
+	}
+	if err = randomize.Struct(seed, &b, beauticianDBTypes, false, strmangle.SetComplement(beauticianPrimaryKeyColumns, beauticianColumnsWithoutDefault)...); err != nil {
+		t.Fatal(err)
+	}
+	if err = randomize.Struct(seed, &c, beauticianDBTypes, false, strmangle.SetComplement(beauticianPrimaryKeyColumns, beauticianColumnsWithoutDefault)...); err != nil {
+		t.Fatal(err)
+	}
+
+	if err := a.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+	if err = b.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+
+	for i, x := range []*Beautician{&b, &c} {
+		err = a.SetBeautician(ctx, tx, i != 0, x)
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		if a.R.Beautician != x {
+			t.Error("relationship struct not set to correct value")
+		}
+
+		if x.R.BeauticianMenus[0] != &a {
+			t.Error("failed to append to foreign relationship struct")
+		}
+		if a.BeauticianID != x.ID {
+			t.Error("foreign key was wrong value", a.BeauticianID)
+		}
+
+		if exists, err := BeauticianMenuExists(ctx, tx, a.BeauticianID, a.MenuID); err != nil {
+			t.Fatal(err)
+		} else if !exists {
+			t.Error("want 'a' to exist")
+		}
+
+	}
+}
+func testBeauticianMenuToOneSetOpMenuUsingMenu(t *testing.T) {
+	var err error
+
+	ctx := context.Background()
+	tx := MustTx(boil.BeginTx(ctx, nil))
+	defer func() { _ = tx.Rollback() }()
+
+	var a BeauticianMenu
+	var b, c Menu
+
+	seed := randomize.NewSeed()
+	if err = randomize.Struct(seed, &a, beauticianMenuDBTypes, false, strmangle.SetComplement(beauticianMenuPrimaryKeyColumns, beauticianMenuColumnsWithoutDefault)...); err != nil {
+		t.Fatal(err)
+	}
+	if err = randomize.Struct(seed, &b, menuDBTypes, false, strmangle.SetComplement(menuPrimaryKeyColumns, menuColumnsWithoutDefault)...); err != nil {
+		t.Fatal(err)
+	}
+	if err = randomize.Struct(seed, &c, menuDBTypes, false, strmangle.SetComplement(menuPrimaryKeyColumns, menuColumnsWithoutDefault)...); err != nil {
+		t.Fatal(err)
+	}
+
+	if err := a.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+	if err = b.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+
+	for i, x := range []*Menu{&b, &c} {
+		err = a.SetMenu(ctx, tx, i != 0, x)
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		if a.R.Menu != x {
+			t.Error("relationship struct not set to correct value")
+		}
+
+		if x.R.BeauticianMenus[0] != &a {
+			t.Error("failed to append to foreign relationship struct")
+		}
+		if a.MenuID != x.ID {
+			t.Error("foreign key was wrong value", a.MenuID)
+		}
+
+		if exists, err := BeauticianMenuExists(ctx, tx, a.BeauticianID, a.MenuID); err != nil {
+			t.Fatal(err)
+		} else if !exists {
+			t.Error("want 'a' to exist")
+		}
+
+	}
+}
+
 func testBeauticianMenusReload(t *testing.T) {
 	t.Parallel()
 

@@ -50,18 +50,18 @@ func (b *beautician) Create(ctx context.Context, r *requestmodel.BeauticianCreat
 	return res, nil
 }
 
-func (b *beautician) Get(ctx context.Context, r *requestmodel.BeauticianGet) (*responsemodel.BeauticianGet, error) {
-	ent, err := b.beauticianRepository.GetByAuthID(ctx, r.AuthID)
-	if err != nil {
-		return nil, err
-	}
-	res := b.beauticianResponse.NewBeauticianGet(ent)
-	return res, nil
-}
+// func (b *beautician) Get(ctx context.Context, r *requestmodel.BeauticianGet) (*responsemodel.BeauticianGet, error) {
+// 	ent, err := b.beauticianRepository.GetByAuthID(ctx, r.AuthID)
+// 	if err != nil {
+// 		return nil, err
+// 	}
+// 	res := b.beauticianResponse.NewBeauticianGet(ent)
+// 	return res, nil
+// }
 
 func (b *beautician) Find(ctx context.Context, r *requestmodel.BeauticianFind) (*responsemodel.BeauticianFind, error) {
 	var date time.Time
-	var menu *int64
+	var menu []int64
 	var salon *int64
 	if r.Date != "" {
 		dt, err := time.Parse("2006-01-02 15:04:05", r.Date)
@@ -70,12 +70,14 @@ func (b *beautician) Find(ctx context.Context, r *requestmodel.BeauticianFind) (
 		}
 		date = dt
 	}
-	if r.MenuRandID != "" {
-		rd, err := b.menuRepository.GetByRandID(ctx, r.MenuRandID)
+	if len(r.MenuRandIDs) != 0 {
+		mns, err := b.menuRepository.FindByRandID(ctx, r.MenuRandIDs)
 		if err != nil {
 			return nil, err
 		}
-		menu = &rd.ID
+		for _, v := range mns {
+			menu = append(menu, v.ID)
+		}
 	}
 	if r.SalonRandID != "" {
 		sl, err := b.salonRepository.GetByRandID(ctx, r.SalonRandID)
@@ -84,9 +86,18 @@ func (b *beautician) Find(ctx context.Context, r *requestmodel.BeauticianFind) (
 		}
 		salon = &sl.ID
 	}
-	ents, err := b.beauticianRepository.Find(ctx, date, menu, salon)
+	ents, err := b.beauticianRepository.Find(ctx, date, salon, menu)
 	if err != nil {
 		return nil, err
 	}
 	return b.beauticianResponse.NewBeauticianFind(ents), nil
+}
+
+func (b *beautician) Get(ctx context.Context, r *requestmodel.BeauticianGet) (*responsemodel.BeauticianGet, error) {
+	ent, err := b.beauticianRepository.GetByRandID(ctx, r.RandID)
+	if err != nil {
+		return nil, err
+	}
+	res := b.beauticianResponse.NewBeauticianGet(ent)
+	return res, nil
 }

@@ -1,14 +1,10 @@
-#choose-date {
-  display: flex;
-  height: 100vh;
-  align-items: center;
-}
+@import "../../../../css/common.scss";
 
-.choose-date-contents{
-  width: 1000px;
-  height: 100vh;
+#choose-date{
+  background-color: $baseColor;
+  width: 100%;
+}
+.shedule-wrapper{
   display: flex;
   justify-content: center;
-  align-items: center;
-  margin: 0 auto;
 }

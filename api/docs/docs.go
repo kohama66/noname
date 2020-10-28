@@ -26,40 +26,6 @@ var doc = `{
     "basePath": "{{.BasePath}}",
     "paths": {
         "/api/v1/beautician": {
-            "get": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "summary": "美容師情報取得",
-                "parameters": [
-                    {
-                        "description": "Request body",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/requestmodel.BeauticianGet"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/responsemodel.BeauticianGet"
-                        }
-                    },
-                    "500": {
-                        "description": "Something went wrong",
-                        "schema": {
-                            "$ref": "#/definitions/resource.Error"
-                        }
-                    }
-                }
-            },
             "post": {
                 "consumes": [
                     "application/json"
@@ -131,6 +97,42 @@ var doc = `{
                 }
             }
         },
+        "/api/v1/beautician/{randID}": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "美容師情報取得",
+                "parameters": [
+                    {
+                        "description": "Request body",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/requestmodel.BeauticianGet"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/responsemodel.BeauticianGet"
+                        }
+                    },
+                    "500": {
+                        "description": "Something went wrong",
+                        "schema": {
+                            "$ref": "#/definitions/resource.Error"
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/menu/find": {
             "get": {
                 "consumes": [
@@ -156,6 +158,42 @@ var doc = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/responsemodel.MenuFind"
+                        }
+                    },
+                    "500": {
+                        "description": "Something went wrong",
+                        "schema": {
+                            "$ref": "#/definitions/resource.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/menu/find/{beauticianRandID}": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "美容師の詳細メニュー取得",
+                "parameters": [
+                    {
+                        "description": "Request body",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/requestmodel.MenuFindByBeauticianWithMenuRandIDs"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/responsemodel.MenuFindByBeauticianWithMenuRandIDs"
                         }
                     },
                     "500": {
@@ -336,8 +374,11 @@ var doc = `{
                 "date": {
                     "type": "string"
                 },
-                "menuRandID": {
-                    "type": "string"
+                "menuRandIDs": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
                 },
                 "salonRandID": {
                     "type": "string"
@@ -352,6 +393,20 @@ var doc = `{
             "properties": {
                 "beauticianRandID": {
                     "type": "string"
+                }
+            }
+        },
+        "requestmodel.MenuFindByBeauticianWithMenuRandIDs": {
+            "type": "object",
+            "properties": {
+                "beauticianRandID": {
+                    "type": "string"
+                },
+                "menuRandIDs": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
                 }
             }
         },
@@ -410,6 +465,9 @@ var doc = `{
                 "age": {
                     "type": "integer"
                 },
+                "comment": {
+                    "type": "string"
+                },
                 "createdAt": {
                     "type": "string"
                 },
@@ -419,7 +477,13 @@ var doc = `{
                 "id": {
                     "type": "integer"
                 },
+                "instagramId": {
+                    "type": "string"
+                },
                 "lastName": {
+                    "type": "string"
+                },
+                "lineId": {
                     "type": "string"
                 },
                 "phoneNumber": {
@@ -439,6 +503,9 @@ var doc = `{
                 "age": {
                     "type": "integer"
                 },
+                "comment": {
+                    "type": "string"
+                },
                 "createdAt": {
                     "type": "string"
                 },
@@ -448,7 +515,13 @@ var doc = `{
                 "id": {
                     "type": "integer"
                 },
+                "instagramId": {
+                    "type": "string"
+                },
                 "lastName": {
+                    "type": "string"
+                },
+                "lineId": {
                     "type": "string"
                 },
                 "phoneNumber": {
@@ -479,6 +552,9 @@ var doc = `{
                 "age": {
                     "type": "integer"
                 },
+                "comment": {
+                    "type": "string"
+                },
                 "createdAt": {
                     "type": "string"
                 },
@@ -488,7 +564,13 @@ var doc = `{
                 "id": {
                     "type": "integer"
                 },
+                "instagramId": {
+                    "type": "string"
+                },
                 "lastName": {
+                    "type": "string"
+                },
+                "lineId": {
                     "type": "string"
                 },
                 "phoneNumber": {
@@ -502,17 +584,37 @@ var doc = `{
                 }
             }
         },
+        "responsemodel.BeauticianMenu": {
+            "type": "object",
+            "properties": {
+                "beautician_id": {
+                    "type": "integer"
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "menu_id": {
+                    "type": "integer"
+                },
+                "price": {
+                    "type": "integer"
+                },
+                "updatedAt": {
+                    "type": "string"
+                }
+            }
+        },
         "responsemodel.Menu": {
             "type": "object",
             "properties": {
-                "Name": {
-                    "type": "string"
-                },
                 "createdAt": {
                     "type": "string"
                 },
                 "id": {
                     "type": "integer"
+                },
+                "name": {
+                    "type": "string"
                 },
                 "randId": {
                     "type": "string"
@@ -529,6 +631,17 @@ var doc = `{
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/responsemodel.Menu"
+                    }
+                }
+            }
+        },
+        "responsemodel.MenuFindByBeauticianWithMenuRandIDs": {
+            "type": "object",
+            "properties": {
+                "findByBeauticianWithMenuRandIds": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/responsemodel.BeauticianMenu"
                     }
                 }
             }
@@ -610,7 +723,16 @@ var doc = `{
         "responsemodel.Salon": {
             "type": "object",
             "properties": {
-                "Name": {
+                "addressCode": {
+                    "type": "string"
+                },
+                "addressOther": {
+                    "type": "string"
+                },
+                "city": {
+                    "type": "string"
+                },
+                "closingHours": {
                     "type": "string"
                 },
                 "createdAt": {
@@ -619,7 +741,25 @@ var doc = `{
                 "id": {
                     "type": "integer"
                 },
+                "name": {
+                    "type": "string"
+                },
+                "openingHours": {
+                    "type": "string"
+                },
+                "phoneNumber": {
+                    "type": "string"
+                },
+                "postalCode": {
+                    "type": "string"
+                },
+                "prefectures": {
+                    "type": "string"
+                },
                 "randId": {
+                    "type": "string"
+                },
+                "town": {
                     "type": "string"
                 },
                 "updatedAt": {

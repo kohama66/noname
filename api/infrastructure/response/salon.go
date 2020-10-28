@@ -20,11 +20,20 @@ func NewSalon() Salon {
 // NewSalonResponseModel エンティティーをレスポンスへ変換
 func NewSalonResponseModel(ent *entity.Salon) *responsemodel.Salon {
 	return &responsemodel.Salon{
-		ID:        ent.ID,
-		RandID:    ent.RandID,
-		Name:      ent.Name,
-		CreatedAt: ent.CreatedAt,
-		UpdatedAt: ent.UpdatedAt,
+		ID:           ent.ID,
+		RandID:       ent.RandID,
+		Name:         ent.Name,
+		PhoneNumber:  ent.PhoneNumber,
+		OpeningHours: ent.OpeningHours,
+		ClosingHours: ent.ClosingHours,
+		PostalCode:   ent.PostalCode,
+		Prefectures:  ent.Prefectures,
+		City:         ent.City,
+		Town:         ent.Town,
+		AddressCode:  ent.AddressCode,
+		AddressOther: ent.AddressOther,
+		CreatedAt:    ent.CreatedAt,
+		UpdatedAt:    ent.UpdatedAt,
 	}
 }
 

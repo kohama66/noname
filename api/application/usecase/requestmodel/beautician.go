@@ -25,13 +25,18 @@ func (b BeauticianCreate) NewBeautician(randID string) *entity.Beautician {
 	}
 }
 
-// BeauticianGet 美容師情報取得構造体
-type BeauticianGet struct {
-	AuthID string `json:"-"`
-}
+// // BeauticianGet 美容師情報取得構造体
+// type BeauticianGet struct {
+// 	AuthID string `json:"-"`
+// }
 
 type BeauticianFind struct {
-	SalonRandID string `schema:"salonRandId"`
-	MenuRandID  string `schema:"menuRandId"`
-	Date        string `schema:"date"`
+	SalonRandID string   `schema:"salonRandId"`
+	MenuRandIDs []string `schema:"menuRandIds"`
+	Date        string   `schema:"date"`
+}
+
+// BeauticianGet 美容師情報取得構造体
+type BeauticianGet struct {
+	RandID string `json:"-"`
 }

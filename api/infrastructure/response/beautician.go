@@ -29,6 +29,9 @@ func NewResponseModelBeautician(ent *entity.Beautician) *responsemodel.Beauticia
 		LastName:    ent.LastName,
 		Age:         ent.Age,
 		PhoneNumber: ent.PhoneNumber,
+		LineID:      ent.LineID,
+		InstagramID: ent.InstagramID,
+		Comment:     ent.Comment,
 		CreatedAt:   ent.CreatedAt,
 		UpdatedAt:   ent.UpdatedAt,
 	}

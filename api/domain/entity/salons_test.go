@@ -722,7 +722,7 @@ func testSalonsSelect(t *testing.T) {
 }
 
 var (
-	salonDBTypes = map[string]string{`ID`: `bigint`, `RandID`: `varchar`, `Name`: `varchar`, `CreatedAt`: `datetime`, `UpdatedAt`: `datetime`, `DeletedAt`: `datetime`}
+	salonDBTypes = map[string]string{`ID`: `bigint`, `RandID`: `varchar`, `Name`: `varchar`, `PhoneNumber`: `varchar`, `OpeningHours`: `time`, `ClosingHours`: `time`, `PostalCode`: `varchar`, `Prefectures`: `varchar`, `City`: `varchar`, `Town`: `varchar`, `AddressCode`: `varchar`, `AddressOther`: `varchar`, `CreatedAt`: `datetime`, `UpdatedAt`: `datetime`, `DeletedAt`: `datetime`}
 	_            = bytes.MinRead
 )
 

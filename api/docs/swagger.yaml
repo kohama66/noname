@@ -14,8 +14,10 @@ definitions:
     properties:
       date:
         type: string
-      menuRandID:
-        type: string
+      menuRandIDs:
+        items:
+          type: string
+        type: array
       salonRandID:
         type: string
     type: object
@@ -25,6 +27,15 @@ definitions:
     properties:
       beauticianRandID:
         type: string
+    type: object
+  requestmodel.MenuFindByBeauticianWithMenuRandIDs:
+    properties:
+      beauticianRandID:
+        type: string
+      menuRandIDs:
+        items:
+          type: string
+        type: array
     type: object
   requestmodel.ReservationCreate:
     properties:
@@ -61,13 +72,19 @@ definitions:
     properties:
       age:
         type: integer
+      comment:
+        type: string
       createdAt:
         type: string
       firstName:
         type: string
       id:
         type: integer
+      instagramId:
+        type: string
       lastName:
+        type: string
+      lineId:
         type: string
       phoneNumber:
         type: string
@@ -80,13 +97,19 @@ definitions:
     properties:
       age:
         type: integer
+      comment:
+        type: string
       createdAt:
         type: string
       firstName:
         type: string
       id:
         type: integer
+      instagramId:
+        type: string
       lastName:
+        type: string
+      lineId:
         type: string
       phoneNumber:
         type: string
@@ -106,13 +129,19 @@ definitions:
     properties:
       age:
         type: integer
+      comment:
+        type: string
       createdAt:
         type: string
       firstName:
         type: string
       id:
         type: integer
+      instagramId:
+        type: string
       lastName:
+        type: string
+      lineId:
         type: string
       phoneNumber:
         type: string
@@ -121,14 +150,27 @@ definitions:
       updatedAt:
         type: string
     type: object
+  responsemodel.BeauticianMenu:
+    properties:
+      beautician_id:
+        type: integer
+      createdAt:
+        type: string
+      menu_id:
+        type: integer
+      price:
+        type: integer
+      updatedAt:
+        type: string
+    type: object
   responsemodel.Menu:
     properties:
-      Name:
-        type: string
       createdAt:
         type: string
       id:
         type: integer
+      name:
+        type: string
       randId:
         type: string
       updatedAt:
@@ -139,6 +181,13 @@ definitions:
       menus:
         items:
           $ref: '#/definitions/responsemodel.Menu'
+        type: array
+    type: object
+  responsemodel.MenuFindByBeauticianWithMenuRandIDs:
+    properties:
+      findByBeauticianWithMenuRandIds:
+        items:
+          $ref: '#/definitions/responsemodel.BeauticianMenu'
         type: array
     type: object
   responsemodel.Reservation:
@@ -191,13 +240,31 @@ definitions:
     type: object
   responsemodel.Salon:
     properties:
-      Name:
+      addressCode:
+        type: string
+      addressOther:
+        type: string
+      city:
+        type: string
+      closingHours:
         type: string
       createdAt:
         type: string
       id:
         type: integer
+      name:
+        type: string
+      openingHours:
+        type: string
+      phoneNumber:
+        type: string
+      postalCode:
+        type: string
+      prefectures:
+        type: string
       randId:
+        type: string
+      town:
         type: string
       updatedAt:
         type: string
@@ -214,28 +281,6 @@ info:
   license: {}
 paths:
   /api/v1/beautician:
-    get:
-      consumes:
-      - application/json
-      parameters:
-      - description: Request body
-        in: body
-        name: data
-        required: true
-        schema:
-          $ref: '#/definitions/requestmodel.BeauticianGet'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/responsemodel.BeauticianGet'
-        "500":
-          description: Something went wrong
-          schema:
-            $ref: '#/definitions/resource.Error'
-      summary: 美容師情報取得
     post:
       consumes:
       - application/json
@@ -258,6 +303,29 @@ paths:
           schema:
             $ref: '#/definitions/resource.Error'
       summary: 美容師登録
+  /api/v1/beautician/{randID}:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: Request body
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/requestmodel.BeauticianGet'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responsemodel.BeauticianGet'
+        "500":
+          description: Something went wrong
+          schema:
+            $ref: '#/definitions/resource.Error'
+      summary: 美容師情報取得
   /api/v1/beautician/find:
     get:
       consumes:
@@ -304,6 +372,29 @@ paths:
           schema:
             $ref: '#/definitions/resource.Error'
       summary: メニュー検索
+  /api/v1/menu/find/{beauticianRandID}:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: Request body
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/requestmodel.MenuFindByBeauticianWithMenuRandIDs'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responsemodel.MenuFindByBeauticianWithMenuRandIDs'
+        "500":
+          description: Something went wrong
+          schema:
+            $ref: '#/definitions/resource.Error'
+      summary: 美容師の詳細メニュー取得
   /api/v1/reservation:
     post:
       consumes:

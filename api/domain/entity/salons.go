@@ -24,49 +24,94 @@ import (
 
 // Salon is an object representing the database table.
 type Salon struct {
-	ID        int64     `boil:"id" json:"id" toml:"id" yaml:"id"`
-	RandID    string    `boil:"rand_id" json:"rand_id" toml:"rand_id" yaml:"rand_id"`
-	Name      string    `boil:"name" json:"name" toml:"name" yaml:"name"`
-	CreatedAt time.Time `boil:"created_at" json:"created_at" toml:"created_at" yaml:"created_at"`
-	UpdatedAt time.Time `boil:"updated_at" json:"updated_at" toml:"updated_at" yaml:"updated_at"`
-	DeletedAt null.Time `boil:"deleted_at" json:"deleted_at,omitempty" toml:"deleted_at" yaml:"deleted_at,omitempty"`
+	ID           int64     `boil:"id" json:"id" toml:"id" yaml:"id"`
+	RandID       string    `boil:"rand_id" json:"rand_id" toml:"rand_id" yaml:"rand_id"`
+	Name         string    `boil:"name" json:"name" toml:"name" yaml:"name"`
+	PhoneNumber  string    `boil:"phone_number" json:"phone_number" toml:"phone_number" yaml:"phone_number"`
+	OpeningHours string    `boil:"opening_hours" json:"opening_hours" toml:"opening_hours" yaml:"opening_hours"`
+	ClosingHours string    `boil:"closing_hours" json:"closing_hours" toml:"closing_hours" yaml:"closing_hours"`
+	PostalCode   string    `boil:"postal_code" json:"postal_code" toml:"postal_code" yaml:"postal_code"`
+	Prefectures  string    `boil:"prefectures" json:"prefectures" toml:"prefectures" yaml:"prefectures"`
+	City         string    `boil:"city" json:"city" toml:"city" yaml:"city"`
+	Town         string    `boil:"town" json:"town" toml:"town" yaml:"town"`
+	AddressCode  string    `boil:"address_code" json:"address_code" toml:"address_code" yaml:"address_code"`
+	AddressOther string    `boil:"address_other" json:"address_other" toml:"address_other" yaml:"address_other"`
+	CreatedAt    time.Time `boil:"created_at" json:"created_at" toml:"created_at" yaml:"created_at"`
+	UpdatedAt    time.Time `boil:"updated_at" json:"updated_at" toml:"updated_at" yaml:"updated_at"`
+	DeletedAt    null.Time `boil:"deleted_at" json:"deleted_at,omitempty" toml:"deleted_at" yaml:"deleted_at,omitempty"`
 
 	R *salonR `boil:"-" json:"-" toml:"-" yaml:"-"`
 	L salonL  `boil:"-" json:"-" toml:"-" yaml:"-"`
 }
 
 var SalonColumns = struct {
-	ID        string
-	RandID    string
-	Name      string
-	CreatedAt string
-	UpdatedAt string
-	DeletedAt string
+	ID           string
+	RandID       string
+	Name         string
+	PhoneNumber  string
+	OpeningHours string
+	ClosingHours string
+	PostalCode   string
+	Prefectures  string
+	City         string
+	Town         string
+	AddressCode  string
+	AddressOther string
+	CreatedAt    string
+	UpdatedAt    string
+	DeletedAt    string
 }{
-	ID:        "id",
-	RandID:    "rand_id",
-	Name:      "name",
-	CreatedAt: "created_at",
-	UpdatedAt: "updated_at",
-	DeletedAt: "deleted_at",
+	ID:           "id",
+	RandID:       "rand_id",
+	Name:         "name",
+	PhoneNumber:  "phone_number",
+	OpeningHours: "opening_hours",
+	ClosingHours: "closing_hours",
+	PostalCode:   "postal_code",
+	Prefectures:  "prefectures",
+	City:         "city",
+	Town:         "town",
+	AddressCode:  "address_code",
+	AddressOther: "address_other",
+	CreatedAt:    "created_at",
+	UpdatedAt:    "updated_at",
+	DeletedAt:    "deleted_at",
 }
 
 // Generated where
 
 var SalonWhere = struct {
-	ID        whereHelperint64
-	RandID    whereHelperstring
-	Name      whereHelperstring
-	CreatedAt whereHelpertime_Time
-	UpdatedAt whereHelpertime_Time
-	DeletedAt whereHelpernull_Time
+	ID           whereHelperint64
+	RandID       whereHelperstring
+	Name         whereHelperstring
+	PhoneNumber  whereHelperstring
+	OpeningHours whereHelperstring
+	ClosingHours whereHelperstring
+	PostalCode   whereHelperstring
+	Prefectures  whereHelperstring
+	City         whereHelperstring
+	Town         whereHelperstring
+	AddressCode  whereHelperstring
+	AddressOther whereHelperstring
+	CreatedAt    whereHelpertime_Time
+	UpdatedAt    whereHelpertime_Time
+	DeletedAt    whereHelpernull_Time
 }{
-	ID:        whereHelperint64{field: "`salons`.`id`"},
-	RandID:    whereHelperstring{field: "`salons`.`rand_id`"},
-	Name:      whereHelperstring{field: "`salons`.`name`"},
-	CreatedAt: whereHelpertime_Time{field: "`salons`.`created_at`"},
-	UpdatedAt: whereHelpertime_Time{field: "`salons`.`updated_at`"},
-	DeletedAt: whereHelpernull_Time{field: "`salons`.`deleted_at`"},
+	ID:           whereHelperint64{field: "`salons`.`id`"},
+	RandID:       whereHelperstring{field: "`salons`.`rand_id`"},
+	Name:         whereHelperstring{field: "`salons`.`name`"},
+	PhoneNumber:  whereHelperstring{field: "`salons`.`phone_number`"},
+	OpeningHours: whereHelperstring{field: "`salons`.`opening_hours`"},
+	ClosingHours: whereHelperstring{field: "`salons`.`closing_hours`"},
+	PostalCode:   whereHelperstring{field: "`salons`.`postal_code`"},
+	Prefectures:  whereHelperstring{field: "`salons`.`prefectures`"},
+	City:         whereHelperstring{field: "`salons`.`city`"},
+	Town:         whereHelperstring{field: "`salons`.`town`"},
+	AddressCode:  whereHelperstring{field: "`salons`.`address_code`"},
+	AddressOther: whereHelperstring{field: "`salons`.`address_other`"},
+	CreatedAt:    whereHelpertime_Time{field: "`salons`.`created_at`"},
+	UpdatedAt:    whereHelpertime_Time{field: "`salons`.`updated_at`"},
+	DeletedAt:    whereHelpernull_Time{field: "`salons`.`deleted_at`"},
 }
 
 // SalonRels is where relationship names are stored.
@@ -90,8 +135,8 @@ func (*salonR) NewStruct() *salonR {
 type salonL struct{}
 
 var (
-	salonAllColumns            = []string{"id", "rand_id", "name", "created_at", "updated_at", "deleted_at"}
-	salonColumnsWithoutDefault = []string{"rand_id", "name", "created_at", "updated_at", "deleted_at"}
+	salonAllColumns            = []string{"id", "rand_id", "name", "phone_number", "opening_hours", "closing_hours", "postal_code", "prefectures", "city", "town", "address_code", "address_other", "created_at", "updated_at", "deleted_at"}
+	salonColumnsWithoutDefault = []string{"rand_id", "name", "phone_number", "opening_hours", "closing_hours", "postal_code", "prefectures", "city", "town", "address_code", "address_other", "created_at", "updated_at", "deleted_at"}
 	salonColumnsWithDefault    = []string{"id"}
 	salonPrimaryKeyColumns     = []string{"id"}
 )

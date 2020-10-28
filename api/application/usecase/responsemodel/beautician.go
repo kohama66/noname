@@ -12,6 +12,9 @@ type Beautician struct {
 	LastName    string    `json:"lastName"`
 	Age         int64     `json:"age"`
 	PhoneNumber string    `json:"phoneNumber"`
+	LineID      string    `json:"lineId"`
+	InstagramID string    `json:"instagramId"`
+	Comment     string    `json:"comment"`
 	CreatedAt   time.Time `json:"createdAt"`
 	UpdatedAt   time.Time `json:"updatedAt"`
 }

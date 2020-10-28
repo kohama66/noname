@@ -12,6 +12,7 @@ import (
 // Menu DIInterface
 type Menu interface {
 	Find(w http.ResponseWriter, r *http.Request)
+	FindByBeauticianWithMenuRandID(w http.ResponseWriter, r *http.Request)
 }
 
 type menu struct {
@@ -45,6 +46,31 @@ func (m menu) Find(w http.ResponseWriter, r *http.Request) {
 	res, err := m.menuUsecase.Find(r.Context(), req)
 	if err != nil {
 		log.Errorf(r.Context(), "MenuFind: %v", err)
+		factory.ErrorJSON(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	factory.JSON(w, res)
+	return
+}
+
+// FindByBeauticianWithMenuRandID
+// @Summary 美容師の詳細メニュー取得
+// @Accept  json
+// @Produce  json
+// @Param data body requestmodel.MenuFindByBeauticianWithMenuRandIDs true "Request body"
+// @Success 200 {object} responsemodel.MenuFindByBeauticianWithMenuRandIDs
+// @Failure 500 {object} resource.Error "Something went wrong"
+// @Router /api/v1/menu/find/{beauticianRandID} [get]
+func (m menu) FindByBeauticianWithMenuRandID(w http.ResponseWriter, r *http.Request) {
+	req, err := request.NewMenuFindByBeauticianWithMenuRandIDs(r)
+	if err != nil {
+		log.Warningf(r.Context(), "MenuFindByBeauticianWithMenuRandID.Request %v", err)
+		factory.ErrorJSON(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+	res, err := m.menuUsecase.FindByBeauticianWithMenuRandIDs(r.Context(), req)
+	if err != nil {
+		log.Errorf(r.Context(), "MenuFindByBeauticianWithMenuRandID: %v", err)
 		factory.ErrorJSON(w, err.Error(), http.StatusInternalServerError)
 		return
 	}

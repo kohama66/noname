@@ -1,0 +1,40 @@
+@import "../../../../../css/common.scss";
+
+.choose-plate {
+  display: block;
+  width: 240px;
+  height: 275px;
+  text-decoration: none;
+  border-radius: 15px;
+  margin: 25px 0;
+  background-color: #fff;
+  overflow: hidden;
+  transition-duration: .3s;
+  @include whiteShadow;
+  div {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-flow: nowrap column;
+    align-items: center;
+    box-sizing: border-box;
+    padding-top: 30px;
+    h2 {
+      color: $blackFontColor;
+      font-size: 22px;
+      letter-spacing: .1em;
+    }
+    img {
+      width: 72%;
+      background-color: $orangeColor1;
+      border-radius: 15px;
+      margin-bottom: 23px;
+    }
+  }
+}
+.choose-plate-checked{
+  filter: brightness(50%);
+}
+.choose-plate:hover{
+  transform: translateY(-10px);
+}

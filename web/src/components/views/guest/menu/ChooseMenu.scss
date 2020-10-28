@@ -1,74 +1,34 @@
+@import "../../../../css/common.scss";
 #choose-menu {
-  display: flex;
-  align-items: center;
+  background-color: $baseColor;
   height: 100vh;
-}
-.choose-menu-contents {
-  margin: 0 auto;
-  width: 1000px;
-  height: 700px;
-  background-color: rgb(240, 134, 66);
-  overflow: scroll;
-  box-shadow: 2px 2px 5px #dddddd, -2px -2px 5px #eeeeee;
   position: relative;
-
-}
-.choose-menu-content {
-
-  cursor: pointer;
-  display: flex;
-  width: 800px;
-  height: 100px;
-  box-shadow: 3px 3px 5px #e06742, -1px -1px 5px #eb734e;
-  margin: 30px auto;
-  transition-duration: 0.2s;
-  border-radius: 25px;
-  border: none;
-  background-color: #fff;
-  figure {
+  .menu-bar-wrapper{
+    width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+  }
+  .menu-bar-wrapper::after{
+    content: "";
+    width: 380px;
+  }
+  .done-btn{
+    background-color: $orangeColor1;
+    @include whiteShadow;
+    border: none;
     width: 100px;
-    height: 100%;
-    padding: 15px;
-    box-sizing: border-box;
-    img {
-      // display: none;
-      width: 100%;
-      height: 100%;
-    }
+    height: 100px;
+    border-radius: 50%;
+    cursor: pointer;
+    position: absolute;
+    bottom: 8%;
+    right: 5%;
+    color: #fff;
+    transition-duration: .2s;
   }
-  div {
-    height: 100%;
-    width: 700px;
-    text-align: center;
-    padding-left: 0px;
-    h2 {
-      font-size: 25px;
-      line-height: 100px;
-      letter-spacing: 0.1em;
-      
-    }
+  .done-btn:hover{
+    transform: scale(1.1);
   }
-}
-button:focus {
-  outline: 0;
-}
-.fin-btn {
-  position: fixed;
-  right: 20px;
-  bottom: 20px;
-  width: 150px;
-  height: 150px;
-  font-size: 40px;
-  border: 5px solid rgb(12, 243, 243);
-  // background: linear-gradient(to left, #ff3908, #daff09);
-  // background-color: rgb(12, 243, 243);
-  // border: none;
-  background-color: transparent;
-  color: rgb(12, 243, 243);
-  font-weight: bold;
-  border-radius: 50%;
-  letter-spacing: 0.1em;
-  // box-shadow: 3px 3px 5px #e06742, -1px -1px 5px #eb734e;
-  // box-shadow: 3px 3px 5px #f06262, -1px -1px 5px #7edbeb;
-  cursor: pointer;
 }

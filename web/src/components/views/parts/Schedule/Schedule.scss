@@ -1,0 +1,31 @@
+@import "../../../../css/common.scss";
+
+#schedule {
+  background-color: #fff;
+  color: $blackFontColor;
+  font-weight: bold;
+  letter-spacing: .1em;
+  border-radius: 15px;
+  table {
+    tbody {
+      tr,
+      th,
+      td {
+        background-color: #fff;
+        padding: 15px 25px;
+        border: 2px solid $baseColor;
+      }
+      tr {
+        th:not(:nth-of-type(1))::after {
+          padding: 0 20px;
+        }
+        td:not(:nth-of-type(1)) {
+          cursor: pointer;
+        }
+        td:not(:nth-of-type(1)):hover {
+          background-color: $orangeColor1;
+        }
+      }
+    }
+  }
+}

@@ -8,6 +8,7 @@ import (
 // Menu DIInterface
 type Menu interface {
 	NewMenuFind(ents []*entity.Menu) *responsemodel.MenuFind
+	NewFindByBeauticianWithMenuRandIDs(ents []*entity.BeauticianMenu) *responsemodel.MenuFindByBeauticianWithMenuRandIDs
 }
 type menu struct{}
 
@@ -34,5 +35,27 @@ func (m *menu) NewMenuFind(ents []*entity.Menu) *responsemodel.MenuFind {
 	}
 	return &responsemodel.MenuFind{
 		Menus: mn,
+	}
+}
+
+// NewBeauticianMenuResponsemodel エンティティ変換関数
+func NewBeauticianMenuResponsemodel(ent *entity.BeauticianMenu) *responsemodel.BeauticianMenu {
+	return &responsemodel.BeauticianMenu{
+		Price:        ent.Price,
+		BeauticianID: ent.BeauticianID,
+		MenuID:       ent.MenuID,
+		Name:         ent.R.Menu.Name,
+		CreatedAt:    ent.CreatedAt,
+		UpdatedAt:    ent.UpdatedAt,
+	}
+}
+
+func (m *menu) NewFindByBeauticianWithMenuRandIDs(ents []*entity.BeauticianMenu) *responsemodel.MenuFindByBeauticianWithMenuRandIDs {
+	bms := make([]*responsemodel.BeauticianMenu, len(ents))
+	for i, v := range ents {
+		bms[i] = NewBeauticianMenuResponsemodel(v)
+	}
+	return &responsemodel.MenuFindByBeauticianWithMenuRandIDs{
+		BeauticianMenus: bms,
 	}
 }

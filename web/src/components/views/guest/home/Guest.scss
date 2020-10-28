@@ -1,0 +1,19 @@
+@import "../../../../css/common.scss";
+
+.chooses {
+  width: 100%;
+  height: 100vh;
+  background-color: $baseColor;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+  .chooses-contents-wrapper {
+    .chooses-contents {
+      width: 600px;
+      display: flex;
+      flex-flow: row wrap;
+      justify-content: space-around;
+    }
+  }
+}
