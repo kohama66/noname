@@ -11,7 +11,7 @@ type ReservationCreate struct {
 	AuthID       string    `json:"-"`
 	BeauticianID int64     `json:"beauticiaId"`
 	SpaceID      int64     `json:"spaceId"`
-	MenuIDs      []int64   `json:"menuIds"`
+	MenuID       int64     `json:"menuId"`
 	Date         time.Time `json:"date"`
 }
 

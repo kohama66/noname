@@ -2,7 +2,8 @@ CREATE TABLE `beauticians` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `auth_id` varchar(255) NOT NULL,
   `rand_id` varchar(255) NOT NULL,
-  `first_name` varchar(255) NOT NULL,
+  fmt"
+	"`first_name` varchar(255) NOT NULL,
   `last_name` varchar(255) NOT NULL,
   `age` bigint NOT NULL,
   `phone_number` varchar(255) NOT NULL,

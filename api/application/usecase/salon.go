@@ -35,23 +35,33 @@ func NewSalon(
 }
 
 func (s *salon) Find(ctx context.Context, r *requestmodel.SalonFind) (*responsemodel.SalonFind, error) {
-	var salons entity.SalonSlice
-	if r.BeauticianRandID != "" {
-		bt, err := s.beauticianRepository.GetByRandID(ctx, r.BeauticianRandID)
+	var sls entity.SalonSlice
+	if !r.Date.IsZero() {
+		sl, err := s.salonRepository.Find(ctx, 0, r.Date)
 		if err != nil {
 			return nil, err
 		}
-		sl, err := s.salonRepository.FindByBeautician(ctx, bt.ID)
-		if err != nil {
-			return nil, err
-		}
-		salons = sl
-	} else {
-		sl, err := s.salonRepository.GetAll(ctx)
-		if err != nil {
-			return nil, err
-		}
-		salons = sl
+		sls = append(sls, sl...)
 	}
-	return s.salonResponse.NewSalonFind(salons), nil
+	return s.salonResponse.NewSalonFind(sls), nil
+
+	// var salons entity.SalonSlice
+	// if r.BeauticianRandID != "" {
+	// 	bt, err := s.beauticianRepository.GetByRandID(ctx, r.BeauticianRandID)
+	// 	if err != nil {
+	// 		return nil, err
+	// 	}
+	// 	sl, err := s.salonRepository.FindByBeautician(ctx, bt.ID)
+	// 	if err != nil {
+	// 		return nil, err
+	// 	}
+	// 	salons = sl
+	// } else {
+	// 	sl, err := s.salonRepository.GetAll(ctx)
+	// 	if err != nil {
+	// 		return nil, err
+	// 	}
+	// 	salons = sl
+	// }
+	// return s.salonResponse.NewSalonFind(salons), nil
 }

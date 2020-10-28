@@ -2,6 +2,8 @@ package repository
 
 import (
 	"context"
+	"fmt"
+	"time"
 
 	"github.com/myapp/noname/api/domain/entity"
 	"github.com/myapp/noname/api/domain/repository"
@@ -52,4 +54,23 @@ func (s *salon) FindByBeautician(ctx context.Context, beauticianID int64) (entit
 		entity.BeauticianWhere.ID.EQ(beauticianID),
 		entity.SalonWhere.DeletedAt.IsNull(),
 	).All(ctx, s.Conn)
+}
+
+func (s *salon) Find(ctx context.Context, beauticianID int64, date time.Time) (entity.SalonSlice, error) {
+	var sls entity.SalonSlice
+	fmt.Printf("%s")
+	if !date.IsZero() {
+		sl, err := entity.Salons(
+			qm.InnerJoin(fmt.Sprintf("%s ON %s = %s", entity.TableNames.Spaces, entity.SpaceColumns.SalonID, "salons.id")),
+			qm.LeftOuterJoin(fmt.Sprintf("%s ON %s = %s", entity.TableNames.Reservations, entity.ReservationColumns.SpaceID, "spaces.id")),
+			entity.ReservationWhere.Date.NEQ(date),
+			qm.Or("reservations.date IS NULL"),
+			entity.SalonWhere.DeletedAt.IsNull(),
+		).All(ctx, s.Conn)
+		if err != nil {
+			return nil, err
+		}
+		sls = append(sls, sl...)
+	}
+	return sls, nil
 }
