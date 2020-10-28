@@ -68,7 +68,7 @@ export const getBeautician = async (randID: string): Promise<beauticianResponse>
 }
 
 export const findMenuDetails = async (beauticianID: string, menuIDs?: string[]): Promise<menuDetailsResponse> => {
-  return get<menuDetailsResponse>(`api/v1/beautician/${beauticianID}`, {
+  return get<menuDetailsResponse>(`api/v1/menu/find/${beauticianID}`, {
     params: {
       menuRandIds: menuIDs,
     }, paramsSerializer: (params: any) => {

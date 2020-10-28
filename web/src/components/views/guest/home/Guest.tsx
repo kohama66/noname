@@ -1,10 +1,8 @@
 import React, { FC } from 'react';
-import Popup from '../parts/Popup';
-import ChoosePlate from './parts/ChoosePlate';
-import Title from './parts/Title/Title';
+import ChoosePlate from '../parts/ChoosePlate';
+import Title from '../parts/Title/Title';
 
 interface props {
-  allSelectCheck: boolean
 }
 
 const Guest: FC<props> = (props) => {
@@ -19,7 +17,6 @@ const Guest: FC<props> = (props) => {
           <ChoosePlate type="date" />
         </div>
       </div>
-      <Popup allSelectCheck={props.allSelectCheck}/>
     </article>
   )
 }

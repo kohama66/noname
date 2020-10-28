@@ -19,8 +19,8 @@ const FinalComfirmation: FC = () => {
     const [beautician, store, _, date] = geterSelectValue()
     const menuIDs = geterSelectID("menu")
     try {
-      if (typeof menuIDs === "object") {
-        setMenus((await findMenuDetails(beautician.randId, menuIDs)).menuDetails)
+      if (typeof menuIDs === "object" && menuIDs.length !== 0 && beautician !== initBeautician) {
+        setMenus((await findMenuDetails(beautician.randId, menuIDs)).beauticianMenus)
         setBeautician(beautician)
         setStore(store)
         setDate(date)

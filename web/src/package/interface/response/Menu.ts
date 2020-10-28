@@ -13,5 +13,5 @@ export interface menuDetailResponse {
 }
 
 export interface menuDetailsResponse {
-  menuDetails: MenuDetail[]
+  beauticianMenus: MenuDetail[]
 }

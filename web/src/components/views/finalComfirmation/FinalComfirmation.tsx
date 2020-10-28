@@ -29,25 +29,28 @@ const FinalComfirmation: FC<props> = (props) => {
         <div className="final-comfirmation-content">
           <h2>日付</h2>
           <div>
-            {/* <p>{props.date}</p> */}
-            <p>2020年10-25 12:00:00</p>
+            <p>{props.date}</p>
+            {/* <p>2020年10-25 12:00:00</p> */}
           </div>
           <h2>メニュー</h2>
           <div>
             <dl>
-              {/* {props.menus.map((menu) => {
-                return <li>{menu.name}</li>
-              })} */}
-              <dt>カット</dt>
+              {props.menus.map((menu, id) => {
+                return <>
+                  <dt>{menu.name}</dt>
+                  <dd>{menu.price}</dd>
+                </>
+              })}
+              {/* <dt>カット</dt>
               <dd>1200</dd>
               <dt>パーマ</dt>
               <dd>3500</dd>
               <dt>カラー</dt>
-              <dd>1800</dd>
+              <dd>1800</dd> */}
             </dl>
             <div className="total-price">
               <h2>合計</h2>
-              <p>5500</p>
+              {/* <p>5500</p> */}
             </div>
           </div>
         </div>

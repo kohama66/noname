@@ -1,5 +1,5 @@
 import React, { FC, useState, createContext, useEffect } from 'react';
-import GuestComponent from '../../../components/views/guest/Guest'
+import GuestComponent from './home'
 import ChooseBeautician from "./beautician"
 import ChooseStore from './store'
 import ChooseDate from './date'
@@ -9,7 +9,6 @@ import {
   Switch,
   Route,
   useRouteMatch,
-  useHistory,
 } from "react-router-dom";
 import FinalComfirmation from '../finalComfirmation';
 import { Beautician, initBeautician, isBeauticianInterface } from '../../../package/interface/Beautician';
@@ -23,13 +22,11 @@ export const GeterSelectValueContext = createContext((): [Beautician, Salon, Men
 
 const Guest: FC = () => {
   const match = useRouteMatch()
-  const history = useHistory()
 
   const [beautician, setBeautician] = useState<Beautician>(initBeautician)
   const [store, setStore] = useState<Salon>(initSalon)
   const [menus, setMenus] = useState<Menu[]>([])
   const [reservationDate, setReservationDate] = useState<string>("")
-  const [allSelected, setAllSelected] = useState<boolean>(false)
 
   const handleSetSelectValue = (value: Beautician | Salon | Menu[] | string) => {
     if (isBeauticianInterface(value)) {
@@ -79,35 +76,20 @@ const Guest: FC = () => {
   const geterSelectValue = (): [Beautician, Salon, Menu[], string] => {
     return [beautician, store, menus, reservationDate]
   }
-
-  useEffect(() => {
-    // let allSelected: boolean = false
-    // const allSelectedCheck = () => {
-    //   if (beautician !== undefined && store !== undefined && menus.length !== 0 && reservationDate !== "") {
-    // setAllSelected(true)
-    // allSelected = true
-    //     history.push(match.path + "/final_comfirmation")
-    //   }
-    // }
-    // const jumpFinalPage = (allSelected: boolean) => {
-    //   if (allSelected){
-    //     history.push(match.path + "/final_comfirmation")
-    //   } else {
-    //     console.log(allSelected)
-    //   }
-    // }
-    // allSelectedCheck()
-    // jumpFinalPage(allSelected)
-    // history.push("guest/final_comfirmation")
-  }, [beautician, store, menus, reservationDate])
-
+  const allSelectedCheck = (): boolean => {
+    if (beautician !== initBeautician && store !== initSalon && menus.length !== 0 && reservationDate !== "") {
+      return true
+    } else {
+      return false
+    }
+  }
   return (
     <SetSelectValueContext.Provider value={handleSetSelectValue}>
       <GeterSelectIDContext.Provider value={geterSelectID}>
         <GeterSelectValueContext.Provider value={geterSelectValue}>
           <Router>
             <Switch>
-              <Route exact path={match.path} render={() => <GuestComponent allSelectCheck={allSelected} />} />
+              <Route exact path={match.path} render={() => <GuestComponent allSelectCheck={allSelectedCheck} />} />
               <Route exact path={match.path + "/beautician"} render={() => <ChooseBeautician />} />
               <Route exact path={match.path + "/store"} render={() => <ChooseStore />} />
               <Route exact path={match.path + "/date"} render={() => <ChooseDate />} />
