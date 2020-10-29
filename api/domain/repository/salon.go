@@ -13,4 +13,5 @@ type Salon interface {
 	GetAll(ctx context.Context) (entity.SalonSlice, error)
 	FindByBeautician(ctx context.Context, beauticianID int64) (entity.SalonSlice, error)
 	Find(ctx context.Context, beauticianID *int64, date *time.Time) (entity.SalonSlice, error)
+	GetVacantSpace(ctx context.Context, date time.Time, salonID int64) (*entity.Space, error)
 }

@@ -149,7 +149,7 @@ func testBeauticianMenusExists(t *testing.T) {
 		t.Error(err)
 	}
 
-	e, err := BeauticianMenuExists(ctx, tx, o.BeauticianID, o.MenuID)
+	e, err := BeauticianMenuExists(ctx, tx, o.ID)
 	if err != nil {
 		t.Errorf("Unable to check if BeauticianMenu exists: %s", err)
 	}
@@ -175,7 +175,7 @@ func testBeauticianMenusFind(t *testing.T) {
 		t.Error(err)
 	}
 
-	beauticianMenuFound, err := FindBeauticianMenu(ctx, tx, o.BeauticianID, o.MenuID)
+	beauticianMenuFound, err := FindBeauticianMenu(ctx, tx, o.ID)
 	if err != nil {
 		t.Error(err)
 	}
@@ -494,6 +494,159 @@ func testBeauticianMenusInsertWhitelist(t *testing.T) {
 	}
 }
 
+func testBeauticianMenuToManyReservationMenus(t *testing.T) {
+	var err error
+	ctx := context.Background()
+	tx := MustTx(boil.BeginTx(ctx, nil))
+	defer func() { _ = tx.Rollback() }()
+
+	var a BeauticianMenu
+	var b, c ReservationMenu
+
+	seed := randomize.NewSeed()
+	if err = randomize.Struct(seed, &a, beauticianMenuDBTypes, true, beauticianMenuColumnsWithDefault...); err != nil {
+		t.Errorf("Unable to randomize BeauticianMenu struct: %s", err)
+	}
+
+	if err := a.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+
+	if err = randomize.Struct(seed, &b, reservationMenuDBTypes, false, reservationMenuColumnsWithDefault...); err != nil {
+		t.Fatal(err)
+	}
+	if err = randomize.Struct(seed, &c, reservationMenuDBTypes, false, reservationMenuColumnsWithDefault...); err != nil {
+		t.Fatal(err)
+	}
+
+	b.BeauticianMenuID = a.ID
+	c.BeauticianMenuID = a.ID
+
+	if err = b.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+	if err = c.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+
+	check, err := a.ReservationMenus().All(ctx, tx)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	bFound, cFound := false, false
+	for _, v := range check {
+		if v.BeauticianMenuID == b.BeauticianMenuID {
+			bFound = true
+		}
+		if v.BeauticianMenuID == c.BeauticianMenuID {
+			cFound = true
+		}
+	}
+
+	if !bFound {
+		t.Error("expected to find b")
+	}
+	if !cFound {
+		t.Error("expected to find c")
+	}
+
+	slice := BeauticianMenuSlice{&a}
+	if err = a.L.LoadReservationMenus(ctx, tx, false, (*[]*BeauticianMenu)(&slice), nil); err != nil {
+		t.Fatal(err)
+	}
+	if got := len(a.R.ReservationMenus); got != 2 {
+		t.Error("number of eager loaded records wrong, got:", got)
+	}
+
+	a.R.ReservationMenus = nil
+	if err = a.L.LoadReservationMenus(ctx, tx, true, &a, nil); err != nil {
+		t.Fatal(err)
+	}
+	if got := len(a.R.ReservationMenus); got != 2 {
+		t.Error("number of eager loaded records wrong, got:", got)
+	}
+
+	if t.Failed() {
+		t.Logf("%#v", check)
+	}
+}
+
+func testBeauticianMenuToManyAddOpReservationMenus(t *testing.T) {
+	var err error
+
+	ctx := context.Background()
+	tx := MustTx(boil.BeginTx(ctx, nil))
+	defer func() { _ = tx.Rollback() }()
+
+	var a BeauticianMenu
+	var b, c, d, e ReservationMenu
+
+	seed := randomize.NewSeed()
+	if err = randomize.Struct(seed, &a, beauticianMenuDBTypes, false, strmangle.SetComplement(beauticianMenuPrimaryKeyColumns, beauticianMenuColumnsWithoutDefault)...); err != nil {
+		t.Fatal(err)
+	}
+	foreigners := []*ReservationMenu{&b, &c, &d, &e}
+	for _, x := range foreigners {
+		if err = randomize.Struct(seed, x, reservationMenuDBTypes, false, strmangle.SetComplement(reservationMenuPrimaryKeyColumns, reservationMenuColumnsWithoutDefault)...); err != nil {
+			t.Fatal(err)
+		}
+	}
+
+	if err := a.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+	if err = b.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+	if err = c.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+
+	foreignersSplitByInsertion := [][]*ReservationMenu{
+		{&b, &c},
+		{&d, &e},
+	}
+
+	for i, x := range foreignersSplitByInsertion {
+		err = a.AddReservationMenus(ctx, tx, i != 0, x...)
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		first := x[0]
+		second := x[1]
+
+		if a.ID != first.BeauticianMenuID {
+			t.Error("foreign key was wrong value", a.ID, first.BeauticianMenuID)
+		}
+		if a.ID != second.BeauticianMenuID {
+			t.Error("foreign key was wrong value", a.ID, second.BeauticianMenuID)
+		}
+
+		if first.R.BeauticianMenu != &a {
+			t.Error("relationship was not added properly to the foreign slice")
+		}
+		if second.R.BeauticianMenu != &a {
+			t.Error("relationship was not added properly to the foreign slice")
+		}
+
+		if a.R.ReservationMenus[i*2] != first {
+			t.Error("relationship struct slice not set to correct value")
+		}
+		if a.R.ReservationMenus[i*2+1] != second {
+			t.Error("relationship struct slice not set to correct value")
+		}
+
+		count, err := a.ReservationMenus().Count(ctx, tx)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if want := int64((i + 1) * 2); count != want {
+			t.Error("want", want, "got", count)
+		}
+	}
+}
 func testBeauticianMenuToOneBeauticianUsingBeautician(t *testing.T) {
 	ctx := context.Background()
 	tx := MustTx(boil.BeginTx(ctx, nil))
@@ -641,12 +794,16 @@ func testBeauticianMenuToOneSetOpBeauticianUsingBeautician(t *testing.T) {
 			t.Error("foreign key was wrong value", a.BeauticianID)
 		}
 
-		if exists, err := BeauticianMenuExists(ctx, tx, a.BeauticianID, a.MenuID); err != nil {
-			t.Fatal(err)
-		} else if !exists {
-			t.Error("want 'a' to exist")
+		zero := reflect.Zero(reflect.TypeOf(a.BeauticianID))
+		reflect.Indirect(reflect.ValueOf(&a.BeauticianID)).Set(zero)
+
+		if err = a.Reload(ctx, tx); err != nil {
+			t.Fatal("failed to reload", err)
 		}
 
+		if a.BeauticianID != x.ID {
+			t.Error("foreign key was wrong value", a.BeauticianID, x.ID)
+		}
 	}
 }
 func testBeauticianMenuToOneSetOpMenuUsingMenu(t *testing.T) {
@@ -694,12 +851,16 @@ func testBeauticianMenuToOneSetOpMenuUsingMenu(t *testing.T) {
 			t.Error("foreign key was wrong value", a.MenuID)
 		}
 
-		if exists, err := BeauticianMenuExists(ctx, tx, a.BeauticianID, a.MenuID); err != nil {
-			t.Fatal(err)
-		} else if !exists {
-			t.Error("want 'a' to exist")
+		zero := reflect.Zero(reflect.TypeOf(a.MenuID))
+		reflect.Indirect(reflect.ValueOf(&a.MenuID)).Set(zero)
+
+		if err = a.Reload(ctx, tx); err != nil {
+			t.Fatal("failed to reload", err)
 		}
 
+		if a.MenuID != x.ID {
+			t.Error("foreign key was wrong value", a.MenuID, x.ID)
+		}
 	}
 }
 
@@ -777,7 +938,7 @@ func testBeauticianMenusSelect(t *testing.T) {
 }
 
 var (
-	beauticianMenuDBTypes = map[string]string{`Price`: `bigint`, `BeauticianID`: `bigint`, `MenuID`: `bigint`, `CreatedAt`: `datetime`, `UpdatedAt`: `datetime`, `DeletedAt`: `datetime`}
+	beauticianMenuDBTypes = map[string]string{`ID`: `bigint`, `Price`: `bigint`, `BeauticianID`: `bigint`, `MenuID`: `bigint`, `CreatedAt`: `datetime`, `UpdatedAt`: `datetime`, `DeletedAt`: `datetime`}
 	_                     = bytes.MinRead
 )
 

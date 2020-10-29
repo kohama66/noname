@@ -675,7 +675,7 @@ func (o *Beautician) AddBeauticianMenus(ctx context.Context, exec boil.ContextEx
 				strmangle.SetParamNames("`", "`", 0, []string{"beautician_id"}),
 				strmangle.WhereClause("`", "`", 0, beauticianMenuPrimaryKeyColumns),
 			)
-			values := []interface{}{o.ID, rel.BeauticianID, rel.MenuID}
+			values := []interface{}{o.ID, rel.ID}
 
 			if boil.IsDebug(ctx) {
 				writer := boil.DebugWriterFrom(ctx)

@@ -30,7 +30,6 @@ type Reservation struct {
 	SpaceID      int64     `boil:"space_id" json:"space_id" toml:"space_id" yaml:"space_id"`
 	BeauticianID int64     `boil:"beautician_id" json:"beautician_id" toml:"beautician_id" yaml:"beautician_id"`
 	GuestID      int64     `boil:"guest_id" json:"guest_id" toml:"guest_id" yaml:"guest_id"`
-	MenuID       int64     `boil:"menu_id" json:"menu_id" toml:"menu_id" yaml:"menu_id"`
 	CreatedAt    time.Time `boil:"created_at" json:"created_at" toml:"created_at" yaml:"created_at"`
 	UpdatedAt    time.Time `boil:"updated_at" json:"updated_at" toml:"updated_at" yaml:"updated_at"`
 	DeletedAt    null.Time `boil:"deleted_at" json:"deleted_at,omitempty" toml:"deleted_at" yaml:"deleted_at,omitempty"`
@@ -46,7 +45,6 @@ var ReservationColumns = struct {
 	SpaceID      string
 	BeauticianID string
 	GuestID      string
-	MenuID       string
 	CreatedAt    string
 	UpdatedAt    string
 	DeletedAt    string
@@ -57,7 +55,6 @@ var ReservationColumns = struct {
 	SpaceID:      "space_id",
 	BeauticianID: "beautician_id",
 	GuestID:      "guest_id",
-	MenuID:       "menu_id",
 	CreatedAt:    "created_at",
 	UpdatedAt:    "updated_at",
 	DeletedAt:    "deleted_at",
@@ -81,7 +78,6 @@ var ReservationWhere = struct {
 	SpaceID      whereHelperint64
 	BeauticianID whereHelperint64
 	GuestID      whereHelperint64
-	MenuID       whereHelperint64
 	CreatedAt    whereHelpertime_Time
 	UpdatedAt    whereHelpertime_Time
 	DeletedAt    whereHelpernull_Time
@@ -92,7 +88,6 @@ var ReservationWhere = struct {
 	SpaceID:      whereHelperint64{field: "`reservations`.`space_id`"},
 	BeauticianID: whereHelperint64{field: "`reservations`.`beautician_id`"},
 	GuestID:      whereHelperint64{field: "`reservations`.`guest_id`"},
-	MenuID:       whereHelperint64{field: "`reservations`.`menu_id`"},
 	CreatedAt:    whereHelpertime_Time{field: "`reservations`.`created_at`"},
 	UpdatedAt:    whereHelpertime_Time{field: "`reservations`.`updated_at`"},
 	DeletedAt:    whereHelpernull_Time{field: "`reservations`.`deleted_at`"},
@@ -100,23 +95,23 @@ var ReservationWhere = struct {
 
 // ReservationRels is where relationship names are stored.
 var ReservationRels = struct {
-	Beautician string
-	Guest      string
-	Menu       string
-	Space      string
+	Beautician       string
+	Guest            string
+	Space            string
+	ReservationMenus string
 }{
-	Beautician: "Beautician",
-	Guest:      "Guest",
-	Menu:       "Menu",
-	Space:      "Space",
+	Beautician:       "Beautician",
+	Guest:            "Guest",
+	Space:            "Space",
+	ReservationMenus: "ReservationMenus",
 }
 
 // reservationR is where relationships are stored.
 type reservationR struct {
-	Beautician *Beautician
-	Guest      *Guest
-	Menu       *Menu
-	Space      *Space
+	Beautician       *Beautician
+	Guest            *Guest
+	Space            *Space
+	ReservationMenus ReservationMenuSlice
 }
 
 // NewStruct creates a new relationship struct
@@ -128,8 +123,8 @@ func (*reservationR) NewStruct() *reservationR {
 type reservationL struct{}
 
 var (
-	reservationAllColumns            = []string{"id", "date", "holiday", "space_id", "beautician_id", "guest_id", "menu_id", "created_at", "updated_at", "deleted_at"}
-	reservationColumnsWithoutDefault = []string{"date", "holiday", "space_id", "beautician_id", "guest_id", "menu_id", "created_at", "updated_at", "deleted_at"}
+	reservationAllColumns            = []string{"id", "date", "holiday", "space_id", "beautician_id", "guest_id", "created_at", "updated_at", "deleted_at"}
+	reservationColumnsWithoutDefault = []string{"date", "holiday", "space_id", "beautician_id", "guest_id", "created_at", "updated_at", "deleted_at"}
 	reservationColumnsWithDefault    = []string{"id"}
 	reservationPrimaryKeyColumns     = []string{"id"}
 )
@@ -437,20 +432,6 @@ func (o *Reservation) Guest(mods ...qm.QueryMod) guestQuery {
 	return query
 }
 
-// Menu pointed to by the foreign key.
-func (o *Reservation) Menu(mods ...qm.QueryMod) menuQuery {
-	queryMods := []qm.QueryMod{
-		qm.Where("`id` = ?", o.MenuID),
-	}
-
-	queryMods = append(queryMods, mods...)
-
-	query := Menus(queryMods...)
-	queries.SetFrom(query.Query, "`menus`")
-
-	return query
-}
-
 // Space pointed to by the foreign key.
 func (o *Reservation) Space(mods ...qm.QueryMod) spaceQuery {
 	queryMods := []qm.QueryMod{
@@ -461,6 +442,27 @@ func (o *Reservation) Space(mods ...qm.QueryMod) spaceQuery {
 
 	query := Spaces(queryMods...)
 	queries.SetFrom(query.Query, "`spaces`")
+
+	return query
+}
+
+// ReservationMenus retrieves all the reservation_menu's ReservationMenus with an executor.
+func (o *Reservation) ReservationMenus(mods ...qm.QueryMod) reservationMenuQuery {
+	var queryMods []qm.QueryMod
+	if len(mods) != 0 {
+		queryMods = append(queryMods, mods...)
+	}
+
+	queryMods = append(queryMods,
+		qm.Where("`reservation_menus`.`reservation_id`=?", o.ID),
+	)
+
+	query := ReservationMenus(queryMods...)
+	queries.SetFrom(query.Query, "`reservation_menus`")
+
+	if len(queries.GetSelect(query.Query)) == 0 {
+		queries.SetSelect(query.Query, []string{"`reservation_menus`.*"})
+	}
 
 	return query
 }
@@ -667,107 +669,6 @@ func (reservationL) LoadGuest(ctx context.Context, e boil.ContextExecutor, singu
 	return nil
 }
 
-// LoadMenu allows an eager lookup of values, cached into the
-// loaded structs of the objects. This is for an N-1 relationship.
-func (reservationL) LoadMenu(ctx context.Context, e boil.ContextExecutor, singular bool, maybeReservation interface{}, mods queries.Applicator) error {
-	var slice []*Reservation
-	var object *Reservation
-
-	if singular {
-		object = maybeReservation.(*Reservation)
-	} else {
-		slice = *maybeReservation.(*[]*Reservation)
-	}
-
-	args := make([]interface{}, 0, 1)
-	if singular {
-		if object.R == nil {
-			object.R = &reservationR{}
-		}
-		args = append(args, object.MenuID)
-
-	} else {
-	Outer:
-		for _, obj := range slice {
-			if obj.R == nil {
-				obj.R = &reservationR{}
-			}
-
-			for _, a := range args {
-				if a == obj.MenuID {
-					continue Outer
-				}
-			}
-
-			args = append(args, obj.MenuID)
-
-		}
-	}
-
-	if len(args) == 0 {
-		return nil
-	}
-
-	query := NewQuery(qm.From(`menus`), qm.WhereIn(`menus.id in ?`, args...))
-	if mods != nil {
-		mods.Apply(query)
-	}
-
-	results, err := query.QueryContext(ctx, e)
-	if err != nil {
-		return errors.Wrap(err, "failed to eager load Menu")
-	}
-
-	var resultSlice []*Menu
-	if err = queries.Bind(results, &resultSlice); err != nil {
-		return errors.Wrap(err, "failed to bind eager loaded slice Menu")
-	}
-
-	if err = results.Close(); err != nil {
-		return errors.Wrap(err, "failed to close results of eager load for menus")
-	}
-	if err = results.Err(); err != nil {
-		return errors.Wrap(err, "error occurred during iteration of eager loaded relations for menus")
-	}
-
-	if len(reservationAfterSelectHooks) != 0 {
-		for _, obj := range resultSlice {
-			if err := obj.doAfterSelectHooks(ctx, e); err != nil {
-				return err
-			}
-		}
-	}
-
-	if len(resultSlice) == 0 {
-		return nil
-	}
-
-	if singular {
-		foreign := resultSlice[0]
-		object.R.Menu = foreign
-		if foreign.R == nil {
-			foreign.R = &menuR{}
-		}
-		foreign.R.Reservations = append(foreign.R.Reservations, object)
-		return nil
-	}
-
-	for _, local := range slice {
-		for _, foreign := range resultSlice {
-			if local.MenuID == foreign.ID {
-				local.R.Menu = foreign
-				if foreign.R == nil {
-					foreign.R = &menuR{}
-				}
-				foreign.R.Reservations = append(foreign.R.Reservations, local)
-				break
-			}
-		}
-	}
-
-	return nil
-}
-
 // LoadSpace allows an eager lookup of values, cached into the
 // loaded structs of the objects. This is for an N-1 relationship.
 func (reservationL) LoadSpace(ctx context.Context, e boil.ContextExecutor, singular bool, maybeReservation interface{}, mods queries.Applicator) error {
@@ -861,6 +762,101 @@ func (reservationL) LoadSpace(ctx context.Context, e boil.ContextExecutor, singu
 					foreign.R = &spaceR{}
 				}
 				foreign.R.Reservations = append(foreign.R.Reservations, local)
+				break
+			}
+		}
+	}
+
+	return nil
+}
+
+// LoadReservationMenus allows an eager lookup of values, cached into the
+// loaded structs of the objects. This is for a 1-M or N-M relationship.
+func (reservationL) LoadReservationMenus(ctx context.Context, e boil.ContextExecutor, singular bool, maybeReservation interface{}, mods queries.Applicator) error {
+	var slice []*Reservation
+	var object *Reservation
+
+	if singular {
+		object = maybeReservation.(*Reservation)
+	} else {
+		slice = *maybeReservation.(*[]*Reservation)
+	}
+
+	args := make([]interface{}, 0, 1)
+	if singular {
+		if object.R == nil {
+			object.R = &reservationR{}
+		}
+		args = append(args, object.ID)
+	} else {
+	Outer:
+		for _, obj := range slice {
+			if obj.R == nil {
+				obj.R = &reservationR{}
+			}
+
+			for _, a := range args {
+				if a == obj.ID {
+					continue Outer
+				}
+			}
+
+			args = append(args, obj.ID)
+		}
+	}
+
+	if len(args) == 0 {
+		return nil
+	}
+
+	query := NewQuery(qm.From(`reservation_menus`), qm.WhereIn(`reservation_menus.reservation_id in ?`, args...))
+	if mods != nil {
+		mods.Apply(query)
+	}
+
+	results, err := query.QueryContext(ctx, e)
+	if err != nil {
+		return errors.Wrap(err, "failed to eager load reservation_menus")
+	}
+
+	var resultSlice []*ReservationMenu
+	if err = queries.Bind(results, &resultSlice); err != nil {
+		return errors.Wrap(err, "failed to bind eager loaded slice reservation_menus")
+	}
+
+	if err = results.Close(); err != nil {
+		return errors.Wrap(err, "failed to close results in eager load on reservation_menus")
+	}
+	if err = results.Err(); err != nil {
+		return errors.Wrap(err, "error occurred during iteration of eager loaded relations for reservation_menus")
+	}
+
+	if len(reservationMenuAfterSelectHooks) != 0 {
+		for _, obj := range resultSlice {
+			if err := obj.doAfterSelectHooks(ctx, e); err != nil {
+				return err
+			}
+		}
+	}
+	if singular {
+		object.R.ReservationMenus = resultSlice
+		for _, foreign := range resultSlice {
+			if foreign.R == nil {
+				foreign.R = &reservationMenuR{}
+			}
+			foreign.R.Reservation = object
+		}
+		return nil
+	}
+
+	for _, foreign := range resultSlice {
+		for _, local := range slice {
+			if local.ID == foreign.ReservationID {
+				local.R.ReservationMenus = append(local.R.ReservationMenus, foreign)
+				if foreign.R == nil {
+					foreign.R = &reservationMenuR{}
+				}
+				foreign.R.Reservation = local
 				break
 			}
 		}
@@ -963,53 +959,6 @@ func (o *Reservation) SetGuest(ctx context.Context, exec boil.ContextExecutor, i
 	return nil
 }
 
-// SetMenu of the reservation to the related item.
-// Sets o.R.Menu to related.
-// Adds o to related.R.Reservations.
-func (o *Reservation) SetMenu(ctx context.Context, exec boil.ContextExecutor, insert bool, related *Menu) error {
-	var err error
-	if insert {
-		if err = related.Insert(ctx, exec, boil.Infer()); err != nil {
-			return errors.Wrap(err, "failed to insert into foreign table")
-		}
-	}
-
-	updateQuery := fmt.Sprintf(
-		"UPDATE `reservations` SET %s WHERE %s",
-		strmangle.SetParamNames("`", "`", 0, []string{"menu_id"}),
-		strmangle.WhereClause("`", "`", 0, reservationPrimaryKeyColumns),
-	)
-	values := []interface{}{related.ID, o.ID}
-
-	if boil.IsDebug(ctx) {
-		writer := boil.DebugWriterFrom(ctx)
-		fmt.Fprintln(writer, updateQuery)
-		fmt.Fprintln(writer, values)
-	}
-	if _, err = exec.ExecContext(ctx, updateQuery, values...); err != nil {
-		return errors.Wrap(err, "failed to update local table")
-	}
-
-	o.MenuID = related.ID
-	if o.R == nil {
-		o.R = &reservationR{
-			Menu: related,
-		}
-	} else {
-		o.R.Menu = related
-	}
-
-	if related.R == nil {
-		related.R = &menuR{
-			Reservations: ReservationSlice{o},
-		}
-	} else {
-		related.R.Reservations = append(related.R.Reservations, o)
-	}
-
-	return nil
-}
-
 // SetSpace of the reservation to the related item.
 // Sets o.R.Space to related.
 // Adds o to related.R.Reservations.
@@ -1054,6 +1003,59 @@ func (o *Reservation) SetSpace(ctx context.Context, exec boil.ContextExecutor, i
 		related.R.Reservations = append(related.R.Reservations, o)
 	}
 
+	return nil
+}
+
+// AddReservationMenus adds the given related objects to the existing relationships
+// of the reservation, optionally inserting them as new records.
+// Appends related to o.R.ReservationMenus.
+// Sets related.R.Reservation appropriately.
+func (o *Reservation) AddReservationMenus(ctx context.Context, exec boil.ContextExecutor, insert bool, related ...*ReservationMenu) error {
+	var err error
+	for _, rel := range related {
+		if insert {
+			rel.ReservationID = o.ID
+			if err = rel.Insert(ctx, exec, boil.Infer()); err != nil {
+				return errors.Wrap(err, "failed to insert into foreign table")
+			}
+		} else {
+			updateQuery := fmt.Sprintf(
+				"UPDATE `reservation_menus` SET %s WHERE %s",
+				strmangle.SetParamNames("`", "`", 0, []string{"reservation_id"}),
+				strmangle.WhereClause("`", "`", 0, reservationMenuPrimaryKeyColumns),
+			)
+			values := []interface{}{o.ID, rel.ReservationID, rel.BeauticianMenuID}
+
+			if boil.IsDebug(ctx) {
+				writer := boil.DebugWriterFrom(ctx)
+				fmt.Fprintln(writer, updateQuery)
+				fmt.Fprintln(writer, values)
+			}
+			if _, err = exec.ExecContext(ctx, updateQuery, values...); err != nil {
+				return errors.Wrap(err, "failed to update foreign table")
+			}
+
+			rel.ReservationID = o.ID
+		}
+	}
+
+	if o.R == nil {
+		o.R = &reservationR{
+			ReservationMenus: related,
+		}
+	} else {
+		o.R.ReservationMenus = append(o.R.ReservationMenus, related...)
+	}
+
+	for _, rel := range related {
+		if rel.R == nil {
+			rel.R = &reservationMenuR{
+				Reservation: o,
+			}
+		} else {
+			rel.R.Reservation = o
+		}
+	}
 	return nil
 }
 

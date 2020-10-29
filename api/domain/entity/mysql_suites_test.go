@@ -16,6 +16,8 @@ func TestUpsert(t *testing.T) {
 
 	t.Run("Menus", testMenusUpsert)
 
+	t.Run("ReservationMenus", testReservationMenusUpsert)
+
 	t.Run("Reservations", testReservationsUpsert)
 
 	t.Run("Salons", testSalonsUpsert)

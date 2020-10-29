@@ -494,6 +494,159 @@ func testReservationsInsertWhitelist(t *testing.T) {
 	}
 }
 
+func testReservationToManyReservationMenus(t *testing.T) {
+	var err error
+	ctx := context.Background()
+	tx := MustTx(boil.BeginTx(ctx, nil))
+	defer func() { _ = tx.Rollback() }()
+
+	var a Reservation
+	var b, c ReservationMenu
+
+	seed := randomize.NewSeed()
+	if err = randomize.Struct(seed, &a, reservationDBTypes, true, reservationColumnsWithDefault...); err != nil {
+		t.Errorf("Unable to randomize Reservation struct: %s", err)
+	}
+
+	if err := a.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+
+	if err = randomize.Struct(seed, &b, reservationMenuDBTypes, false, reservationMenuColumnsWithDefault...); err != nil {
+		t.Fatal(err)
+	}
+	if err = randomize.Struct(seed, &c, reservationMenuDBTypes, false, reservationMenuColumnsWithDefault...); err != nil {
+		t.Fatal(err)
+	}
+
+	b.ReservationID = a.ID
+	c.ReservationID = a.ID
+
+	if err = b.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+	if err = c.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+
+	check, err := a.ReservationMenus().All(ctx, tx)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	bFound, cFound := false, false
+	for _, v := range check {
+		if v.ReservationID == b.ReservationID {
+			bFound = true
+		}
+		if v.ReservationID == c.ReservationID {
+			cFound = true
+		}
+	}
+
+	if !bFound {
+		t.Error("expected to find b")
+	}
+	if !cFound {
+		t.Error("expected to find c")
+	}
+
+	slice := ReservationSlice{&a}
+	if err = a.L.LoadReservationMenus(ctx, tx, false, (*[]*Reservation)(&slice), nil); err != nil {
+		t.Fatal(err)
+	}
+	if got := len(a.R.ReservationMenus); got != 2 {
+		t.Error("number of eager loaded records wrong, got:", got)
+	}
+
+	a.R.ReservationMenus = nil
+	if err = a.L.LoadReservationMenus(ctx, tx, true, &a, nil); err != nil {
+		t.Fatal(err)
+	}
+	if got := len(a.R.ReservationMenus); got != 2 {
+		t.Error("number of eager loaded records wrong, got:", got)
+	}
+
+	if t.Failed() {
+		t.Logf("%#v", check)
+	}
+}
+
+func testReservationToManyAddOpReservationMenus(t *testing.T) {
+	var err error
+
+	ctx := context.Background()
+	tx := MustTx(boil.BeginTx(ctx, nil))
+	defer func() { _ = tx.Rollback() }()
+
+	var a Reservation
+	var b, c, d, e ReservationMenu
+
+	seed := randomize.NewSeed()
+	if err = randomize.Struct(seed, &a, reservationDBTypes, false, strmangle.SetComplement(reservationPrimaryKeyColumns, reservationColumnsWithoutDefault)...); err != nil {
+		t.Fatal(err)
+	}
+	foreigners := []*ReservationMenu{&b, &c, &d, &e}
+	for _, x := range foreigners {
+		if err = randomize.Struct(seed, x, reservationMenuDBTypes, false, strmangle.SetComplement(reservationMenuPrimaryKeyColumns, reservationMenuColumnsWithoutDefault)...); err != nil {
+			t.Fatal(err)
+		}
+	}
+
+	if err := a.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+	if err = b.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+	if err = c.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+
+	foreignersSplitByInsertion := [][]*ReservationMenu{
+		{&b, &c},
+		{&d, &e},
+	}
+
+	for i, x := range foreignersSplitByInsertion {
+		err = a.AddReservationMenus(ctx, tx, i != 0, x...)
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		first := x[0]
+		second := x[1]
+
+		if a.ID != first.ReservationID {
+			t.Error("foreign key was wrong value", a.ID, first.ReservationID)
+		}
+		if a.ID != second.ReservationID {
+			t.Error("foreign key was wrong value", a.ID, second.ReservationID)
+		}
+
+		if first.R.Reservation != &a {
+			t.Error("relationship was not added properly to the foreign slice")
+		}
+		if second.R.Reservation != &a {
+			t.Error("relationship was not added properly to the foreign slice")
+		}
+
+		if a.R.ReservationMenus[i*2] != first {
+			t.Error("relationship struct slice not set to correct value")
+		}
+		if a.R.ReservationMenus[i*2+1] != second {
+			t.Error("relationship struct slice not set to correct value")
+		}
+
+		count, err := a.ReservationMenus().Count(ctx, tx)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if want := int64((i + 1) * 2); count != want {
+			t.Error("want", want, "got", count)
+		}
+	}
+}
 func testReservationToOneBeauticianUsingBeautician(t *testing.T) {
 	ctx := context.Background()
 	tx := MustTx(boil.BeginTx(ctx, nil))
@@ -592,57 +745,6 @@ func testReservationToOneGuestUsingGuest(t *testing.T) {
 		t.Fatal(err)
 	}
 	if local.R.Guest == nil {
-		t.Error("struct should have been eager loaded")
-	}
-}
-
-func testReservationToOneMenuUsingMenu(t *testing.T) {
-	ctx := context.Background()
-	tx := MustTx(boil.BeginTx(ctx, nil))
-	defer func() { _ = tx.Rollback() }()
-
-	var local Reservation
-	var foreign Menu
-
-	seed := randomize.NewSeed()
-	if err := randomize.Struct(seed, &local, reservationDBTypes, false, reservationColumnsWithDefault...); err != nil {
-		t.Errorf("Unable to randomize Reservation struct: %s", err)
-	}
-	if err := randomize.Struct(seed, &foreign, menuDBTypes, false, menuColumnsWithDefault...); err != nil {
-		t.Errorf("Unable to randomize Menu struct: %s", err)
-	}
-
-	if err := foreign.Insert(ctx, tx, boil.Infer()); err != nil {
-		t.Fatal(err)
-	}
-
-	local.MenuID = foreign.ID
-	if err := local.Insert(ctx, tx, boil.Infer()); err != nil {
-		t.Fatal(err)
-	}
-
-	check, err := local.Menu().One(ctx, tx)
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	if check.ID != foreign.ID {
-		t.Errorf("want: %v, got %v", foreign.ID, check.ID)
-	}
-
-	slice := ReservationSlice{&local}
-	if err = local.L.LoadMenu(ctx, tx, false, (*[]*Reservation)(&slice), nil); err != nil {
-		t.Fatal(err)
-	}
-	if local.R.Menu == nil {
-		t.Error("struct should have been eager loaded")
-	}
-
-	local.R.Menu = nil
-	if err = local.L.LoadMenu(ctx, tx, true, &local, nil); err != nil {
-		t.Fatal(err)
-	}
-	if local.R.Menu == nil {
 		t.Error("struct should have been eager loaded")
 	}
 }
@@ -812,63 +914,6 @@ func testReservationToOneSetOpGuestUsingGuest(t *testing.T) {
 		}
 	}
 }
-func testReservationToOneSetOpMenuUsingMenu(t *testing.T) {
-	var err error
-
-	ctx := context.Background()
-	tx := MustTx(boil.BeginTx(ctx, nil))
-	defer func() { _ = tx.Rollback() }()
-
-	var a Reservation
-	var b, c Menu
-
-	seed := randomize.NewSeed()
-	if err = randomize.Struct(seed, &a, reservationDBTypes, false, strmangle.SetComplement(reservationPrimaryKeyColumns, reservationColumnsWithoutDefault)...); err != nil {
-		t.Fatal(err)
-	}
-	if err = randomize.Struct(seed, &b, menuDBTypes, false, strmangle.SetComplement(menuPrimaryKeyColumns, menuColumnsWithoutDefault)...); err != nil {
-		t.Fatal(err)
-	}
-	if err = randomize.Struct(seed, &c, menuDBTypes, false, strmangle.SetComplement(menuPrimaryKeyColumns, menuColumnsWithoutDefault)...); err != nil {
-		t.Fatal(err)
-	}
-
-	if err := a.Insert(ctx, tx, boil.Infer()); err != nil {
-		t.Fatal(err)
-	}
-	if err = b.Insert(ctx, tx, boil.Infer()); err != nil {
-		t.Fatal(err)
-	}
-
-	for i, x := range []*Menu{&b, &c} {
-		err = a.SetMenu(ctx, tx, i != 0, x)
-		if err != nil {
-			t.Fatal(err)
-		}
-
-		if a.R.Menu != x {
-			t.Error("relationship struct not set to correct value")
-		}
-
-		if x.R.Reservations[0] != &a {
-			t.Error("failed to append to foreign relationship struct")
-		}
-		if a.MenuID != x.ID {
-			t.Error("foreign key was wrong value", a.MenuID)
-		}
-
-		zero := reflect.Zero(reflect.TypeOf(a.MenuID))
-		reflect.Indirect(reflect.ValueOf(&a.MenuID)).Set(zero)
-
-		if err = a.Reload(ctx, tx); err != nil {
-			t.Fatal("failed to reload", err)
-		}
-
-		if a.MenuID != x.ID {
-			t.Error("foreign key was wrong value", a.MenuID, x.ID)
-		}
-	}
-}
 func testReservationToOneSetOpSpaceUsingSpace(t *testing.T) {
 	var err error
 
@@ -1001,7 +1046,7 @@ func testReservationsSelect(t *testing.T) {
 }
 
 var (
-	reservationDBTypes = map[string]string{`ID`: `bigint`, `Date`: `datetime`, `Holiday`: `tinyint`, `SpaceID`: `bigint`, `BeauticianID`: `bigint`, `GuestID`: `bigint`, `MenuID`: `bigint`, `CreatedAt`: `datetime`, `UpdatedAt`: `datetime`, `DeletedAt`: `datetime`}
+	reservationDBTypes = map[string]string{`ID`: `bigint`, `Date`: `datetime`, `Holiday`: `tinyint`, `SpaceID`: `bigint`, `BeauticianID`: `bigint`, `GuestID`: `bigint`, `CreatedAt`: `datetime`, `UpdatedAt`: `datetime`, `DeletedAt`: `datetime`}
 	_                  = bytes.MinRead
 )
 

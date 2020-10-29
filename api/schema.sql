@@ -2,8 +2,7 @@ CREATE TABLE `beauticians` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `auth_id` varchar(255) NOT NULL,
   `rand_id` varchar(255) NOT NULL,
-  fmt"
-	"`first_name` varchar(255) NOT NULL,
+	`first_name` varchar(255) NOT NULL,
   `last_name` varchar(255) NOT NULL,
   `age` bigint NOT NULL,
   `phone_number` varchar(255) NOT NULL,
@@ -74,15 +73,13 @@ CREATE TABLE `reservations` (
   `space_id` bigint NOT NULL,
   `beautician_id` bigint NOT NULL,
   `guest_id` bigint NOT NULL,
-  `menu_id` bigint NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   `deleted_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   CONSTRAINT `space_reservations_fk` FOREIGN KEY (`space_id`) REFERENCES spaces (`id`),
   CONSTRAINT `beautician_reservations_fk` FOREIGN KEY (`beautician_id`) REFERENCES beauticians (`id`),
-  CONSTRAINT `guest_reservations_fk` FOREIGN KEY (`guest_id`) REFERENCES guests (`id`),
-  CONSTRAINT `menu_reservations_fk` FOREIGN KEY (`menu_id`) REFERENCES menus (`id`)
+  CONSTRAINT `guest_reservations_fk` FOREIGN KEY (`guest_id`) REFERENCES guests (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `beautician_salons` (
@@ -95,13 +92,25 @@ CREATE TABLE `beautician_salons` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `beautician_menus` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
   `price` bigint NOT NULL,
   `beautician_id` bigint NOT NULL,
   `menu_id` bigint NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   `deleted_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`beautician_id`, `menu_id`),
+  PRIMARY KEY (`id`),
   CONSTRAINT `beautician_beautician_menus_fk` FOREIGN KEY (`beautician_id`) REFERENCES beauticians (`id`),
   CONSTRAINT `menu_beautician_menus_fk` FOREIGN KEY (`menu_id`) REFERENCES menus (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `reservation_menus` (
+  `reservation_id` bigint NOT NULL,
+  `beautician_menu_id` bigint NOT NULL, 
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `deleted_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`reservation_id`, `beautician_menu_id`),
+  CONSTRAINT `reservation_reservation_menus_fk` FOREIGN KEY (`reservation_id`) REFERENCES reservations (`id`),
+  CONSTRAINT `beautician_menu_reservation_menus_fk` FOREIGN KEY (`beautician_menu_id`) REFERENCES beautician_menus (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

@@ -9,20 +9,20 @@ import (
 // ReservationCreate request構造体
 type ReservationCreate struct {
 	AuthID       string    `json:"-"`
-	BeauticianID int64     `json:"beauticiaId"`
-	SpaceID      int64     `json:"spaceId"`
-	MenuID       int64     `json:"menuId"`
+	BeauticianID int64     `json:"beauticiaRandId"`
+	SalonID      int64     `json:"salonRandId"`
+	MenuIDs      []int64   `json:"menuIds"`
 	Date         time.Time `json:"date"`
+	// SpaceID      int64     `json:"spaceId"`
 }
 
 // NewReservation 予約モデル変換メソッド
 func (r *ReservationCreate) NewReservation(guestID int64) *entity.Reservation {
 	return &entity.Reservation{
-		Date:         r.Date,
-		SpaceID:      r.SpaceID,
+		Date: r.Date,
+		// SpaceID:      r.SpaceID,
 		BeauticianID: r.BeauticianID,
 		GuestID:      guestID,
-		MenuID:       r.MenuID,
 	}
 }
 
