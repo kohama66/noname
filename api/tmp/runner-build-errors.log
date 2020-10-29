@@ -1,0 +1,2 @@
+# github.com/myapp/noname/api/application/usecase
+application/usecase/reservation.go:74:1: missing return at end of function
