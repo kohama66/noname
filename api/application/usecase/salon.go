@@ -5,7 +5,6 @@ import (
 
 	"github.com/myapp/noname/api/application/usecase/requestmodel"
 	"github.com/myapp/noname/api/application/usecase/responsemodel"
-	"github.com/myapp/noname/api/domain/entity"
 	"github.com/myapp/noname/api/domain/repository"
 	"github.com/myapp/noname/api/infrastructure/response"
 )
@@ -35,40 +34,17 @@ func NewSalon(
 }
 
 func (s *salon) Find(ctx context.Context, r *requestmodel.SalonFind) (*responsemodel.SalonFind, error) {
-	var sls entity.SalonSlice
-	// var i int64
-	// i = 3
-	if !r.Date.IsZero() {
-		sl, err := s.salonRepository.Find(ctx, nil, &r.Date)
+	var beauticianID *int64
+	if r.BeauticianRandID != "" {
+		bt, err := s.beauticianRepository.GetByRandID(ctx, r.BeauticianRandID)
 		if err != nil {
 			return nil, err
 		}
-		sls = append(sls, sl...)
+		beauticianID = &bt.ID
 	}
-	// sl, err := s.salonRepository.Find(ctx, &i, nil)
-	// if err != nil {
-	// 	return nil, err
-	// }
-	// sls = append(sls, sl...)
-	return s.salonResponse.NewSalonFind(sls), nil
-
-	// var salons entity.SalonSlice
-	// if r.BeauticianRandID != "" {
-	// 	bt, err := s.beauticianRepository.GetByRandID(ctx, r.BeauticianRandID)
-	// 	if err != nil {
-	// 		return nil, err
-	// 	}
-	// 	sl, err := s.salonRepository.FindByBeautician(ctx, bt.ID)
-	// 	if err != nil {
-	// 		return nil, err
-	// 	}
-	// 	salons = sl
-	// } else {
-	// 	sl, err := s.salonRepository.GetAll(ctx)
-	// 	if err != nil {
-	// 		return nil, err
-	// 	}
-	// 	salons = sl
-	// }
-	// return s.salonResponse.NewSalonFind(salons), nil
+	sl, err := s.salonRepository.Find(ctx, beauticianID, r.Date)
+	if err != nil {
+		return nil, err
+	}
+	return s.salonResponse.NewSalonFind(sl), nil
 }
