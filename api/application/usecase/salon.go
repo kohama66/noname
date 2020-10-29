@@ -36,13 +36,20 @@ func NewSalon(
 
 func (s *salon) Find(ctx context.Context, r *requestmodel.SalonFind) (*responsemodel.SalonFind, error) {
 	var sls entity.SalonSlice
+	// var i int64
+	// i = 3
 	if !r.Date.IsZero() {
-		sl, err := s.salonRepository.Find(ctx, 0, r.Date)
+		sl, err := s.salonRepository.Find(ctx, nil, &r.Date)
 		if err != nil {
 			return nil, err
 		}
 		sls = append(sls, sl...)
 	}
+	// sl, err := s.salonRepository.Find(ctx, &i, nil)
+	// if err != nil {
+	// 	return nil, err
+	// }
+	// sls = append(sls, sl...)
 	return s.salonResponse.NewSalonFind(sls), nil
 
 	// var salons entity.SalonSlice

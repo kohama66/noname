@@ -56,14 +56,17 @@ func (s *salon) FindByBeautician(ctx context.Context, beauticianID int64) (entit
 	).All(ctx, s.Conn)
 }
 
-func (s *salon) Find(ctx context.Context, beauticianID int64, date time.Time) (entity.SalonSlice, error) {
+func (s *salon) Find(ctx context.Context, beauticianID *int64, date *time.Time) (entity.SalonSlice, error) {
 	var sls entity.SalonSlice
 	if !date.IsZero() {
 		sl, err := entity.Salons(
+			qm.Distinct(entity.TableNames.Salons+".*"),
 			qm.InnerJoin(fmt.Sprintf("%s ON %s = %s", entity.TableNames.Spaces, entity.SpaceColumns.SalonID, "salons.id")),
 			qm.LeftOuterJoin(fmt.Sprintf("%s ON %s = %s", entity.TableNames.Reservations, entity.ReservationColumns.SpaceID, "spaces.id")),
-			entity.ReservationWhere.Date.NEQ(date),
-			qm.Or("reservations.date IS NULL"),
+			// entity.ReservationWhere.Date.NEQ(date),
+			// qm.Or("reservations.date IS NULL"),
+			qm.GroupBy("spaces.id"),
+			qm.Having("COUNT(reservations.date = ? OR NULL) = 0", &date),
 			entity.SalonWhere.DeletedAt.IsNull(),
 		).All(ctx, s.Conn)
 		if err != nil {
@@ -71,5 +74,18 @@ func (s *salon) Find(ctx context.Context, beauticianID int64, date time.Time) (e
 		}
 		sls = append(sls, sl...)
 	}
+	// if beauticianID != nil {
+	// 	sl, err := entity.Salons(
+	// 		qm.InnerJoin(fmt.Sprintf("beautician_salons ON beautician_salons.salon_id = salons.id")),
+	// 		qm.InnerJoin(fmt.Sprintf("beauticians ON beauticians.id = beautician_salons.beautician_id")),
+	// 		entity.BeauticianWhere.ID.EQ(*beauticianID),
+	// 		entity.SalonWhere.DeletedAt.IsNull(),
+	// 	).All(ctx, s.Conn)
+	// 	if err != nil {
+	// 		return nil, err
+	// 	}
+
+	// 	sls = append(sls, sl...)
+	// }
 	return sls, nil
 }
