@@ -58,7 +58,6 @@ func (s *salon) FindByBeautician(ctx context.Context, beauticianID int64) (entit
 
 func (s *salon) Find(ctx context.Context, beauticianID int64, date time.Time) (entity.SalonSlice, error) {
 	var sls entity.SalonSlice
-	fmt.Printf("%s")
 	if !date.IsZero() {
 		sl, err := entity.Salons(
 			qm.InnerJoin(fmt.Sprintf("%s ON %s = %s", entity.TableNames.Spaces, entity.SpaceColumns.SalonID, "salons.id")),
