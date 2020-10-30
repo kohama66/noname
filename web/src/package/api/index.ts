@@ -1,7 +1,7 @@
 import Axios, { AxiosPromise } from 'axios';
 import { beauticianResponse, beauticiansResponse } from '../interface/response/Beautician';
 import { menuDetailsResponse, menusResponse } from '../interface/response/Menu';
-import { reservationsResponse } from '../interface/response/Reservation'
+import { reservationsResponse, reservationResponse } from '../interface/response/Reservation'
 import { salonsResponse } from '../interface/response/Salon';
 import qs from "qs"
 
@@ -10,9 +10,19 @@ const axios = Axios.create({
   headers: {
     Accept: "application/json",
     "Content-Type": "application/json",
-    "X-DEBUG-ID": "test1"
+    "X-DEBUG-ID": "test"
+  },
+  paramsSerializer: (params: any) => {
+    return qs.stringify(params, { arrayFormat: 'repeat' })
   }
 })
+// axios.interceptors.request.use(
+//   config => {
+//           const token = "test"
+//               config.headers.Authorization = `Bearer ${token}`
+//               return config
+//   }
+// )
 
 const requestAwait = async <T>(request: Promise<AxiosPromise<T>>): Promise<T> => {
   try {
@@ -25,6 +35,10 @@ const requestAwait = async <T>(request: Promise<AxiosPromise<T>>): Promise<T> =>
 
 const get = <T>(url: string, data?: object): Promise<T> => {
   return requestAwait(axios.get(url, data))
+}
+
+const post = <T>(url: string, data?: object): Promise<T> => {
+  return requestAwait(axios.post(url, data))
 }
 
 export const findSalons = async (id?: string): Promise<salonsResponse> => {
@@ -74,5 +88,14 @@ export const findMenuDetails = async (beauticianID: string, menuIDs?: string[]):
     }, paramsSerializer: (params: any) => {
       return qs.stringify(params, { arrayFormat: 'repeat' })
     }
+  })
+}
+
+export const createReservation = async (beauticianRandID: string, salonRandID: string, menuIDs: string[], date: string): Promise<reservationResponse> => {
+  return post<reservationResponse>(`api/v1/reservation`, {
+    beauticianRandId: beauticianRandID,
+    salonRandId: salonRandID,
+    menuIds: menuIDs,
+    date: date,
   })
 }

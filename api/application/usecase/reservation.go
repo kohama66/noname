@@ -3,6 +3,8 @@ package usecase
 import (
 	"context"
 	"errors"
+	"fmt"
+	"time"
 
 	"github.com/myapp/noname/api/application/usecase/requestmodel"
 	"github.com/myapp/noname/api/application/usecase/responsemodel"
@@ -47,6 +49,11 @@ func NewReservation(
 }
 
 func (r *reservation) Create(ctx context.Context, req *requestmodel.ReservationCreate) (*responsemodel.ReservationCreate, error) {
+	convDate, err := time.Parse("2006-01-02 15:04:05", req.Date)
+	if err != nil {
+		return nil, err
+	}
+	fmt.Println(req.AuthID)
 	gs, err := r.guestRepository.GetByAuthID(ctx, req.AuthID)
 	if err != nil {
 		return nil, err
@@ -55,7 +62,15 @@ func (r *reservation) Create(ctx context.Context, req *requestmodel.ReservationC
 	if err != nil {
 		return nil, err
 	}
-	ok, err := r.menuRepository.ExistsByBeauticianIDWithMenuIDs(ctx, bt.ID, req.MenuIDs)
+	mns, err := r.menuRepository.FindByRandID(ctx, req.MenuIDs)
+	if err != nil {
+		return nil, err
+	}
+	mnids := make([]int64, len(mns))
+	for i, v := range mns {
+		mnids[i] = v.ID
+	}
+	ok, err := r.menuRepository.ExistsByBeauticianIDWithMenuIDs(ctx, bt.ID, mnids)
 	if err != nil {
 		return nil, err
 	}
@@ -73,19 +88,19 @@ func (r *reservation) Create(ctx context.Context, req *requestmodel.ReservationC
 	if !ok {
 		return nil, errors.New("salon error")
 	}
-	sp, err := r.salonRepository.GetVacantSpace(ctx, req.Date, sl.ID)
+	sp, err := r.salonRepository.GetVacantSpace(ctx, convDate, sl.ID)
 	if err != nil {
 		return nil, err
 	}
-	ng, err := r.reservationRepository.ExistsBeauticianDoubleBooking(ctx, req.Date, bt.ID)
+	ng, err := r.reservationRepository.ExistsBeauticianDoubleBooking(ctx, convDate, bt.ID)
 	if err != nil {
 		return nil, err
 	}
 	if ng {
 		return nil, errors.New("美容師の予約が重複しています")
 	}
-	ent := req.NewReservation(gs.ID, sp.ID, bt.ID)
-	if err = r.reservationRepository.Create(ctx, ent, req.MenuIDs); err != nil {
+	ent := req.NewReservation(gs.ID, sp.ID, bt.ID, convDate)
+	if err = r.reservationRepository.Create(ctx, ent, mnids); err != nil {
 		return nil, err
 	}
 	return r.reservationResponse.NewReservationCreate(ent), nil
