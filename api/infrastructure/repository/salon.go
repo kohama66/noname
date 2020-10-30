@@ -100,3 +100,11 @@ func (s *salon) GetVacantSpace(ctx context.Context, date time.Time, salonID int6
 		qm.Having("COUNT(reservations.date = ? OR NULL) = 0", date),
 	).One(ctx, s.Conn)
 }
+
+func (s *salon) ExistsByBeauticianWithSalon(ctx context.Context, beauticianID, salonID int64) (bool, error) {
+	return entity.BeauticianSalons(
+		entity.BeauticianSalonWhere.BeauticianID.EQ(beauticianID),
+		entity.BeauticianSalonWhere.SalonID.EQ(salonID),
+		entity.BeauticianSalonWhere.DeletedAt.IsNull(),
+	).Exists(ctx, s.Conn)
+}

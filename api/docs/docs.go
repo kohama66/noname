@@ -399,9 +399,6 @@ var doc = `{
         "requestmodel.MenuFindByBeauticianWithMenuRandIDs": {
             "type": "object",
             "properties": {
-                "beauticianRandID": {
-                    "type": "string"
-                },
                 "menuRandIDs": {
                     "type": "array",
                     "items": {
@@ -413,17 +410,20 @@ var doc = `{
         "requestmodel.ReservationCreate": {
             "type": "object",
             "properties": {
-                "beauticiaId": {
-                    "type": "integer"
+                "beauticianRandId": {
+                    "type": "string"
                 },
                 "date": {
                     "type": "string"
                 },
-                "menuId": {
-                    "type": "integer"
+                "menuIds": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
                 },
-                "spaceId": {
-                    "type": "integer"
+                "salonRandId": {
+                    "type": "string"
                 }
             }
         },
@@ -447,6 +447,9 @@ var doc = `{
             "type": "object",
             "properties": {
                 "beauticianRandID": {
+                    "type": "string"
+                },
+                "date": {
                     "type": "string"
                 }
             }
@@ -587,14 +590,17 @@ var doc = `{
         "responsemodel.BeauticianMenu": {
             "type": "object",
             "properties": {
-                "beautician_id": {
+                "beauticianId": {
                     "type": "integer"
                 },
                 "createdAt": {
                     "type": "string"
                 },
-                "menu_id": {
+                "menuId": {
                     "type": "integer"
+                },
+                "name": {
+                    "type": "string"
                 },
                 "price": {
                     "type": "integer"
@@ -638,7 +644,8 @@ var doc = `{
         "responsemodel.MenuFindByBeauticianWithMenuRandIDs": {
             "type": "object",
             "properties": {
-                "findByBeauticianWithMenuRandIds": {
+                "beauticianMenus": {
+                    "description": "Price        int64  ` + "`" + `json:\"price\"` + "`" + `\nName         string ` + "`" + `json:\"name\"` + "`" + `\nBeauticianID int64  ` + "`" + `json:\"beauticianId\"` + "`" + `\nMenuID       int64  ` + "`" + `json:\"menuId\"` + "`" + `",
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/responsemodel.BeauticianMenu"

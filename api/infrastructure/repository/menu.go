@@ -62,3 +62,15 @@ func (m *menu) FindByBeauticianWithMenuRandIDs(ctx context.Context, beauticianID
 		qm.Load(entity.BeauticianMenuRels.Menu),
 	).All(ctx, m.Conn)
 }
+
+func (m *menu) ExistsByBeauticianIDWithMenuIDs(ctx context.Context, beauticianID int64, menuIDs []int64) (bool, error) {
+	convertedMenuIDs := make([]interface{}, len(menuIDs))
+	for i, v := range menuIDs {
+		convertedMenuIDs[i] = v
+	}
+	return entity.BeauticianMenus(
+		entity.BeauticianMenuWhere.BeauticianID.EQ(beauticianID),
+		qm.WhereIn("menu_id IN ?", convertedMenuIDs...),
+		entity.BeauticianMenuWhere.DeletedAt.IsNull(),
+	).Exists(ctx, m.Conn)
+}

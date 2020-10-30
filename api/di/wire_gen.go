@@ -7,6 +7,7 @@ package di
 
 import (
 	"github.com/myapp/noname/api/application/usecase"
+	"github.com/myapp/noname/api/domain/entityx"
 	"github.com/myapp/noname/api/infrastructure/db"
 	"github.com/myapp/noname/api/infrastructure/repository"
 	"github.com/myapp/noname/api/infrastructure/response"
@@ -29,10 +30,13 @@ func InitBeautician() handler.Beautician {
 func InitReservation() handler.Reservation {
 	conn := db.New()
 	guest := repository.NewGuest(conn)
-	reservation := repository.NewReservation(conn)
+	reservation := entityx.NewReservation()
+	repositoryReservation := repository.NewReservation(conn, reservation)
 	responseReservation := response.NewReservation()
 	beautician := repository.NewBeautician(conn)
-	usecaseReservation := usecase.NewReservation(guest, reservation, responseReservation, beautician)
+	salon := repository.NewSalon(conn)
+	menu := repository.NewMenu(conn)
+	usecaseReservation := usecase.NewReservation(guest, repositoryReservation, responseReservation, beautician, salon, menu)
 	handlerReservation := handler.NewReservation(usecaseReservation)
 	return handlerReservation
 }
