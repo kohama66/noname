@@ -11,7 +11,6 @@ interface props {
   content: Salon | Beautician
 }
 
-
 const ChooseCard: FC<props> = (props) => {
   const history = useHistory()
 

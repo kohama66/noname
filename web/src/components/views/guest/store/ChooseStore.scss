@@ -2,8 +2,9 @@
 
 #choose-store{
   background-color: $baseColor;
-  height: 100%;
-  padding: 50px 0;
+  // height: clamp(100vh, 100vh, 100%);
+  min-height: 100vh;
+  padding: 150px 0 0;
   .choose-store-card-wrapper{
     width: 830px;
     margin: 0 auto;

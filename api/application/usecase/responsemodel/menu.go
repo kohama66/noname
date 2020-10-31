@@ -28,9 +28,5 @@ type BeauticianMenu struct {
 
 // MenuFindByBeauticianWithMenuRandIDs 美容師の詳細メニュー取得
 type MenuFindByBeauticianWithMenuRandIDs struct {
-	// Price        int64  `json:"price"`
-	// Name         string `json:"name"`
-	// BeauticianID int64  `json:"beauticianId"`
-	// MenuID       int64  `json:"menuId"`
 	BeauticianMenus []*BeauticianMenu `json:"beauticianMenus"`
 }

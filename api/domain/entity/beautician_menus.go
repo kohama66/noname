@@ -25,6 +25,7 @@ import (
 // BeauticianMenu is an object representing the database table.
 type BeauticianMenu struct {
 	ID           int64     `boil:"id" json:"id" toml:"id" yaml:"id"`
+	Name         string    `boil:"name" json:"name" toml:"name" yaml:"name"`
 	Price        int64     `boil:"price" json:"price" toml:"price" yaml:"price"`
 	BeauticianID int64     `boil:"beautician_id" json:"beautician_id" toml:"beautician_id" yaml:"beautician_id"`
 	MenuID       int64     `boil:"menu_id" json:"menu_id" toml:"menu_id" yaml:"menu_id"`
@@ -38,6 +39,7 @@ type BeauticianMenu struct {
 
 var BeauticianMenuColumns = struct {
 	ID           string
+	Name         string
 	Price        string
 	BeauticianID string
 	MenuID       string
@@ -46,6 +48,7 @@ var BeauticianMenuColumns = struct {
 	DeletedAt    string
 }{
 	ID:           "id",
+	Name:         "name",
 	Price:        "price",
 	BeauticianID: "beautician_id",
 	MenuID:       "menu_id",
@@ -65,6 +68,22 @@ func (w whereHelperint64) LTE(x int64) qm.QueryMod { return qmhelper.Where(w.fie
 func (w whereHelperint64) GT(x int64) qm.QueryMod  { return qmhelper.Where(w.field, qmhelper.GT, x) }
 func (w whereHelperint64) GTE(x int64) qm.QueryMod { return qmhelper.Where(w.field, qmhelper.GTE, x) }
 func (w whereHelperint64) IN(slice []int64) qm.QueryMod {
+	values := make([]interface{}, 0, len(slice))
+	for _, value := range slice {
+		values = append(values, value)
+	}
+	return qm.WhereIn(fmt.Sprintf("%s IN ?", w.field), values...)
+}
+
+type whereHelperstring struct{ field string }
+
+func (w whereHelperstring) EQ(x string) qm.QueryMod  { return qmhelper.Where(w.field, qmhelper.EQ, x) }
+func (w whereHelperstring) NEQ(x string) qm.QueryMod { return qmhelper.Where(w.field, qmhelper.NEQ, x) }
+func (w whereHelperstring) LT(x string) qm.QueryMod  { return qmhelper.Where(w.field, qmhelper.LT, x) }
+func (w whereHelperstring) LTE(x string) qm.QueryMod { return qmhelper.Where(w.field, qmhelper.LTE, x) }
+func (w whereHelperstring) GT(x string) qm.QueryMod  { return qmhelper.Where(w.field, qmhelper.GT, x) }
+func (w whereHelperstring) GTE(x string) qm.QueryMod { return qmhelper.Where(w.field, qmhelper.GTE, x) }
+func (w whereHelperstring) IN(slice []string) qm.QueryMod {
 	values := make([]interface{}, 0, len(slice))
 	for _, value := range slice {
 		values = append(values, value)
@@ -118,6 +137,7 @@ func (w whereHelpernull_Time) GTE(x null.Time) qm.QueryMod {
 
 var BeauticianMenuWhere = struct {
 	ID           whereHelperint64
+	Name         whereHelperstring
 	Price        whereHelperint64
 	BeauticianID whereHelperint64
 	MenuID       whereHelperint64
@@ -126,6 +146,7 @@ var BeauticianMenuWhere = struct {
 	DeletedAt    whereHelpernull_Time
 }{
 	ID:           whereHelperint64{field: "`beautician_menus`.`id`"},
+	Name:         whereHelperstring{field: "`beautician_menus`.`name`"},
 	Price:        whereHelperint64{field: "`beautician_menus`.`price`"},
 	BeauticianID: whereHelperint64{field: "`beautician_menus`.`beautician_id`"},
 	MenuID:       whereHelperint64{field: "`beautician_menus`.`menu_id`"},
@@ -161,8 +182,8 @@ func (*beauticianMenuR) NewStruct() *beauticianMenuR {
 type beauticianMenuL struct{}
 
 var (
-	beauticianMenuAllColumns            = []string{"id", "price", "beautician_id", "menu_id", "created_at", "updated_at", "deleted_at"}
-	beauticianMenuColumnsWithoutDefault = []string{"price", "beautician_id", "menu_id", "created_at", "updated_at", "deleted_at"}
+	beauticianMenuAllColumns            = []string{"id", "name", "price", "beautician_id", "menu_id", "created_at", "updated_at", "deleted_at"}
+	beauticianMenuColumnsWithoutDefault = []string{"name", "price", "beautician_id", "menu_id", "created_at", "updated_at", "deleted_at"}
 	beauticianMenuColumnsWithDefault    = []string{"id"}
 	beauticianMenuPrimaryKeyColumns     = []string{"id"}
 )

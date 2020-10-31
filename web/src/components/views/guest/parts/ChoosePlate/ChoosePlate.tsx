@@ -24,6 +24,7 @@ const ChoosePlate: FC<ChoosePlateProps> = (props) => {
       <div>
         <img src={props.image} alt="" />
         <h2>{props.title}</h2>
+        <p className={props.checked ? "checked-choose-plate" : ""}>選択済み</p>
       </div>
     </Link>
   )

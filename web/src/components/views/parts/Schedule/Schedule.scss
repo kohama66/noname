@@ -6,18 +6,26 @@
   font-weight: bold;
   letter-spacing: .1em;
   border-radius: 15px;
+  font-size: 14px;
   table {
     tbody {
       tr,
       th,
       td {
         background-color: #fff;
-        padding: 15px 25px;
+        box-sizing: border-box;
+        width: 70px;
+        height: 40px;
         border: 2px solid $baseColor;
+        text-align: center;
+        line-height: 40px;
       }
       tr {
-        th:not(:nth-of-type(1))::after {
-          padding: 0 20px;
+        // th:not(:nth-of-type(1))::after {
+        //   // padding: 0 20px;
+        // }
+        th{
+          color: #969696;
         }
         td:not(:nth-of-type(1)) {
           cursor: pointer;
@@ -25,6 +33,14 @@
         td:not(:nth-of-type(1)):hover {
           background-color: $orangeColor1;
         }
+      }
+      .reserved-square{
+        background-color: $baseColor;
+        pointer-events: none;
+        
+      }
+      .reserved-square:hover{
+        background-color: $baseColor!important;
       }
     }
   }

@@ -1,3 +1,5 @@
+import { MenuDetail } from "./Menu"
+
 export interface Beautician {
 	randId: string
 	firstName: string
@@ -6,6 +8,7 @@ export interface Beautician {
 	lineId: string
 	instagramId: string
 	comment: string
+	menus: MenuDetail[]
 }
 
 export interface BeauticianGetAll {

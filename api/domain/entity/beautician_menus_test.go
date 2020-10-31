@@ -938,7 +938,7 @@ func testBeauticianMenusSelect(t *testing.T) {
 }
 
 var (
-	beauticianMenuDBTypes = map[string]string{`ID`: `bigint`, `Price`: `bigint`, `BeauticianID`: `bigint`, `MenuID`: `bigint`, `CreatedAt`: `datetime`, `UpdatedAt`: `datetime`, `DeletedAt`: `datetime`}
+	beauticianMenuDBTypes = map[string]string{`ID`: `bigint`, `Name`: `varchar`, `Price`: `bigint`, `BeauticianID`: `bigint`, `MenuID`: `bigint`, `CreatedAt`: `datetime`, `UpdatedAt`: `datetime`, `DeletedAt`: `datetime`}
 	_                     = bytes.MinRead
 )
 

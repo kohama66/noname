@@ -3,10 +3,12 @@
   margin: 30px 0;
   background-color: #fff;
   @include whiteShadow;
-  width: 380px;
+  width: 350px;
   height: 520px;
   border-radius: 15px;
   transition-duration: 0.3s;
+  padding: 15px;
+  box-sizing: border-box;
   cursor: pointer;
   figure {
     width: 100%;
@@ -23,34 +25,108 @@
   div {
     color: $blackFontColor;
     box-sizing: border-box;
-    padding: 20px 15px;
-    font-family: Arial, Helvetica, sans-serif;
+    padding: 20px 0;
+    width: 100%;
     h3 {
-      font-size: 24px;
-      margin-bottom: 35px;
-      letter-spacing: 0.075em;
-    }
-    p {
-      line-height: 1.3em;
-      font-weight: normal;
+      font-size: 20px;
+      padding-left: 10px;
+      // margin-bottom: 35px;
       letter-spacing: 0.05em;
     }
-    p:first-of-type,
-    p:nth-of-type(3) {
-      font-weight: bold;
-    }
-    p:nth-of-type(2) {
-      margin-bottom: 15px;
-    }
-    .fa-instagram {
-      margin-top: 10px;
-      background-image: linear-gradient(-135deg, #1400c8, #b900b4, #f50000);
-      background-clip: text;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+    table {
+      margin-top: 20px;
+      // display: flex;
+      // flex-flow: row wrap;
+      width: 100%;
+      tbody {
+        width: 100%;
+        tr {
+          width: 100%;
+          td {
+            width: 50%;
+            height: 70px;
+            border-style: solid;
+            border-width: 1px 1px 0px 0px;
+            border-color: $baseColor;
+            box-sizing: border-box;
+            padding: 15px 0 0 10px;
+            letter-spacing: 0.05em;
+            p {
+              font-size: 10px;
+            }
+            p:nth-of-type(2) {
+              font-size: 14px;
+              font-weight: bold;
+              padding-top: 8px;
+            }
+          }
+          td:nth-of-type(even) {
+            border-width: 1px 0px 0px 0px;
+          }
+          .carddetail-menus {
+            position: relative;
+            p:last-of-type{
+              text-align: center;
+              margin: 10px 0 0 -15px;
+              font-size: 20px;
+            }
+            .carddetail-menu {
+              position: absolute;
+              bottom: 0;
+              left: -40px;
+              width: 190px;
+              min-height: 50px;
+              box-shadow: 0px 0px 5px $lightGray;
+              background-color: #fff;
+              display: flex;
+              flex-flow: wrap column-reverse;
+              opacity: 0;
+              transition-duration: .3s;
+              li {
+                box-sizing: border-box;
+                border-top: 2px solid $baseColor;
+                list-style: none;
+                height: 50px;
+                width: 100%;
+                line-height: 50px;
+                padding: 0 10px;
+                display: flex;
+                justify-content: space-between;
+                p {
+                  padding: 0;
+                  margin: 0;
+                }
+                p:last-of-type{
+                  font-size: 12px;
+                }
+              }
+              li:last-of-type{
+                border-top: none;
+              }
+            }
+            .carddetail-menu.on-hover{
+              opacity: 1;
+            }
+          }
+        }
+        tr:last-of-type {
+          td:last-of-type {
+            text-align: center;
+            padding: 15px 0;
+            p {
+              padding-left: 10px;
+              text-align: left;
+            }
+            .fa-instagram {
+              margin-top: 13px;
+              background-image: linear-gradient(-135deg, #1400c8, #b900b4, #f50000);
+              background-clip: text;
+              -webkit-background-clip: text;
+              -webkit-text-fill-color: transparent;
+            }
+          }
+        }
+      }
     }
   }
-}
-.choose-card:hover {
-  // transform: translateY(-10px);
 }

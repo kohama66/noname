@@ -40,6 +40,7 @@ func (b *beautician) GetByRandID(ctx context.Context, randID string) (*entity.Be
 
 func (b *beautician) GetAll(ctx context.Context) ([]*entity.Beautician, error) {
 	return entity.Beauticians(
+		qm.Load(entity.BeauticianRels.BeauticianMenus),
 		entity.BeauticianWhere.DeletedAt.IsNull(),
 	).All(ctx, b.Conn)
 }
@@ -96,6 +97,7 @@ func (b *beautician) Find(ctx context.Context, date time.Time, salon *int64, men
 			qm.LeftOuterJoin(entity.TableNames.Reservations+" ON reservations.beautician_id = beauticians.id"),
 			qm.GroupBy("beauticians.id"),
 			qm.Having("COUNT(date = ? OR NULL) = 0", date),
+			qm.Load(entity.BeauticianRels.BeauticianMenus),
 		).All(ctx, b.Conn)
 		if err != nil {
 			return nil, err
@@ -107,6 +109,7 @@ func (b *beautician) Find(ctx context.Context, date time.Time, salon *int64, men
 		bt, err := entity.Beauticians(
 			entity.BeauticianSalonWhere.SalonID.EQ(*salon),
 			qm.InnerJoin("beautician_salons ON beautician_salons.beautician_id = beauticians.id"),
+			qm.Load(entity.BeauticianRels.BeauticianMenus),
 		).All(ctx, b.Conn)
 		if err != nil {
 			return nil, err
@@ -125,6 +128,7 @@ func (b *beautician) Find(ctx context.Context, date time.Time, salon *int64, men
 			qm.WhereIn("beautician_menus.menu_id IN ?", convertedIDs...),
 			qm.GroupBy("beauticians.id"),
 			qm.Having("COUNT(*) = ?", len(menus)),
+			qm.Load(entity.BeauticianRels.BeauticianMenus),
 		).All(ctx, b.Conn)
 		if err != nil {
 			return nil, err
