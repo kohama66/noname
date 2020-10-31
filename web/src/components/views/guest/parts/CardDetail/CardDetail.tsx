@@ -25,7 +25,7 @@ export const isStoreCardDetailProps = (arg: any): arg is StoreCardDetailProps =>
 
 export const StoreCardDetail: FC<StoreCardDetailProps> = (props) => {
   return (
-    <div>
+    <div className="card-detail-store">
       <h3>{props.name}</h3>
       <p>{props.phoneNumber}</p>
       <p>{`営業時間: ${props.openingHours} ~ ${props.closingHours}`}</p>
@@ -49,7 +49,8 @@ export const isBeauticianCardDetail = (arg: any): arg is BeauticianCardDetailPro
   return arg !== null &&
     typeof arg === "object" &&
     typeof arg.firstName === "string" && typeof arg.lastName === "string" && typeof arg.phoneNumber === "string" &&
-    typeof arg.lineId === "string" && typeof arg.comment === "string" && typeof arg.instagramId === "string"
+    typeof arg.lineId === "string" && typeof arg.comment === "string" && typeof arg.instagramId === "string" &&
+    Array.isArray(arg.menus)
 }
 
 export const BeauticianCardDetail: FC<BeauticianCardDetailProps> = (props) => {

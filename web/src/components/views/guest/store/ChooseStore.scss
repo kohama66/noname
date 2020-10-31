@@ -6,10 +6,15 @@
   min-height: 100vh;
   padding: 150px 0 0;
   .choose-store-card-wrapper{
-    width: 830px;
+    width: 1150px;
     margin: 0 auto;
     display: flex;
     flex-flow: row wrap;
     justify-content: space-between;
+  }
+  .choose-store-card-wrapper::after{
+    content: "";
+    display: block;
+    width: 350px;
   }
 }

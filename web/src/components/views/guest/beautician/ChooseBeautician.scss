@@ -10,4 +10,9 @@
     flex-flow: row wrap;
     justify-content: space-between;
   }
+  .hoose-beautician-wrapper::after{
+    content: "";
+    display: block;
+    width: 350px;
+  }
 }
