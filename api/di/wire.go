@@ -4,6 +4,7 @@ package di
 
 import (
 	"github.com/myapp/noname/api/application/usecase"
+	"github.com/myapp/noname/api/domain/entityx"
 	"github.com/myapp/noname/api/infrastructure/db"
 	"github.com/myapp/noname/api/infrastructure/repository"
 	"github.com/myapp/noname/api/infrastructure/response"
@@ -28,9 +29,12 @@ func InitBeautician() handler.Beautician {
 func InitReservation() handler.Reservation {
 	wire.Build(
 		db.New,
+		entityx.NewReservation,
 		repository.NewGuest,
+		repository.NewMenu,
 		repository.NewReservation,
 		repository.NewBeautician,
+		repository.NewSalon,
 		response.NewReservation,
 		usecase.NewReservation,
 		handler.NewReservation,

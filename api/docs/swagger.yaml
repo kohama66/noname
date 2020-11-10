@@ -30,8 +30,6 @@ definitions:
     type: object
   requestmodel.MenuFindByBeauticianWithMenuRandIDs:
     properties:
-      beauticianRandID:
-        type: string
       menuRandIDs:
         items:
           type: string
@@ -39,14 +37,16 @@ definitions:
     type: object
   requestmodel.ReservationCreate:
     properties:
-      beauticiaId:
-        type: integer
+      beauticianRandId:
+        type: string
       date:
         type: string
-      menuId:
-        type: integer
-      spaceId:
-        type: integer
+      menuIds:
+        items:
+          type: integer
+        type: array
+      salonRandId:
+        type: string
     type: object
   requestmodel.ReservationFind:
     properties:
@@ -61,6 +61,8 @@ definitions:
   requestmodel.SalonFind:
     properties:
       beauticianRandID:
+        type: string
+      date:
         type: string
     type: object
   resource.Error:
@@ -152,12 +154,14 @@ definitions:
     type: object
   responsemodel.BeauticianMenu:
     properties:
-      beautician_id:
+      beauticianId:
         type: integer
       createdAt:
         type: string
-      menu_id:
+      menuId:
         type: integer
+      name:
+        type: string
       price:
         type: integer
       updatedAt:
@@ -185,7 +189,12 @@ definitions:
     type: object
   responsemodel.MenuFindByBeauticianWithMenuRandIDs:
     properties:
-      findByBeauticianWithMenuRandIds:
+      beauticianMenus:
+        description: |-
+          Price        int64  `json:"price"`
+          Name         string `json:"name"`
+          BeauticianID int64  `json:"beauticianId"`
+          MenuID       int64  `json:"menuId"`
         items:
           $ref: '#/definitions/responsemodel.BeauticianMenu'
         type: array

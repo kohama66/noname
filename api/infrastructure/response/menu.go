@@ -42,12 +42,21 @@ func (m *menu) NewMenuFind(ents []*entity.Menu) *responsemodel.MenuFind {
 func NewBeauticianMenuResponsemodel(ent *entity.BeauticianMenu) *responsemodel.BeauticianMenu {
 	return &responsemodel.BeauticianMenu{
 		Price:        ent.Price,
+		Name:         ent.Name,
 		BeauticianID: ent.BeauticianID,
 		MenuID:       ent.MenuID,
-		Name:         ent.R.Menu.Name,
 		CreatedAt:    ent.CreatedAt,
 		UpdatedAt:    ent.UpdatedAt,
 	}
+}
+
+// NewBeauticianMenusResponsemodel エンティティ変換関数
+func NewBeauticianMenusResponsemodel(ents []*entity.BeauticianMenu) []*responsemodel.BeauticianMenu {
+	bm := make([]*responsemodel.BeauticianMenu, len(ents))
+	for i, v := range ents {
+		bm[i] = NewBeauticianMenuResponsemodel(v)
+	}
+	return bm
 }
 
 func (m *menu) NewFindByBeauticianWithMenuRandIDs(ents []*entity.BeauticianMenu) *responsemodel.MenuFindByBeauticianWithMenuRandIDs {

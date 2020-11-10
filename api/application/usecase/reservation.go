@@ -3,6 +3,8 @@ package usecase
 import (
 	"context"
 	"errors"
+	"fmt"
+	"time"
 
 	"github.com/myapp/noname/api/application/usecase/requestmodel"
 	"github.com/myapp/noname/api/application/usecase/responsemodel"
@@ -23,6 +25,8 @@ type reservation struct {
 	reservationRepository repository.Reservation
 	reservationResponse   response.Reservation
 	beauticianRepository  repository.Beautician
+	salonRepository       repository.Salon
+	menuRepository        repository.Menu
 }
 
 // NewReservation DI初期化
@@ -31,36 +35,72 @@ func NewReservation(
 	reservationRepository repository.Reservation,
 	reservationResponse response.Reservation,
 	beauticianRepository repository.Beautician,
+	salonRepository repository.Salon,
+	menuRepository repository.Menu,
 ) Reservation {
 	return &reservation{
 		guestRepository:       guestRepository,
 		reservationRepository: reservationRepository,
 		reservationResponse:   reservationResponse,
 		beauticianRepository:  beauticianRepository,
+		salonRepository:       salonRepository,
+		menuRepository:        menuRepository,
 	}
 }
 
 func (r *reservation) Create(ctx context.Context, req *requestmodel.ReservationCreate) (*responsemodel.ReservationCreate, error) {
+	convDate, err := time.Parse("2006-01-02 15:04:05", req.Date)
+	if err != nil {
+		return nil, err
+	}
+	fmt.Println(req.AuthID)
 	gs, err := r.guestRepository.GetByAuthID(ctx, req.AuthID)
 	if err != nil {
 		return nil, err
 	}
-	bk, err := r.reservationRepository.ExistsSpaceDoubleBooking(ctx, req.Date, req.SpaceID)
+	bt, err := r.beauticianRepository.GetByRandID(ctx, req.BeauticianID)
 	if err != nil {
 		return nil, err
 	}
-	if bk {
-		return nil, errors.New("このスペースの予約が重複しています")
-	}
-	bk, err = r.reservationRepository.ExistsBeauticianDoubleBooking(ctx, req.Date, req.BeauticianID)
+	mns, err := r.menuRepository.FindByRandID(ctx, req.MenuIDs)
 	if err != nil {
 		return nil, err
 	}
-	if bk {
+	mnids := make([]int64, len(mns))
+	for i, v := range mns {
+		mnids[i] = v.ID
+	}
+	ok, err := r.menuRepository.ExistsByBeauticianIDWithMenuIDs(ctx, bt.ID, mnids)
+	if err != nil {
+		return nil, err
+	}
+	if !ok {
+		return nil, errors.New("menu error")
+	}
+	sl, err := r.salonRepository.GetByRandID(ctx, req.SalonID)
+	if err != nil {
+		return nil, err
+	}
+	ok, err = r.salonRepository.ExistsByBeauticianWithSalon(ctx, bt.ID, sl.ID)
+	if err != nil {
+		return nil, err
+	}
+	if !ok {
+		return nil, errors.New("salon error")
+	}
+	sp, err := r.salonRepository.GetVacantSpace(ctx, convDate, sl.ID)
+	if err != nil {
+		return nil, err
+	}
+	ng, err := r.reservationRepository.ExistsBeauticianDoubleBooking(ctx, convDate, bt.ID)
+	if err != nil {
+		return nil, err
+	}
+	if ng {
 		return nil, errors.New("美容師の予約が重複しています")
 	}
-	ent := req.NewReservation(gs.ID)
-	if err = r.reservationRepository.Create(ctx, ent); err != nil {
+	ent := req.NewReservation(gs.ID, sp.ID, bt.ID, convDate)
+	if err = r.reservationRepository.Create(ctx, ent, mnids); err != nil {
 		return nil, err
 	}
 	return r.reservationResponse.NewReservationCreate(ent), nil

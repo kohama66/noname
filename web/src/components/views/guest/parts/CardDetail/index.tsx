@@ -14,7 +14,9 @@ const CardDetail: FC<props> = (props) => {
       postalCode={props.content.postalCode} prefectures={props.content.prefectures} city={props.content.city}
       town={props.content.town} addressCode={props.content.addressCode} addressOther={props.content.addressOther} />
   } else if (isBeauticianCardDetail(props.content)) {
-    return <BeauticianCardDetail firstName={props.content.firstName} lasttName={props.content.lastName} phoneNumber={props.content.phoneNumber} lineId={props.content.lineId} comment={props.content.comment} instagramId={props.content.instagramId} />
+    return <BeauticianCardDetail firstName={props.content.firstName} lasttName={props.content.lastName}
+    phoneNumber={props.content.phoneNumber} lineId={props.content.lineId} comment={props.content.comment}
+    instagramId={props.content.instagramId} menus={props.content.menus} />
   }
   return (
     <div>???</div>

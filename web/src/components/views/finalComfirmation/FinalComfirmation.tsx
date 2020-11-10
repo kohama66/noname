@@ -12,6 +12,7 @@ interface props {
   date: string
   menus: MenuDetail[]
   totalPrice: number
+  handleReserve: () => void
 }
 
 const FinalComfirmation: FC<props> = (props) => {
@@ -20,7 +21,7 @@ const FinalComfirmation: FC<props> = (props) => {
       <Title text="最終確認" title="FINAL COMFIRMATION" />
       <div className="final-answer">
         <h2>以下で予約を完了します</h2>
-        <button>
+        <button onClick={() => props.handleReserve()}>
           予約確定
         </button>
       </div>

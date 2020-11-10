@@ -3,13 +3,13 @@
 .choose-plate {
   display: block;
   width: 240px;
-  height: 275px;
+  height: 320px;
   text-decoration: none;
   border-radius: 15px;
   margin: 25px 0;
   background-color: #fff;
   overflow: hidden;
-  transition-duration: .3s;
+  transition-duration: 0.3s;
   @include whiteShadow;
   div {
     width: 100%;
@@ -19,22 +19,34 @@
     align-items: center;
     box-sizing: border-box;
     padding-top: 30px;
-    h2 {
-      color: $blackFontColor;
-      font-size: 22px;
-      letter-spacing: .1em;
-    }
     img {
       width: 72%;
       background-color: $orangeColor1;
       border-radius: 15px;
-      margin-bottom: 23px;
+      margin-bottom: 15px;
+    }
+    h2 {
+      margin-bottom: 18px;
+      font-size: 20px;
+      letter-spacing: 0.1em;
+      color: $blackFontColor;
+    }
+    p {
+      display: none;
+    }
+    .checked-choose-plate{
+      display: inline;
+      font-weight: bold;
+      color: #fff;
+      background-color: rgb(75, 75, 75);
+      padding: 10px 20px;
+      border-radius: 15px;
     }
   }
 }
-.choose-plate-checked{
+.choose-plate-checked {
   filter: brightness(50%);
 }
-.choose-plate:hover{
+.choose-plate:hover {
   transform: translateY(-10px);
 }

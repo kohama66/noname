@@ -2,6 +2,8 @@ package repository
 
 import (
 	"context"
+	"fmt"
+	"time"
 
 	"github.com/myapp/noname/api/domain/entity"
 	"github.com/myapp/noname/api/domain/repository"
@@ -27,18 +29,6 @@ func (s *salon) GetByRandID(ctx context.Context, randID string) (*entity.Salon, 
 	).One(ctx, s.Conn)
 }
 
-// func (s *salon) Find(ctx context.Context, beauticianID int64) (entity.SalonSlice, error) {
-// 	qms := []qm.QueryMod{}
-// 	if beauticianID != 0 {
-// 		qms = append(qms, entity.BeauticianWhere.ID.EQ(beauticianID), qm.InnerJoin("beautician_salons ON beautician_salons.salon_id = salons.id"),
-// 			qm.InnerJoin("beauticians ON beauticians.id = beautician_salons.beautician_id"))
-// 	}
-// 	qms = append(qms, entity.SalonWhere.DeletedAt.IsNull())
-// 	return entity.Salons(
-// 		qms...,
-// 	).All(ctx, s.Conn)
-// }
-
 func (s *salon) GetAll(ctx context.Context) (entity.SalonSlice, error) {
 	return entity.Salons(
 		entity.SalonWhere.DeletedAt.IsNull(),
@@ -52,4 +42,69 @@ func (s *salon) FindByBeautician(ctx context.Context, beauticianID int64) (entit
 		entity.BeauticianWhere.ID.EQ(beauticianID),
 		entity.SalonWhere.DeletedAt.IsNull(),
 	).All(ctx, s.Conn)
+}
+
+func (s *salon) Find(ctx context.Context, beauticianID *int64, date *time.Time) (entity.SalonSlice, error) {
+	var sls entity.SalonSlice
+	var count int
+	if date != nil {
+		sl, err := entity.Salons(
+			qm.Distinct(entity.TableNames.Salons+".*"),
+			qm.InnerJoin(fmt.Sprintf("%s ON %s = %s", entity.TableNames.Spaces, entity.SpaceColumns.SalonID, "salons.id")),
+			qm.LeftOuterJoin(fmt.Sprintf("%s ON %s = %s", entity.TableNames.Reservations, entity.ReservationColumns.SpaceID, "spaces.id")),
+			qm.GroupBy("spaces.id"),
+			qm.Having("COUNT(reservations.date = ? OR NULL) = 0", &date),
+			entity.SalonWhere.DeletedAt.IsNull(),
+		).All(ctx, s.Conn)
+		if err != nil {
+			return nil, err
+		}
+		sls = append(sls, sl...)
+		count++
+	}
+	if beauticianID != nil {
+		sl, err := entity.Salons(
+			qm.InnerJoin(fmt.Sprintf("beautician_salons ON beautician_salons.salon_id = salons.id")),
+			qm.InnerJoin(fmt.Sprintf("beauticians ON beauticians.id = beautician_salons.beautician_id")),
+			entity.BeauticianWhere.ID.EQ(*beauticianID),
+			entity.SalonWhere.DeletedAt.IsNull(),
+		).All(ctx, s.Conn)
+		if err != nil {
+			return nil, err
+		}
+		sls = append(sls, sl...)
+		count++
+	}
+	if count == 0 {
+		return s.GetAll(ctx)
+	} else if count == 1 {
+		return sls, nil
+	}
+	var salons entity.SalonSlice
+	m := make(map[int64]int64)
+	for _, sl := range sls {
+		if _, ok := m[sl.ID]; !ok {
+			m[sl.ID] = sl.ID
+		} else {
+			salons = append(salons, sl)
+		}
+	}
+	return salons, nil
+}
+
+func (s *salon) GetVacantSpace(ctx context.Context, date time.Time, salonID int64) (*entity.Space, error) {
+	return entity.Spaces(
+		qm.LeftOuterJoin("reservations ON reservations.space_id = spaces.id"),
+		entity.SpaceWhere.SalonID.EQ(salonID),
+		qm.GroupBy("spaces.id"),
+		qm.Having("COUNT(reservations.date = ? OR NULL) = 0", date),
+	).One(ctx, s.Conn)
+}
+
+func (s *salon) ExistsByBeauticianWithSalon(ctx context.Context, beauticianID, salonID int64) (bool, error) {
+	return entity.BeauticianSalons(
+		entity.BeauticianSalonWhere.BeauticianID.EQ(beauticianID),
+		entity.BeauticianSalonWhere.SalonID.EQ(salonID),
+		entity.BeauticianSalonWhere.DeletedAt.IsNull(),
+	).Exists(ctx, s.Conn)
 }

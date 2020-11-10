@@ -27,7 +27,6 @@ func NewResponseModelReservation(ent *entity.Reservation) *responsemodel.Reserva
 		SpaceID:      ent.SpaceID,
 		BeauticianID: ent.BeauticianID,
 		GuestID:      ent.GuestID,
-		MenuID:       ent.MenuID,
 		CreatedAt:    ent.CreatedAt,
 		UpdatedAt:    ent.UpdatedAt,
 	}

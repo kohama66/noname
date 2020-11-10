@@ -32,6 +32,7 @@ func NewResponseModelBeautician(ent *entity.Beautician) *responsemodel.Beauticia
 		LineID:      ent.LineID,
 		InstagramID: ent.InstagramID,
 		Comment:     ent.Comment,
+		Menus:       NewBeauticianMenusResponsemodel(ent.R.BeauticianMenus),
 		CreatedAt:   ent.CreatedAt,
 		UpdatedAt:   ent.UpdatedAt,
 	}

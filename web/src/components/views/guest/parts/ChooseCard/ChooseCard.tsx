@@ -12,7 +12,6 @@ interface props {
 }
 
 const ChooseCard: FC<props> = (props) => {
-
   return (
     <div className="choose-card" onClick={() => props.handleSetSelect(props.content.randId, props.type, props.content)} >
       <figure>

@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/myapp/noname/api/domain/entity"
+	"github.com/myapp/noname/api/domain/entityx"
 	"github.com/myapp/noname/api/domain/repository"
 	"github.com/myapp/noname/api/infrastructure/db"
 	"github.com/volatiletech/sqlboiler/boil"
@@ -13,12 +14,19 @@ import (
 )
 
 type reservation struct {
-	Conn *db.Conn
+	Conn               *db.Conn
+	reservationEntityX entityx.Reservation
 }
 
 // NewReservation DI初期化関数
-func NewReservation(conn *db.Conn) repository.Reservation {
-	return &reservation{Conn: conn}
+func NewReservation(
+	conn *db.Conn,
+	reservationEntityX entityx.Reservation,
+) repository.Reservation {
+	return &reservation{
+		Conn:               conn,
+		reservationEntityX: reservationEntityX,
+	}
 }
 
 func (r *reservation) ExistsSpaceDoubleBooking(ctx context.Context, date time.Time, spaceID int64) (bool, error) {
@@ -37,8 +45,19 @@ func (r *reservation) ExistsBeauticianDoubleBooking(ctx context.Context, date ti
 	).Exists(ctx, r.Conn)
 }
 
-func (r *reservation) Create(ctx context.Context, ent *entity.Reservation) error {
-	return ent.Insert(ctx, r.Conn, boil.Infer())
+func (r *reservation) Create(ctx context.Context, re *entity.Reservation, menuIDs []int64) error {
+	return r.Conn.RunInTx(ctx, func(tx *db.Tx) error {
+		if err := re.Insert(ctx, tx, boil.Infer()); err != nil {
+			return err
+		}
+		for _, menuID := range menuIDs {
+			rem := r.reservationEntityX.NewReservationMenu(re.ID, menuID)
+			if err := rem.Insert(ctx, tx, boil.Infer()); err != nil {
+				return err
+			}
+		}
+		return nil
+	})
 }
 
 func (r *reservation) FindByBeautician(ctx context.Context, beauticianID int64) (entity.ReservationSlice, error) {

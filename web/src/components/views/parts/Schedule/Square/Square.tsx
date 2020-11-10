@@ -7,7 +7,7 @@ interface props {
 
 const Square: FC<props> = (props) => {
   return (
-    <td onClick={() => props.clickFunction()}>{(() => {
+    <td onClick={() => props.clickFunction()} className={props.reserved ? "reserved-square" : "" }>{(() => {
       if(props.reserved){
         return "×"
       }
