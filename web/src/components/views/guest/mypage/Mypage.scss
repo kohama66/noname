@@ -1,0 +1,46 @@
+@import "../../../../css/common.scss";
+
+#guest-mypage {
+  background-color: $baseColor;
+  min-height: 100vh;
+  height: 100%;
+  padding-top: 150px;
+}
+
+.profile-card {
+  background-color: #fff;
+  width: 250px;
+  padding: 25px;
+  box-sizing: border-box;
+  border-radius: 15px;
+  figure {
+    width: 200px;
+    height: 200px;
+    background-color: $orangeColor1;
+    border-radius: 15px;
+    margin-bottom: 20px;
+  }
+  div {
+    dl {
+      span {
+        display: flex;
+        padding: 5px 0;
+        dt {
+          width: 35%;
+          font-size: 16px;
+          color: $blackFontColor;
+        }
+        dd {
+          font-weight: lighter;
+          color: #808080;
+        }
+      }
+    }
+  }
+}
+
+.reserved-history-card {
+  background-color: #fff;
+  padding: 25px;
+  border-radius: 15px;
+}
