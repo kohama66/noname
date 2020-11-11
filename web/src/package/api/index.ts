@@ -4,6 +4,7 @@ import { menuDetailsResponse, menusResponse } from '../interface/response/Menu';
 import { reservationsResponse, reservationResponse } from '../interface/response/Reservation'
 import { salonsResponse } from '../interface/response/Salon';
 import qs from "qs"
+import { guestResponse } from '../interface/response/Guest';
 
 const axios = Axios.create({
   baseURL: "http://localhost:8080",
@@ -98,4 +99,8 @@ export const createReservation = async (beauticianRandID: string, salonRandID: s
     menuIds: menuIDs,
     date: date,
   })
+}
+
+export const getGuest = async (): Promise<guestResponse> => {
+  return get<guestResponse>(`api.vi/guest`)
 }
