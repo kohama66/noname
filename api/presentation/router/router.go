@@ -67,6 +67,7 @@ func (r *Router) Routes() {
 				})
 			})
 			r.Group(func(r chi.Router) {
+				r.Use(middleware.AuthAPI)
 				r.Route("/guest", func(r chi.Router) {
 					r.Get("/", guestController.Get)
 				})
