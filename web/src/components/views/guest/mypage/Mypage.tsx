@@ -1,8 +1,10 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import Title from '../parts/Title/Title';
 import './Mypage.scss'
 
 const Mypage: FC = () => {
+  const [me, setMe] = useState()
+  
   return (
     <div id="guest-mypage">
       <Title title="MY PAGE" text="マイページ"/>
