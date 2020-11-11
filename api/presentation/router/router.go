@@ -33,6 +33,7 @@ func (r *Router) Routes() {
 	reservationController := di.InitReservation()
 	salonController := di.InitSalon()
 	menuController := di.InitMenu()
+	guestController := di.InitGuest()
 
 	r.Route("/api", func(r chi.Router) {
 		r.Route("/v1", func(r chi.Router) {
@@ -63,6 +64,11 @@ func (r *Router) Routes() {
 				r.Route("/menu", func(r chi.Router) {
 					r.Get("/find", menuController.Find)
 					r.Get("/find/{beauticianRandID}", menuController.FindByBeauticianWithMenuRandID)
+				})
+			})
+			r.Group(func(r chi.Router) {
+				r.Route("/guest", func(r chi.Router) {
+					r.Get("/", guestController.Get)
 				})
 			})
 		})

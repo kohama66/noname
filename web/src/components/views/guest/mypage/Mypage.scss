@@ -21,6 +21,7 @@
   box-sizing: border-box;
   border-radius: 15px;
   margin: 0 10px;
+  @include whiteShadow;
   figure {
     width: 200px;
     height: 200px;
@@ -58,6 +59,7 @@
   height: 400px;
   margin: 0 10px;
   display: flex;
+  @include whiteShadow;
   div {
     text-align: center;
     margin: 0 30px;

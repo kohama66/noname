@@ -133,6 +133,42 @@ var doc = `{
                 }
             }
         },
+        "/api/v1/guest": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "ゲスト情報取得",
+                "parameters": [
+                    {
+                        "description": "Request body",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/requestmodel.GuestGet"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/responsemodel.GuestGet"
+                        }
+                    },
+                    "500": {
+                        "description": "Something went wrong",
+                        "schema": {
+                            "$ref": "#/definitions/resource.Error"
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/menu/find": {
             "get": {
                 "consumes": [
@@ -388,6 +424,9 @@ var doc = `{
         "requestmodel.BeauticianGet": {
             "type": "object"
         },
+        "requestmodel.GuestGet": {
+            "type": "object"
+        },
         "requestmodel.MenuFind": {
             "type": "object",
             "properties": {
@@ -419,7 +458,7 @@ var doc = `{
                 "menuIds": {
                     "type": "array",
                     "items": {
-                        "type": "integer"
+                        "type": "string"
                     }
                 },
                 "salonRandId": {
@@ -489,6 +528,12 @@ var doc = `{
                 "lineId": {
                     "type": "string"
                 },
+                "menus": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/responsemodel.BeauticianMenu"
+                    }
+                },
                 "phoneNumber": {
                     "type": "string"
                 },
@@ -526,6 +571,12 @@ var doc = `{
                 },
                 "lineId": {
                     "type": "string"
+                },
+                "menus": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/responsemodel.BeauticianMenu"
+                    }
                 },
                 "phoneNumber": {
                     "type": "string"
@@ -576,6 +627,12 @@ var doc = `{
                 "lineId": {
                     "type": "string"
                 },
+                "menus": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/responsemodel.BeauticianMenu"
+                    }
+                },
                 "phoneNumber": {
                     "type": "string"
                 },
@@ -604,6 +661,26 @@ var doc = `{
                 },
                 "price": {
                     "type": "integer"
+                },
+                "updatedAt": {
+                    "type": "string"
+                }
+            }
+        },
+        "responsemodel.GuestGet": {
+            "type": "object",
+            "properties": {
+                "createdAt": {
+                    "type": "string"
+                },
+                "firstName": {
+                    "type": "string"
+                },
+                "lastName": {
+                    "type": "string"
+                },
+                "randId": {
+                    "type": "string"
                 },
                 "updatedAt": {
                     "type": "string"
@@ -645,7 +722,6 @@ var doc = `{
             "type": "object",
             "properties": {
                 "beauticianMenus": {
-                    "description": "Price        int64  ` + "`" + `json:\"price\"` + "`" + `\nName         string ` + "`" + `json:\"name\"` + "`" + `\nBeauticianID int64  ` + "`" + `json:\"beauticianId\"` + "`" + `\nMenuID       int64  ` + "`" + `json:\"menuId\"` + "`" + `",
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/responsemodel.BeauticianMenu"

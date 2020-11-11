@@ -65,3 +65,14 @@ func InitMenu() handler.Menu {
 	)
 	return nil
 }
+
+func InitGuest() handler.Guest {
+	wire.Build(
+		db.New,
+		response.NewGuest,
+		repository.NewGuest,
+		usecase.NewGuest,
+		handler.NewGuest,
+	)
+	return nil
+}

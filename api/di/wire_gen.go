@@ -60,3 +60,12 @@ func InitMenu() handler.Menu {
 	handlerMenu := handler.NewMenu(usecaseMenu)
 	return handlerMenu
 }
+
+func InitGuest() handler.Guest {
+	conn := db.New()
+	guest := repository.NewGuest(conn)
+	responseGuest := response.NewGuest()
+	usecaseGuest := usecase.NewGuest(guest, responseGuest)
+	handlerGuest := handler.NewGuest(usecaseGuest)
+	return handlerGuest
+}
