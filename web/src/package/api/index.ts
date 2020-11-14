@@ -4,7 +4,7 @@ import { menuDetailsResponse, menusResponse } from '../interface/response/Menu';
 import { reservationsResponse, reservationResponse } from '../interface/response/Reservation'
 import { salonsResponse } from '../interface/response/Salon';
 import qs from "qs"
-import { guestResponse } from '../interface/response/Guest';
+import { guestMypageResponse, guestResponse } from '../interface/response/Guest';
 
 const axios = Axios.create({
   baseURL: "http://localhost:8080",
@@ -101,6 +101,6 @@ export const createReservation = async (beauticianRandID: string, salonRandID: s
   })
 }
 
-export const getGuest = async (): Promise<guestResponse> => {
-  return get<guestResponse>(`api/v1/guest`)
+export const getGuest = async (): Promise<guestMypageResponse> => {
+  return get<guestMypageResponse>(`api/v1/guest`)
 }

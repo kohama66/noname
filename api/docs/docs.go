@@ -682,6 +682,12 @@ var doc = `{
                 "randId": {
                     "type": "string"
                 },
+                "reservations": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/responsemodel.ReservationGetByGuest"
+                    }
+                },
                 "updatedAt": {
                     "type": "string"
                 }
@@ -800,6 +806,29 @@ var doc = `{
                     "items": {
                         "$ref": "#/definitions/responsemodel.Reservation"
                     }
+                }
+            }
+        },
+        "responsemodel.ReservationGetByGuest": {
+            "type": "object",
+            "properties": {
+                "beauticianFirstName": {
+                    "type": "string"
+                },
+                "beauticianLastName": {
+                    "type": "string"
+                },
+                "date": {
+                    "type": "string"
+                },
+                "guestId": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "salonName": {
+                    "type": "string"
                 }
             }
         },

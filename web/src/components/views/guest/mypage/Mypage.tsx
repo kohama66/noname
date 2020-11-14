@@ -1,26 +1,27 @@
 import React, { FC, useEffect, useState } from 'react';
 import { getGuest } from '../../../../package/api';
-import { Guest, initGuest } from '../../../../package/interface/Guest';
+import { GuestByMyPage, initGuestByMyPage } from '../../../../package/interface/Guest';
+import ReservationInfor from '../../parts/ReservationInfor/ReservationInfor';
 import Title from '../parts/Title/Title';
 import './Mypage.scss'
 
 const Mypage: FC = () => {
-  const [me, setMe] = useState<Guest>(initGuest)
+  const [me, setMe] = useState<GuestByMyPage>(initGuestByMyPage)
   const handleGetMe = async () => {
     try {
       const response = await getGuest()
-      setMe(response.guest)
+      setMe(response)
     } catch (error) {
       console.log(error)
     }
   }
   useEffect(() => {
     handleGetMe()
-  },[])
-  
+  }, [])
+
   return (
     <div id="guest-mypage">
-      <Title title="MY PAGE" text="マイページ"/>
+      <Title title="MY PAGE" text="マイページ" />
       <section>
         <div className="profile-card">
           <figure></figure>
@@ -52,7 +53,11 @@ const Mypage: FC = () => {
               <dl>
                 <span>
                   <dt>店舗</dt>
-                  <dd>Kyoto Salon</dd>
+                  <dd>{(() => {
+                    if (me != initGuestByMyPage) {
+                      return me.reservations[0].salonName
+                    }
+                  })()}</dd>
                 </span>
                 <span>
                   <dt>美容師</dt>
@@ -81,41 +86,12 @@ const Mypage: FC = () => {
               </dl>
             </div>
           </div>
-          <div>
-            <h2>前回の予約</h2>
-            <div>
-              <dl>
-                <span>
-                  <dt>店舗</dt>
-                  <dd>Kyoto Salon</dd>
-                </span>
-                <span>
-                  <dt>美容師</dt>
-                  <dd>山田 隆</dd>
-                </span>
-                <span>
-                  <dt>日付</dt>
-                  <dd>11月05日</dd>
-                </span>
-                <span>
-                  <dt>時間</dt>
-                  <dd>15:00から</dd>
-                </span>
-                <span className="menus">
-                  <dt>メニュー</dt>
-                  <span>
-                    <dd>カット</dd>
-                    <dd>カラー</dd>
-                    <dd>パーマ</dd>
-                  </span>
-                </span>
-                <span>
-                  <dt>合計</dt>
-                  <dd>5500</dd>
-                </span>
-              </dl>
-            </div>
-          </div>
+          {(() => {
+            if (me != initGuestByMyPage) {
+              return <ReservationInfor titleText="前回の予約" storeName={me.reservations[1].salonName}
+                beauticianLastName={me.reservations[1].beauticianLastName} beauticianFirstName={me.reservations[1].beauticianFirstName} />
+            }
+          })()}
         </div>
       </section>
     </div>
