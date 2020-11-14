@@ -67,3 +67,20 @@ func (r *reservation) FindByBeautician(ctx context.Context, beauticianID int64) 
 		entity.ReservationWhere.BeauticianID.EQ(beauticianID),
 	).All(ctx, r.Conn)
 }
+
+func (r *reservation) FindByGuest(ctx context.Context, guestID int64) ([]*entityx.ReservationGetByGuest, error) {
+	var results []*entityx.ReservationGetByGuest
+	if err := entity.NewQuery(
+		qm.Select("*"),
+		qm.Select("salons.name AS salon_name"),
+		qm.From(entity.TableNames.Reservations),
+		qm.InnerJoin("spaces ON spaces.id = reservations.space_id"),
+		qm.InnerJoin("salons ON salons.id = spaces.salon_id"),
+		qm.InnerJoin("beauticians ON beauticians.id = reservations.beautician_id"),
+		entity.ReservationWhere.DeletedAt.IsNull(),
+		entity.ReservationWhere.GuestID.EQ(guestID),
+	).Bind(ctx, r.Conn, &results); err != nil {
+		return nil, err
+	}
+	return results, nil
+}

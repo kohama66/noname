@@ -1,9 +1,22 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
+import { getGuest } from '../../../../package/api';
+import { Guest, initGuest } from '../../../../package/interface/Guest';
 import Title from '../parts/Title/Title';
 import './Mypage.scss'
 
 const Mypage: FC = () => {
-  const [me, setMe] = useState()
+  const [me, setMe] = useState<Guest>(initGuest)
+  const handleGetMe = async () => {
+    try {
+      const response = await getGuest()
+      setMe(response.guest)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  useEffect(() => {
+    handleGetMe()
+  },[])
   
   return (
     <div id="guest-mypage">
@@ -15,7 +28,7 @@ const Mypage: FC = () => {
             <dl>
               <span>
                 <dt>名前</dt>
-                <dd>小濱 陵</dd>
+                <dd>{me.lastName + " " + me.firstName}</dd>
               </span>
               <span>
                 <dt>歳</dt>

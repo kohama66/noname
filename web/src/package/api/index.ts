@@ -102,5 +102,5 @@ export const createReservation = async (beauticianRandID: string, salonRandID: s
 }
 
 export const getGuest = async (): Promise<guestResponse> => {
-  return get<guestResponse>(`api.vi/guest`)
+  return get<guestResponse>(`api/v1/guest`)
 }

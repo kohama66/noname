@@ -3,3 +3,5 @@ export interface Guest {
   firstName: string
   lastName: string
 }
+
+export const initGuest: Guest = <Guest>{}

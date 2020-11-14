@@ -70,7 +70,9 @@ func InitGuest() handler.Guest {
 	wire.Build(
 		db.New,
 		response.NewGuest,
+		entityx.NewReservation,
 		repository.NewGuest,
+		repository.NewReservation,
 		usecase.NewGuest,
 		handler.NewGuest,
 	)

@@ -15,18 +15,21 @@ type Guest interface {
 }
 
 type guest struct {
-	guestRepository repository.Guest
-	guestResponse   response.Guest
+	guestRepository       repository.Guest
+	guestResponse         response.Guest
+	reservationRepository repository.Reservation
 }
 
 // NewGuest DI初期化関数
 func NewGuest(
 	guestRepository repository.Guest,
 	guestResponse response.Guest,
+	reservationRepository repository.Reservation,
 ) Guest {
 	return &guest{
-		guestRepository: guestRepository,
-		guestResponse:   guestResponse,
+		guestRepository:       guestRepository,
+		guestResponse:         guestResponse,
+		reservationRepository: reservationRepository,
 	}
 }
 
@@ -35,5 +38,9 @@ func (g *guest) Get(ctx context.Context, r *requestmodel.GuestGet) (*responsemod
 	if err != nil {
 		return nil, err
 	}
-	return g.guestResponse.NewGuestGet(gs), nil
+	rs, err := g.reservationRepository.FindByGuest(ctx, gs.ID)
+	if err != nil {
+		return nil, err
+	}
+	return g.guestResponse.NewGuestGet(gs, rs), nil
 }

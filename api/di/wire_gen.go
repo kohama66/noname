@@ -65,7 +65,9 @@ func InitGuest() handler.Guest {
 	conn := db.New()
 	guest := repository.NewGuest(conn)
 	responseGuest := response.NewGuest()
-	usecaseGuest := usecase.NewGuest(guest, responseGuest)
+	reservation := entityx.NewReservation()
+	repositoryReservation := repository.NewReservation(conn, reservation)
+	usecaseGuest := usecase.NewGuest(guest, responseGuest, repositoryReservation)
 	handlerGuest := handler.NewGuest(usecaseGuest)
 	return handlerGuest
 }
