@@ -1,4 +1,5 @@
 import { Guest, GuestByMyPage } from "../Guest";
+import { GuestMyPageReservation } from "../Reservation"
 
 export interface guestResponse {
   guest: Guest
@@ -8,11 +9,5 @@ export interface guestMypageResponse {
   randId: string
   firstName: string
   lastName: string
-  reservations: {
-    id: number
-    date: string
-    salonName: string
-    beauticianFirstName: string
-    beauticianLastName: string
-  }[]
+  reservations: GuestMyPageReservation[]
 }

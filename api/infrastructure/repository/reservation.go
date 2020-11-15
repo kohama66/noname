@@ -78,6 +78,7 @@ func (r *reservation) FindByGuest(ctx context.Context, guestID int64) ([]*entity
 		qm.InnerJoin("spaces ON spaces.id = reservations.space_id"),
 		qm.InnerJoin("salons ON salons.id = spaces.salon_id"),
 		qm.InnerJoin("beauticians ON beauticians.id = reservations.beautician_id"),
+		qm.OrderBy("reservations.id DESC"),
 		entity.ReservationWhere.DeletedAt.IsNull(),
 		entity.ReservationWhere.GuestID.EQ(guestID),
 	).Bind(ctx, r.Conn, &results); err != nil {

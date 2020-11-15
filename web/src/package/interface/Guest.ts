@@ -1,3 +1,5 @@
+import { GuestMyPageReservation } from "./Reservation"
+
 export interface Guest {
   randId: string
   firstName: string
@@ -8,13 +10,7 @@ export interface GuestByMyPage {
   randId: string
   firstName: string
   lastName: string
-  reservations: {
-    id: number
-    date: string
-    salonName: string
-    beauticianFirstName: string
-    beauticianLastName: string
-  }[]
+  reservations: GuestMyPageReservation[]
 }
 
 export const initGuest: Guest = <Guest>{}

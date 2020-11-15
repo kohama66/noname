@@ -42,6 +42,5 @@ func (g *guest) Get(ctx context.Context, r *requestmodel.GuestGet) (*responsemod
 	if err != nil {
 		return nil, err
 	}
-	// fmt.Println(rs[0].Menus[0])
 	return g.guestResponse.NewGuestGet(gs, rs), nil
 }
