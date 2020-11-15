@@ -6,6 +6,9 @@ interface props {
   storeName: string
   beauticianLastName: string
   beauticianFirstName: string
+  month: number
+  day: number
+  time: number
 }
 
 const ReservationInfor: FC<props> = (props) => {
@@ -24,11 +27,11 @@ const ReservationInfor: FC<props> = (props) => {
           </span>
           <span>
             <dt>日付</dt>
-            <dd>11月05日</dd>
+            <dd>{`${props.month}月${props.day}日`}</dd>
           </span>
           <span>
             <dt>時間</dt>
-            <dd>15:00から</dd>
+            <dd>{`${props.time}時から`}</dd>
           </span>
           <span className="menus">
             <dt>メニュー</dt>

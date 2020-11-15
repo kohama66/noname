@@ -39,6 +39,7 @@ func (g *guest) NewGuestGet(ent *entity.Guest, rent []*entityx.ReservationGetByG
 			SalonName:           v.SalonName,
 			BeauticianFirstName: v.BeauticianFirstName,
 			BeauticianLatsName:  v.BeauticianLatsName,
+			Menus:               NewBeauticianMenusResponsemodel(v.Menus),
 		}
 	}
 	return &responsemodel.GuestGet{

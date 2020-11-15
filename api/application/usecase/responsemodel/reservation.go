@@ -32,10 +32,11 @@ type ReservationFind struct {
 
 // ReservationGetByGuest 用構造体
 type ReservationGetByGuest struct {
-	ID                  int64     `json:"id"`
-	Date                time.Time `json:"date"`
-	GuestID             int64     `json:"guestId"`
-	SalonName           string    `json:"salonName"`
-	BeauticianFirstName string    `json:"beauticianFirstName"`
-	BeauticianLatsName  string    `json:"beauticianLastName"`
+	ID                  int64             `json:"id"`
+	Date                time.Time         `json:"date"`
+	GuestID             int64             `json:"guestId"`
+	SalonName           string            `json:"salonName"`
+	BeauticianFirstName string            `json:"beauticianFirstName"`
+	BeauticianLatsName  string            `json:"beauticianLastName"`
+	Menus               []*BeauticianMenu `json:"menus"`
 }

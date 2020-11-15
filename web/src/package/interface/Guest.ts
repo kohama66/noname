@@ -10,7 +10,7 @@ export interface GuestByMyPage {
   lastName: string
   reservations: {
     id: number
-    date: Date
+    date: string
     salonName: string
     beauticianFirstName: string
     beauticianLastName: string

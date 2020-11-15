@@ -11,6 +11,7 @@ const Mypage: FC = () => {
     try {
       const response = await getGuest()
       setMe(response)
+      console.log(response)
     } catch (error) {
       console.log(error)
     }
@@ -47,49 +48,41 @@ const Mypage: FC = () => {
           </div>
         </div>
         <div className="reserved-history-card">
-          <div>
-            <h2>現在の予約</h2>
-            <div>
-              <dl>
-                <span>
-                  <dt>店舗</dt>
-                  <dd>{(() => {
-                    if (me != initGuestByMyPage) {
-                      return me.reservations[0].salonName
-                    }
-                  })()}</dd>
-                </span>
-                <span>
-                  <dt>美容師</dt>
-                  <dd>山田 隆</dd>
-                </span>
-                <span>
-                  <dt>日付</dt>
-                  <dd>11月05日</dd>
-                </span>
-                <span>
-                  <dt>時間</dt>
-                  <dd>15:00から</dd>
-                </span>
-                <span className="menus">
-                  <dt>メニュー</dt>
-                  <span>
-                    <dd>カット</dd>
-                    <dd>カラー</dd>
-                    <dd>パーマ</dd>
-                  </span>
-                </span>
-                <span>
-                  <dt>合計</dt>
-                  <dd>5500</dd>
-                </span>
-              </dl>
-            </div>
-          </div>
+          {(() => {
+            if (me != initGuestByMyPage) {
+              return <ReservationInfor titleText="今回の予約" storeName={me.reservations[0].salonName}
+                beauticianLastName={me.reservations[0].beauticianLastName} beauticianFirstName={me.reservations[0].beauticianFirstName}
+                month={(() => {
+                  const month = new Date(me.reservations[0].date)
+                  return month.getMonth()
+                })()}
+                day={(() => {
+                  const day = new Date(me.reservations[0].date)
+                  return day.getDay()
+                })()}
+                time={(() => {
+                  const time = new Date(me.reservations[0].date)
+                  return time.getHours()
+                })()} />
+            }
+          })()}
           {(() => {
             if (me != initGuestByMyPage) {
               return <ReservationInfor titleText="前回の予約" storeName={me.reservations[1].salonName}
-                beauticianLastName={me.reservations[1].beauticianLastName} beauticianFirstName={me.reservations[1].beauticianFirstName} />
+                beauticianLastName={me.reservations[1].beauticianLastName} beauticianFirstName={me.reservations[1].beauticianFirstName}
+                month={(() => {
+                  const month = new Date(me.reservations[1].date)
+                  console.log(month)
+                  return month.getMonth()
+                })()}
+                day={(() => {
+                  const day = new Date(me.reservations[1].date)
+                  return day.getDay()
+                })()}
+                time={(() => {
+                  const time = new Date(me.reservations[1].date)
+                  return time.getHours()
+                })()} />
             }
           })()}
         </div>

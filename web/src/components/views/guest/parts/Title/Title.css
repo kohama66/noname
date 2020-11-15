@@ -1,0 +1,15 @@
+.heading {
+  text-align: center;
+}
+
+.heading h2 {
+  color: #242429;
+  font-size: 40px;
+  letter-spacing: .1em;
+}
+
+.heading p {
+  color: #f08642;
+  font-weight: bold;
+  line-height: 1.5em;
+}

@@ -39,14 +39,15 @@ func (r *reservation) NewReservationMenu(reservationID int64, menuID int64) *ent
 
 // ReservationGetByGuest 用構造体
 type ReservationGetByGuest struct {
-	ID                  int64     `boil:"id" json:"id"`
-	Date                time.Time `boil:"date" json:"date"`
-	GuestID             int64     `boil:"guest_id" json:"guest_id"`
-	SalonName           string    `boil:"salon_name" json:"salon_name"`
-	BeauticianFirstName string    `boil:"first_name" json:"beautician_first_name"`
-	BeauticianLatsName  string    `boil:"last_name" json:"beautician_last_name"`
-	CreatedAt           time.Time `boil:"created_at" json:"created_at"`
-	UpdatedAt           time.Time `boil:"updated_at" json:"updated_at"`
+	ID                  int64                    `boil:"reservation_id" json:"id"`
+	Date                time.Time                `boil:"date" json:"date"`
+	GuestID             int64                    `boil:"guest_id" json:"guest_id"`
+	SalonName           string                   `boil:"salon_name" json:"salon_name"`
+	BeauticianFirstName string                   `boil:"first_name" json:"beautician_first_name"`
+	BeauticianLatsName  string                   `boil:"last_name" json:"beautician_last_name"`
+	Menus               []*entity.BeauticianMenu `json:"menus"`
+	CreatedAt           time.Time                `boil:"created_at" json:"created_at"`
+	UpdatedAt           time.Time                `boil:"updated_at" json:"updated_at"`
 }
 
 // ReservationGetByGuest 用構造体
