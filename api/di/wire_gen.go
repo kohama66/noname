@@ -60,3 +60,14 @@ func InitMenu() handler.Menu {
 	handlerMenu := handler.NewMenu(usecaseMenu)
 	return handlerMenu
 }
+
+func InitGuest() handler.Guest {
+	conn := db.New()
+	guest := repository.NewGuest(conn)
+	responseGuest := response.NewGuest()
+	reservation := entityx.NewReservation()
+	repositoryReservation := repository.NewReservation(conn, reservation)
+	usecaseGuest := usecase.NewGuest(guest, responseGuest, repositoryReservation)
+	handlerGuest := handler.NewGuest(usecaseGuest)
+	return handlerGuest
+}

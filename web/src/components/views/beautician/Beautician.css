@@ -1,0 +1,89 @@
+#beautician {
+  width: 100%;
+  height: 100vh;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+#beautician .inner {
+  background-color: #fff;
+  height: 500px;
+  width: 800px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+#beautician .inner figure {
+  width: 350px;
+  height: 450px;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  position: relative;
+}
+
+#beautician .inner figure img {
+  -o-object-fit: cover;
+     object-fit: cover;
+  -o-object-position: -250px 0;
+     object-position: -250px 0;
+  width: 100%;
+  height: 100%;
+}
+
+#beautician .inner figure div {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #ffffffcc;
+}
+
+#beautician .inner .signIn {
+  width: 350px;
+  height: 450px;
+  border: 1px solid #000;
+  text-align: center;
+  padding-top: 50px;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+#beautician .inner .signIn label {
+  display: block;
+  font-size: 18px;
+  margin: 10px 0;
+}
+
+#beautician .inner .signIn input {
+  display: block;
+  width: 260px;
+  padding: 10px;
+  margin: 0 auto;
+  margin-bottom: 30px;
+}
+
+#beautician .inner .signIn button {
+  background-color: red;
+  color: #fff;
+  font-size: 18px;
+  border: none;
+  width: 240px;
+  height: 50px;
+  margin-top: 80px;
+}

@@ -23,6 +23,8 @@ definitions:
     type: object
   requestmodel.BeauticianGet:
     type: object
+  requestmodel.GuestGet:
+    type: object
   requestmodel.MenuFind:
     properties:
       beauticianRandID:
@@ -43,7 +45,7 @@ definitions:
         type: string
       menuIds:
         items:
-          type: integer
+          type: string
         type: array
       salonRandId:
         type: string
@@ -88,6 +90,10 @@ definitions:
         type: string
       lineId:
         type: string
+      menus:
+        items:
+          $ref: '#/definitions/responsemodel.BeauticianMenu'
+        type: array
       phoneNumber:
         type: string
       randId:
@@ -113,6 +119,10 @@ definitions:
         type: string
       lineId:
         type: string
+      menus:
+        items:
+          $ref: '#/definitions/responsemodel.BeauticianMenu'
+        type: array
       phoneNumber:
         type: string
       randId:
@@ -145,6 +155,10 @@ definitions:
         type: string
       lineId:
         type: string
+      menus:
+        items:
+          $ref: '#/definitions/responsemodel.BeauticianMenu'
+        type: array
       phoneNumber:
         type: string
       randId:
@@ -164,6 +178,23 @@ definitions:
         type: string
       price:
         type: integer
+      updatedAt:
+        type: string
+    type: object
+  responsemodel.GuestGet:
+    properties:
+      createdAt:
+        type: string
+      firstName:
+        type: string
+      lastName:
+        type: string
+      randId:
+        type: string
+      reservations:
+        items:
+          $ref: '#/definitions/responsemodel.ReservationGetByGuest'
+        type: array
       updatedAt:
         type: string
     type: object
@@ -190,11 +221,6 @@ definitions:
   responsemodel.MenuFindByBeauticianWithMenuRandIDs:
     properties:
       beauticianMenus:
-        description: |-
-          Price        int64  `json:"price"`
-          Name         string `json:"name"`
-          BeauticianID int64  `json:"beauticianId"`
-          MenuID       int64  `json:"menuId"`
         items:
           $ref: '#/definitions/responsemodel.BeauticianMenu'
         type: array
@@ -246,6 +272,21 @@ definitions:
         items:
           $ref: '#/definitions/responsemodel.Reservation'
         type: array
+    type: object
+  responsemodel.ReservationGetByGuest:
+    properties:
+      beauticianFirstName:
+        type: string
+      beauticianLastName:
+        type: string
+      date:
+        type: string
+      guestId:
+        type: integer
+      id:
+        type: integer
+      salonName:
+        type: string
     type: object
   responsemodel.Salon:
     properties:
@@ -358,6 +399,29 @@ paths:
           schema:
             $ref: '#/definitions/resource.Error'
       summary: 美容師検索
+  /api/v1/guest:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: Request body
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/requestmodel.GuestGet'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responsemodel.GuestGet'
+        "500":
+          description: Something went wrong
+          schema:
+            $ref: '#/definitions/resource.Error'
+      summary: ゲスト情報取得
   /api/v1/menu/find:
     get:
       consumes:
