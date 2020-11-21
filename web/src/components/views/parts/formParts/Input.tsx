@@ -13,8 +13,6 @@ interface props {
 }
 
 const Input: FC<props> = (props) => {
-  // const [disabled, setDisabled] = useState<boolean>(false)
-
   const handleChange = (e: React.FormEvent<HTMLInputElement>) => {
     if (props.setState) {
       props.setState(e.currentTarget.value)
