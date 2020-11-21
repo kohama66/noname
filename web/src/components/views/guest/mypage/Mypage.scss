@@ -21,9 +21,9 @@
       border-radius: 15px;
       @include whiteShadow;
       h2 {
-        font-size: 16px;
+        font-size: 14px;
         color: $orangeColor1;
-        margin-bottom: 30px;
+        margin-bottom: 40px;
         padding: 5px 0;
         text-align: center;
         border-radius: 5px;
@@ -38,6 +38,7 @@
           margin: 10px 0;
           dd {
             width: 100px;
+            color: $blackFontColor;
           }
           dt {
             color: $darkGray;
