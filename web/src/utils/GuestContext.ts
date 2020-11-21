@@ -6,7 +6,7 @@ export const GuestContext = createContext({
   settingGuest: (guest: Guest) => { },
 })
 
-export const getGuestContext = () => {
+export const useGuestContext = () => {
   const [guest, setGuest] = useState<Guest>(initGuest)
   const settingGuest = (guest: Guest): void => {
     setGuest(guest)

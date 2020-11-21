@@ -7,10 +7,11 @@ import {
   Route,
 } from "react-router-dom";
 import Header from './views/parts/header';
-import { getGuestContext, GuestContext } from '../utils/GuestContext';
+import { useGuestContext, GuestContext } from '../utils/GuestContext';
+import Login from './views/login/Login';
 
 const App: FC = () => {
-  const rootGuestContext = getGuestContext()
+  const rootGuestContext = useGuestContext()
   return (
     <>
       <section id="top">
@@ -22,6 +23,7 @@ const App: FC = () => {
                 <Route path="/" exact component={Home} />
                 <Route path="/beautician" component={Beautician} />
                 <Route path="/guest" component={Guest} />
+                <Route path="/login" component={Login} />
               </Switch>
             </Router>
           </GuestContext.Provider>
