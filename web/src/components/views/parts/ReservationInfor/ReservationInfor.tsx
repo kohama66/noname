@@ -1,6 +1,7 @@
 import React, { FC, useEffect, useState } from 'react';
 import { GuestByMyPage } from '../../../../package/interface/Guest';
 import { MenuDetail } from '../../../../package/interface/Menu';
+import './ReservationInfor.scss'
 
 interface props {
   titleText: string
@@ -21,7 +22,7 @@ const ReservationInfor: FC<props> = (props) => {
       price += menu.price
     })
     setTotalPrice(price)
-  },[])
+  }, [])
   return (
     <div id="reservationInfor">
       <h2>{props.titleText}</h2>
@@ -37,7 +38,7 @@ const ReservationInfor: FC<props> = (props) => {
           </span>
           <span>
             <dt>日付</dt>
-            <dd>{`${props.month}月${props.day}日`}</dd>
+            <dd>{`${props.month}月 ${props.day}日`}</dd>
           </span>
           <span>
             <dt>時間</dt>
@@ -45,13 +46,16 @@ const ReservationInfor: FC<props> = (props) => {
           </span>
           <span className="menus">
             <dt>メニュー</dt>
-            <span>
+            <span className="menus-wrapper">
               {props.menus.map((menu, i) => {
-                return <dd key={i}>{menu.name}</dd>
+                return <span key={i}>
+                  <dd >{menu.name}</dd>
+                  <dd>{menu.price}</dd>
+                </span>
               })}
             </span>
           </span>
-          <span>
+          <span className="price">
             <dt>合計</dt>
             <dd>{totalPrice}</dd>
           </span>

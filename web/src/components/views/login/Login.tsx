@@ -13,7 +13,7 @@ const Login: FC = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault()
     setDisabled(true)
-    await signin()
+    await signin({email, password})
   }
 
   return (

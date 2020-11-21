@@ -34,30 +34,20 @@ const Mypage: FC = () => {
     <div id="guest-mypage">
       <Title title="MY PAGE" text="マイページ" />
       <section>
-        <div className="profile-card">
-          <figure></figure>
-          <div>
-            <dl>
-              <span>
-                <dt>名前</dt>
-                <dd>{me.lastName + " " + me.firstName}</dd>
-              </span>
-              <span>
-                <dt>歳</dt>
-                <dd>29</dd>
-              </span>
-              <span>
-                <dt>性別</dt>
-                <dd>man</dd>
-              </span>
-              <span>
-                <dt>電話</dt>
-                <dd>09012345678</dd>
-              </span>
-            </dl>
-          </div>
+        <div className="mypage-profile">
+          <h2>{`${me.lastName} ${me.firstName} 様`}</h2>
+          <dl>
+            <span>
+              <dd>メール</dd>
+              <dt>guest_test@test.com</dt>
+            </span>
+            <span>
+              <dd>電話</dd>
+              <dt>09012344321</dt>
+            </span>
+          </dl>
         </div>
-        <div className="reserved-history-card">
+        <div className="mypage-contents">
           {(() => {
             if (reserved != null) {
               return <ReservationInfor titleText="今回の予約" storeName={reserved.salonName} beauticianLastName={reserved.beauticianLastName}
@@ -70,7 +60,7 @@ const Mypage: FC = () => {
             if (previousReserved != null) {
               return <ReservationInfor titleText="前回の予約" storeName={previousReserved.salonName} beauticianLastName={previousReserved.beauticianLastName}
                 beauticianFirstName={previousReserved.beauticianFirstName} month={(() => getMonth(previousReserved.date))()} day={(() => getDay(previousReserved.date))()}
-                hours={(() => getHours(previousReserved.date))()} menus={previousReserved.menus}/>
+                hours={(() => getHours(previousReserved.date))()} menus={previousReserved.menus} />
             }
           })()
           }
