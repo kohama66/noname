@@ -70,6 +70,7 @@ func (r *Router) Routes() {
 				r.Use(middleware.AuthAPI)
 				r.Route("/guest", func(r chi.Router) {
 					r.Get("/", guestController.Get)
+					r.Post("/", guestController.Create)
 				})
 			})
 		})

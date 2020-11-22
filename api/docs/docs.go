@@ -167,6 +167,40 @@ var doc = `{
                         }
                     }
                 }
+            },
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "ゲスト新規登録",
+                "parameters": [
+                    {
+                        "description": "Request body",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/requestmodel.GuestCreate"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/responsemodel.GuestCreate"
+                        }
+                    },
+                    "500": {
+                        "description": "Something went wrong",
+                        "schema": {
+                            "$ref": "#/definitions/resource.Error"
+                        }
+                    }
+                }
             }
         },
         "/api/v1/menu/find": {
@@ -424,6 +458,33 @@ var doc = `{
         "requestmodel.BeauticianGet": {
             "type": "object"
         },
+        "requestmodel.GuestCreate": {
+            "type": "object",
+            "required": [
+                "email",
+                "firstName",
+                "firstNameKana",
+                "lastName",
+                "lastNameKana"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "firstName": {
+                    "type": "string"
+                },
+                "firstNameKana": {
+                    "type": "string"
+                },
+                "lastName": {
+                    "type": "string"
+                },
+                "lastNameKana": {
+                    "type": "string"
+                }
+            }
+        },
         "requestmodel.GuestGet": {
             "type": "object"
         },
@@ -667,6 +728,45 @@ var doc = `{
                 }
             }
         },
+        "responsemodel.Guest": {
+            "type": "object",
+            "properties": {
+                "createdAt": {
+                    "description": "Reservations []*Reservation ` + "`" + `json:\"reservations\"` + "`" + `",
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "firstName": {
+                    "type": "string"
+                },
+                "firstNameKana": {
+                    "type": "string"
+                },
+                "lastName": {
+                    "type": "string"
+                },
+                "lastNameKana": {
+                    "type": "string"
+                },
+                "randId": {
+                    "type": "string"
+                },
+                "updatedAt": {
+                    "type": "string"
+                }
+            }
+        },
+        "responsemodel.GuestCreate": {
+            "type": "object",
+            "properties": {
+                "guest": {
+                    "type": "object",
+                    "$ref": "#/definitions/responsemodel.Guest"
+                }
+            }
+        },
         "responsemodel.GuestGet": {
             "type": "object",
             "properties": {
@@ -826,6 +926,12 @@ var doc = `{
                 },
                 "id": {
                     "type": "integer"
+                },
+                "menus": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/responsemodel.BeauticianMenu"
+                    }
                 },
                 "salonName": {
                     "type": "string"

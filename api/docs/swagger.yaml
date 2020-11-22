@@ -23,6 +23,25 @@ definitions:
     type: object
   requestmodel.BeauticianGet:
     type: object
+  requestmodel.GuestCreate:
+    properties:
+      email:
+        type: string
+      firstName:
+        type: string
+      firstNameKana:
+        type: string
+      lastName:
+        type: string
+      lastNameKana:
+        type: string
+    required:
+    - email
+    - firstName
+    - firstNameKana
+    - lastName
+    - lastNameKana
+    type: object
   requestmodel.GuestGet:
     type: object
   requestmodel.MenuFind:
@@ -181,6 +200,32 @@ definitions:
       updatedAt:
         type: string
     type: object
+  responsemodel.Guest:
+    properties:
+      createdAt:
+        description: Reservations []*Reservation `json:"reservations"`
+        type: string
+      email:
+        type: string
+      firstName:
+        type: string
+      firstNameKana:
+        type: string
+      lastName:
+        type: string
+      lastNameKana:
+        type: string
+      randId:
+        type: string
+      updatedAt:
+        type: string
+    type: object
+  responsemodel.GuestCreate:
+    properties:
+      guest:
+        $ref: '#/definitions/responsemodel.Guest'
+        type: object
+    type: object
   responsemodel.GuestGet:
     properties:
       createdAt:
@@ -285,6 +330,10 @@ definitions:
         type: integer
       id:
         type: integer
+      menus:
+        items:
+          $ref: '#/definitions/responsemodel.BeauticianMenu'
+        type: array
       salonName:
         type: string
     type: object
@@ -422,6 +471,28 @@ paths:
           schema:
             $ref: '#/definitions/resource.Error'
       summary: ゲスト情報取得
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Request body
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/requestmodel.GuestCreate'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responsemodel.GuestCreate'
+        "500":
+          description: Something went wrong
+          schema:
+            $ref: '#/definitions/resource.Error'
+      summary: ゲスト新規登録
   /api/v1/menu/find:
     get:
       consumes:

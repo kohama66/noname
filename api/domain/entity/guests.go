@@ -24,59 +24,74 @@ import (
 
 // Guest is an object representing the database table.
 type Guest struct {
-	ID        int64     `boil:"id" json:"id" toml:"id" yaml:"id"`
-	AuthID    string    `boil:"auth_id" json:"auth_id" toml:"auth_id" yaml:"auth_id"`
-	RandID    string    `boil:"rand_id" json:"rand_id" toml:"rand_id" yaml:"rand_id"`
-	FirstName string    `boil:"first_name" json:"first_name" toml:"first_name" yaml:"first_name"`
-	LastName  string    `boil:"last_name" json:"last_name" toml:"last_name" yaml:"last_name"`
-	CreatedAt time.Time `boil:"created_at" json:"created_at" toml:"created_at" yaml:"created_at"`
-	UpdatedAt time.Time `boil:"updated_at" json:"updated_at" toml:"updated_at" yaml:"updated_at"`
-	DeletedAt null.Time `boil:"deleted_at" json:"deleted_at,omitempty" toml:"deleted_at" yaml:"deleted_at,omitempty"`
+	ID            int64     `boil:"id" json:"id" toml:"id" yaml:"id"`
+	AuthID        string    `boil:"auth_id" json:"auth_id" toml:"auth_id" yaml:"auth_id"`
+	RandID        string    `boil:"rand_id" json:"rand_id" toml:"rand_id" yaml:"rand_id"`
+	FirstName     string    `boil:"first_name" json:"first_name" toml:"first_name" yaml:"first_name"`
+	LastName      string    `boil:"last_name" json:"last_name" toml:"last_name" yaml:"last_name"`
+	FirstNameKana string    `boil:"first_name_kana" json:"first_name_kana" toml:"first_name_kana" yaml:"first_name_kana"`
+	LastNameKana  string    `boil:"last_name_kana" json:"last_name_kana" toml:"last_name_kana" yaml:"last_name_kana"`
+	Email         string    `boil:"email" json:"email" toml:"email" yaml:"email"`
+	CreatedAt     time.Time `boil:"created_at" json:"created_at" toml:"created_at" yaml:"created_at"`
+	UpdatedAt     time.Time `boil:"updated_at" json:"updated_at" toml:"updated_at" yaml:"updated_at"`
+	DeletedAt     null.Time `boil:"deleted_at" json:"deleted_at,omitempty" toml:"deleted_at" yaml:"deleted_at,omitempty"`
 
 	R *guestR `boil:"-" json:"-" toml:"-" yaml:"-"`
 	L guestL  `boil:"-" json:"-" toml:"-" yaml:"-"`
 }
 
 var GuestColumns = struct {
-	ID        string
-	AuthID    string
-	RandID    string
-	FirstName string
-	LastName  string
-	CreatedAt string
-	UpdatedAt string
-	DeletedAt string
+	ID            string
+	AuthID        string
+	RandID        string
+	FirstName     string
+	LastName      string
+	FirstNameKana string
+	LastNameKana  string
+	Email         string
+	CreatedAt     string
+	UpdatedAt     string
+	DeletedAt     string
 }{
-	ID:        "id",
-	AuthID:    "auth_id",
-	RandID:    "rand_id",
-	FirstName: "first_name",
-	LastName:  "last_name",
-	CreatedAt: "created_at",
-	UpdatedAt: "updated_at",
-	DeletedAt: "deleted_at",
+	ID:            "id",
+	AuthID:        "auth_id",
+	RandID:        "rand_id",
+	FirstName:     "first_name",
+	LastName:      "last_name",
+	FirstNameKana: "first_name_kana",
+	LastNameKana:  "last_name_kana",
+	Email:         "email",
+	CreatedAt:     "created_at",
+	UpdatedAt:     "updated_at",
+	DeletedAt:     "deleted_at",
 }
 
 // Generated where
 
 var GuestWhere = struct {
-	ID        whereHelperint64
-	AuthID    whereHelperstring
-	RandID    whereHelperstring
-	FirstName whereHelperstring
-	LastName  whereHelperstring
-	CreatedAt whereHelpertime_Time
-	UpdatedAt whereHelpertime_Time
-	DeletedAt whereHelpernull_Time
+	ID            whereHelperint64
+	AuthID        whereHelperstring
+	RandID        whereHelperstring
+	FirstName     whereHelperstring
+	LastName      whereHelperstring
+	FirstNameKana whereHelperstring
+	LastNameKana  whereHelperstring
+	Email         whereHelperstring
+	CreatedAt     whereHelpertime_Time
+	UpdatedAt     whereHelpertime_Time
+	DeletedAt     whereHelpernull_Time
 }{
-	ID:        whereHelperint64{field: "`guests`.`id`"},
-	AuthID:    whereHelperstring{field: "`guests`.`auth_id`"},
-	RandID:    whereHelperstring{field: "`guests`.`rand_id`"},
-	FirstName: whereHelperstring{field: "`guests`.`first_name`"},
-	LastName:  whereHelperstring{field: "`guests`.`last_name`"},
-	CreatedAt: whereHelpertime_Time{field: "`guests`.`created_at`"},
-	UpdatedAt: whereHelpertime_Time{field: "`guests`.`updated_at`"},
-	DeletedAt: whereHelpernull_Time{field: "`guests`.`deleted_at`"},
+	ID:            whereHelperint64{field: "`guests`.`id`"},
+	AuthID:        whereHelperstring{field: "`guests`.`auth_id`"},
+	RandID:        whereHelperstring{field: "`guests`.`rand_id`"},
+	FirstName:     whereHelperstring{field: "`guests`.`first_name`"},
+	LastName:      whereHelperstring{field: "`guests`.`last_name`"},
+	FirstNameKana: whereHelperstring{field: "`guests`.`first_name_kana`"},
+	LastNameKana:  whereHelperstring{field: "`guests`.`last_name_kana`"},
+	Email:         whereHelperstring{field: "`guests`.`email`"},
+	CreatedAt:     whereHelpertime_Time{field: "`guests`.`created_at`"},
+	UpdatedAt:     whereHelpertime_Time{field: "`guests`.`updated_at`"},
+	DeletedAt:     whereHelpernull_Time{field: "`guests`.`deleted_at`"},
 }
 
 // GuestRels is where relationship names are stored.
@@ -100,8 +115,8 @@ func (*guestR) NewStruct() *guestR {
 type guestL struct{}
 
 var (
-	guestAllColumns            = []string{"id", "auth_id", "rand_id", "first_name", "last_name", "created_at", "updated_at", "deleted_at"}
-	guestColumnsWithoutDefault = []string{"auth_id", "rand_id", "first_name", "last_name", "created_at", "updated_at", "deleted_at"}
+	guestAllColumns            = []string{"id", "auth_id", "rand_id", "first_name", "last_name", "first_name_kana", "last_name_kana", "email", "created_at", "updated_at", "deleted_at"}
+	guestColumnsWithoutDefault = []string{"auth_id", "rand_id", "first_name", "last_name", "first_name_kana", "last_name_kana", "email", "created_at", "updated_at", "deleted_at"}
 	guestColumnsWithDefault    = []string{"id"}
 	guestPrimaryKeyColumns     = []string{"id"}
 )

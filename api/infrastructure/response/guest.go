@@ -9,6 +9,7 @@ import (
 // Guest DIInterface
 type Guest interface {
 	NewGuestGet(ent *entity.Guest, rent []*entityx.ReservationGetByGuest) *responsemodel.GuestGet
+	NewGuestCreate(ent *entity.Guest) *responsemodel.GuestCreate
 }
 
 type guest struct{}
@@ -21,11 +22,14 @@ func NewGuest() Guest {
 // NewGuestResponsemodel レスポンスモデル変換関数
 func NewGuestResponsemodel(ent *entity.Guest) *responsemodel.Guest {
 	return &responsemodel.Guest{
-		RandID:    ent.RandID,
-		FirstName: ent.FirstName,
-		LastName:  ent.LastName,
-		CreatedAt: ent.CreatedAt,
-		UpdatedAt: ent.CreatedAt,
+		RandID:        ent.RandID,
+		FirstName:     ent.FirstName,
+		LastName:      ent.LastName,
+		FirstNameKana: ent.FirstNameKana,
+		LastNameKana:  ent.LastNameKana,
+		Email:         ent.Email,
+		CreatedAt:     ent.CreatedAt,
+		UpdatedAt:     ent.CreatedAt,
 	}
 }
 
@@ -49,5 +53,11 @@ func (g *guest) NewGuestGet(ent *entity.Guest, rent []*entityx.ReservationGetByG
 		Reservations: rs,
 		CreatedAt:    ent.CreatedAt,
 		UpdatedAt:    ent.CreatedAt,
+	}
+}
+
+func (g *guest) NewGuestCreate(ent *entity.Guest) *responsemodel.GuestCreate {
+	return &responsemodel.GuestCreate{
+		Guest: NewGuestResponsemodel(ent),
 	}
 }

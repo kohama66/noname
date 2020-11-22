@@ -4,12 +4,15 @@ import "time"
 
 // Guest ゲストレスポンス構造体
 type Guest struct {
-	RandID       string         `json:"randId"`
-	FirstName    string         `json:"firstName"`
-	LastName     string         `json:"lastName"`
-	Reservations []*Reservation `json:"reservations"`
-	CreatedAt    time.Time      `json:"createdAt"`
-	UpdatedAt    time.Time      `json:"updatedAt"`
+	RandID        string `json:"randId"`
+	FirstName     string `json:"firstName"`
+	LastName      string `json:"lastName"`
+	FirstNameKana string `json:"firstNameKana"`
+	LastNameKana  string `json:"lastNameKana"`
+	Email         string `json:"email"`
+	// Reservations []*Reservation `json:"reservations"`
+	CreatedAt time.Time `json:"createdAt"`
+	UpdatedAt time.Time `json:"updatedAt"`
 }
 
 // GuestGet ゲスト情報取得レスポンス構造体
@@ -20,4 +23,9 @@ type GuestGet struct {
 	Reservations []*ReservationGetByGuest `json:"reservations"`
 	CreatedAt    time.Time                `json:"createdAt"`
 	UpdatedAt    time.Time                `json:"updatedAt"`
+}
+
+// GuestCreate ゲスト新規登録レスポンス構造体
+type GuestCreate struct {
+	Guest *Guest `json:"guest"`
 }
