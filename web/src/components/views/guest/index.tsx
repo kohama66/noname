@@ -15,6 +15,7 @@ import { Beautician, initBeautician, isBeauticianInterface } from '../../../pack
 import { initSalon, isSalonInterface, Salon } from '../../../package/interface/Salon';
 import { Menu } from '../../../package/interface/Menu';
 import Mypage from './mypage/Mypage';
+import SignUp from './signup/SignUp';
 
 // コンテキスト
 export const SetSelectValueContext = createContext((value: Beautician | Salon | Menu[] | string) => { });
@@ -97,6 +98,7 @@ const Guest: FC = () => {
               <Route exact path={match.path + "/menu"} render={() => <ChooseMenu />} />
               <Route exact path={match.path + "/final_comfirmation"} component={FinalComfirmation} />
               <Route exact path={match.path + "/mypage"} component={Mypage} />
+              <Route exact path={match.path + "/signup"} component={SignUp} />
             </Switch>
           </Router>
         </GeterSelectValueContext.Provider>
