@@ -26,10 +26,9 @@ const Login: FC = () => {
       history.push("/guest")
     } catch (error) {
       deleteAuthToken()
-      console.log(error.message)
       customError(error.message)
+      setDisabled(false)
     }
-    setDisabled(false)
   }
 
   return (
