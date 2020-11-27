@@ -1,8 +1,9 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useContext, useEffect, useState } from 'react';
 import { getGuest } from '../../../../package/api';
 import { GuestByMyPage, initGuest, initGuestByMyPage } from '../../../../package/interface/Guest';
 import { GuestMyPageReservation } from '../../../../package/interface/Reservation';
 import { getDay, getMonth, getHours } from '../../../../utils/GetDate';
+import { GuestContext } from '../../../../utils/context/GuestContext';
 import ReservationInfor from '../../parts/ReservationInfor/ReservationInfor';
 import Title from '../parts/Title/Title';
 import './Mypage.scss'
@@ -11,21 +12,22 @@ const Mypage: FC = () => {
   const [me, setMe] = useState<GuestByMyPage>(initGuestByMyPage)
   const [reserved, setReserved] = useState<GuestMyPageReservation>()
   const [previousReserved, setPreviousReserved] = useState<GuestMyPageReservation>()
+  const { guest } = useContext(GuestContext)
 
   useEffect(() => {
     const handleGetMe = async () => {
-      try {
-        const response = await getGuest()
-        setMe(response)
-        if (response.reservations[0] != null) {
-          setReserved(response.reservations[0])
-        }
-        if (response.reservations[1] != null) {
-          setPreviousReserved(response.reservations[1])
-        }
-      } catch (error) {
-        console.log(error)
-      }
+      // try {
+      //   const response = await getGuest()
+      //   setMe(response)
+      //   if (response.reservations[0] != null) {
+      //     setReserved(response.reservations[0])
+      //   }
+      //   if (response.reservations[1] != null) {
+      //     setPreviousReserved(response.reservations[1])
+      //   }
+      // } catch (error) {
+      //   console.log(error)
+      // }
     }
     handleGetMe()
   }, [])
@@ -35,7 +37,7 @@ const Mypage: FC = () => {
       <Title title="MY PAGE" text="マイページ" />
       <section>
         <div className="mypage-profile">
-          <h2>{`${me.lastName} ${me.firstName} 様`}</h2>
+          <h2>{`${guest.lastName} ${guest.firstName} 様`}</h2>
           <dl>
             <span>
               <dd>メール</dd>

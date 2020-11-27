@@ -10,7 +10,19 @@ export const signin = async (firebaseUser: FirebaseUser) => {
     const authResponse: firebase.default.auth.UserCredential = await auth.signInWithEmailAndPassword(firebaseUser.email, firebaseUser.password)
     await authCookieSet(authResponse.user)
   } catch (error) {
-    throw new Error(error)
+    let errorTetx: string
+    switch (error.code) {
+      case "auth/user-not-found":
+        errorTetx = "ユーザーが見つかりませんでした。"
+        break
+      case "auth/wrong-password":
+        errorTetx = "パスワードが一致しません。"
+        break
+      default:
+        errorTetx = "エラーが発生しました"
+        break
+    }
+    throw new Error(errorTetx)
   }
 }
 
@@ -40,9 +52,4 @@ export const deleteUser = async () => {
   } catch (err) {
     console.log(err)
   }
-}
-
-// cookie削除
-export const deleteToken = () => {
-  Cookie.set("authHeader", "", { expires: 1 })
 }

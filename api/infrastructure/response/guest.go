@@ -3,12 +3,11 @@ package response
 import (
 	"github.com/myapp/noname/api/application/usecase/responsemodel"
 	"github.com/myapp/noname/api/domain/entity"
-	"github.com/myapp/noname/api/domain/entityx"
 )
 
 // Guest DIInterface
 type Guest interface {
-	NewGuestGet(ent *entity.Guest, rent []*entityx.ReservationGetByGuest) *responsemodel.GuestGet
+	NewGuestGet(ent *entity.Guest) *responsemodel.GuestGet
 	NewGuestCreate(ent *entity.Guest) *responsemodel.GuestCreate
 }
 
@@ -33,26 +32,31 @@ func NewGuestResponsemodel(ent *entity.Guest) *responsemodel.Guest {
 	}
 }
 
-func (g *guest) NewGuestGet(ent *entity.Guest, rent []*entityx.ReservationGetByGuest) *responsemodel.GuestGet {
-	rs := make([]*responsemodel.ReservationGetByGuest, len(rent))
-	for i, v := range rent {
-		rs[i] = &responsemodel.ReservationGetByGuest{
-			ID:                  v.ID,
-			Date:                v.Date,
-			GuestID:             v.GuestID,
-			SalonName:           v.SalonName,
-			BeauticianFirstName: v.BeauticianFirstName,
-			BeauticianLatsName:  v.BeauticianLatsName,
-			Menus:               NewBeauticianMenusResponsemodel(v.Menus),
-		}
-	}
+// func (g *guest) NewGuestGet(ent *entity.Guest, rent []*entityx.ReservationGetByGuest) *responsemodel.GuestGet {
+// 	rs := make([]*responsemodel.ReservationGetByGuest, len(rent))
+// 	for i, v := range rent {
+// 		rs[i] = &responsemodel.ReservationGetByGuest{
+// 			ID:                  v.ID,
+// 			Date:                v.Date,
+// 			GuestID:             v.GuestID,
+// 			SalonName:           v.SalonName,
+// 			BeauticianFirstName: v.BeauticianFirstName,
+// 			BeauticianLatsName:  v.BeauticianLatsName,
+// 			Menus:               NewBeauticianMenusResponsemodel(v.Menus),
+// 		}
+// 	}
+// 	return &responsemodel.GuestGet{
+// 		RandID:       ent.RandID,
+// 		FirstName:    ent.FirstName,
+// 		LastName:     ent.LastName,
+// 		Reservations: rs,
+// 		CreatedAt:    ent.CreatedAt,
+// 		UpdatedAt:    ent.CreatedAt,
+// 	}
+// }
+func (g *guest) NewGuestGet(ent *entity.Guest) *responsemodel.GuestGet {
 	return &responsemodel.GuestGet{
-		RandID:       ent.RandID,
-		FirstName:    ent.FirstName,
-		LastName:     ent.LastName,
-		Reservations: rs,
-		CreatedAt:    ent.CreatedAt,
-		UpdatedAt:    ent.CreatedAt,
+		Guest: NewGuestResponsemodel(ent),
 	}
 }
 

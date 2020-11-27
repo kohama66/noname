@@ -1,7 +1,8 @@
 import React, { FC, FormEvent, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { createGuest } from '../../../../package/api';
-import { deleteToken, deleteUser, signup } from '../../../../package/api/auth';
+import { deleteUser, signup } from '../../../../package/api/auth';
+import { deleteAuthToken } from '../../../../utils/function/Cookie';
 import Input from '../../parts/formParts/Input';
 import Title from '../parts/Title/Title';
 import './SignUp.scss'
@@ -33,7 +34,7 @@ const SignUp: FC = () => {
           email: email
         })
       } catch (error) {
-        deleteToken()
+        deleteAuthToken()
         deleteUser()
         throw new Error(error)
       }

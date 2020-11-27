@@ -7,7 +7,7 @@ import {
   Route,
 } from "react-router-dom";
 import Header from './views/parts/header';
-import { useGuestContext, GuestContext } from '../utils/GuestContext';
+import { useGuestContext, GuestContext } from '../utils/context/GuestContext';
 import Login from './views/login/Login';
 
 const App: FC = () => {

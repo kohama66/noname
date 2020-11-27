@@ -40,11 +40,11 @@ func (g *guest) Get(ctx context.Context, r *requestmodel.GuestGet) (*responsemod
 	if err != nil {
 		return nil, err
 	}
-	rs, err := g.reservationRepository.FindByGuest(ctx, gs.ID)
-	if err != nil {
-		return nil, err
-	}
-	return g.guestResponse.NewGuestGet(gs, rs), nil
+	// rs, err := g.reservationRepository.FindByGuest(ctx, gs.ID)
+	// if err != nil {
+	// 	return nil, err
+	// }
+	return g.guestResponse.NewGuestGet(gs), nil
 }
 
 func (g *guest) Create(ctx context.Context, r *requestmodel.GuestCreate) (*responsemodel.GuestCreate, error) {
