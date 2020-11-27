@@ -1,4 +1,7 @@
 import React, { FC, FormEvent, useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import { createGuest } from '../../../../package/api';
+import { deleteToken, deleteUser, signup } from '../../../../package/api/auth';
 import Input from '../../parts/formParts/Input';
 import Title from '../parts/Title/Title';
 import './SignUp.scss'
@@ -11,17 +14,40 @@ const SignUp: FC = () => {
   const [email, setEmail] = useState<string>("")
   const [passwoed, setPassword] = useState<string>("")
   const [disabled, setDisabled] = useState<boolean>(false)
+  const history = useHistory()
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault()
     setDisabled(true)
-    
+    try {
+      await signup({
+        email: email,
+        password: passwoed
+      })
+      try {
+        const response = await createGuest({
+          lastName: lastName,
+          firstName: firstName,
+          lastNameKana: lastNameKana,
+          firstNameKana: firstNameKana,
+          email: email
+        })
+      } catch (error) {
+        deleteToken()
+        deleteUser()
+        throw new Error(error)
+      }
+      history.push("/guest")
+    } catch (error) {
+      console.log(error)
+    }
+    setDisabled(false)
   }
 
   return (
     <div id="signup">
       <Title title="SIGNUP" text="新規登録" />
-      <form>
+      <form onSubmit={handleSubmit}>
         <span>
           <label>苗字</label>
           <Input type="text" value={lastName} required={true} setState={setLastName} disabled={disabled} />

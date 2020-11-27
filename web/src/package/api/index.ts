@@ -5,6 +5,7 @@ import { reservationsResponse, reservationResponse } from '../interface/response
 import { salonsResponse } from '../interface/response/Salon';
 import qs from "qs"
 import { guestMypageResponse, guestResponse } from '../interface/response/Guest';
+import { guestCreateRequest } from '../interface/request/Guest';
 
 const axios = Axios.create({
   baseURL: "http://localhost:8080",
@@ -29,8 +30,8 @@ const requestAwait = async <T>(request: Promise<AxiosPromise<T>>): Promise<T> =>
   try {
     const response = await request
     return response.data
-  } catch (err) {
-    throw new Error(err)
+  } catch (error) {
+    throw new Error(error)
   }
 }
 
@@ -103,4 +104,8 @@ export const createReservation = async (beauticianRandID: string, salonRandID: s
 
 export const getGuest = async (): Promise<guestMypageResponse> => {
   return get<guestMypageResponse>(`api/v1/guest`)
+}
+
+export const createGuest = async (guest: guestCreateRequest): Promise<guestResponse> => {
+  return post<guestResponse>(`api/v1/guest`, guest)
 }

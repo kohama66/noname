@@ -4,6 +4,9 @@ export interface Guest {
   randId: string
   firstName: string
   lastName: string
+  firstNameKana: string
+  lastNameKana: string
+  email: string
 }
 
 export interface GuestByMyPage {
