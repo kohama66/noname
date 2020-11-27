@@ -21,7 +21,6 @@ const axios = Axios.create({
 axios.interceptors.request.use(
   config => {
     const token = getAuthToken()
-    console.log(token)
     config.headers.Authorization = `Bearer ${token}`
     return config
   }
