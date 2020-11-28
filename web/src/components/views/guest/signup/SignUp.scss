@@ -34,12 +34,32 @@
         margin-bottom: 10px;
 
       }
-      &:nth-of-type(5), &:nth-of-type(6), &:nth-of-type(7){
+      &:nth-of-type(5), &:nth-of-type(6), &:nth-of-type(8){
         width: 100%;
       }
       &:last-of-type{
-        margin: 20px 0 0;
+        // margin: 20px 0 0;
       }
+      
+    }
+    .error-message{
+      margin-top: 10px;
+      min-height: 15px;
+      width: 100%;
+      padding: 0 10px;
+      font-size: 12px;
+      line-height: 15px;
+      font-weight: bold;
+      color: red;
     }
   }
 }
+// .error-message{
+//   // margin-top: 20px;
+//   height: 15px;
+//   padding: 10px;
+//   font-size: 12px;
+//   line-height: 18px;
+//   font-weight: bold;
+//   color: red;
+// }

@@ -31,7 +31,19 @@ export const signup = async (firebaseUser: FirebaseUser) => {
     const authResponse: firebase.default.auth.UserCredential = await auth.createUserWithEmailAndPassword(firebaseUser.email, firebaseUser.password)
     await authCookieSet(authResponse.user)
   } catch (error) {
-    throw new Error(error)
+    let errorTetx: string
+    switch (error.code) {
+      case "auth/network-request-failed":
+        errorTetx = "ネットワークエラーです、接続を確認して下さい。"
+        break
+      case "auth/email-already-in-use":
+        errorTetx = "このメールアドレスは既に登録されています。"
+        break
+      default:
+        errorTetx = "エラーが発生しました"
+        break
+    }
+    throw new Error(errorTetx)
   }
 }
 

@@ -34,14 +34,14 @@
       display: block;
       margin: 10px 0 0;
     }
+    .error-message{
+      margin-top: 20px;
+      height: 15px;
+      padding: 5px 0;
+      font-size: 12px;
+      line-height: 18px;
+      font-weight: bold;
+      color: red;
+    }
   }
-}
-.error-message{
-  margin-top: 20px;
-  height: 15px;
-  padding: 5px 0;
-  font-size: 12px;
-  line-height: 18px;
-  font-weight: bold;
-  color: red;
 }

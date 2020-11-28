@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { createGuest } from '../../../../package/api';
 import { deleteUser, signup } from '../../../../package/api/auth';
 import { deleteAuthToken } from '../../../../utils/function/Cookie';
+import { useError } from '../../../../utils/hooks/Error';
 import Input from '../../parts/formParts/Input';
 import Title from '../parts/Title/Title';
 import './SignUp.scss'
@@ -15,6 +16,7 @@ const SignUp: FC = () => {
   const [email, setEmail] = useState<string>("")
   const [passwoed, setPassword] = useState<string>("")
   const [disabled, setDisabled] = useState<boolean>(false)
+  const { error, customError } = useError()
   const history = useHistory()
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
@@ -33,16 +35,16 @@ const SignUp: FC = () => {
           firstNameKana: firstNameKana,
           email: email
         })
+        history.push("/guest")
       } catch (error) {
         deleteAuthToken()
         deleteUser()
-        throw new Error(error)
+        throw new Error(error.message)
       }
-      history.push("/guest")
     } catch (error) {
-      console.log(error)
+      customError(error.message)
+      setDisabled(false)
     }
-    setDisabled(false)
   }
 
   return (
@@ -73,7 +75,10 @@ const SignUp: FC = () => {
           <label>パスワード</label>
           <Input type="password" value={passwoed} required={true} setState={setPassword} minLength={8} placeHolder="8文字以上で入力してください" disabled={disabled} />
         </span>
-        <span>
+        <span className="error-message">
+          <p>{error}</p>
+        </span>
+        <span className="submit">
           <Input type="submit" value="登録" disabled={disabled} />
         </span>
       </form>

@@ -31,7 +31,17 @@ const requestAwait = async <T>(request: Promise<AxiosPromise<T>>): Promise<T> =>
     const response = await request
     return response.data
   } catch (error) {
-    throw new Error(error)
+    // console.log(error.response)
+    let errorTetx: string
+    switch (error.message) {
+      case "Request failed with status code 500":
+        errorTetx = "エラーが発生しました、管理者に問い合わせて下さい。"
+        break
+      default:
+        errorTetx = "エラーが発生しました"
+        break
+    }
+    throw new Error(errorTetx)
   }
 }
 
