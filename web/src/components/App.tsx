@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useContext } from 'react';
 import './App.scss';
 import { Home, Beautician, Guest } from './endpoint'
 import {
@@ -7,16 +7,13 @@ import {
   Route,
 } from "react-router-dom";
 import Header from './views/parts/header';
-import { useGuestContext, GuestContext } from '../utils/context/GuestContext';
 import Login from './views/login/Login';
 
 const App: FC = () => {
-  const rootGuestContext = useGuestContext()
   return (
     <>
       <section id="top">
         <section className="inner">
-          <GuestContext.Provider value={rootGuestContext} >
             <Router>
               <Header />
               <Switch>
@@ -26,7 +23,6 @@ const App: FC = () => {
                 <Route path="/login" component={Login} />
               </Switch>
             </Router>
-          </GuestContext.Provider>
         </section>
       </section>
     </>

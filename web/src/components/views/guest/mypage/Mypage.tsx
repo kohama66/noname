@@ -1,8 +1,7 @@
 import React, { FC, useContext, useEffect, useState } from 'react';
-import { getGuest } from '../../../../package/api';
 import { GuestByMyPage, initGuest, initGuestByMyPage } from '../../../../package/interface/Guest';
 import { GuestMyPageReservation } from '../../../../package/interface/Reservation';
-import { getDay, getMonth, getHours } from '../../../../utils/GetDate';
+import { getDay, getMonth, getHours } from '../../../../utils/function/GetDate';
 import { GuestContext } from '../../../../utils/context/GuestContext';
 import ReservationInfor from '../../parts/ReservationInfor/ReservationInfor';
 import Title from '../parts/Title/Title';
@@ -13,25 +12,7 @@ const Mypage: FC = () => {
   const [reserved, setReserved] = useState<GuestMyPageReservation>()
   const [previousReserved, setPreviousReserved] = useState<GuestMyPageReservation>()
   const { guest } = useContext(GuestContext)
-
-  useEffect(() => {
-    const handleGetMe = async () => {
-      // try {
-      //   const response = await getGuest()
-      //   setMe(response)
-      //   if (response.reservations[0] != null) {
-      //     setReserved(response.reservations[0])
-      //   }
-      //   if (response.reservations[1] != null) {
-      //     setPreviousReserved(response.reservations[1])
-      //   }
-      // } catch (error) {
-      //   console.log(error)
-      // }
-    }
-    handleGetMe()
-  }, [])
-
+ 
   return (
     <div id="guest-mypage">
       <Title title="MY PAGE" text="マイページ" />
