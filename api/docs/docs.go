@@ -19,7 +19,6 @@ var doc = `{
         "description": "{{.Description}}",
         "title": "{{.Title}}",
         "contact": {},
-        "license": {},
         "version": "{{.Version}}"
     },
     "host": "{{.Host}}",
@@ -383,6 +382,42 @@ var doc = `{
                 }
             }
         },
+        "/api/v1/reservation/guest": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "ゲスト予約履歴取得",
+                "parameters": [
+                    {
+                        "description": "Request body",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/requestmodel.ReservationFindByGuest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/responsemodel.ReservationFindByGuest"
+                        }
+                    },
+                    "500": {
+                        "description": "Something went wrong",
+                        "schema": {
+                            "$ref": "#/definitions/resource.Error"
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/salon/find": {
             "get": {
                 "consumes": [
@@ -542,6 +577,9 @@ var doc = `{
                     "type": "integer"
                 }
             }
+        },
+        "requestmodel.ReservationFindByGuest": {
+            "type": "object"
         },
         "requestmodel.SalonFind": {
             "type": "object",
@@ -762,7 +800,6 @@ var doc = `{
             "type": "object",
             "properties": {
                 "guest": {
-                    "type": "object",
                     "$ref": "#/definitions/responsemodel.Guest"
                 }
             }
@@ -771,22 +808,26 @@ var doc = `{
             "type": "object",
             "properties": {
                 "createdAt": {
+                    "description": "Reservations []*Reservation ` + "`" + `json:\"reservations\"` + "`" + `",
+                    "type": "string"
+                },
+                "email": {
                     "type": "string"
                 },
                 "firstName": {
                     "type": "string"
                 },
+                "firstNameKana": {
+                    "type": "string"
+                },
                 "lastName": {
+                    "type": "string"
+                },
+                "lastNameKana": {
                     "type": "string"
                 },
                 "randId": {
                     "type": "string"
-                },
-                "reservations": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/responsemodel.ReservationGetByGuest"
-                    }
                 },
                 "updatedAt": {
                     "type": "string"
@@ -905,6 +946,17 @@ var doc = `{
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/responsemodel.Reservation"
+                    }
+                }
+            }
+        },
+        "responsemodel.ReservationFindByGuest": {
+            "type": "object",
+            "properties": {
+                "reservations": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/responsemodel.ReservationGetByGuest"
                     }
                 }
             }

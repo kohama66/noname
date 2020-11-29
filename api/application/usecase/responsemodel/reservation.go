@@ -40,3 +40,7 @@ type ReservationGetByGuest struct {
 	BeauticianLatsName  string            `json:"beauticianLastName"`
 	Menus               []*BeauticianMenu `json:"menus"`
 }
+
+type ReservationFindByGuest struct {
+	Reservations []*ReservationGetByGuest `json:"reservations"`
+}

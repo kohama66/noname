@@ -11,9 +11,8 @@ const Loading: FC = () => {
       try {
         const response = await getGuest()
         setGuest(response.guest)
-        console.log("liading")
       } catch (error) {
-        console.log(guest)
+        console.log(error)
       }
     }
     checkGuest()

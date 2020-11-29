@@ -1,18 +1,30 @@
 import React, { FC, useContext, useEffect, useState } from 'react';
-import { GuestByMyPage, initGuest, initGuestByMyPage } from '../../../../package/interface/Guest';
 import { GuestMyPageReservation } from '../../../../package/interface/Reservation';
 import { getDay, getMonth, getHours } from '../../../../utils/function/GetDate';
 import { GuestContext } from '../../../../utils/context/GuestContext';
 import ReservationInfor from '../../parts/ReservationInfor/ReservationInfor';
 import Title from '../parts/Title/Title';
 import './Mypage.scss'
+import { getGuestMypage } from '../../../../package/api';
+import { initGuest } from '../../../../package/interface/Guest';
 
 const Mypage: FC = () => {
-  const [me, setMe] = useState<GuestByMyPage>(initGuestByMyPage)
   const [reserved, setReserved] = useState<GuestMyPageReservation>()
   const [previousReserved, setPreviousReserved] = useState<GuestMyPageReservation>()
   const { guest } = useContext(GuestContext)
- 
+
+  useEffect(() => {
+    const getReserved = async () => {
+      console.log(guest)
+      if (guest !== initGuest) {
+        const response = await getGuestMypage()
+        setReserved(response.reservations[0])
+        setPreviousReserved(response.reservations[1])
+      }
+    }
+    getReserved()
+  }, [guest])
+
   return (
     <div id="guest-mypage">
       <Title title="MY PAGE" text="マイページ" />
@@ -22,7 +34,7 @@ const Mypage: FC = () => {
           <dl>
             <span>
               <dd>メール</dd>
-              <dt>guest_test@test.com</dt>
+              <dt>{guest.email}</dt>
             </span>
             <span>
               <dd>電話</dd>

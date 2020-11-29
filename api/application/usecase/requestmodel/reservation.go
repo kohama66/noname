@@ -35,3 +35,8 @@ type ReservationFindByBeautician struct {
 type ReservationFind struct {
 	BeauticianRandID string `schema:"beauticianRandId"`
 }
+
+// ReservationFindByGuest ゲスト予約履歴取得構造体
+type ReservationFindByGuest struct {
+	AuthID string `json:"-"`
+}

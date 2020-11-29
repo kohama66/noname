@@ -1,7 +1,7 @@
 import Axios, { AxiosPromise } from 'axios';
 import { beauticianResponse, beauticiansResponse } from '../interface/response/Beautician';
 import { menuDetailsResponse, menusResponse } from '../interface/response/Menu';
-import { reservationsResponse, reservationResponse } from '../interface/response/Reservation'
+import { reservationsResponse, reservationResponse, guestMypageReservationsResponse } from '../interface/response/Reservation'
 import { salonsResponse } from '../interface/response/Salon';
 import qs from "qs"
 import { guestResponse } from '../interface/response/Guest';
@@ -118,4 +118,8 @@ export const getGuest = async (): Promise<guestResponse> => {
 
 export const createGuest = async (guest: guestCreateRequest): Promise<guestResponse> => {
   return post<guestResponse>(`api/v1/guest`, guest)
+}
+
+export const getGuestMypage = async (): Promise<guestMypageReservationsResponse> => {
+  return get<guestMypageReservationsResponse>(`api/v1/reservation/guest`)
 }

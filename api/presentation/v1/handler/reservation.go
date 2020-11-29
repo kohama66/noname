@@ -15,6 +15,7 @@ type Reservation interface {
 	Create(w http.ResponseWriter, hr *http.Request)
 	FindByBeautician(w http.ResponseWriter, hr *http.Request)
 	Find(w http.ResponseWriter, hr *http.Request)
+	FindByGuest(w http.ResponseWriter, hr *http.Request)
 }
 
 type reservation struct {
@@ -98,6 +99,26 @@ func (r reservation) Find(w http.ResponseWriter, hr *http.Request) {
 	res, err := r.reservationUsecase.Find(hr.Context(), req)
 	if err != nil {
 		log.Errorf(hr.Context(), "ReservationFind: %v", err)
+		factory.ErrorJSON(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	factory.JSON(w, res)
+	return
+}
+
+// FindByGuest
+// @Summary ゲストの予約履歴を取得
+// @Accept  json
+// @Produce  json
+// @Param data body requestmodel.ReservationFindByGuest true "Request body"
+// @Success 200 {object} responsemodel.ReservationFindByGuest
+// @Failure 500 {object} resource.Error "Something went wrong"
+// @Router /api/v1/reservation/guest [Get]
+func (r reservation) FindByGuest(w http.ResponseWriter, hr *http.Request) {
+	req := request.NewReservationFindByGuest(hr)
+	res, err := r.reservationUsecase.FindByGuest(hr.Context(), req)
+	if err != nil {
+		log.Errorf(hr.Context(), "ReservationFindByGuest: %v", err)
 		factory.ErrorJSON(w, err.Error(), http.StatusInternalServerError)
 		return
 	}

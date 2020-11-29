@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useState } from 'react';
-import { GuestByMyPage } from '../../../../package/interface/Guest';
+// import { GuestByMyPage } from '../../../../package/interface/Guest';
 import { MenuDetail } from '../../../../package/interface/Menu';
 import './ReservationInfor.scss'
 
