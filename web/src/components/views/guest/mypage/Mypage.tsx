@@ -1,63 +1,48 @@
-import React, { FC, useEffect, useState } from 'react';
-import { getGuest } from '../../../../package/api';
-import { GuestByMyPage, initGuest, initGuestByMyPage } from '../../../../package/interface/Guest';
+import React, { FC, useContext, useEffect, useState } from 'react';
 import { GuestMyPageReservation } from '../../../../package/interface/Reservation';
-import { getDay, getMonth, getHours } from '../../../../utils/GetDate';
+import { getDay, getMonth, getHours } from '../../../../utils/function/GetDate';
+import { GuestContext } from '../../../../utils/context/GuestContext';
 import ReservationInfor from '../../parts/ReservationInfor/ReservationInfor';
 import Title from '../parts/Title/Title';
 import './Mypage.scss'
+import { getGuestMypage } from '../../../../package/api';
+import { initGuest } from '../../../../package/interface/Guest';
 
 const Mypage: FC = () => {
-  const [me, setMe] = useState<GuestByMyPage>(initGuestByMyPage)
   const [reserved, setReserved] = useState<GuestMyPageReservation>()
   const [previousReserved, setPreviousReserved] = useState<GuestMyPageReservation>()
+  const { guest } = useContext(GuestContext)
 
   useEffect(() => {
-    const handleGetMe = async () => {
-      try {
-        const response = await getGuest()
-        setMe(response)
-        if (response.reservations[0] != null) {
-          setReserved(response.reservations[0])
-        }
-        if (response.reservations[1] != null) {
-          setPreviousReserved(response.reservations[1])
-        }
-      } catch (error) {
-        console.log(error)
+    const getReserved = async () => {
+      console.log(guest)
+      if (guest !== initGuest) {
+        const response = await getGuestMypage()
+        setReserved(response.reservations[0])
+        setPreviousReserved(response.reservations[1])
       }
     }
-    handleGetMe()
-  }, [])
+    getReserved()
+  }, [guest])
 
   return (
     <div id="guest-mypage">
       <Title title="MY PAGE" text="マイページ" />
       <section>
-        <div className="profile-card">
-          <figure></figure>
-          <div>
-            <dl>
-              <span>
-                <dt>名前</dt>
-                <dd>{me.lastName + " " + me.firstName}</dd>
-              </span>
-              <span>
-                <dt>歳</dt>
-                <dd>29</dd>
-              </span>
-              <span>
-                <dt>性別</dt>
-                <dd>man</dd>
-              </span>
-              <span>
-                <dt>電話</dt>
-                <dd>09012345678</dd>
-              </span>
-            </dl>
-          </div>
+        <div className="mypage-profile">
+          <h2>{`${guest.lastName} ${guest.firstName} 様`}</h2>
+          <dl>
+            <span>
+              <dd>メール</dd>
+              <dt>{guest.email}</dt>
+            </span>
+            <span>
+              <dd>電話</dd>
+              <dt>09012344321</dt>
+            </span>
+          </dl>
         </div>
-        <div className="reserved-history-card">
+        <div className="mypage-contents">
           {(() => {
             if (reserved != null) {
               return <ReservationInfor titleText="今回の予約" storeName={reserved.salonName} beauticianLastName={reserved.beauticianLastName}
@@ -70,7 +55,7 @@ const Mypage: FC = () => {
             if (previousReserved != null) {
               return <ReservationInfor titleText="前回の予約" storeName={previousReserved.salonName} beauticianLastName={previousReserved.beauticianLastName}
                 beauticianFirstName={previousReserved.beauticianFirstName} month={(() => getMonth(previousReserved.date))()} day={(() => getDay(previousReserved.date))()}
-                hours={(() => getHours(previousReserved.date))()} menus={previousReserved.menus}/>
+                hours={(() => getHours(previousReserved.date))()} menus={previousReserved.menus} />
             }
           })()
           }

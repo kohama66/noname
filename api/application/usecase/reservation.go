@@ -18,6 +18,7 @@ type Reservation interface {
 	Create(ctx context.Context, req *requestmodel.ReservationCreate) (*responsemodel.ReservationCreate, error)
 	FindByBeautician(ctx context.Context, req *requestmodel.ReservationFindByBeautician) (*responsemodel.ReservationFindByBeautician, error)
 	Find(ctx context.Context, req *requestmodel.ReservationFind) (*responsemodel.ReservationFind, error)
+	FindByGuest(ctx context.Context, req *requestmodel.ReservationFindByGuest) (*responsemodel.ReservationFindByGuest, error)
 }
 
 type reservation struct {
@@ -132,4 +133,16 @@ func (r *reservation) Find(ctx context.Context, req *requestmodel.ReservationFin
 		reva = rv
 	}
 	return r.reservationResponse.NewReservationFind(reva), nil
+}
+
+func (r *reservation) FindByGuest(ctx context.Context, req *requestmodel.ReservationFindByGuest) (*responsemodel.ReservationFindByGuest, error) {
+	gs, err := r.guestRepository.GetByAuthID(ctx, req.AuthID)
+	if err != nil {
+		return nil, err
+	}
+	rv, err := r.reservationRepository.FindByGuest(ctx, gs.ID)
+	if err != nil {
+		return nil, err
+	}
+	return r.reservationResponse.NewReservationFindByGuest(rv), nil
 }

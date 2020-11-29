@@ -1,4 +1,4 @@
-import { Guest, GuestByMyPage } from "../Guest";
+import { Guest } from "../Guest";
 import { GuestMyPageReservation } from "../Reservation"
 
 export interface guestResponse {

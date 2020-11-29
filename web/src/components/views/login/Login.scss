@@ -1,0 +1,47 @@
+@import "src/css/common.scss";
+#login {
+  background-color: $baseColor;
+  min-height: 100vh;
+  box-sizing: border-box;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+  form {
+    width: 300px;
+    border-radius: 15px;
+    @include whiteShadow;
+    background-color: #fff;
+    margin: 50px auto 0;
+    box-sizing: border-box;
+    padding: 50px 30px;
+    label {
+      color: $blackFontColor;
+      font-size: 14px;
+      font-weight: bold;
+    }
+    input {
+      margin: 10px 0 20px;
+      &:last-of-type{
+        margin: 0px 0 0;
+      }
+    }
+    a{
+      font-size: 10px;
+      color: $lightGray;
+      text-decoration: none;
+      text-align: center;
+      display: block;
+      margin: 10px 0 0;
+    }
+    .error-message{
+      margin-top: 20px;
+      height: 15px;
+      padding: 5px 0;
+      font-size: 12px;
+      line-height: 18px;
+      font-weight: bold;
+      color: red;
+    }
+  }
+}

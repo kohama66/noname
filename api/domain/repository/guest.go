@@ -9,4 +9,5 @@ import (
 // Guest DIInterface
 type Guest interface {
 	GetByAuthID(ctx context.Context, authID string) (*entity.Guest, error)
+	Create(ctx context.Context, ent *entity.Guest) error
 }

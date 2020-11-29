@@ -7,11 +7,13 @@ import (
 	"github.com/myapp/noname/api/application/usecase/responsemodel"
 	"github.com/myapp/noname/api/domain/repository"
 	"github.com/myapp/noname/api/infrastructure/response"
+	"github.com/rs/xid"
 )
 
 // Guest DIInterface
 type Guest interface {
 	Get(ctx context.Context, r *requestmodel.GuestGet) (*responsemodel.GuestGet, error)
+	Create(ctx context.Context, r *requestmodel.GuestCreate) (*responsemodel.GuestCreate, error)
 }
 
 type guest struct {
@@ -38,9 +40,17 @@ func (g *guest) Get(ctx context.Context, r *requestmodel.GuestGet) (*responsemod
 	if err != nil {
 		return nil, err
 	}
-	rs, err := g.reservationRepository.FindByGuest(ctx, gs.ID)
-	if err != nil {
+	// rs, err := g.reservationRepository.FindByGuest(ctx, gs.ID)
+	// if err != nil {
+	// 	return nil, err
+	// }
+	return g.guestResponse.NewGuestGet(gs), nil
+}
+
+func (g *guest) Create(ctx context.Context, r *requestmodel.GuestCreate) (*responsemodel.GuestCreate, error) {
+	gs := r.NewGuest(xid.New().String())
+	if err := g.guestRepository.Create(ctx, gs); err != nil {
 		return nil, err
 	}
-	return g.guestResponse.NewGuestGet(gs, rs), nil
+	return g.guestResponse.NewGuestCreate(gs), nil
 }

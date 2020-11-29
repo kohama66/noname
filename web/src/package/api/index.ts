@@ -1,36 +1,47 @@
 import Axios, { AxiosPromise } from 'axios';
 import { beauticianResponse, beauticiansResponse } from '../interface/response/Beautician';
 import { menuDetailsResponse, menusResponse } from '../interface/response/Menu';
-import { reservationsResponse, reservationResponse } from '../interface/response/Reservation'
+import { reservationsResponse, reservationResponse, guestMypageReservationsResponse } from '../interface/response/Reservation'
 import { salonsResponse } from '../interface/response/Salon';
 import qs from "qs"
-import { guestMypageResponse, guestResponse } from '../interface/response/Guest';
+import { guestResponse } from '../interface/response/Guest';
+import { guestCreateRequest } from '../interface/request/Guest';
+import {getAuthToken} from '../../utils/function/Cookie'
 
 const axios = Axios.create({
   baseURL: "http://localhost:8080",
   headers: {
     Accept: "application/json",
-    "Content-Type": "application/json",
-    "X-DEBUG-ID": "test"
+    "Content-Type": "application/json"
   },
   paramsSerializer: (params: any) => {
     return qs.stringify(params, { arrayFormat: 'repeat' })
   }
 })
-// axios.interceptors.request.use(
-//   config => {
-//           const token = "test"
-//               config.headers.Authorization = `Bearer ${token}`
-//               return config
-//   }
-// )
+axios.interceptors.request.use(
+  config => {
+    const token = getAuthToken()
+    config.headers.Authorization = `Bearer ${token}`
+    return config
+  }
+)
 
 const requestAwait = async <T>(request: Promise<AxiosPromise<T>>): Promise<T> => {
   try {
     const response = await request
     return response.data
-  } catch (err) {
-    throw new Error(err)
+  } catch (error) {
+    // console.log(error.response)
+    let errorTetx: string
+    switch (error.message) {
+      case "Request failed with status code 500":
+        errorTetx = "エラーが発生しました、管理者に問い合わせて下さい。"
+        break
+      default:
+        errorTetx = "エラーが発生しました"
+        break
+    }
+    throw new Error(errorTetx)
   }
 }
 
@@ -101,6 +112,14 @@ export const createReservation = async (beauticianRandID: string, salonRandID: s
   })
 }
 
-export const getGuest = async (): Promise<guestMypageResponse> => {
-  return get<guestMypageResponse>(`api/v1/guest`)
+export const getGuest = async (): Promise<guestResponse> => {
+  return get<guestResponse>(`api/v1/guest`)
+}
+
+export const createGuest = async (guest: guestCreateRequest): Promise<guestResponse> => {
+  return post<guestResponse>(`api/v1/guest`, guest)
+}
+
+export const getGuestMypage = async (): Promise<guestMypageReservationsResponse> => {
+  return get<guestMypageReservationsResponse>(`api/v1/reservation/guest`)
 }

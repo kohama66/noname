@@ -53,6 +53,7 @@ func (r *Router) Routes() {
 					r.Post("/", reservationController.Create)
 					r.Get("/find", reservationController.Find)
 					r.Get("/beautician", reservationController.FindByBeautician)
+					r.Get("/guest", reservationController.FindByGuest)
 				})
 			})
 			r.Group(func(r chi.Router) {
@@ -70,6 +71,7 @@ func (r *Router) Routes() {
 				r.Use(middleware.AuthAPI)
 				r.Route("/guest", func(r chi.Router) {
 					r.Get("/", guestController.Get)
+					r.Post("/", guestController.Create)
 				})
 			})
 		})

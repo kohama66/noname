@@ -722,7 +722,7 @@ func testGuestsSelect(t *testing.T) {
 }
 
 var (
-	guestDBTypes = map[string]string{`ID`: `bigint`, `AuthID`: `varchar`, `RandID`: `varchar`, `FirstName`: `varchar`, `LastName`: `varchar`, `CreatedAt`: `datetime`, `UpdatedAt`: `datetime`, `DeletedAt`: `datetime`}
+	guestDBTypes = map[string]string{`ID`: `bigint`, `AuthID`: `varchar`, `RandID`: `varchar`, `FirstName`: `varchar`, `LastName`: `varchar`, `FirstNameKana`: `varchar`, `LastNameKana`: `varchar`, `Email`: `varchar`, `CreatedAt`: `datetime`, `UpdatedAt`: `datetime`, `DeletedAt`: `datetime`}
 	_            = bytes.MinRead
 )
 
