@@ -82,8 +82,8 @@ export const BeauticianCardDetail: FC<BeauticianCardDetailProps> = (props) => {
               <p>メニュー</p>
               <p>▼</p>
               <ul className={"carddetail-menu" + (hover)}>
-                {props.menus.map((menu) => {
-                  return <li>
+                {props.menus.map((menu, i) => {
+                  return <li key={i}>
                     <p>{menu.name}</p>
                     <p>{menu.price}</p>
                   </li>

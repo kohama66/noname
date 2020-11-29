@@ -21,7 +21,7 @@ const App: FC = () => {
                 <Route path="/" exact component={Home} />
                 <Route path="/beautician" component={Beautician} />
                 <Route path="/guest" component={Guest} />
-                <Route path="/login" component={Login} />
+                {/* <Route path="/login" component={Login} /> */}
                 <Route path="/reserved" component={Reserved} />
               </Switch>
             </Router>

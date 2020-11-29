@@ -2,8 +2,11 @@ import React, { FC, useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { createReservation, findMenuDetails, getBeautician } from '../../../package/api';
 import { Beautician, initBeautician } from '../../../package/interface/Beautician';
+import { initGuest } from '../../../package/interface/Guest';
 import { MenuDetail } from '../../../package/interface/Menu';
 import { initSalon, Salon } from '../../../package/interface/Salon';
+import { GuestContext } from '../../../utils/context/GuestContext';
+import { useError } from '../../../utils/hooks/Error';
 import { GeterSelectIDContext, GeterSelectValueContext } from '../guest';
 import FinalComfirmationComponent from "./FinalComfirmation"
 
@@ -17,6 +20,8 @@ const FinalComfirmation: FC = () => {
   const [totalPrice, setTotalPrice] = useState<number>(0)
   const history = useHistory()
   const menuIDs = geterSelectID("menu")
+  const { guest } = useContext(GuestContext)
+  const { error, customError } = useError()
 
   const handleGetAllSelected = async () => {
     const [beautician, store, _, date] = geterSelectValue()
@@ -40,13 +45,18 @@ const FinalComfirmation: FC = () => {
     }
   }
   const handleReserve = async () => {
-    try {
-      if (menuIDs != null && typeof menuIDs !== "string") {
-        await createReservation(beautician.randId, store.randId, menuIDs, date)
-        history.push("/reserved")
+    if (guest !== initGuest) {
+      try {
+        if (menuIDs != null && typeof menuIDs !== "string") {
+          await createReservation(beautician.randId, store.randId, menuIDs, date)
+          history.push("/reserved")
+        }
+      } catch (error) {
+        console.log(error)
+        customError("エラーです、内容をご確認下さい。")
       }
-    } catch (error) {
-      console.log(error)
+    } else {
+      history.push("/guest/login")
     }
   }
 
@@ -55,7 +65,7 @@ const FinalComfirmation: FC = () => {
   }, [])
 
   return (
-    < FinalComfirmationComponent beautician={beautician} store={store} date={date} menus={menus} totalPrice={totalPrice} handleReserve={handleReserve} />
+    < FinalComfirmationComponent beautician={beautician} store={store} date={date} menus={menus} totalPrice={totalPrice} handleReserve={handleReserve} error={error} />
   )
 }
 

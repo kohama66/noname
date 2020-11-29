@@ -16,7 +16,7 @@ const ChooseMenu: FC<props> = (props) => {
       <Title title="MENU" text="メニューを選ぶ" />
       <div className="menu-bar-wrapper">
         {props.menus.map((menu, i) => {
-          return <MenuBar menu={menu} image="/img/cuticon.png" key={i} handleSetMenuValues={props.handleSetMenuValues} />
+          return <MenuBar menu={menu} image="/img/cut.svg" key={i} handleSetMenuValues={props.handleSetMenuValues} />
         })}
       </div>
       <button className="done-btn" onClick={() => props.handleSetSelect()}>

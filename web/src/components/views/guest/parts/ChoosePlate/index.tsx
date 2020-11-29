@@ -26,16 +26,16 @@ const ChoosePlate: FC<props> = (props) => {
     const selectValue = geterSelect(props.type)
     switch (props.type) {
       case "store":
-        setPlateData("img/1.png", "お店を選ぶ", "/store", selectValue)
+        setPlateData("img/shop.svg", "お店を選ぶ", "/store", selectValue)
         break
       case "beautician":
-        setPlateData("img/1.png", "美容師を選ぶ", "/beautician", selectValue)
+        setPlateData("img/beautician.svg", "美容師を選ぶ", "/beautician", selectValue)
         break
       case "menu":
-        setPlateData("img/1.png", "メニューを選ぶ", "/menu", selectValue)
+        setPlateData("img/menu.svg", "メニューを選ぶ", "/menu", selectValue)
         break
       case "date":
-        setPlateData("img/4.png", "日付を選ぶ", "/date", selectValue)
+        setPlateData("img/karender.svg", "日付を選ぶ", "/date", selectValue)
         break
     }
   }, [])

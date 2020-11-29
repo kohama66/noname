@@ -13,6 +13,7 @@ interface props {
   menus: MenuDetail[]
   totalPrice: number
   handleReserve: () => void
+  error?: string
 }
 
 const FinalComfirmation: FC<props> = (props) => {
@@ -24,6 +25,7 @@ const FinalComfirmation: FC<props> = (props) => {
         <button onClick={() => props.handleReserve()}>
           予約確定
         </button>
+        <p> {props.error}</p>
       </div>
       <div className="final-comfirmation-content-wrapper">
         <ChooseCard type="beautician" content={props.beautician} />
