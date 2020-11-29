@@ -6,4 +6,21 @@ header{
   background-color: rgb(255, 255, 255);
   position: fixed;
   top: 0;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  box-sizing: border-box;
+  padding: 0 5%;
+  .header-login{
+    width: auto;
+    .mypage-btn{
+      background-color: $orangeColor1;
+      padding: 10px 15px;
+      border-radius: 15px;
+      color: #fff;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 15px;
+    }
+  }
 }

@@ -1,4 +1,4 @@
-import React, { createContext, FC, useEffect, useState } from 'react';
+import { createContext, useState } from 'react';
 import { Guest, initGuest } from '../../package/interface/Guest';
 
 export const GuestContext = createContext({

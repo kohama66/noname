@@ -1,4 +1,5 @@
 import React, { FC, useContext, useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { createReservation, findMenuDetails, getBeautician } from '../../../package/api';
 import { Beautician, initBeautician } from '../../../package/interface/Beautician';
 import { MenuDetail } from '../../../package/interface/Menu';
@@ -14,7 +15,7 @@ const FinalComfirmation: FC = () => {
   const [date, setDate] = useState<string>("")
   const [menus, setMenus] = useState<MenuDetail[]>([])
   const [totalPrice, setTotalPrice] = useState<number>(0)
-
+  const history = useHistory()
   const menuIDs = geterSelectID("menu")
 
   const handleGetAllSelected = async () => {
@@ -31,6 +32,8 @@ const FinalComfirmation: FC = () => {
           totalPrice += detail.price
         })
         setTotalPrice(totalPrice)
+      } else {
+        history.push("/guest")
       }
     } catch (error) {
       console.log(error)
@@ -39,7 +42,8 @@ const FinalComfirmation: FC = () => {
   const handleReserve = async () => {
     try {
       if (menuIDs != null && typeof menuIDs !== "string") {
-        const response = await createReservation(beautician.randId, store.randId, menuIDs, date)
+        await createReservation(beautician.randId, store.randId, menuIDs, date)
+        history.push("/reserved")
       }
     } catch (error) {
       console.log(error)
@@ -51,7 +55,7 @@ const FinalComfirmation: FC = () => {
   }, [])
 
   return (
-    < FinalComfirmationComponent beautician={beautician} store={store} date={date} menus={menus} totalPrice={totalPrice} handleReserve={handleReserve}/>
+    < FinalComfirmationComponent beautician={beautician} store={store} date={date} menus={menus} totalPrice={totalPrice} handleReserve={handleReserve} />
   )
 }
 

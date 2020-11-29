@@ -8,6 +8,7 @@ import {
 } from "react-router-dom";
 import Header from './views/parts/header';
 import Login from './views/login/Login';
+import Reserved from './views/reserved/Reserved';
 
 const App: FC = () => {
   return (
@@ -21,6 +22,7 @@ const App: FC = () => {
                 <Route path="/beautician" component={Beautician} />
                 <Route path="/guest" component={Guest} />
                 <Route path="/login" component={Login} />
+                <Route path="/reserved" component={Reserved} />
               </Switch>
             </Router>
         </section>

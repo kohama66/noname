@@ -8,12 +8,20 @@
 .final-answer{
   width: 800px;
   display: flex;
-  margin: 30px auto 10px;
+  margin: 50px auto 10px;
   justify-content: center;
+  align-items: center;
+  letter-spacing: .1em;
   button{
+  letter-spacing: .1em;
     border: none;
     cursor: pointer;
     color: #fff;
+    padding: 10px 25px;
+    margin-left: 30px;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 15px;
     background-color: $orangeColor1;
   }
 }
@@ -35,19 +43,20 @@
   color: $blackFontColor;
   background-color: #fff;
   box-sizing: border-box;
-  padding: 20px 15px;
+  padding: 35px 25px;
   margin: 30px 0 0;
   @include whiteShadow;
   border-radius: 15px;
   font-family: Arial, Helvetica, sans-serif;
-  position: relative;
+  display: flex;
+  flex-flow: column wrap;
   h2 {
-    font-size: 24px;
+    font-size: 18px;
   }
   div {
     padding: 10px 0;
     p {
-      font-size: 18px;
+      font-size: 15px;
       padding: 1px 0;
       margin-bottom: 40px;
     }
@@ -59,24 +68,24 @@
       dt {
         width: 40%;
         list-style: none;
-        font-size: 18px;
+        font-size: 15px;
       }
       dd{
         width: 60%;
         text-align: right;
-        font-size: 18px;
+        font-size: 15px;
       }
     }
   }
   .total-price{
-    width: 92%;
+    box-sizing: border-box;
+    width: 100%;
     height: 35px;
     display: flex;
     justify-content: space-between;
-    position: absolute;
-    bottom: 0;
+    margin-top: auto;
     p{
-      font-size: 23px;
+      font-size: 20px;
     }
   }
 }

@@ -7,23 +7,26 @@ import Title from '../parts/Title/Title';
 import './Mypage.scss'
 import { getGuestMypage } from '../../../../package/api';
 import { initGuest } from '../../../../package/interface/Guest';
+import { useHistory } from 'react-router-dom';
 
 const Mypage: FC = () => {
   const [reserved, setReserved] = useState<GuestMyPageReservation>()
   const [previousReserved, setPreviousReserved] = useState<GuestMyPageReservation>()
   const { guest } = useContext(GuestContext)
+  const history = useHistory()
 
   useEffect(() => {
     const getReserved = async () => {
-      console.log(guest)
       if (guest !== initGuest) {
         const response = await getGuestMypage()
         setReserved(response.reservations[0])
         setPreviousReserved(response.reservations[1])
+      } else {
+        history.push("/login")
       }
     }
     getReserved()
-  }, [guest])
+  }, [])
 
   return (
     <div id="guest-mypage">

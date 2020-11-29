@@ -43,10 +43,11 @@ const FinalComfirmation: FC<props> = (props) => {
                 </>
               })}
             </dl>
-            <div className="total-price">
-              <h2>合計</h2>
-              <p>{props.totalPrice}</p>
-            </div>
+
+          </div>
+          <div className="total-price">
+            <h2>合計</h2>
+            <p>{props.totalPrice}</p>
           </div>
         </div>
       </div>
