@@ -87,10 +87,10 @@ const Guest: FC = () => {
     }
   }
   return (
-    <SetSelectValueContext.Provider value={handleSetSelectValue}>
-      <GeterSelectIDContext.Provider value={geterSelectID}>
-        <GeterSelectValueContext.Provider value={geterSelectValue}>
-          {/* <Router> */}
+    // <SetSelectValueContext.Provider value={handleSetSelectValue}>
+    //   <GeterSelectIDContext.Provider value={geterSelectID}>
+    //     <GeterSelectValueContext.Provider value={geterSelectValue}>
+          // <Router>
             <Switch>
               <Route exact path={match.path} render={() => <GuestComponent allSelectCheck={allSelectedCheck} />} />
               <Route exact path={match.path + "/beautician"} render={() => <ChooseBeautician />} />
@@ -102,10 +102,10 @@ const Guest: FC = () => {
               <Route exact path={match.path + "/signup"} component={SignUp} />
               <Route exact path={match.path + "/login"} component={Login} />
             </Switch>
-          {/* </Router> */}
-        </GeterSelectValueContext.Provider>
+          // </Router>
+        /* </GeterSelectValueContext.Provider>
       </GeterSelectIDContext.Provider>
-    </SetSelectValueContext.Provider>
+    </SetSelectValueContext.Provider> */
   )
 }
 
