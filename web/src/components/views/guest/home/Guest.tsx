@@ -1,11 +1,17 @@
-import React, { FC } from 'react';
+import React, { FC, useContext, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
+import { ReservedContext } from '../../../../utils/context/ReservadContext ';
 import ChoosePlate from '../parts/ChoosePlate';
 import Title from '../parts/Title/Title';
 
-interface props {
-}
-
-const Guest: FC<props> = (props) => {
+const GuestHome: FC = () => {
+  const { isAllChecked } = useContext(ReservedContext)
+  const history = useHistory()
+  useEffect(() => {
+    if (isAllChecked()) {
+      history.push("guest/final_comfirmation")
+    }
+  }, [])
   return (
     <article id="chooses">
       <Title text="何から選びますか？" title="SELECT" />
@@ -21,4 +27,4 @@ const Guest: FC<props> = (props) => {
   )
 }
 
-export default Guest;
+export default GuestHome;

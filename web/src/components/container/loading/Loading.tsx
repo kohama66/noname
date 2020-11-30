@@ -4,7 +4,7 @@ import { GuestContext } from '../../../utils/context/GuestContext';
 import App from '../../App';
 
 const Loading: FC = () => {
-  const { guest, setGuest } = useContext(GuestContext)
+  const { setGuest } = useContext(GuestContext)
   const [isCheckLogin, setCheck] = useState<boolean>(false)
 
   useEffect(() => {

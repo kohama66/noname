@@ -54,13 +54,17 @@ export const isBeauticianCardDetail = (arg: any): arg is BeauticianCardDetailPro
 }
 
 export const BeauticianCardDetail: FC<BeauticianCardDetailProps> = (props) => {
-  const hoverMenuDetails = () => {
-    setHover(" on-hover")
+  const [menuToggle, setMenuToggle] = useState<boolean>(false)
+
+  const handleClickMenu = (e: React.MouseEvent<HTMLTableDataCellElement, MouseEvent>) => {
+    e.stopPropagation()
+    setMenuToggle(!menuToggle)
   }
-  const leaveMenuDetails = () => {
-    setHover("")
+  const handleClickInstagram = (e: React.MouseEvent<HTMLTableDataCellElement, MouseEvent>) => {
+    e.stopPropagation()
+    
   }
-  const [hover, setHover] = useState("")
+
 
   return (
     <div>
@@ -78,10 +82,10 @@ export const BeauticianCardDetail: FC<BeauticianCardDetailProps> = (props) => {
             </td>
           </tr>
           <tr>
-            <td className="carddetail-menus" onMouseOver={() => hoverMenuDetails()} onMouseLeave={() => leaveMenuDetails()}>
+            <td className="carddetail-menus" onClick={handleClickMenu} >
               <p>メニュー</p>
-              <p>▼</p>
-              <ul className={"carddetail-menu" + (hover)}>
+              <button>click</button>
+              <ul className={"carddetail-menu" + (menuToggle ? " on-click" : "")}>
                 {props.menus.map((menu, i) => {
                   return <li key={i}>
                     <p>{menu.name}</p>
@@ -90,7 +94,7 @@ export const BeauticianCardDetail: FC<BeauticianCardDetailProps> = (props) => {
                 })}
               </ul>
             </td>
-            <td>
+            <td onClick={handleClickInstagram}>
               <p>Instagram</p>
               <object>
                 <a href={props.instagramId} className="fab fa-instagram fa-2x" target="blank"></a>

@@ -16,19 +16,6 @@ const FinalComfirmation: FC = () => {
   const { guest } = useContext(GuestContext)
   const { error, customError } = useError()
 
-  const handleGetAllSelected = async () => {
-    try {
-      const menuDetails = await findMenuDetails(beautician.randId, getMenuIDs())
-      setMenus(menuDetails.beauticianMenus)
-      let totalPrice: number = 0
-      menuDetails.beauticianMenus.map((detail) => {
-        totalPrice += detail.price
-      })
-      setTotalPrice(totalPrice)
-    } catch (error) {
-      console.log(error)
-    }
-  }
   const handleReserve = async () => {
     if (guest !== initGuest) {
       try {
@@ -41,17 +28,34 @@ const FinalComfirmation: FC = () => {
         customError("エラーです、内容をご確認下さい。")
       }
     } else {
-      history.push("/guest/login")
+      history.push("/login")
     }
   }
 
   useEffect(() => {
+    const handleGetAllSelected = async () => {
+      try {
+        const menuDetails = await findMenuDetails(beautician.randId, getMenuIDs())
+        setMenus(menuDetails.beauticianMenus)
+        let totalPrice: number = 0
+        menuDetails.beauticianMenus.map((detail) => {
+          totalPrice += detail.price
+        })
+        setTotalPrice(totalPrice)
+      } catch (error) {
+        history.push("/guest")
+      }
+    }
     handleGetAllSelected()
   }, [])
-  if (reservationDate == null) return <div></div>
-  return (
-    < FinalComfirmationComponent beautician={beautician} store={store} date={reservationDate} menus={menus} totalPrice={totalPrice} handleReserve={handleReserve} error={error} />
-  )
+
+  if (reservationDate != null) {
+    return (
+      < FinalComfirmationComponent beautician={beautician} store={store} date={reservationDate} menus={menus} totalPrice={totalPrice} handleReserve={handleReserve} error={error} />
+    )
+  } else {
+    return <div></div>
+  }
 }
 
 export default FinalComfirmation;

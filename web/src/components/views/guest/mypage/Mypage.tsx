@@ -48,7 +48,7 @@ const Mypage: FC = () => {
         <div className="mypage-contents">
           {(() => {
             if (reserved != null) {
-              return <ReservationInfor titleText="今回の予約" storeName={reserved.salonName} beauticianLastName={reserved.beauticianLastName}
+              return <ReservationInfor titleText="最新の予約" storeName={reserved.salonName} beauticianLastName={reserved.beauticianLastName}
                 beauticianFirstName={reserved.beauticianFirstName} month={(() => getMonth(reserved.date))()} day={(() => getDay(reserved.date))()}
                 hours={(() => getHours(reserved.date))()} menus={reserved.menus} />
             }

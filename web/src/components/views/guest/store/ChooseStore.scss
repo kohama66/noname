@@ -1,20 +1,20 @@
 @import "../../../../css/common.scss";
 
-#choose-store{
+#choose-store {
   background-color: $baseColor;
   // height: clamp(100vh, 100vh, 100%);
   min-height: 100vh;
   padding: 150px 0 0;
-  .choose-store-card-wrapper{
-    width: 1150px;
+  .choose-store-card-wrapper {
+    width: clamp(300px, 80%, 1150px);
     margin: 0 auto;
     display: flex;
     flex-flow: row wrap;
     justify-content: space-between;
-  }
-  .choose-store-card-wrapper::after{
-    content: "";
-    display: block;
-    width: 350px;
+    &::after {
+      content: "";
+      display: block;
+      width: 350px;
+    }
   }
 }

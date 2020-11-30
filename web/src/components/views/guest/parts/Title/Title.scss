@@ -13,3 +13,13 @@
     line-height: 1.5em;
   }
 }
+@media screen and (max-width: 767px) {
+  .heading{
+    h2{
+      font-size: 25px;
+    }
+    p{
+      font-size: 10px;
+    }
+  }
+}

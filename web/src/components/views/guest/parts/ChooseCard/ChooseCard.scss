@@ -64,11 +64,21 @@
             border-width: 1px 0px 0px 0px;
           }
           .carddetail-menus {
+            text-align: center;
             position: relative;
-            p:last-of-type{
+            p{
+              text-align: left;
+            }
+            button {
               text-align: center;
+              color: $orangeColor1;
+              border: 2px solid $orangeColor1;
+              background-color: transparent;
+              border-radius: 15px;
               margin: 10px 0 0 -15px;
-              font-size: 20px;
+              font-size: 14px;
+              font-weight: bold;
+              padding: 5px 15px;
             }
             .carddetail-menu {
               position: absolute;
@@ -81,7 +91,7 @@
               display: flex;
               flex-flow: wrap column-reverse;
               opacity: 0;
-              transition-duration: .3s;
+              transition-duration: 0.3s;
               li {
                 box-sizing: border-box;
                 border-top: 2px solid $baseColor;
@@ -96,15 +106,15 @@
                   padding: 0;
                   margin: 0;
                 }
-                p:last-of-type{
+                p:last-of-type {
                   font-size: 12px;
                 }
               }
-              li:last-of-type{
+              li:last-of-type {
                 border-top: none;
               }
             }
-            .carddetail-menu.on-hover{
+            .carddetail-menu.on-click {
               opacity: 1;
             }
           }
@@ -129,20 +139,60 @@
       }
     }
   }
-  .card-detail-store{
-    h3{
+  .card-detail-store {
+    h3 {
       padding-left: 10px;
       margin-bottom: 20px;
     }
-    p{
+    p {
       font-size: 16px;
       margin-bottom: 8px;
       padding-left: 10px;
     }
   }
 }
-// .choose-card::before{
-//   content: "";
-//   display: block;
-//   width: 350px;
-// }
+@media screen and (max-width: 1149px) {
+  .choose-card {
+    width: 49%;
+    max-width: 350px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .choose-card {
+    width: 100%;
+    max-width: 350px;
+    height: 400px;
+    margin: 15px 0;
+    figure {
+      height: 200px;
+    }
+    div {
+      padding: 15px 0;
+      h3 {
+        font-size: 16px;
+      }
+      table {
+        margin-top: 10px;
+        tbody {
+          tr {
+            td {
+              padding: 10px 0 0 10px;
+              height: 60px;
+            }
+          }
+        }
+      }
+    }
+    .card-detail-store {
+      h3 {
+        font-size: 16px;
+        margin-bottom: 10px;
+      }
+      p {
+        font-size: 14px;
+        margin-bottom: 4px;
+      }
+    }
+  }
+}

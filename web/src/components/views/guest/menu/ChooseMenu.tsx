@@ -20,7 +20,7 @@ const ChooseMenu: FC<props> = (props) => {
         })}
       </div>
       <button className="done-btn" onClick={() => props.handleSetSelect()}>
-        <i className="fas fa-check fa-3x"></i>
+        <i className="fas fa-check"></i>
       </button>
     </section>
   )

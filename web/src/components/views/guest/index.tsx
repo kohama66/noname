@@ -1,7 +1,5 @@
 import React, { FC, useState, createContext, useEffect } from 'react';
-import GuestComponent from './home'
 import ChooseBeautician from "./beautician"
-import ChooseStore from './store'
 import ChooseDate from './date'
 import ChooseMenu from './menu'
 import {
@@ -13,22 +11,22 @@ import {
 import FinalComfirmation from '../finalComfirmation';
 import Mypage from './mypage/Mypage';
 import SignUp from './signup/SignUp';
-import Login from '../login/Login';
+import GuestHome from './home/Guest';
+import ChooseStore from './store/ChooseStore';
 
 const Guest: FC = () => {
   const match = useRouteMatch()
 
   return (
     <Switch>
-      <Route exact path={match.path} render={() => <GuestComponent />} />
-      <Route exact path={match.path + "/beautician"} render={() => <ChooseBeautician />} />
-      <Route exact path={match.path + "/store"} render={() => <ChooseStore />} />
-      <Route exact path={match.path + "/date"} render={() => <ChooseDate />} />
-      <Route exact path={match.path + "/menu"} render={() => <ChooseMenu />} />
+      <Route exact path={match.path} component={GuestHome} />
+      <Route exact path={match.path + "/beautician"} component={ChooseBeautician} />
+      <Route exact path={match.path + "/store"} component={ChooseStore} />
+      <Route exact path={match.path + "/date"} component={ChooseDate} />
+      <Route exact path={match.path + "/menu"} component={ChooseMenu} />
       <Route exact path={match.path + "/final_comfirmation"} component={FinalComfirmation} />
       <Route exact path={match.path + "/mypage"} component={Mypage} />
       <Route exact path={match.path + "/signup"} component={SignUp} />
-      <Route exact path={match.path + "/login"} component={Login} />
     </Switch>
   )
 }
