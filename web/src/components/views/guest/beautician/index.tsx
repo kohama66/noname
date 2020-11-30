@@ -8,16 +8,16 @@ const ChooseBeautician: FC = () => {
   const [beauticians, setBeauticians] = useState<Beautician[]>([])
   const { store, reservationDate, getMenuIDs } = useContext(ReservedContext)
 
-  const handleFindBeauticians = async () => {
-    try {
-      const response = await findBeauticians(reservationDate, getMenuIDs(), store.randId)
-      setBeauticians(response.beauticians)
-    } catch (err) {
-      console.log(err)
-    }
-  }
-
   useEffect(() => {
+    const handleFindBeauticians = async () => {
+      try {
+        const response = await findBeauticians(reservationDate, getMenuIDs(), store.randId)
+        setBeauticians(response.beauticians)
+      } catch (err) {
+        console.log(err)
+      }
+    }
+    
     handleFindBeauticians()
   }, [])
 

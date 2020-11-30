@@ -7,7 +7,7 @@ interface props {
 
 const Guest: FC<props> = (props) => {
   return (
-    <article className="chooses">
+    <article id="chooses">
       <Title text="何から選びますか？" title="SELECT" />
       <div className="chooses-contents-wrapper">
         <div className="chooses-contents">
