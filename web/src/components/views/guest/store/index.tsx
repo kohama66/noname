@@ -6,16 +6,12 @@ import ChooseStoreComponent from './ChooseStore';
 
 const ChooseStore: FC = () => {
   const [stores, setStores] = useState<Salon[]>([])
-
-  const { getSelectID } = useContext(ReservedContext)
+  const { beautician } = useContext(ReservedContext)
 
   const handleFindStores = async () => {
-    const beauticianID = getSelectID("beautician")
     try {
-      if (typeof beauticianID === "string" || beauticianID == null) {
-        const response = await findSalons(beauticianID)
-        setStores(response.salons)
-      }
+      const response = await findSalons(beautician.randId)
+      setStores(response.salons)
     } catch (err) {
       console.log(err)
     }

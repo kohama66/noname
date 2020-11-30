@@ -6,17 +6,12 @@ import ChooseBeauticianComponent from "./ChooseBeautician"
 
 const ChooseBeautician: FC = () => {
   const [beauticians, setBeauticians] = useState<Beautician[]>([])
-  const { getSelectID } = useContext(ReservedContext)
+  const { store, reservationDate, getMenuIDs } = useContext(ReservedContext)
 
   const handleFindBeauticians = async () => {
-    const storeID = getSelectID("store")
-    const date = getSelectID("date")
-    const menuIDs = getSelectID("menu")
     try {
-      if ((typeof date === "string" || date == null) && (typeof storeID === "string" || storeID == null) && Array.isArray(menuIDs)) {
-        const response = await findBeauticians(date, menuIDs, storeID)
-        setBeauticians(response.beauticians)
-      }
+      const response = await findBeauticians(reservationDate, getMenuIDs(), store.randId)
+      setBeauticians(response.beauticians)
     } catch (err) {
       console.log(err)
     }

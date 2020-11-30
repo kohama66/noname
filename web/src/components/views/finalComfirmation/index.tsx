@@ -1,44 +1,30 @@
 import React, { FC, useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { createReservation, findMenuDetails, getBeautician } from '../../../package/api';
-import { Beautician, initBeautician } from '../../../package/interface/Beautician';
 import { initGuest } from '../../../package/interface/Guest';
 import { MenuDetail } from '../../../package/interface/Menu';
-import { initSalon, Salon } from '../../../package/interface/Salon';
 import { GuestContext } from '../../../utils/context/GuestContext';
 import { ReservedContext } from '../../../utils/context/ReservadContext ';
 import { useError } from '../../../utils/hooks/Error';
 import FinalComfirmationComponent from "./FinalComfirmation"
 
 const FinalComfirmation: FC = () => {
-  const { getSelectID, getSelectValue } = useContext(ReservedContext)
-  const [beautician, setBeautician] = useState<Beautician>(initBeautician)
-  const [store, setStore] = useState<Salon>(initSalon)
-  const [date, setDate] = useState<string>("")
+  const { beautician, store, reservationDate, getMenuIDs } = useContext(ReservedContext)
   const [menus, setMenus] = useState<MenuDetail[]>([])
   const [totalPrice, setTotalPrice] = useState<number>(0)
   const history = useHistory()
-  const menuIDs = getSelectID("menu")
   const { guest } = useContext(GuestContext)
   const { error, customError } = useError()
 
   const handleGetAllSelected = async () => {
-    const [beautician, store, _, date] = getSelectValue()
     try {
-      if (typeof menuIDs === "object" && menuIDs.length !== 0 && beautician !== initBeautician) {
-        const menuDetails = await findMenuDetails(beautician.randId, menuIDs)
-        setMenus(menuDetails.beauticianMenus)
-        setBeautician(beautician)
-        setStore(store)
-        setDate(date)
-        let totalPrice: number = 0
-        menuDetails.beauticianMenus.map((detail) => {
-          totalPrice += detail.price
-        })
-        setTotalPrice(totalPrice)
-      } else {
-        history.push("/guest")
-      }
+      const menuDetails = await findMenuDetails(beautician.randId, getMenuIDs())
+      setMenus(menuDetails.beauticianMenus)
+      let totalPrice: number = 0
+      menuDetails.beauticianMenus.map((detail) => {
+        totalPrice += detail.price
+      })
+      setTotalPrice(totalPrice)
     } catch (error) {
       console.log(error)
     }
@@ -46,8 +32,8 @@ const FinalComfirmation: FC = () => {
   const handleReserve = async () => {
     if (guest !== initGuest) {
       try {
-        if (menuIDs != null && typeof menuIDs !== "string") {
-          await createReservation(beautician.randId, store.randId, menuIDs, date)
+        if (reservationDate != null) {
+          await createReservation(beautician.randId, store.randId, getMenuIDs(), reservationDate)
           history.push("/reserved")
         }
       } catch (error) {
@@ -62,9 +48,9 @@ const FinalComfirmation: FC = () => {
   useEffect(() => {
     handleGetAllSelected()
   }, [])
-
+  if (reservationDate == null) return <div></div>
   return (
-    < FinalComfirmationComponent beautician={beautician} store={store} date={date} menus={menus} totalPrice={totalPrice} handleReserve={handleReserve} error={error} />
+    < FinalComfirmationComponent beautician={beautician} store={store} date={reservationDate} menus={menus} totalPrice={totalPrice} handleReserve={handleReserve} error={error} />
   )
 }
 

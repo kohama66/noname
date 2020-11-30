@@ -5,16 +5,18 @@ import { initSalon, isSalonInterface, Salon } from "../../package/interface/Salo
 
 export const ReservedContext = createContext({
   setSelectValue: (value: Beautician | Salon | Menu[] | string) => { },
-  getSelectValue: (): [Beautician, Salon, Menu[], string] => [initBeautician, initSalon, [], ""],
-  getSelectID: (type: "beautician" | "store" | "date" | "menu"): string | string[] | undefined => "",
   isAllChecked: (): boolean => false,
+  beautician: initBeautician,
+  store: initSalon,
+  getMenuIDs: (): string[] => [""],
+  reservationDate: <string | undefined>undefined,
 })
 
 export const useReservedContext = () => {
   const [beautician, setBeautician] = useState<Beautician>(initBeautician)
   const [store, setStore] = useState<Salon>(initSalon)
   const [menus, setMenus] = useState<Menu[]>([])
-  const [reservationDate, setReservationDate] = useState<string>("")
+  const [reservationDate, setReservationDate] = useState<string | undefined>(undefined)
 
   const setSelectValue = (value: Beautician | Salon | Menu[] | string) => {
     if (isBeauticianInterface(value)) {
@@ -35,21 +37,18 @@ export const useReservedContext = () => {
         } else {
           return undefined
         }
-        break
       case "store":
         if (store !== initSalon) {
           return store.randId;
         } else {
           return undefined
         }
-        break
       case "date":
         if (reservationDate !== "") {
           return reservationDate;
         } else {
           return undefined
         }
-        break
       case "menu":
         const menuIDs: string[] = []
         if (Object.prototype.toString.call(menus) === "[object Array]" && Array.isArray(menus)) {
@@ -58,18 +57,23 @@ export const useReservedContext = () => {
           })
         }
         return menuIDs
-        break
     }
   }
-  const getSelectValue = (): [Beautician, Salon, Menu[], string] => {
-    return [beautician, store, menus, reservationDate]
+  const getMenuIDs = (): string[] => {
+    const menuIDs: string[] = []
+    if (Object.prototype.toString.call(menus) === "[object Array]" && Array.isArray(menus)) {
+      menus.map((menu) => {
+        menuIDs.push(menu.randId)
+      })
+    }
+    return menuIDs
   }
   const isAllChecked = (): boolean => {
-    if (beautician !== initBeautician && store !== initSalon && menus.length !== 0 && reservationDate !== "") {
+    if (beautician !== initBeautician && store !== initSalon && menus.length !== 0 && reservationDate !== undefined) {
       return true
     } else {
       return false
     }
   }
-  return { setSelectValue, getSelectValue, getSelectID, isAllChecked }
+  return { setSelectValue, isAllChecked, beautician, store, getMenuIDs, reservationDate }
 }

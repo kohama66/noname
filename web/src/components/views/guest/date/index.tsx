@@ -6,14 +6,12 @@ import ChooseDateComponent from './ChooseDate'
 
 const ChooseDate: FC = () => {
   const [reservations, setReservations] = useState<Reservation[]>([])
-  const { getSelectID } = useContext(ReservedContext)
+  const { beautician } = useContext(ReservedContext)
+
   const handleFindReservation = async () => {
-    const beauticianID = getSelectID("beautician")
     try {
-      if (typeof beauticianID === "string") {
-        const response = await findReservation(beauticianID)
-        setReservations(response.reservations)
-      }
+      const response = await findReservation(beautician.randId)
+      setReservations(response.reservations)
     } catch (error) {
       console.log(error)
     }

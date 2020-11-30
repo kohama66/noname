@@ -9,15 +9,13 @@ const ChooseMenu: FC = () => {
   const history = useHistory()
   const [menus, setMenus] = useState<Menu[]>([])
   const [menuValues, setMenuValues] = useState<{ [key: string]: Menu }>({})
-  const { getSelectID, setSelectValue } = useContext(ReservedContext)
+  const { beautician, setSelectValue } = useContext(ReservedContext)
+
 
   const handleFindMenus = async () => {
-    const beauticianID = getSelectID("beautician")
     try {
-      if (typeof beauticianID === "string" || beauticianID == null) {
-        const response = await findMenus(beauticianID)
-        setMenus(response.menus)
-      }
+      const response = await findMenus(beautician.randId)
+      setMenus(response.menus)
     } catch (err) {
       console.log(err)
     }

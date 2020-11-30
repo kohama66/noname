@@ -10,6 +10,8 @@ export interface MenuDetail {
   name: string
 }
 
+export const initMenu: Menu = <Menu>{}
+
 export const initMenuDetail: MenuDetail = <MenuDetail>{}
 
 export const isMenuInterface = (arg: any): arg is Menu => {
