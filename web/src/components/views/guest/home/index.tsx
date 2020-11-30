@@ -1,22 +1,16 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import { ReservedContext } from '../../../../utils/context/ReservadContext ';
 import GuestComponent from './Guest'
 
-interface props {
-  allSelectCheck: () => boolean
-}
-
-const GuestHome: FC<props> = (props) => {
+const GuestHome: FC = () => {
+  const { isAllChecked } = useContext(ReservedContext)
   const history = useHistory()
-  const [allCheck, setAllCheck] = useState<boolean>(false)
-  const check = props.allSelectCheck()
-
   useEffect(() => {
-    setAllCheck(check)
-    if (allCheck) {
+    if (isAllChecked()) {
       history.push("guest/final_comfirmation")
     }
-  }, [allCheck])
+  }, [])
   return (
     <GuestComponent />
   )

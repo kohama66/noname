@@ -1,7 +1,7 @@
 import React, { FC, useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Reservation } from '../../../../../package/interface/Reservation';
-import { SetSelectValueContext } from '../../../guest';
+import { ReservedContext } from '../../../../../utils/context/ReservadContext ';
 import SquareComponent from './Square'
 
 interface props {
@@ -14,7 +14,8 @@ const Square: FC<props> = (props) => {
   const history = useHistory()
   const [time, setTime] = useState<string>("")
   const [reserved, setReserved] = useState<boolean>(false)
-  const setSelectValue = useContext(SetSelectValueContext)
+  // const setSelectValue = useContext(SetSelectValueContext)
+  const { setSelectValue } = useContext(ReservedContext)
 
   const parseTime = (time: number) => {
     setTime(("0" + time).slice(-2) + ":00:00")

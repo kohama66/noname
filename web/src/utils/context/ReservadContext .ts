@@ -3,19 +3,12 @@ import { Beautician, initBeautician, isBeauticianInterface } from "../../package
 import { Menu } from "../../package/interface/Menu"
 import { initSalon, isSalonInterface, Salon } from "../../package/interface/Salon"
 
-// export const SetSelectValueContext = createContext((value: Beautician | Salon | Menu[] | string) => { });
-// export const GeterSelectIDContext = createContext((type: "beautician" | "store" | "date" | "menu"): string | string[] | undefined => "")
-// export const GeterSelectValueContext = createContext((): [Beautician, Salon, Menu[], string] => [initBeautician, initSalon, [], ""])
 export const ReservedContext = createContext({
   setSelectValue: (value: Beautician | Salon | Menu[] | string) => { },
-  getSelectValue: () => {},
-  getSelectID: (type: "beautician" | "store" | "date" | "menu") => { },
-  isAllChecked: () => { },
+  getSelectValue: (): [Beautician, Salon, Menu[], string] => [initBeautician, initSalon, [], ""],
+  getSelectID: (type: "beautician" | "store" | "date" | "menu"): string | string[] | undefined => "",
+  isAllChecked: (): boolean => false,
 })
-
-// export const ReservedContext = createContext({
-//   beautician: initBeautician
-// })
 
 export const useReservedContext = () => {
   const [beautician, setBeautician] = useState<Beautician>(initBeautician)
@@ -78,7 +71,5 @@ export const useReservedContext = () => {
       return false
     }
   }
-  // return { setSelectValue, geterSelectValue, geterSelectID, allSelectedCheck }
   return { setSelectValue, getSelectValue, getSelectID, isAllChecked }
-  // return beautician
 }

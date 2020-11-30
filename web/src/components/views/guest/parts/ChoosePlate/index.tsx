@@ -1,5 +1,5 @@
 import React, { FC, useContext, useEffect, useState } from 'react';
-import { GeterSelectIDContext } from '../..';
+import { ReservedContext } from '../../../../../utils/context/ReservadContext ';
 import ChoosePlateComponent from './ChoosePlate'
 
 interface props {
@@ -11,7 +11,7 @@ const ChoosePlate: FC<props> = (props) => {
   const [title, setTitle] = useState("")
   const [linkPath, setLinkPath] = useState("")
   const [checked, setChecked] = useState(false)
-  const geterSelect = useContext(GeterSelectIDContext)
+  const { getSelectID } = useContext(ReservedContext)
 
   const setPlateData = (image: string, title: string, path: string, value: string | string[] | undefined) => {
     setImage(image)
@@ -23,7 +23,7 @@ const ChoosePlate: FC<props> = (props) => {
   }
 
   useEffect(() => {
-    const selectValue = geterSelect(props.type)
+    const selectValue = getSelectID(props.type)
     switch (props.type) {
       case "store":
         setPlateData("img/shop.svg", "お店を選ぶ", "/store", selectValue)

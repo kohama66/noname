@@ -6,25 +6,24 @@ import { initGuest } from '../../../package/interface/Guest';
 import { MenuDetail } from '../../../package/interface/Menu';
 import { initSalon, Salon } from '../../../package/interface/Salon';
 import { GuestContext } from '../../../utils/context/GuestContext';
+import { ReservedContext } from '../../../utils/context/ReservadContext ';
 import { useError } from '../../../utils/hooks/Error';
-import { GeterSelectIDContext, GeterSelectValueContext } from '../guest';
 import FinalComfirmationComponent from "./FinalComfirmation"
 
 const FinalComfirmation: FC = () => {
-  const geterSelectValue = useContext(GeterSelectValueContext)
-  const geterSelectID = useContext(GeterSelectIDContext)
+  const { getSelectID, getSelectValue } = useContext(ReservedContext)
   const [beautician, setBeautician] = useState<Beautician>(initBeautician)
   const [store, setStore] = useState<Salon>(initSalon)
   const [date, setDate] = useState<string>("")
   const [menus, setMenus] = useState<MenuDetail[]>([])
   const [totalPrice, setTotalPrice] = useState<number>(0)
   const history = useHistory()
-  const menuIDs = geterSelectID("menu")
+  const menuIDs = getSelectID("menu")
   const { guest } = useContext(GuestContext)
   const { error, customError } = useError()
 
   const handleGetAllSelected = async () => {
-    const [beautician, store, _, date] = geterSelectValue()
+    const [beautician, store, _, date] = getSelectValue()
     try {
       if (typeof menuIDs === "object" && menuIDs.length !== 0 && beautician !== initBeautician) {
         const menuDetails = await findMenuDetails(beautician.randId, menuIDs)

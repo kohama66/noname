@@ -1,16 +1,16 @@
 import React, { FC, useContext, useEffect, useState } from 'react';
-import { GeterSelectIDContext } from '..';
 import { findSalons } from '../../../../package/api';
 import { Salon } from '../../../../package/interface/Salon';
+import { ReservedContext } from '../../../../utils/context/ReservadContext ';
 import ChooseStoreComponent from './ChooseStore';
 
 const ChooseStore: FC = () => {
   const [stores, setStores] = useState<Salon[]>([])
 
-  const geterSelect = useContext(GeterSelectIDContext)
+  const { getSelectID } = useContext(ReservedContext)
 
   const handleFindStores = async () => {
-    const beauticianID = geterSelect("beautician")
+    const beauticianID = getSelectID("beautician")
     try {
       if (typeof beauticianID === "string" || beauticianID == null) {
         const response = await findSalons(beauticianID)
