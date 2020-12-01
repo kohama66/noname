@@ -39,10 +39,10 @@ const FinalComfirmation: FC<props> = (props) => {
           <div>
             <dl>
               {props.menus.map((menu, i) => {
-                return <>
+                return <span>
                   <dt>{menu.name}</dt>
                   <dd>{menu.price}</dd>
-                </>
+                </span>
               })}
             </dl>
 
