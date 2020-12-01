@@ -4,7 +4,7 @@
   background-color: #fff;
   color: $blackFontColor;
   font-weight: bold;
-  letter-spacing: .1em;
+  letter-spacing: 0.1em;
   border-radius: 15px;
   font-size: 14px;
   table {
@@ -21,10 +21,7 @@
         line-height: 40px;
       }
       tr {
-        // th:not(:nth-of-type(1))::after {
-        //   // padding: 0 20px;
-        // }
-        th{
+        th {
           color: #969696;
         }
         td:not(:nth-of-type(1)) {
@@ -34,13 +31,44 @@
           background-color: $orangeColor1;
         }
       }
-      .reserved-square{
+      .reserved-square {
         background-color: $baseColor;
         pointer-events: none;
-        
       }
-      .reserved-square:hover{
-        background-color: $baseColor!important;
+      .reserved-square:hover {
+        background-color: $baseColor !important;
+      }
+    }
+  }
+}
+@media screen and (max-width: 1050px) {
+  #schedule {
+    font-size: 12px;
+    table {
+      tbody {
+        tr,
+        th,
+        td {
+          width: 45px;
+          height: 30px;
+          line-height: 30px;
+        }
+      }
+    }
+  }
+}
+@media screen and (max-width: 767px) {
+  #schedule {
+    font-size: 10px;
+    table {
+      tbody {
+        tr,
+        th,
+        td {
+          width: 35px;
+          height: 25px;
+          line-height: 25px;
+        }
       }
     }
   }
