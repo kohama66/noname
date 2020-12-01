@@ -1,9 +1,35 @@
-@import "../../../../css/common.scss";
+@import "src/css/common.scss";
 
 header{
   width: 100%;
   height: 80px;
-  background-color: rgb(255, 255, 255);
+  background-color: #fff;
   position: fixed;
   top: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box;
+  padding: 0 5%;
+  .header-top-icon{
+    a{
+      color: $orangeColor1;
+      text-decoration: none;
+      font-size: 22px;
+      font-weight: bold;
+      letter-spacing: 0;
+    }
+  }
+  .header-login{
+    width: auto;
+    .mypage-btn{
+      background-color: $orangeColor1;
+      padding: 10px 15px;
+      border-radius: 15px;
+      color: #fff;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 15px;
+    }
+  }
 }

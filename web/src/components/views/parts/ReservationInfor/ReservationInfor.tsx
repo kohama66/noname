@@ -16,6 +16,7 @@ interface props {
 
 const ReservationInfor: FC<props> = (props) => {
   const [totalPrice, setTotalPrice] = useState<number>(0)
+
   useEffect(() => {
     var price = 0
     props.menus.map((menu) => {
@@ -23,6 +24,7 @@ const ReservationInfor: FC<props> = (props) => {
     })
     setTotalPrice(price)
   }, [])
+  
   return (
     <div id="reservationInfor">
       <h2>{props.titleText}</h2>

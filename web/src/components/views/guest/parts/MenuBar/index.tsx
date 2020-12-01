@@ -17,7 +17,7 @@ const MenuBar: FC<props> = (props) => {
   }
 
   return (
-    <MenuBarComponent name={props.menu.name} handleCheck={handleCheck} check={isCheck} />
+    <MenuBarComponent name={props.menu.name} handleCheck={handleCheck} check={isCheck} image={props.image} />
   )
 }
 

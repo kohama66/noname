@@ -1,0 +1,15 @@
+@import "src/css/common.scss";
+#reserved{
+  min-height: 100vh;
+  background-color: $baseColor;
+  display: flex;
+  flex-flow: nowrap column;
+  justify-content: center;
+  align-items: center;
+  .heading{
+    margin-bottom: 30px;
+  }
+  #reservationInfor{
+    width: 420px;
+  }
+}

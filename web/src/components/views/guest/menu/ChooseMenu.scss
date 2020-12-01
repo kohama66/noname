@@ -5,18 +5,18 @@
   height: 100%;
   padding: 150px 0 0;
   box-sizing: border-box;
-  .menu-bar-wrapper{
-    width: 1200px;
+  .menu-bar-wrapper {
+    width: clamp(300px, 80%, 1200px);
     margin: 30px auto 0;
     display: flex;
     flex-flow: row wrap;
     justify-content: space-between;
   }
-  .menu-bar-wrapper::after{
+  .menu-bar-wrapper::after {
     content: "";
     width: 380px;
   }
-  .done-btn{
+  .done-btn {
     background-color: $orangeColor1;
     @include whiteShadow;
     border: none;
@@ -24,14 +24,26 @@
     height: 100px;
     border-radius: 50%;
     cursor: pointer;
-    // position: absolute;
     position: fixed;
     bottom: 8%;
     right: 5%;
     color: #fff;
-    transition-duration: .2s;
+    transition-duration: 0.2s;
+    font-size: 40px;
   }
-  .done-btn:hover{
+  .done-btn:hover {
     transform: scale(1.1);
+  }
+}
+@media screen and (max-width: 767px) {
+  #choose-menu {
+    padding-bottom: 80px;
+    .done-btn {
+      width: 50px;
+      height: 50px;
+      bottom: 3%;
+      right: 3%;
+      font-size: 20px;
+    }
   }
 }

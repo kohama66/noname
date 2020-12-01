@@ -1,30 +1,38 @@
 @import "../../../css/common.scss";
 
-#final-comfirmation{
+#final-comfirmation {
   background-color: $baseColor;
-  height: 100vh;
+  min-height: 100vh;
 }
 
-.final-answer{
-  width: 800px;
+.final-answer {
+  width: clamp(300px, 100%, 800px);
   display: flex;
-  margin: 30px auto 10px;
+  margin: 50px auto 10px;
   justify-content: center;
-  button{
+  align-items: center;
+  letter-spacing: 0.1em;
+  button {
+    letter-spacing: 0.1em;
     border: none;
     cursor: pointer;
     color: #fff;
+    padding: 10px 25px;
+    margin-left: 30px;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 15px;
     background-color: $orangeColor1;
   }
 }
 
 .final-comfirmation-content-wrapper {
-  width: 1200px;
+  width: clamp(300px, 80%, 1200px);
   display: flex;
   flex-flow: row wrap;
   margin: 0 auto;
   justify-content: space-between;
-  .choose-card{
+  .choose-card {
     pointer-events: none;
   }
 }
@@ -35,49 +43,86 @@
   color: $blackFontColor;
   background-color: #fff;
   box-sizing: border-box;
-  padding: 20px 15px;
+  padding: 35px 25px;
   margin: 30px 0 0;
   @include whiteShadow;
   border-radius: 15px;
   font-family: Arial, Helvetica, sans-serif;
-  position: relative;
+  display: flex;
+  flex-flow: column wrap;
   h2 {
-    font-size: 24px;
+    font-size: 18px;
   }
   div {
     padding: 10px 0;
     p {
-      font-size: 18px;
+      font-size: 15px;
       padding: 1px 0;
       margin-bottom: 40px;
     }
     dl {
       width: 100%;
-      display: flex;
-      flex-flow: row wrap;
-      line-height: 25px;
-      dt {
-        width: 40%;
-        list-style: none;
-        font-size: 18px;
-      }
-      dd{
-        width: 60%;
-        text-align: right;
-        font-size: 18px;
+
+      span {
+        width: 100%;
+        background-color: $baseColor;
+        display: flex;
+        flex-flow: row wrap;
+        line-height: 25px;
+        box-sizing: border-box;
+        padding: 0 4%;
+        border-radius: 10px;
+        dt {
+          width: 40%;
+          list-style: none;
+          font-size: 15px;
+        }
+        dd {
+          width: 60%;
+          text-align: right;
+          font-size: 15px;
+        }
       }
     }
   }
-  .total-price{
-    width: 92%;
+  .total-price {
+    box-sizing: border-box;
+    width: 100%;
     height: 35px;
     display: flex;
     justify-content: space-between;
-    position: absolute;
-    bottom: 0;
-    p{
-      font-size: 23px;
+    margin-top: auto;
+    p {
+      font-size: 20px;
     }
   }
 }
-
+@media screen and (max-width: 1199px) {
+  .final-comfirmation-content {
+    margin-bottom: 100px;
+    width: 49%;
+    max-width: 350px;
+  }
+}
+@media screen and (max-width: 767px) {
+  .final-answer {
+    margin: 70px auto 10px;
+    h2 {
+      font-size: 14px;
+    }
+    button {
+      margin-left: 10px;
+      font-size: 14px;
+      padding: 7px 22px;
+    }
+  }
+  .final-comfirmation-content {
+    margin-bottom: 100px;
+    width: 100%;
+    max-width: 350px;
+    height: 400px;
+    h2 {
+      font-size: 16px;
+    }
+  }
+}

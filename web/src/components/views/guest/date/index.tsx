@@ -1,20 +1,17 @@
 import React, { FC, useContext, useEffect, useState } from 'react';
-import { GeterSelectIDContext } from '..';
 import { findReservation } from '../../../../package/api';
 import { Reservation } from '../../../../package/interface/Reservation';
+import { ReservedContext } from '../../../../utils/context/ReservadContext ';
 import ChooseDateComponent from './ChooseDate'
 
 const ChooseDate: FC = () => {
   const [reservations, setReservations] = useState<Reservation[]>([])
-  const geterSelect = useContext(GeterSelectIDContext)
+  const { beautician } = useContext(ReservedContext)
 
   const handleFindReservation = async () => {
-    const beauticianID = geterSelect("beautician")
     try {
-      if (typeof beauticianID === "string") {
-        const response = await findReservation(beauticianID)
-        setReservations(response.reservations)
-      }
+      const response = await findReservation(beautician.randId)
+      setReservations(response.reservations)
     } catch (error) {
       console.log(error)
     }

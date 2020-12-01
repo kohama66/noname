@@ -1,5 +1,5 @@
 import React, { FC, useContext, useEffect, useState } from 'react';
-import { GeterSelectIDContext } from '../..';
+import { ReservedContext } from '../../../../../utils/context/ReservadContext ';
 import ChoosePlateComponent from './ChoosePlate'
 
 interface props {
@@ -11,31 +11,31 @@ const ChoosePlate: FC<props> = (props) => {
   const [title, setTitle] = useState("")
   const [linkPath, setLinkPath] = useState("")
   const [checked, setChecked] = useState(false)
-  const geterSelect = useContext(GeterSelectIDContext)
+  const { store, beautician, getMenuIDs, reservationDate } = useContext(ReservedContext)
+
 
   const setPlateData = (image: string, title: string, path: string, value: string | string[] | undefined) => {
     setImage(image)
     setTitle(title)
     setLinkPath(path)
-    if (value !== undefined && value !== "" && value !== null && value.length !== 0) {
+    if (value != null && value !== "" && value.length !== 0) {
       setChecked(true)
     }
   }
 
   useEffect(() => {
-    const selectValue = geterSelect(props.type)
     switch (props.type) {
       case "store":
-        setPlateData("img/1.png", "お店を選ぶ", "/store", selectValue)
+        setPlateData("img/shop.svg", "お店を選ぶ", "/store", store.randId)
         break
       case "beautician":
-        setPlateData("img/1.png", "美容師を選ぶ", "/beautician", selectValue)
+        setPlateData("img/beautician.svg", "美容師を選ぶ", "/beautician", beautician.randId)
         break
       case "menu":
-        setPlateData("img/1.png", "メニューを選ぶ", "/menu", selectValue)
+        setPlateData("img/menu.svg", "メニューを選ぶ", "/menu", getMenuIDs())
         break
       case "date":
-        setPlateData("img/4.png", "日付を選ぶ", "/date", selectValue)
+        setPlateData("img/karender.svg", "日付を選ぶ", "/date", reservationDate)
         break
     }
   }, [])

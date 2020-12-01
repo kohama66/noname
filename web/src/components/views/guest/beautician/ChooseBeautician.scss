@@ -1,16 +1,17 @@
 @import "../../../../css/common.scss";
+
 #choose-beautician {
   background-color: $baseColor;
   height: clamp(100vh 100% 100%);
   padding: 150px 0;
-  .choose-beautician-wrapper{
-    width: 1150px;
+  .choose-beautician-wrapper {
+    width: clamp(300px, 80%, 1150px);
     margin: 0 auto;
     display: flex;
     flex-flow: row wrap;
     justify-content: space-between;
   }
-  .hoose-beautician-wrapper::after{
+  .hoose-beautician-wrapper::after {
     content: "";
     display: block;
     width: 350px;

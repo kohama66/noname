@@ -1,6 +1,6 @@
 @import "../../../../css/common.scss";
 
-.chooses {
+#chooses {
   width: 100%;
   min-height: 100vh;
   height: 100%;
@@ -8,8 +8,9 @@
   display: flex;
   flex-flow: column nowrap;
   align-items: center;
+  justify-content: center;
   box-sizing: border-box;
-  padding: 190px 0 0;
+  // padding: 190px 0 0;
   .chooses-contents-wrapper {
     margin-top: 20px;
     .chooses-contents {
@@ -17,6 +18,27 @@
       display: flex;
       flex-flow: row wrap;
       justify-content: space-around;
+    }
+  }
+}
+@media screen and (max-width: 1099px) {
+  #chooses {
+    .chooses-contents-wrapper {
+      .chooses-contents {
+        width: 80%;
+        margin: 0 auto;
+      }
+    }
+  }
+}
+@media screen and (max-width: 767px) {
+  #chooses {
+    padding: 100px 0 50px;
+    .chooses-contents-wrapper {
+      .chooses-contents {
+        width: 90%;
+        margin: 0 auto;
+      }
     }
   }
 }

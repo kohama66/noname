@@ -1,4 +1,5 @@
-@import "../../../../../css/common.scss";
+@import "src/css/common.scss";
+
 .heading{
   text-align: center;
   h2{
@@ -10,5 +11,15 @@
     color: $orangeColor1;
     font-weight: bold;
     line-height: 1.5em;
+  }
+}
+@media screen and (max-width: 767px) {
+  .heading{
+    h2{
+      font-size: 25px;
+    }
+    p{
+      font-size: 10px;
+    }
   }
 }

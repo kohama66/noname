@@ -4,6 +4,7 @@ import "./MenuBar.scss"
 interface props {
   name: string
   check: boolean
+  image: string
   handleCheck: () => void
 }
 
@@ -11,7 +12,7 @@ const MenuBar: FC<props> = (props) => {
   return (
     <div className="menu-bar">
       <figure>
-        {/* <img src={props.image} alt="メニューイメージ" /> */}
+        <img src={props.image} alt="メニューイメージ" />
       </figure>
       <div>
         <h2>{props.name}</h2>
