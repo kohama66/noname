@@ -1,0 +1,11 @@
+version: '3'
+services:
+  noname_web:
+    build: .
+    tty: true
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./:/go/src/github.com/myapp/noname/web
+      - ./node_modules:/go/src/github.com/myapp/noname/web/node_modules
+    command: bash -c "yarn start"
