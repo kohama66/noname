@@ -2,7 +2,8 @@
 
 #choose-beautician {
   background-color: $baseColor;
-  height: clamp(100vh 100% 100%);
+  min-height: 100vh;
+  box-sizing: border-box;
   padding: 150px 0;
   .choose-beautician-wrapper {
     width: clamp(300px, 80%, 1150px);

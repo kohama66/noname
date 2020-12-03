@@ -1,0 +1,14 @@
+# steps:
+# - name: 'gcr.io/cloud-builders/docker'
+#   args: [ 'build', '-t', 'asia-northeast1-docker.pkg.dev/$PROJECT_ID/cutmatch-docker-repo/cutmatch-web-image:tag1', '.' ]
+# images:
+# - 'asia-northeast1-docker.pkg.dev/$PROJECT_ID/cutmatch-docker-repo/cutmatch-web-image:tag1'
+steps:
+- name: 'gcr.io/cloud-builders/yarn'
+  args: ['install']
+- name: 'gcr.io/cloud-builders/yarn'
+  args: ['run', 'build']
+- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  entrypoint: 'bash'
+  args: ['-c', 'gcloud config set app/cloud_build_timeout 1600 && gcloud app deploy']
+timeout: '1600s'
