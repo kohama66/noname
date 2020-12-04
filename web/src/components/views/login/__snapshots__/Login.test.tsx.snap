@@ -1,0 +1,64 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test 1 1`] = `null`;
+
+exports[`login snapshot 1`] = `
+<div
+  id="login"
+>
+  <div
+    className="heading"
+  >
+    <h2>
+      LOGIN
+    </h2>
+    <p>
+      ログイン
+    </p>
+  </div>
+  <form
+    onSubmit={[Function]}
+  >
+    <label>
+      メールアドレス
+    </label>
+    <input
+      disabled={false}
+      maxLength={50}
+      onChange={[Function]}
+      required={true}
+      type="email"
+      value=""
+    />
+    <label>
+      パスワード
+    </label>
+    <input
+      disabled={false}
+      minLength={8}
+      onChange={[Function]}
+      placeholder="8文字以上で入力してください"
+      required={true}
+      type="password"
+      value=""
+    />
+    <div
+      className="error-message"
+    >
+      <p />
+    </div>
+    <input
+      disabled={false}
+      onChange={[Function]}
+      type="submit"
+      value="ログイン"
+    />
+    <a
+      href="/guest/signup"
+      onClick={[Function]}
+    >
+      未登録の方はこちら
+    </a>
+  </form>
+</div>
+`;
