@@ -3,10 +3,10 @@ steps:
   args: ['install']
   dir: './web'
 - name: 'gcr.io/cloud-builders/yarn'
-  args: ['run', 'build']
+  args: ['run', 'test']
   dir: './web'
 - name: 'gcr.io/cloud-builders/yarn'
-  args: ['run', 'test']
+  args: ['run', 'build']
   dir: './web'
 - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
   entrypoint: 'bash'
