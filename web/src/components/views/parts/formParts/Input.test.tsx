@@ -1,8 +1,6 @@
 import React from 'react';
 import { mount } from 'enzyme';
-import renderer from 'react-test-renderer';
 import Input from "./Input";
-import { render } from '@testing-library/react';
 
 describe("Input Test", () => {
   it("value 確認", () => {

@@ -5,7 +5,6 @@ import {
   BrowserRouter as Router,
 } from "react-router-dom";
 
-
 it("login snapshot", () => {
   const tree = renderer.create(
     <Router>
