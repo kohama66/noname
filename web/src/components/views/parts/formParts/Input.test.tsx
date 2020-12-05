@@ -9,7 +9,7 @@ describe("Input Test", () => {
     const wrapper = mount(<Input value={testState} type="text" setState={setTestState} />)
     console.log(wrapper.debug())
     const inputWrapper = wrapper.find('input[type="text"]')
-    expect(inputWrapper.prop("value")).toBe(testState)
+    expect(inputWrapper.prop("value")).toBe("a")
   })
   it("onChangeでsetStateが呼ばれる", () => {
     const testState = ""
