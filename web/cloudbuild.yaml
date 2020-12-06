@@ -3,10 +3,10 @@ steps:
   args: ['install']
   dir: './web'
 - name: 'gcr.io/cloud-builders/yarn'
-  args: ['run', 'test']
+  args: ['run', 'test', 'a']
   dir: './web'
-  env: 
-    - "CI=true"
+  env:
+  - 'CI=true'
 - name: 'gcr.io/cloud-builders/yarn'
   args: ['run', 'build']
   dir: './web'
