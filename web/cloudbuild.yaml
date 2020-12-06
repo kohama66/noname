@@ -5,7 +5,8 @@ steps:
 - name: 'gcr.io/cloud-builders/yarn'
   args: ['run', 'test']
   dir: './web'
-  env: ["CI=true"]
+  env: 
+    - "CI=true"
 - name: 'gcr.io/cloud-builders/yarn'
   args: ['run', 'build']
   dir: './web'
