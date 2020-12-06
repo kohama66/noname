@@ -1,0 +1,5 @@
+steps:
+- name: 'gcr.io/cloud-builders/docker'
+  args: [ 'build', '-t', 'asia-northeast1.pkg.dev/$PROJECT_ID/cutmatch-docker-repo/cutmatch-api-image:tag1', '.' ]
+images:
+- 'asia-northeast1.pkg.dev/$PROJECT_ID/cutmatch-docker-repo/cutmatch-api-image:tag1'
