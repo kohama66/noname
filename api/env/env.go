@@ -17,3 +17,7 @@ func IsStaging() bool {
 func IsProduction() bool {
 	return os.Getenv("APP_ENVIRONMENT") == "production"
 }
+
+func GetPort() string {
+	return os.Getenv("PORT")
+}

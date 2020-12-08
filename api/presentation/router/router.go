@@ -6,6 +6,7 @@ import (
 
 	"github.com/go-chi/chi"
 	"github.com/myapp/noname/api/di"
+	"github.com/myapp/noname/api/env"
 
 	_ "github.com/myapp/noname/api/docs"
 	"github.com/myapp/noname/api/presentation/middleware"
@@ -24,8 +25,9 @@ func Init() *Router {
 }
 
 func (r *Router) Run() {
-	fmt.Println("Listening on port 8080")
-	http.ListenAndServe(":8080", r)
+	port := env.GetPort()
+	fmt.Println("Listening on port " + port)
+	http.ListenAndServe(":"+port, r)
 }
 
 func (r *Router) Routes() {
