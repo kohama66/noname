@@ -4,6 +4,7 @@ go 1.13
 
 require (
 	firebase.google.com/go v3.13.0+incompatible
+	github.com/DATA-DOG/go-sqlmock v1.5.0 // indirect
 	github.com/alecthomas/template v0.0.0-20190718012654-fb15b899a751
 	github.com/armon/consul-api v0.0.0-20180202201655-eb2c6b5be1b6 // indirect
 	github.com/friendsofgo/errors v0.9.2
