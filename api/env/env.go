@@ -18,6 +18,9 @@ func IsProduction() bool {
 	return os.Getenv("APP_ENVIRONMENT") == "production"
 }
 
-func GetPort() string {
-	return os.Getenv("PORT")
-}
+// func GetPort() string {
+// 	port := os.Getenv("PORT")
+// 	if port == "" {
+// 		port = "8080"
+// 	}
+// }
