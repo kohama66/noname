@@ -1,4 +1,7 @@
 steps:
+- name: golang:1.13.5
+  env: ['GO111MODULE=on']
+  args: ['go', 'test', './...']
 - name: 'gcr.io/cloud-builders/docker'
   args: [ 'build', '-t', 'asia-northeast1-docker.pkg.dev/$PROJECT_ID/cutmatch-docker-repo/cutmatch-api-image:tag1', 
           '--build-arg', '_GOOGLE_APPLICATION_CREDENTIALS=$_GOOGLE_APPLICATION_CREDENTIALS', '.' ]
