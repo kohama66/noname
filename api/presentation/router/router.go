@@ -3,10 +3,10 @@ package router
 import (
 	"fmt"
 	"net/http"
-	"os"
 
 	"github.com/go-chi/chi"
 	"github.com/myapp/noname/api/di"
+	"github.com/myapp/noname/api/env"
 
 	_ "github.com/myapp/noname/api/docs"
 	"github.com/myapp/noname/api/presentation/middleware"
@@ -25,10 +25,7 @@ func Init() *Router {
 }
 
 func (r *Router) Run() {
-	port := os.Getenv("PORT")
-	if port == "" {
-		port = "8080"
-	}
+	port := env.GetPort()
 	fmt.Println("Listening on port " + port)
 	http.ListenAndServe(":"+port, r)
 }
