@@ -1,5 +1,6 @@
 pkgname="entity"
 output="domain/entity"
+no-tests=true
 [mysql]
   dbname = "noname"
   host   = "mysql"
