@@ -32,7 +32,7 @@ func New() *Conn {
 			dbName                 = env.CloudSqlDbName()
 		)
 		var dbURI string
-		dbURI = fmt.Sprintf("%s:%s@unix(/%s/%s)/%s?charset=utf8mb4&parseTime=true", dbUser, dbPwd, "/cloudsql", instanceConnectionName, dbName)
+		dbURI = fmt.Sprintf("%s:%s@unix(/%s/%s)/%s?charset=utf8mb4&parseTime=true", dbUser, dbPwd, "cloudsql", instanceConnectionName, dbName)
 		d, err := sql.Open("mysql", dbURI)
 		if err != nil {
 			panic(err)
