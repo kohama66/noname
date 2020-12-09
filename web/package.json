@@ -34,8 +34,9 @@
     "typescript": "~3.7.2"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "cp src/config/config.development.ts src/config/config.ts & react-scripts start",
+    "build": "cp src/config/config.production.ts src/config/config.ts & react-scripts build",
+    "build:after": "react-scripts build",
     "test": "react-scripts test",
     "test:ci": "CI=true react-scripts test --watchAll",
     "eject": "react-scripts eject"

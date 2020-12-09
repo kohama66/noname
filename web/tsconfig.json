@@ -22,6 +22,6 @@
   "include": [
     "src/**/*",
     "package/**/*",
-    "config/**/*",
+    "src/config/**/*",
   ]
 }

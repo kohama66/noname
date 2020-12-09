@@ -1,0 +1,1 @@
+export const apiurl = "https://cutmatch-api-qoochtvcaq-an.a.run.app"

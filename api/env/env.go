@@ -10,9 +10,9 @@ func IsDevelopment() bool {
 	return os.Getenv("APP_ENVIRONMENT") == "development"
 }
 
-func IsStaging() bool {
-	return os.Getenv("APP_ENVIRONMENT") == "staging"
-}
+// func IsStaging() bool {
+// 	return os.Getenv("APP_ENVIRONMENT") == "staging"
+// }
 
 func IsProduction() bool {
 	return os.Getenv("APP_ENVIRONMENT") == "production"
@@ -24,4 +24,24 @@ func GetPort() string {
 		port = "8080"
 	}
 	return port
+}
+
+func CloudSqlUser() string {
+	return os.Getenv("DB_USER")
+}
+
+func CloudSqlPass() string {
+	return os.Getenv("DB_PASS")
+}
+
+func CloudSqlHost() string {
+	return os.Getenv("DB_TCP_HOST")
+}
+
+func CloudSqlPort() string {
+	return os.Getenv("DB_PORT")
+}
+
+func CloudSqlDbName() string {
+	return os.Getenv("DB_NAME")
 }

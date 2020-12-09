@@ -21,3 +21,10 @@ install-sqlboiler:
 	go get github.com/volatiletech/sqlboiler/drivers/sqlboiler-mysql
 install-mysql:
 	go get github.com/go-sql-driver/mysql
+
+staging:
+	gcloud config set project cut-match
+staging-cloudsql:
+	cloud_sql_proxy -instances=cut-match:us-central1:cutmatch=tcp:3306
+staging-migrate:
+	mysqldef -uroot -ptdd8B4eBFgFP58Ng cutmatch < schema.sql
