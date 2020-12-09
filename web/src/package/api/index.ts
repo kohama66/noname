@@ -7,9 +7,10 @@ import qs from "qs"
 import { guestResponse } from '../interface/response/Guest';
 import { guestCreateRequest } from '../interface/request/Guest';
 import {getAuthToken} from '../../utils/function/Cookie'
+import { apiurl } from '../../config/config';
 
 const axios = Axios.create({
-  baseURL: "http://localhost:8080",
+  baseURL: apiurl,
   headers: {
     Accept: "application/json",
     "Content-Type": "application/json"
