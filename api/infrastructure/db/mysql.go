@@ -4,6 +4,7 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
+	"log"
 
 	//mysqlインポート用
 	_ "github.com/go-sql-driver/mysql"
@@ -33,7 +34,8 @@ func New() *Conn {
 			dbName = env.CloudSqlDbName()
 		)
 		var dbURI string
-		dbURI = fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?parseTime=true", dbUser, dbPwd, dbHost, dbPort, dbName)
+		log.Fatal(dbUser, dbPwd, dbHost, dbPort, dbName)
+		dbURI = fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=true", dbUser, dbPwd, dbHost, dbPort, dbName)
 		d, err := sql.Open("mysql", dbURI)
 		if err != nil {
 			panic(err)
