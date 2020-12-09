@@ -5,7 +5,7 @@ steps:
   dir: './api'
 # - name: 'gcr.io/cloud-builders/docker'
 #   args: [ 'build', '-t', 'asia-northeast1-docker.pkg.dev/$PROJECT_ID/cutmatch-docker-repo/cutmatch-api-image:tag1', 
-#           '--build-arg', '_GOOGLE_APPLICATION_CREDENTIALS=$_GOOGLE_APPLICATION_CREDENTIALS', '.' ]
+#           '--build-arg','_GOOGLE_APPLICATION_CREDENTIALS=$_GOOGLE_APPLICATION_CREDENTIALS', '.' ]
 #  dir: './api'
 - name: 'gcr.io/cloud-builders/docker'
   args: [ 'build', '-t', 'asia-northeast1-docker.pkg.dev/$PROJECT_ID/cutmatch-docker-repo/cutmatch-api-image:tag1', '.' ]
