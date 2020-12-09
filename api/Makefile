@@ -25,6 +25,6 @@ install-mysql:
 staging:
 	gcloud config set project cut-match
 staging-cloudsql:
-	cloud_sql_proxy -instances=cut-match:asia-northeast1:noname=tcp:3306
+	cloud_sql_proxy -instances=cut-match:us-central1:cutmatch=tcp:3306
 staging-migrate:
-	mysqldef -unoname -pnoname noname < schema.sql
+	mysqldef -uroot -ptdd8B4eBFgFP58Ng cutmatch < schema.sql
