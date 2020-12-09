@@ -3,6 +3,7 @@ package db
 import (
 	"context"
 	"database/sql"
+	"fmt"
 
 	//mysqlインポート用
 	_ "github.com/go-sql-driver/mysql"
@@ -16,9 +17,28 @@ type Conn struct {
 
 // New DB初期化関数
 func New() *Conn {
-	db, err := sql.Open("mysql", env.SqlSource())
-	if err != nil {
-		panic(err)
+	var db *sql.DB
+	if env.IsDevelopment() {
+		d, err := sql.Open("mysql", env.SqlSource())
+		if err != nil {
+			panic(err)
+		}
+		db = d
+	} else if env.IsProduction() {
+		var (
+			dbUser = env.CloudSqlUser()
+			dbPwd  = env.CloudSqlPass()
+			dbHost = env.CloudSqlHost()
+			dbPort = env.CloudSqlPort()
+			dbName = env.CloudSqlDbName()
+		)
+		var dbURI string
+		dbURI = fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?parseTime=true", dbUser, dbPwd, dbHost, dbPort, dbName)
+		d, err := sql.Open("mysql", dbURI)
+		if err != nil {
+			panic(err)
+		}
+		db = d
 	}
 	db.SetMaxOpenConns(8)
 	db.SetMaxIdleConns(8)
