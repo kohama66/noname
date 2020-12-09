@@ -34,13 +34,13 @@ func CloudSqlPass() string {
 	return os.Getenv("DB_PASS")
 }
 
-func CloudSqlHost() string {
-	return os.Getenv("DB_TCP_HOST")
+func CloudSqlInstanceConnectionName() string {
+	return os.Getenv("INSTANCE_CONNECTION_NAME")
 }
 
-func CloudSqlPort() string {
-	return os.Getenv("DB_PORT")
-}
+// func CloudSqlPort() string {
+// 	return os.Getenv("DB_PORT")
+// }
 
 func CloudSqlDbName() string {
 	return os.Getenv("DB_NAME")
