@@ -45,7 +45,6 @@ const FinalComfirmation: FC<props> = (props) => {
                 </span>
               })}
             </dl>
-
           </div>
           <div className="total-price">
             <h2>合計</h2>

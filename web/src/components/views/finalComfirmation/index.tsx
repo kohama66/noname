@@ -9,7 +9,7 @@ import { useError } from '../../../utils/hooks/Error';
 import FinalComfirmationComponent from "./FinalComfirmation"
 
 const FinalComfirmation: FC = () => {
-  const { beautician, store, reservationDate, getMenuIDs } = useContext(ReservedContext)
+  const { beautician, store, reservationDate, getMenuIDs, resetAllReservedState } = useContext(ReservedContext)
   const [menus, setMenus] = useState<MenuDetail[]>([])
   const [totalPrice, setTotalPrice] = useState<number>(0)
   const history = useHistory()
@@ -21,6 +21,7 @@ const FinalComfirmation: FC = () => {
       try {
         if (reservationDate != null) {
           await createReservation(beautician.randId, store.randId, getMenuIDs(), reservationDate)
+          resetAllReservedState()
           history.push("/reserved")
         }
       } catch (error) {
