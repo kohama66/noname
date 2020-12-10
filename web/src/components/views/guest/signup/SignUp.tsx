@@ -1,7 +1,8 @@
-import React, { FC, FormEvent, useState } from 'react';
+import React, { FC, FormEvent, useContext, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { createGuest } from '../../../../package/api';
 import { deleteUser, signup } from '../../../../package/api/auth';
+import { GuestContext, useGuestContext } from '../../../../utils/context/GuestContext';
 import { deleteAuthToken } from '../../../../utils/function/Cookie';
 import { useError } from '../../../../utils/hooks/Error';
 import Input from '../../parts/formParts/Input';
@@ -18,6 +19,7 @@ const SignUp: FC = () => {
   const [disabled, setDisabled] = useState<boolean>(false)
   const { error, customError } = useError()
   const history = useHistory()
+  const { setGuest } = useContext(GuestContext)
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault()
@@ -35,6 +37,7 @@ const SignUp: FC = () => {
           firstNameKana: firstNameKana,
           email: email
         })
+        setGuest(response.guest)
         history.push("/guest")
       } catch (error) {
         deleteAuthToken()
