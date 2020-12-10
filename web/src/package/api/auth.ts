@@ -30,6 +30,7 @@ export const signup = async (firebaseUser: FirebaseUser) => {
   try {
     const authResponse: firebase.default.auth.UserCredential = await auth.createUserWithEmailAndPassword(firebaseUser.email, firebaseUser.password)
     await authCookieSet(authResponse.user)
+    
   } catch (error) {
     let errorTetx: string
     switch (error.code) {
