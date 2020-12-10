@@ -27,6 +27,7 @@ func NewGuestResponsemodel(ent *entity.Guest) *responsemodel.Guest {
 		FirstNameKana: ent.FirstNameKana,
 		LastNameKana:  ent.LastNameKana,
 		Email:         ent.Email,
+		PhoneNumber:   ent.PhoneNumber,
 		CreatedAt:     ent.CreatedAt,
 		UpdatedAt:     ent.CreatedAt,
 	}

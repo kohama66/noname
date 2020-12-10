@@ -43,6 +43,7 @@ CREATE TABLE `guests` (
   `first_name_kana` varchar(255) NOT NULL,
   `last_name_kana` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
+  `phone_number` varchar(11) NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   `deleted_at` datetime DEFAULT NULL,
