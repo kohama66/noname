@@ -28,8 +28,8 @@ const FinalComfirmation: FC<props> = (props) => {
         <p> {props.error}</p>
       </div>
       <div className="final-comfirmation-content-wrapper">
-        <ChooseCard type="beautician" content={props.beautician} />
-        <ChooseCard type="store" content={props.store} />
+        <ChooseCard type="beautician" content={props.beautician} image="/img/beautician_1.jpg" />
+        <ChooseCard type="store" content={props.store} image="/img/salan.jpg" />
         <div className="final-comfirmation-content">
           <h2>日付</h2>
           <div>
