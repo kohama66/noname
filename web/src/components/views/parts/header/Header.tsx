@@ -18,7 +18,7 @@ const Header: FC = () => {
           } else {
             return "/login"
           }
-        })()} className="mypage-btn" >マイページ</Link>
+        })()} className="mypage-btn" >My Page</Link>
       </div>
     </header>
   )
