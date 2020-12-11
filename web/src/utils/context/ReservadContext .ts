@@ -10,6 +10,7 @@ export const ReservedContext = createContext({
   store: initSalon,
   getMenuIDs: (): string[] => [""],
   reservationDate: <string | undefined>undefined,
+  resetAllReservedState: () => {},
 })
 
 export const useReservedContext = () => {
@@ -75,5 +76,11 @@ export const useReservedContext = () => {
       return false
     }
   }
-  return { setSelectValue, isAllChecked, beautician, store, getMenuIDs, reservationDate }
+  const resetAllReservedState = () => {
+    setBeautician(initBeautician)
+    setStore(initSalon)
+    setMenus([])
+    setReservationDate(undefined)
+  }
+  return { setSelectValue, isAllChecked, beautician, store, getMenuIDs, reservationDate, resetAllReservedState }
 }

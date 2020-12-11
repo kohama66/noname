@@ -18,9 +18,13 @@ const Mypage: FC = () => {
   useEffect(() => {
     const getReserved = async () => {
       if (guest !== initGuest) {
-        const response = await getGuestMypage()
-        setReserved(response.reservations[0])
-        setPreviousReserved(response.reservations[1])
+        try {
+          const response = await getGuestMypage()
+          setReserved(response.reservations[0])
+          setPreviousReserved(response.reservations[1])
+        } catch (error) {
+          history.push("/login")
+        }
       } else {
         history.push("/login")
       }
@@ -33,15 +37,19 @@ const Mypage: FC = () => {
       <Title title="MY PAGE" text="マイページ" />
       <section>
         <div className="mypage-profile">
-          <h2>{`${guest.lastName} ${guest.firstName} 様`}</h2>
+          <h2>プロフィール</h2>
           <dl>
+            <span>
+              <dd>名前</dd>
+              <dt>{`${guest.lastName} ${guest.firstName} 様`}</dt>
+            </span>
             <span>
               <dd>メール</dd>
               <dt>{guest.email}</dt>
             </span>
             <span>
               <dd>電話</dd>
-              <dt>09012344321</dt>
+              <dt>{guest.phoneNumber}</dt>
             </span>
           </dl>
         </div>

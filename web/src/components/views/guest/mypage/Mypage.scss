@@ -15,7 +15,7 @@
     .mypage-profile {
       margin: 0 5px;
       padding: 50px;
-      height: 220px;
+      align-self: flex-start;
       background-color: #fff;
       box-sizing: border-box;
       border-radius: 15px;
@@ -48,6 +48,50 @@
     }
     .mypage-contents {
       display: flex;
+    }
+  }
+}
+
+@media screen and (max-width: 1249px){
+  #guest-mypage {
+    padding: 150px 0 100px;
+    section{
+      .mypage-profile{
+        margin-bottom: 10px;
+      }
+    }
+  }
+}
+@media screen and (max-width: 749px){
+  #guest-mypage {
+    padding: 150px 0 100px;
+    section{
+      width: 95%;
+      max-width: 320px;
+      margin: 30px auto 0;
+      .mypage-profile{
+        padding: 30px 20px;
+        margin: 0 0 10px;
+        width: 100%;
+        h2{
+          font-size: 12px;
+        }
+        dl{
+          span{
+            font-size: 12px;
+            dd{
+              width: 33%;
+            }
+            dt{
+              width: 67%;
+            }
+          }
+        }
+      }
+      .mypage-contents {
+        flex-flow: column nowrap;
+        width: 100%;
+      }
     }
   }
 }

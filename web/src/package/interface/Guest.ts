@@ -7,6 +7,7 @@ export interface Guest {
   firstNameKana: string
   lastNameKana: string
   email: string
+  phoneNumber: string
 }
 
 // export interface GuestByMyPage {

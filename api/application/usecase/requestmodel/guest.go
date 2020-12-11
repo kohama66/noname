@@ -15,6 +15,7 @@ type GuestCreate struct {
 	LastNameKana  string `json:"lastNameKana" validate:"required"`
 	FirstNameKana string `json:"firstNameKana" validate:"required"`
 	Email         string `json:"email" validate:"required,email"`
+	PhoneNumber   string `json:"phoneNumber" validate:"required,len=11"`
 }
 
 // NewGuest リクエストモデルエンティティ変換メソッド

@@ -32,6 +32,7 @@ type Guest struct {
 	FirstNameKana string    `boil:"first_name_kana" json:"first_name_kana" toml:"first_name_kana" yaml:"first_name_kana"`
 	LastNameKana  string    `boil:"last_name_kana" json:"last_name_kana" toml:"last_name_kana" yaml:"last_name_kana"`
 	Email         string    `boil:"email" json:"email" toml:"email" yaml:"email"`
+	PhoneNumber   string    `boil:"phone_number" json:"phone_number" toml:"phone_number" yaml:"phone_number"`
 	CreatedAt     time.Time `boil:"created_at" json:"created_at" toml:"created_at" yaml:"created_at"`
 	UpdatedAt     time.Time `boil:"updated_at" json:"updated_at" toml:"updated_at" yaml:"updated_at"`
 	DeletedAt     null.Time `boil:"deleted_at" json:"deleted_at,omitempty" toml:"deleted_at" yaml:"deleted_at,omitempty"`
@@ -49,6 +50,7 @@ var GuestColumns = struct {
 	FirstNameKana string
 	LastNameKana  string
 	Email         string
+	PhoneNumber   string
 	CreatedAt     string
 	UpdatedAt     string
 	DeletedAt     string
@@ -61,6 +63,7 @@ var GuestColumns = struct {
 	FirstNameKana: "first_name_kana",
 	LastNameKana:  "last_name_kana",
 	Email:         "email",
+	PhoneNumber:   "phone_number",
 	CreatedAt:     "created_at",
 	UpdatedAt:     "updated_at",
 	DeletedAt:     "deleted_at",
@@ -77,6 +80,7 @@ var GuestWhere = struct {
 	FirstNameKana whereHelperstring
 	LastNameKana  whereHelperstring
 	Email         whereHelperstring
+	PhoneNumber   whereHelperstring
 	CreatedAt     whereHelpertime_Time
 	UpdatedAt     whereHelpertime_Time
 	DeletedAt     whereHelpernull_Time
@@ -89,6 +93,7 @@ var GuestWhere = struct {
 	FirstNameKana: whereHelperstring{field: "`guests`.`first_name_kana`"},
 	LastNameKana:  whereHelperstring{field: "`guests`.`last_name_kana`"},
 	Email:         whereHelperstring{field: "`guests`.`email`"},
+	PhoneNumber:   whereHelperstring{field: "`guests`.`phone_number`"},
 	CreatedAt:     whereHelpertime_Time{field: "`guests`.`created_at`"},
 	UpdatedAt:     whereHelpertime_Time{field: "`guests`.`updated_at`"},
 	DeletedAt:     whereHelpernull_Time{field: "`guests`.`deleted_at`"},
@@ -115,8 +120,8 @@ func (*guestR) NewStruct() *guestR {
 type guestL struct{}
 
 var (
-	guestAllColumns            = []string{"id", "auth_id", "rand_id", "first_name", "last_name", "first_name_kana", "last_name_kana", "email", "created_at", "updated_at", "deleted_at"}
-	guestColumnsWithoutDefault = []string{"auth_id", "rand_id", "first_name", "last_name", "first_name_kana", "last_name_kana", "email", "created_at", "updated_at", "deleted_at"}
+	guestAllColumns            = []string{"id", "auth_id", "rand_id", "first_name", "last_name", "first_name_kana", "last_name_kana", "email", "phone_number", "created_at", "updated_at", "deleted_at"}
+	guestColumnsWithoutDefault = []string{"auth_id", "rand_id", "first_name", "last_name", "first_name_kana", "last_name_kana", "email", "phone_number", "created_at", "updated_at", "deleted_at"}
 	guestColumnsWithDefault    = []string{"id"}
 	guestPrimaryKeyColumns     = []string{"id"}
 )

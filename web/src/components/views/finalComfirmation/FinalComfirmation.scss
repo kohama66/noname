@@ -62,16 +62,14 @@
     }
     dl {
       width: 100%;
-
       span {
         width: 100%;
-        background-color: $baseColor;
+        border-bottom: 2px solid $orangeColor1;
         display: flex;
+        margin-bottom: 5px;
         flex-flow: row wrap;
         line-height: 25px;
         box-sizing: border-box;
-        padding: 0 4%;
-        border-radius: 10px;
         dt {
           width: 40%;
           list-style: none;
@@ -94,6 +92,7 @@
     margin-top: auto;
     p {
       font-size: 20px;
+      font-weight: bold;
     }
   }
 }
