@@ -10,7 +10,7 @@ steps:
 - id: 'build'
   name: 'gcr.io/cloud-builders/docker'
   args: [ 'build', '-t', 'asia-northeast1-docker.pkg.dev/$PROJECT_ID/cutmatch-docker-repo/cutmatch-api-image:tag1', '.' ]
-
+  dir: './api'
 - id: 'cloudsql-proxy'
   name: 'gcr.io/cloudsql-docker/gce-proxy:1.15'
   entrypoint: 'sh'
@@ -20,7 +20,7 @@ steps:
       path: /cloudsql
   waitFor: 
     - '-'
-
+  dir: './api'
 # - id: 'proxy-wait'
 #   name: 'gcr.io/cloud-builders/docker'
 #   entrypoint: bash
@@ -38,7 +38,7 @@ steps:
       path: /cloudsql
   waitFor:
     - 'build'
-
+  dir: './api'
 - name: 'gcr.io/cloud-builders/docker'
   entrypoint: 'sh'
   args: ['-c', 'touch /cloudsql/stop']
@@ -47,7 +47,7 @@ steps:
       path: /cloudsql
   waitFor:
       - 'migration'
-
+  dir: './api'
 # - name: 'gcr.io/cloud-builders/docker'
 #   entrypoint: 'sh'
 #   args: ['-c', 'touch/cloudsql/stop']
