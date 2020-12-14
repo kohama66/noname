@@ -390,7 +390,7 @@ var doc = `{
                 "produces": [
                     "application/json"
                 ],
-                "summary": "ゲスト予約履歴取得",
+                "summary": "ゲストの予約履歴を取得",
                 "parameters": [
                     {
                         "description": "Request body",
@@ -500,7 +500,8 @@ var doc = `{
                 "firstName",
                 "firstNameKana",
                 "lastName",
-                "lastNameKana"
+                "lastNameKana",
+                "phoneNumber"
             ],
             "properties": {
                 "email": {
@@ -516,6 +517,9 @@ var doc = `{
                     "type": "string"
                 },
                 "lastNameKana": {
+                    "type": "string"
+                },
+                "phoneNumber": {
                     "type": "string"
                 }
             }
@@ -770,7 +774,6 @@ var doc = `{
             "type": "object",
             "properties": {
                 "createdAt": {
-                    "description": "Reservations []*Reservation ` + "`" + `json:\"reservations\"` + "`" + `",
                     "type": "string"
                 },
                 "email": {
@@ -786,6 +789,9 @@ var doc = `{
                     "type": "string"
                 },
                 "lastNameKana": {
+                    "type": "string"
+                },
+                "phoneNumber": {
                     "type": "string"
                 },
                 "randId": {
@@ -808,7 +814,6 @@ var doc = `{
             "type": "object",
             "properties": {
                 "createdAt": {
-                    "description": "Reservations []*Reservation ` + "`" + `json:\"reservations\"` + "`" + `",
                     "type": "string"
                 },
                 "email": {
@@ -824,6 +829,9 @@ var doc = `{
                     "type": "string"
                 },
                 "lastNameKana": {
+                    "type": "string"
+                },
+                "phoneNumber": {
                     "type": "string"
                 },
                 "randId": {

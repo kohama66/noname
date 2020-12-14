@@ -24,7 +24,15 @@ install-mysql:
 
 staging:
 	gcloud config set project cut-match
+install-cloud-sql-proxy:
+	curl -o cloud_sql_proxy https://dl.google.com/cloudsql/cloud_sql_proxy.linux.amd64
+	chmod +x cloud_sql_proxy
+	mv cloud_sql_proxy /usr/local/bin/cloud_sql_proxy
 staging-cloudsql:
 	cloud_sql_proxy -instances=cut-match:us-central1:cutmatch=tcp:3306
 staging-migrate:
 	mysqldef -uroot -ptdd8B4eBFgFP58Ng cutmatch < schema.sql
+cloudbuild-proxy: install-cloud-sql-proxy staging-cloudsql
+cloudbuild-migrate: install-sqldef install-mysql staging-migrate
+# cloudbuild-migrate:
+# 	echo ${GOOGLE_APPLICATION_CREDENTIALS}

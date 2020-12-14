@@ -370,7 +370,7 @@
                 "produces": [
                     "application/json"
                 ],
-                "summary": "ゲスト予約履歴取得",
+                "summary": "ゲストの予約履歴を取得",
                 "parameters": [
                     {
                         "description": "Request body",
@@ -480,7 +480,8 @@
                 "firstName",
                 "firstNameKana",
                 "lastName",
-                "lastNameKana"
+                "lastNameKana",
+                "phoneNumber"
             ],
             "properties": {
                 "email": {
@@ -496,6 +497,9 @@
                     "type": "string"
                 },
                 "lastNameKana": {
+                    "type": "string"
+                },
+                "phoneNumber": {
                     "type": "string"
                 }
             }
@@ -750,7 +754,6 @@
             "type": "object",
             "properties": {
                 "createdAt": {
-                    "description": "Reservations []*Reservation `json:\"reservations\"`",
                     "type": "string"
                 },
                 "email": {
@@ -766,6 +769,9 @@
                     "type": "string"
                 },
                 "lastNameKana": {
+                    "type": "string"
+                },
+                "phoneNumber": {
                     "type": "string"
                 },
                 "randId": {
@@ -788,7 +794,6 @@
             "type": "object",
             "properties": {
                 "createdAt": {
-                    "description": "Reservations []*Reservation `json:\"reservations\"`",
                     "type": "string"
                 },
                 "email": {
@@ -804,6 +809,9 @@
                     "type": "string"
                 },
                 "lastNameKana": {
+                    "type": "string"
+                },
+                "phoneNumber": {
                     "type": "string"
                 },
                 "randId": {
