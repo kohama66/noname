@@ -3,7 +3,10 @@ RUN mkdir -p /go/src/github.com/myapp/noname/api
 WORKDIR /go/src/github.com/myapp/noname/api
 ADD . /go/src/github.com/myapp/noname/api
 ENV GO111MODULE=on
-ENV GOOGLE_APPLICATION_CREDENTIALS=cut-match-firebase-adminsdk-y9hob-bedeb11401.json
+ARG _CLOUD_SQL_CONNECTION_PASS
+ARG _CLOUD_SQL_CONNECTION_NAME
+ENV CLOUD_SQL_CONNECTION_PASS ${_CLOUD_SQL_CONNECTION_PASS}
+ENV CLOUD_SQL_CONNECTION_NAME ${_CLOUD_SQL_CONNECTION_NAME}
 RUN go get github.com/pilu/fresh
 EXPOSE 8080
 CMD ["fresh"]

@@ -1,44 +1,37 @@
 steps:
-# - id: "test"
-#   name: 'golang'
-#   env: ['GO111MODULE=on']
-#   args: ['go', 'test', './...']
-# dir: './api'
-# - name: 'gcr.io/cloud-builders/docker'
-#   args: [ 'build', '--no-cache', '-f', 'Dockerfile.migrate', '-t', 'asia-northeast1-docker.pkg.dev/$PROJECT_ID/gcp_migration:tag1', '.' ]
+- id: "test"
+  name: 'golang'
+  env: ['GO111MODULE=on']
+  args: ['go', 'test', './...']
+  dir: './api'
 
 - id: 'build'
   name: 'gcr.io/cloud-builders/docker'
-  args: [ 'build', '-t', 'asia-northeast1-docker.pkg.dev/$PROJECT_ID/cutmatch-docker-repo/cutmatch-api-image:tag1', '.' ]
+  args: [ 'build', '-t', 'asia-northeast1-docker.pkg.dev/$PROJECT_ID/cutmatch-docker-repo/cutmatch-api-image:tag1',
+          '--build-arg', '_CLOUD_SQL_CONNECTION_PASS=$_CLOUD_SQL_CONNECTION_PASS', '--build-arg', '_CLOUD_SQL_CONNECTION_NAME=$_CLOUD_SQL_CONNECTION_NAME', '.' ]
   dir: './api'
+
 - id: 'cloudsql-proxy'
   name: 'gcr.io/cloudsql-docker/gce-proxy:1.15'
   entrypoint: 'sh'
-  args: ['-c', '/cloud_sql_proxy -dir=/cloudsql -instances=cut-match:us-central1:cutmatch=tcp:3306 & while [ ! -f /cloudsql/stop ]; do sleep 2; done']
+  args: ['-c', '/cloud_sql_proxy -dir=/cloudsql -instances=$_CLOUD_SQL_CONNECTION_NAME & while [ ! -f /cloudsql/stop ]; do sleep 2; done']
   volumes: 
     - name: cloudsql
       path: /cloudsql
-  waitFor: 
-    - '-'
+  waitFor:
+    - 'test'
   dir: './api'
-# - id: 'proxy-wait'
-#   name: 'gcr.io/cloud-builders/docker'
-#   entrypoint: bash
-#   args: ['-c', 'while [ ! -e "/cloudsql/${_INSTANCE_CONNECTION_NAME}" ]; do sleep 1 done']
-#   volumes:
-#     - name: cloudsql
-#       path: /cloudsql
-#   waitFor: ['cloudsql-proxy', 'build']
 
 - id: 'migration'
   name: 'gcr.io/cloud-builders/docker'
-  args: ['run', '-v', 'cloudsql:/cloudsql', 'asia-northeast1-docker.pkg.dev/$PROJECT_ID/cutmatch-docker-repo/cutmatch-api-image:tag1', 'make', 'cloudbuild-migrate']
+  args: ['run', '-v', 'cloudsql:/cloudsql', 'asia-northeast1-docker.pkg.dev/$PROJECT_ID/cutmatch-docker-repo/cutmatch-api-image:tag1', 'make', 'cloudbuild-cloudsql']
   volumes:
     - name: cloudsql
       path: /cloudsql
   waitFor:
     - 'build'
   dir: './api'
+
 - name: 'gcr.io/cloud-builders/docker'
   entrypoint: 'sh'
   args: ['-c', 'touch /cloudsql/stop']
@@ -48,51 +41,19 @@ steps:
   waitFor:
       - 'migration'
   dir: './api'
-# - name: 'gcr.io/cloud-builders/docker'
-#   entrypoint: 'sh'
-#   args: ['-c', 'touch/cloudsql/stop']
-#   volumes:
-#     - name: cloudsql
-#       path: /cloudsql
-#   waitFor:
-#     - 'migration'
 
-# - id: 'cloudsql-proxy-start'
-#   name: 'gcr.io/cloudsql-docker/gce-proxy'
-#   args: ['/cloud_sql_proxy', '-dir=/cloudsql', '-credential_file=cut-match-firebase-adminsdk-y9hob-bedeb11401.json', '-instances=cut-match:us-central1:cutmatch=tcp:3306']
-#   volumes:
-#     - name: cloudsql
-#       path: /cloudsql
-#   waitFor:
-#     - '-'
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'asia-northeast1-docker.pkg.dev/$PROJECT_ID/cutmatch-docker-repo/cutmatch-api-image:tag1']
+  dir: './api'
 
-# - id: 'migration'
-#   name: 'gcr.io/cloud-builders/docker'
-#   args: ['run','--rm', '-v', 'cloudsql:/cloudsql', '-e', 'GOOGLE_APPLICATION_CREDENTIALS=cut-match-firebase-adminsdk-y9hob-bedeb11401.json',
-#          '-e', 'SQL_SOURCE=noname:noname@tcp(mysql:3306)/noname?charset=utf8mb4&parseTime=true', 
-#          'asia-northeast1-docker.pkg.dev/$PROJECT_ID/cutmatch-docker-repo/cutmatch-api-image:tag1', 'make', 'cloudbuild-migrate']
-#   volumes:
-#     - name: cloudsql
-#       path: /cloudsql
-#   waitFor:
-#     - 'build'
+- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  entrypoint: gcloud
+  args: ['run', 'deploy', 'cutmatch-api', '--image', 'asia-northeast1-docker.pkg.dev/$PROJECT_ID/cutmatch-docker-repo/cutmatch-api-image:tag1', '--region', 'asia-northeast1', '--platform', 'managed']
+  dir: './api'
 
-# - id: 'cloudsql-proxy-stop'
-#   name: 'gcr.io/cloud-builders/docker'
-#   entrypoint: sh
-#   args: ['-c', 'docker ps -q --filter ancestor="gcr.io/cloudsql-docker/gce-proxy:1.15"|xargs docker stop']
-#   waitFor:
-#     - 'migration'
+images:
+- 'asia-northeast1-docker.pkg.dev/$PROJECT_ID/cutmatch-docker-repo/cutmatch-api-image:tag1'
 
-# - name: 'gcr.io/cloud-builders/docker'
-#   args: [ 'build', '-t', 'asia-northeast1-docker.pkg.dev/$PROJECT_ID/cutmatch-docker-repo/cutmatch-api-image:tag1', '.' ]
-#   # dir: './api'
-# - name: 'gcr.io/cloud-builders/docker'
-#   args: ['push', 'asia-northeast1-docker.pkg.dev/$PROJECT_ID/cutmatch-docker-repo/cutmatch-api-image:tag1']
-#   # dir: './api'
-# - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-#   entrypoint: gcloud
-#   args: ['run', 'deploy', 'cutmatch-api', '--image', 'asia-northeast1-docker.pkg.dev/$PROJECT_ID/cutmatch-docker-repo/cutmatch-api-image:tag1', '--region', 'asia-northeast1', '--platform', 'managed']
-#   # dir: './api'
-# images:
-# - 'asia-northeast1-docker.pkg.dev/$PROJECT_ID/cutmatch-docker-repo/cutmatch-api-image:tag1'
+substitutions:
+  _CLOUD_SQL_CONNECTION_NAME: ''
+  _CLOUD_SQL_CONNECTION_PASS: ''

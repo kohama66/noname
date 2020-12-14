@@ -31,8 +31,8 @@ install-cloud-sql-proxy:
 staging-cloudsql:
 	cloud_sql_proxy -instances=cut-match:us-central1:cutmatch=tcp:3306
 staging-migrate:
-	mysqldef -uroot -ptdd8B4eBFgFP58Ng cutmatch < schema.sql
-cloudbuild-proxy: install-cloud-sql-proxy staging-cloudsql
-cloudbuild-migrate: install-sqldef install-mysql staging-migrate
-# cloudbuild-migrate:
-# 	echo ${GOOGLE_APPLICATION_CREDENTIALS}
+	mysqldef -uroot -p${CLOUD_SQL_CONNECTION_PASS} cutmatch < schema.sql
+
+cloudbuild-cloudsql: install-sqldef cloudbuild-migrate
+cloudbuild-migrate:
+	mysqldef -uroot -p${CLOUD_SQL_CONNECTION_PASS} -S/cloudsql/${CLOUD_SQL_CONNECTION_NAME} cutmatch < schema.sql
