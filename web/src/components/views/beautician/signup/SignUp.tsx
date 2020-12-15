@@ -1,13 +1,10 @@
-import React, { FC, useContext, useState } from 'react';
-import { useHistory } from 'react-router-dom';
-import { createGuest } from '../../../../package/api';
+import React, { FC, useState } from 'react';
 import { deleteUser, signup } from '../../../../package/api/auth';
-import { GuestContext, useGuestContext } from '../../../../utils/context/GuestContext';
 import { deleteAuthToken } from '../../../../utils/function/Cookie';
 import { useError } from '../../../../utils/hooks/Error';
+import Title from '../../guest/parts/Title/Title';
 import Form from '../../parts/form/Form';
-import Title from '../parts/Title/Title';
-import './SignUp.scss'
+import './SignUp.scss';
 
 const SignUp: FC = () => {
   const [firstName, setFirstName] = useState<string>("")
@@ -17,9 +14,7 @@ const SignUp: FC = () => {
   const [email, setEmail] = useState<string>("")
   const [passwoed, setPassword] = useState<string>("")
   const [disabled, setDisabled] = useState<boolean>(false)
-  const { error, customError } = useError()
-  const history = useHistory()
-  const { setGuest } = useContext(GuestContext)
+  const {error, customError} = useError()
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault()
@@ -30,15 +25,15 @@ const SignUp: FC = () => {
         password: passwoed
       })
       try {
-        const response = await createGuest({
-          lastName: lastName,
-          firstName: firstName,
-          lastNameKana: lastNameKana,
-          firstNameKana: firstNameKana,
-          email: email
-        })
-        setGuest(response.guest)
-        history.push("/guest")
+        // const response = await createGuest({
+        //   lastName: lastName,
+        //   firstName: firstName,
+        //   lastNameKana: lastNameKana,
+        //   firstNameKana: firstNameKana,
+        //   email: email
+        // })
+        // setGuest(response.guest)
+        // history.push("/guest")
       } catch (error) {
         deleteAuthToken()
         deleteUser()
@@ -51,8 +46,8 @@ const SignUp: FC = () => {
   }
 
   return (
-    <div id="signup">
-      <Title title="SIGNUP" text="新規登録" />
+    <div id="bt-signup">
+      <Title title="SIGNUP" text="美容師登録" />
       <Form handleSubmit={handleSubmit} lastName={lastName} lastNameKana={lastNameKana} firstName={firstName} firstNameKana={firstNameKana} email={email} password={passwoed} disabled={disabled} error={error}
         setLastName={setLastName} setLastNameKana={setLastNameKana} setFirstName={setFirstName} setFirstNameKana={setFirstNameKana} setEmail={setEmail} setPassword={setPassword} />
     </div>
