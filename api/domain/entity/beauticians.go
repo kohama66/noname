@@ -24,84 +24,94 @@ import (
 
 // Beautician is an object representing the database table.
 type Beautician struct {
-	ID          int64     `boil:"id" json:"id" toml:"id" yaml:"id"`
-	AuthID      string    `boil:"auth_id" json:"auth_id" toml:"auth_id" yaml:"auth_id"`
-	RandID      string    `boil:"rand_id" json:"rand_id" toml:"rand_id" yaml:"rand_id"`
-	FirstName   string    `boil:"first_name" json:"first_name" toml:"first_name" yaml:"first_name"`
-	LastName    string    `boil:"last_name" json:"last_name" toml:"last_name" yaml:"last_name"`
-	Age         int64     `boil:"age" json:"age" toml:"age" yaml:"age"`
-	PhoneNumber string    `boil:"phone_number" json:"phone_number" toml:"phone_number" yaml:"phone_number"`
-	LineID      string    `boil:"line_id" json:"line_id" toml:"line_id" yaml:"line_id"`
-	InstagramID string    `boil:"instagram_id" json:"instagram_id" toml:"instagram_id" yaml:"instagram_id"`
-	Comment     string    `boil:"comment" json:"comment" toml:"comment" yaml:"comment"`
-	CreatedAt   time.Time `boil:"created_at" json:"created_at" toml:"created_at" yaml:"created_at"`
-	UpdatedAt   time.Time `boil:"updated_at" json:"updated_at" toml:"updated_at" yaml:"updated_at"`
-	DeletedAt   null.Time `boil:"deleted_at" json:"deleted_at,omitempty" toml:"deleted_at" yaml:"deleted_at,omitempty"`
+	ID            int64     `boil:"id" json:"id" toml:"id" yaml:"id"`
+	AuthID        string    `boil:"auth_id" json:"auth_id" toml:"auth_id" yaml:"auth_id"`
+	RandID        string    `boil:"rand_id" json:"rand_id" toml:"rand_id" yaml:"rand_id"`
+	FirstName     string    `boil:"first_name" json:"first_name" toml:"first_name" yaml:"first_name"`
+	LastName      string    `boil:"last_name" json:"last_name" toml:"last_name" yaml:"last_name"`
+	FirstNameKana string    `boil:"first_name_kana" json:"first_name_kana" toml:"first_name_kana" yaml:"first_name_kana"`
+	LastNameKana  string    `boil:"last_name_kana" json:"last_name_kana" toml:"last_name_kana" yaml:"last_name_kana"`
+	Email         string    `boil:"email" json:"email" toml:"email" yaml:"email"`
+	PhoneNumber   string    `boil:"phone_number" json:"phone_number" toml:"phone_number" yaml:"phone_number"`
+	LineID        string    `boil:"line_id" json:"line_id" toml:"line_id" yaml:"line_id"`
+	InstagramID   string    `boil:"instagram_id" json:"instagram_id" toml:"instagram_id" yaml:"instagram_id"`
+	Comment       string    `boil:"comment" json:"comment" toml:"comment" yaml:"comment"`
+	CreatedAt     time.Time `boil:"created_at" json:"created_at" toml:"created_at" yaml:"created_at"`
+	UpdatedAt     time.Time `boil:"updated_at" json:"updated_at" toml:"updated_at" yaml:"updated_at"`
+	DeletedAt     null.Time `boil:"deleted_at" json:"deleted_at,omitempty" toml:"deleted_at" yaml:"deleted_at,omitempty"`
 
 	R *beauticianR `boil:"-" json:"-" toml:"-" yaml:"-"`
 	L beauticianL  `boil:"-" json:"-" toml:"-" yaml:"-"`
 }
 
 var BeauticianColumns = struct {
-	ID          string
-	AuthID      string
-	RandID      string
-	FirstName   string
-	LastName    string
-	Age         string
-	PhoneNumber string
-	LineID      string
-	InstagramID string
-	Comment     string
-	CreatedAt   string
-	UpdatedAt   string
-	DeletedAt   string
+	ID            string
+	AuthID        string
+	RandID        string
+	FirstName     string
+	LastName      string
+	FirstNameKana string
+	LastNameKana  string
+	Email         string
+	PhoneNumber   string
+	LineID        string
+	InstagramID   string
+	Comment       string
+	CreatedAt     string
+	UpdatedAt     string
+	DeletedAt     string
 }{
-	ID:          "id",
-	AuthID:      "auth_id",
-	RandID:      "rand_id",
-	FirstName:   "first_name",
-	LastName:    "last_name",
-	Age:         "age",
-	PhoneNumber: "phone_number",
-	LineID:      "line_id",
-	InstagramID: "instagram_id",
-	Comment:     "comment",
-	CreatedAt:   "created_at",
-	UpdatedAt:   "updated_at",
-	DeletedAt:   "deleted_at",
+	ID:            "id",
+	AuthID:        "auth_id",
+	RandID:        "rand_id",
+	FirstName:     "first_name",
+	LastName:      "last_name",
+	FirstNameKana: "first_name_kana",
+	LastNameKana:  "last_name_kana",
+	Email:         "email",
+	PhoneNumber:   "phone_number",
+	LineID:        "line_id",
+	InstagramID:   "instagram_id",
+	Comment:       "comment",
+	CreatedAt:     "created_at",
+	UpdatedAt:     "updated_at",
+	DeletedAt:     "deleted_at",
 }
 
 // Generated where
 
 var BeauticianWhere = struct {
-	ID          whereHelperint64
-	AuthID      whereHelperstring
-	RandID      whereHelperstring
-	FirstName   whereHelperstring
-	LastName    whereHelperstring
-	Age         whereHelperint64
-	PhoneNumber whereHelperstring
-	LineID      whereHelperstring
-	InstagramID whereHelperstring
-	Comment     whereHelperstring
-	CreatedAt   whereHelpertime_Time
-	UpdatedAt   whereHelpertime_Time
-	DeletedAt   whereHelpernull_Time
+	ID            whereHelperint64
+	AuthID        whereHelperstring
+	RandID        whereHelperstring
+	FirstName     whereHelperstring
+	LastName      whereHelperstring
+	FirstNameKana whereHelperstring
+	LastNameKana  whereHelperstring
+	Email         whereHelperstring
+	PhoneNumber   whereHelperstring
+	LineID        whereHelperstring
+	InstagramID   whereHelperstring
+	Comment       whereHelperstring
+	CreatedAt     whereHelpertime_Time
+	UpdatedAt     whereHelpertime_Time
+	DeletedAt     whereHelpernull_Time
 }{
-	ID:          whereHelperint64{field: "`beauticians`.`id`"},
-	AuthID:      whereHelperstring{field: "`beauticians`.`auth_id`"},
-	RandID:      whereHelperstring{field: "`beauticians`.`rand_id`"},
-	FirstName:   whereHelperstring{field: "`beauticians`.`first_name`"},
-	LastName:    whereHelperstring{field: "`beauticians`.`last_name`"},
-	Age:         whereHelperint64{field: "`beauticians`.`age`"},
-	PhoneNumber: whereHelperstring{field: "`beauticians`.`phone_number`"},
-	LineID:      whereHelperstring{field: "`beauticians`.`line_id`"},
-	InstagramID: whereHelperstring{field: "`beauticians`.`instagram_id`"},
-	Comment:     whereHelperstring{field: "`beauticians`.`comment`"},
-	CreatedAt:   whereHelpertime_Time{field: "`beauticians`.`created_at`"},
-	UpdatedAt:   whereHelpertime_Time{field: "`beauticians`.`updated_at`"},
-	DeletedAt:   whereHelpernull_Time{field: "`beauticians`.`deleted_at`"},
+	ID:            whereHelperint64{field: "`beauticians`.`id`"},
+	AuthID:        whereHelperstring{field: "`beauticians`.`auth_id`"},
+	RandID:        whereHelperstring{field: "`beauticians`.`rand_id`"},
+	FirstName:     whereHelperstring{field: "`beauticians`.`first_name`"},
+	LastName:      whereHelperstring{field: "`beauticians`.`last_name`"},
+	FirstNameKana: whereHelperstring{field: "`beauticians`.`first_name_kana`"},
+	LastNameKana:  whereHelperstring{field: "`beauticians`.`last_name_kana`"},
+	Email:         whereHelperstring{field: "`beauticians`.`email`"},
+	PhoneNumber:   whereHelperstring{field: "`beauticians`.`phone_number`"},
+	LineID:        whereHelperstring{field: "`beauticians`.`line_id`"},
+	InstagramID:   whereHelperstring{field: "`beauticians`.`instagram_id`"},
+	Comment:       whereHelperstring{field: "`beauticians`.`comment`"},
+	CreatedAt:     whereHelpertime_Time{field: "`beauticians`.`created_at`"},
+	UpdatedAt:     whereHelpertime_Time{field: "`beauticians`.`updated_at`"},
+	DeletedAt:     whereHelpernull_Time{field: "`beauticians`.`deleted_at`"},
 }
 
 // BeauticianRels is where relationship names are stored.
@@ -128,8 +138,8 @@ func (*beauticianR) NewStruct() *beauticianR {
 type beauticianL struct{}
 
 var (
-	beauticianAllColumns            = []string{"id", "auth_id", "rand_id", "first_name", "last_name", "age", "phone_number", "line_id", "instagram_id", "comment", "created_at", "updated_at", "deleted_at"}
-	beauticianColumnsWithoutDefault = []string{"auth_id", "rand_id", "first_name", "last_name", "age", "phone_number", "line_id", "instagram_id", "comment", "created_at", "updated_at", "deleted_at"}
+	beauticianAllColumns            = []string{"id", "auth_id", "rand_id", "first_name", "last_name", "first_name_kana", "last_name_kana", "email", "phone_number", "line_id", "instagram_id", "comment", "created_at", "updated_at", "deleted_at"}
+	beauticianColumnsWithoutDefault = []string{"auth_id", "rand_id", "first_name", "last_name", "first_name_kana", "last_name_kana", "email", "phone_number", "line_id", "instagram_id", "comment", "created_at", "updated_at", "deleted_at"}
 	beauticianColumnsWithDefault    = []string{"id"}
 	beauticianPrimaryKeyColumns     = []string{"id"}
 )

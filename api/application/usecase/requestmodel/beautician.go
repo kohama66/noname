@@ -6,22 +6,25 @@ import (
 
 // BeauticianCreate 美容師登録構造体
 type BeauticianCreate struct {
-	AuthID      string `json:"-"`
-	FirstName   string `json:"firstName"`
-	LastName    string `json:"lastName"`
-	Age         int64  `json:"age"`
-	PhoneNumber string `json:"phoneNumber"`
+	AuthID        string `json:"-"`
+	LastName      string `json:"lastName" validate:"required"`
+	FirstName     string `json:"firstName" validate:"required"`
+	LastNameKana  string `json:"lastNameKana" validate:"required"`
+	FirstNameKana string `json:"firstNameKana" validate:"required"`
+	Email         string `json:"email" validate:"required,email"`
+	// PhoneNumber   string `json:"phoneNumber" validate:"required,len=11"`
 }
 
 // NewBeautician 美容師登録モデル変換メソッド
 func (b BeauticianCreate) NewBeautician(randID string) *entity.Beautician {
 	return &entity.Beautician{
-		AuthID:      b.AuthID,
-		RandID:      randID,
-		FirstName:   b.FirstName,
-		LastName:    b.LastName,
-		Age:         b.Age,
-		PhoneNumber: b.PhoneNumber,
+		AuthID:        b.AuthID,
+		RandID:        randID,
+		LastName:      b.LastName,
+		FirstName:     b.FirstName,
+		LastNameKana:  b.LastNameKana,
+		FirstNameKana: b.FirstNameKana,
+		Email:         b.Email,
 	}
 }
 

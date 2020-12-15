@@ -18,6 +18,9 @@ func NewBeauticianCreate(req *http.Request) (*requestmodel.BeauticianCreate, err
 	if err != nil {
 		return nil, err
 	}
+	if err := validate.Struct(r); err != nil {
+		return nil, err
+	}
 	return r, nil
 }
 

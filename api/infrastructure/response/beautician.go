@@ -23,18 +23,19 @@ func NewBeautician() Beautician {
 // NewResponseModelBeautician エンティティーをレスポンスへ変換
 func NewResponseModelBeautician(ent *entity.Beautician) *responsemodel.Beautician {
 	return &responsemodel.Beautician{
-		ID:          ent.ID,
-		RandID:      ent.RandID,
-		FirstName:   ent.FirstName,
-		LastName:    ent.LastName,
-		Age:         ent.Age,
-		PhoneNumber: ent.PhoneNumber,
-		LineID:      ent.LineID,
-		InstagramID: ent.InstagramID,
-		Comment:     ent.Comment,
-		Menus:       NewBeauticianMenusResponsemodel(ent.R.BeauticianMenus),
-		CreatedAt:   ent.CreatedAt,
-		UpdatedAt:   ent.UpdatedAt,
+		ID:            ent.ID,
+		RandID:        ent.RandID,
+		FirstName:     ent.FirstName,
+		LastName:      ent.LastName,
+		FirstNameKana: ent.FirstNameKana,
+		LastNameKana:  ent.LastNameKana,
+		PhoneNumber:   ent.PhoneNumber,
+		LineID:        ent.LineID,
+		InstagramID:   ent.InstagramID,
+		Comment:       ent.Comment,
+		Menus:         NewBeauticianMenusResponsemodel(ent.R.BeauticianMenus),
+		CreatedAt:     ent.CreatedAt,
+		UpdatedAt:     ent.UpdatedAt,
 	}
 }
 

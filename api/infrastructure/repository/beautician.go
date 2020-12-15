@@ -21,7 +21,7 @@ func NewBeautician(conn *db.Conn) repository.Beautician {
 }
 
 func (b *beautician) Create(ctx context.Context, ent *entity.Beautician) error {
-	return ent.Insert(ctx, b.Conn, boil.Infer())
+	return ent.Insert(ctx, b.Conn, boil.Blacklist("id", "rand_id", "auth_id"))
 }
 
 func (b *beautician) GetByAuthID(ctx context.Context, authID string) (*entity.Beautician, error) {
