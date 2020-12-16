@@ -11,11 +11,9 @@ const Beautician: FC = () => {
   const match = useRouteMatch();
   return (
     <div id="beautician">
-      <Router>
-        <Switch>
-          <Route path={match.path + "/signup"} component={SignUp} />
-        </ Switch>
-      </Router>
+      <Switch>
+        <Route path={match.path + "/signup"} component={SignUp} />
+      </ Switch>
     </div>
   )
 };

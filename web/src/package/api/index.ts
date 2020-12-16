@@ -8,6 +8,7 @@ import { guestResponse } from '../interface/response/Guest';
 import { guestCreateRequest } from '../interface/request/Guest';
 import {getAuthToken} from '../../utils/function/Cookie'
 import { apiurl } from '../../config/config';
+import { beauticianCreateRequest } from '../interface/request/Beautician';
 
 const axios = Axios.create({
   baseURL: apiurl,
@@ -123,4 +124,8 @@ export const createGuest = async (guest: guestCreateRequest): Promise<guestRespo
 
 export const getGuestMypage = async (): Promise<guestMypageReservationsResponse> => {
   return get<guestMypageReservationsResponse>(`api/v1/reservation/guest`)
+}
+
+export const createBeautician = async (request: beauticianCreateRequest): Promise<beauticianResponse> => {
+  return post<beauticianResponse>(`api/v1/beautician`, request)
 }

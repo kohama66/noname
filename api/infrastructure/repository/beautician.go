@@ -21,13 +21,14 @@ func NewBeautician(conn *db.Conn) repository.Beautician {
 }
 
 func (b *beautician) Create(ctx context.Context, ent *entity.Beautician) error {
-	return ent.Insert(ctx, b.Conn, boil.Blacklist("id", "rand_id", "auth_id"))
+	return ent.Insert(ctx, b.Conn, boil.Infer())
 }
 
 func (b *beautician) GetByAuthID(ctx context.Context, authID string) (*entity.Beautician, error) {
 	return entity.Beauticians(
 		entity.BeauticianWhere.AuthID.EQ(authID),
 		entity.BeauticianWhere.DeletedAt.IsNull(),
+		qm.Load(entity.BeauticianRels.BeauticianMenus),
 	).One(ctx, b.Conn)
 }
 
@@ -35,6 +36,7 @@ func (b *beautician) GetByRandID(ctx context.Context, randID string) (*entity.Be
 	return entity.Beauticians(
 		entity.BeauticianWhere.RandID.EQ(randID),
 		entity.BeauticianWhere.DeletedAt.IsNull(),
+		qm.Load(entity.BeauticianRels.BeauticianMenus),
 	).One(ctx, b.Conn)
 }
 
@@ -42,6 +44,7 @@ func (b *beautician) GetAll(ctx context.Context) ([]*entity.Beautician, error) {
 	return entity.Beauticians(
 		qm.Load(entity.BeauticianRels.BeauticianMenus),
 		entity.BeauticianWhere.DeletedAt.IsNull(),
+		qm.Load(entity.BeauticianRels.BeauticianMenus),
 	).All(ctx, b.Conn)
 }
 

@@ -4,11 +4,13 @@ export interface Beautician {
 	randId: string
 	firstName: string
 	lastName: string
+	firstNameKana: string
+	lastNameKana: string
 	phoneNumber: string
-	lineId: string
-	instagramId: string
-	comment: string
-	menus: MenuDetail[]
+	lineId?: string
+	instagramId?: string
+	comment?: string
+	menus?: MenuDetail[]
 }
 
 export interface BeauticianGetAll {

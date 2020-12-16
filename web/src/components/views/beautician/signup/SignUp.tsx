@@ -1,4 +1,6 @@
 import React, { FC, useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import { createBeautician } from '../../../../package/api';
 import { deleteUser, signup } from '../../../../package/api/auth';
 import { deleteAuthToken } from '../../../../utils/function/Cookie';
 import { useError } from '../../../../utils/hooks/Error';
@@ -15,6 +17,7 @@ const SignUp: FC = () => {
   const [passwoed, setPassword] = useState<string>("")
   const [disabled, setDisabled] = useState<boolean>(false)
   const {error, customError} = useError()
+  const history = useHistory()
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault()
@@ -25,15 +28,15 @@ const SignUp: FC = () => {
         password: passwoed
       })
       try {
-        // const response = await createGuest({
-        //   lastName: lastName,
-        //   firstName: firstName,
-        //   lastNameKana: lastNameKana,
-        //   firstNameKana: firstNameKana,
-        //   email: email
-        // })
+        await createBeautician({
+          lastName: lastName,
+          lastNameKana: lastNameKana,
+          firstName: firstName,
+          firstNameKana: firstNameKana,
+          email: email
+        })
         // setGuest(response.guest)
-        // history.push("/guest")
+        history.push("/")
       } catch (error) {
         deleteAuthToken()
         deleteUser()
