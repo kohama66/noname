@@ -98,7 +98,7 @@ func (b *beautician) Find(ctx context.Context, r *requestmodel.BeauticianFind) (
 }
 
 func (b *beautician) Get(ctx context.Context, r *requestmodel.BeauticianGet) (*responsemodel.BeauticianGet, error) {
-	ent, err := b.beauticianRepository.GetByRandID(ctx, r.RandID)
+	ent, err := b.beauticianRepository.GetByAuthID(ctx, r.AuthID)
 	if err != nil {
 		return nil, err
 	}

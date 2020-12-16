@@ -41,5 +41,5 @@ type BeauticianFind struct {
 
 // BeauticianGet 美容師情報取得構造体
 type BeauticianGet struct {
-	RandID string `json:"-"`
+	AuthID string `json:"-"`
 }

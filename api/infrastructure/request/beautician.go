@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/go-chi/chi"
 	"github.com/gorilla/schema"
 	"github.com/myapp/noname/api/application/usecase/requestmodel"
 	"github.com/myapp/noname/api/pkg/context"
@@ -41,9 +40,8 @@ func NewBeauticianFind(req *http.Request) (*requestmodel.BeauticianFind, error) 
 }
 
 // NewBeauticianGet 美容師情報取得request関数
-func NewBeauticianGet(req *http.Request) (*requestmodel.BeauticianGet, error) {
+func NewBeauticianGet(req *http.Request) *requestmodel.BeauticianGet {
 	r := &requestmodel.BeauticianGet{}
-	RandID := chi.URLParam(req, "randID")
-	r.RandID = RandID
-	return r, nil
+	r.AuthID = context.AuthID(req.Context())
+	return r
 }

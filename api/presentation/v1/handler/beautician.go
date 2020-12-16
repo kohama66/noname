@@ -11,7 +11,7 @@ import (
 
 type Beautician interface {
 	Create(w http.ResponseWriter, r *http.Request)
-	Get(w http.ResponseWriter, r *http.Request)
+	GetByAuthID(w http.ResponseWriter, r *http.Request)
 	Find(w http.ResponseWriter, r *http.Request)
 }
 
@@ -52,21 +52,16 @@ func (b beautician) Create(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-// Get
+// GetByAuthID
 // @Summary 美容師情報取得
 // @Accept  json
 // @Produce  json
 // @Param data body requestmodel.BeauticianGet true "Request body"
 // @Success 200 {object} responsemodel.BeauticianGet
 // @Failure 500 {object} resource.Error "Something went wrong"
-// @Router /api/v1/beautician/{randID} [get]
-func (b beautician) Get(w http.ResponseWriter, r *http.Request) {
-	req, err := request.NewBeauticianGet(r)
-	if err != nil {
-		log.Warningf(r.Context(), "BeauticianGet.Request %v", err)
-		factory.ErrorJSON(w, err.Error(), http.StatusBadRequest)
-		return
-	}
+// @Router /api/v1/beautician [get]
+func (b beautician) GetByAuthID(w http.ResponseWriter, r *http.Request) {
+	req := request.NewBeauticianGet(r)
 	res, err := b.beauticianUsecase.Get(r.Context(), req)
 	if err != nil {
 		log.Errorf(r.Context(), "BeauticianGet: %v", err)

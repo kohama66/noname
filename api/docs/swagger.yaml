@@ -1,14 +1,22 @@
 definitions:
   requestmodel.BeauticianCreate:
     properties:
-      age:
-        type: integer
+      email:
+        type: string
       firstName:
+        type: string
+      firstNameKana:
         type: string
       lastName:
         type: string
-      phoneNumber:
+      lastNameKana:
         type: string
+    required:
+    - email
+    - firstName
+    - firstNameKana
+    - lastName
+    - lastNameKana
     type: object
   requestmodel.BeauticianFind:
     properties:
@@ -35,15 +43,12 @@ definitions:
         type: string
       lastNameKana:
         type: string
-      phoneNumber:
-        type: string
     required:
     - email
     - firstName
     - firstNameKana
     - lastName
     - lastNameKana
-    - phoneNumber
     type: object
   requestmodel.GuestGet:
     type: object
@@ -98,19 +103,21 @@ definitions:
     type: object
   responsemodel.Beautician:
     properties:
-      age:
-        type: integer
       comment:
         type: string
       createdAt:
         type: string
       firstName:
         type: string
+      firstNameKana:
+        type: string
       id:
         type: integer
       instagramId:
         type: string
       lastName:
+        type: string
+      lastNameKana:
         type: string
       lineId:
         type: string
@@ -127,19 +134,21 @@ definitions:
     type: object
   responsemodel.BeauticianCreate:
     properties:
-      age:
-        type: integer
       comment:
         type: string
       createdAt:
         type: string
       firstName:
         type: string
+      firstNameKana:
+        type: string
       id:
         type: integer
       instagramId:
         type: string
       lastName:
+        type: string
+      lastNameKana:
         type: string
       lineId:
         type: string
@@ -163,19 +172,21 @@ definitions:
     type: object
   responsemodel.BeauticianGet:
     properties:
-      age:
-        type: integer
       comment:
         type: string
       createdAt:
         type: string
       firstName:
         type: string
+      firstNameKana:
+        type: string
       id:
         type: integer
       instagramId:
         type: string
       lastName:
+        type: string
+      lastNameKana:
         type: string
       lineId:
         type: string
@@ -395,29 +406,6 @@ info:
   contact: {}
 paths:
   /api/v1/beautician:
-    post:
-      consumes:
-      - application/json
-      parameters:
-      - description: Request body
-        in: body
-        name: data
-        required: true
-        schema:
-          $ref: '#/definitions/requestmodel.BeauticianCreate'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/responsemodel.BeauticianCreate'
-        "500":
-          description: Something went wrong
-          schema:
-            $ref: '#/definitions/resource.Error'
-      summary: 美容師登録
-  /api/v1/beautician/{randID}:
     get:
       consumes:
       - application/json
@@ -440,6 +428,28 @@ paths:
           schema:
             $ref: '#/definitions/resource.Error'
       summary: 美容師情報取得
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Request body
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/requestmodel.BeauticianCreate'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responsemodel.BeauticianCreate'
+        "500":
+          description: Something went wrong
+          schema:
+            $ref: '#/definitions/resource.Error'
+      summary: 美容師登録
   /api/v1/beautician/find:
     get:
       consumes:

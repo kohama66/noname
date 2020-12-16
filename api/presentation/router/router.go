@@ -45,7 +45,7 @@ func (r *Router) Routes() {
 					r.Group(func(r chi.Router) {
 						r.Use(middleware.AuthAPI)
 						r.Post("/", beauticianController.Create)
-						r.Get("/{randID}", beauticianController.Get)
+						r.Get("/", beauticianController.GetByAuthID)
 					})
 				})
 			})

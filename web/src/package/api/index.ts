@@ -92,7 +92,7 @@ export const findReservation = async (beauticianRandID?: string): Promise<reserv
 }
 
 export const getBeautician = async (randID: string): Promise<beauticianResponse> => {
-  return get<beauticianResponse>(`api/v1/beautician/${randID}`)
+  return get<beauticianResponse>(`api/v1/beautician/`)
 }
 
 export const findMenuDetails = async (beauticianID: string, menuIDs?: string[]): Promise<menuDetailsResponse> => {

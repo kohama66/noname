@@ -1,7 +1,8 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useContext, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { createBeautician } from '../../../../package/api';
 import { deleteUser, signup } from '../../../../package/api/auth';
+import { BeauticainContext, useBeauticianContext } from '../../../../utils/context/BeauticianContext';
 import { deleteAuthToken } from '../../../../utils/function/Cookie';
 import { useError } from '../../../../utils/hooks/Error';
 import Title from '../../guest/parts/Title/Title';
@@ -16,8 +17,9 @@ const SignUp: FC = () => {
   const [email, setEmail] = useState<string>("")
   const [passwoed, setPassword] = useState<string>("")
   const [disabled, setDisabled] = useState<boolean>(false)
-  const {error, customError} = useError()
+  const { error, customError } = useError()
   const history = useHistory()
+  const { setBeauticain } = useContext(BeauticainContext)
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault()
@@ -28,14 +30,14 @@ const SignUp: FC = () => {
         password: passwoed
       })
       try {
-        await createBeautician({
+        const response = await createBeautician({
           lastName: lastName,
           lastNameKana: lastNameKana,
           firstName: firstName,
           firstNameKana: firstNameKana,
           email: email
         })
-        // setGuest(response.guest)
+        setBeauticain(response.beautician)
         history.push("/")
       } catch (error) {
         deleteAuthToken()

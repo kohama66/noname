@@ -1,6 +1,6 @@
 import React, { FC, useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { createReservation, findMenuDetails, getBeautician } from '../../../package/api';
+import { createReservation, findMenuDetails } from '../../../package/api';
 import { initGuest } from '../../../package/interface/Guest';
 import { MenuDetail } from '../../../package/interface/Menu';
 import { GuestContext } from '../../../utils/context/GuestContext';

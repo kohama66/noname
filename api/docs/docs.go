@@ -25,6 +25,40 @@ var doc = `{
     "basePath": "{{.BasePath}}",
     "paths": {
         "/api/v1/beautician": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "美容師情報取得",
+                "parameters": [
+                    {
+                        "description": "Request body",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/requestmodel.BeauticianGet"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/responsemodel.BeauticianGet"
+                        }
+                    },
+                    "500": {
+                        "description": "Something went wrong",
+                        "schema": {
+                            "$ref": "#/definitions/resource.Error"
+                        }
+                    }
+                }
+            },
             "post": {
                 "consumes": [
                     "application/json"
@@ -85,42 +119,6 @@ var doc = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/responsemodel.BeauticianFind"
-                        }
-                    },
-                    "500": {
-                        "description": "Something went wrong",
-                        "schema": {
-                            "$ref": "#/definitions/resource.Error"
-                        }
-                    }
-                }
-            }
-        },
-        "/api/v1/beautician/{randID}": {
-            "get": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "summary": "美容師情報取得",
-                "parameters": [
-                    {
-                        "description": "Request body",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/requestmodel.BeauticianGet"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/responsemodel.BeauticianGet"
                         }
                     },
                     "500": {
@@ -458,17 +456,27 @@ var doc = `{
     "definitions": {
         "requestmodel.BeauticianCreate": {
             "type": "object",
+            "required": [
+                "email",
+                "firstName",
+                "firstNameKana",
+                "lastName",
+                "lastNameKana"
+            ],
             "properties": {
-                "age": {
-                    "type": "integer"
+                "email": {
+                    "type": "string"
                 },
                 "firstName": {
+                    "type": "string"
+                },
+                "firstNameKana": {
                     "type": "string"
                 },
                 "lastName": {
                     "type": "string"
                 },
-                "phoneNumber": {
+                "lastNameKana": {
                     "type": "string"
                 }
             }
@@ -500,8 +508,7 @@ var doc = `{
                 "firstName",
                 "firstNameKana",
                 "lastName",
-                "lastNameKana",
-                "phoneNumber"
+                "lastNameKana"
             ],
             "properties": {
                 "email": {
@@ -517,9 +524,6 @@ var doc = `{
                     "type": "string"
                 },
                 "lastNameKana": {
-                    "type": "string"
-                },
-                "phoneNumber": {
                     "type": "string"
                 }
             }
@@ -607,9 +611,6 @@ var doc = `{
         "responsemodel.Beautician": {
             "type": "object",
             "properties": {
-                "age": {
-                    "type": "integer"
-                },
                 "comment": {
                     "type": "string"
                 },
@@ -619,6 +620,9 @@ var doc = `{
                 "firstName": {
                     "type": "string"
                 },
+                "firstNameKana": {
+                    "type": "string"
+                },
                 "id": {
                     "type": "integer"
                 },
@@ -626,6 +630,9 @@ var doc = `{
                     "type": "string"
                 },
                 "lastName": {
+                    "type": "string"
+                },
+                "lastNameKana": {
                     "type": "string"
                 },
                 "lineId": {
@@ -651,9 +658,6 @@ var doc = `{
         "responsemodel.BeauticianCreate": {
             "type": "object",
             "properties": {
-                "age": {
-                    "type": "integer"
-                },
                 "comment": {
                     "type": "string"
                 },
@@ -663,6 +667,9 @@ var doc = `{
                 "firstName": {
                     "type": "string"
                 },
+                "firstNameKana": {
+                    "type": "string"
+                },
                 "id": {
                     "type": "integer"
                 },
@@ -670,6 +677,9 @@ var doc = `{
                     "type": "string"
                 },
                 "lastName": {
+                    "type": "string"
+                },
+                "lastNameKana": {
                     "type": "string"
                 },
                 "lineId": {
@@ -706,9 +716,6 @@ var doc = `{
         "responsemodel.BeauticianGet": {
             "type": "object",
             "properties": {
-                "age": {
-                    "type": "integer"
-                },
                 "comment": {
                     "type": "string"
                 },
@@ -718,6 +725,9 @@ var doc = `{
                 "firstName": {
                     "type": "string"
                 },
+                "firstNameKana": {
+                    "type": "string"
+                },
                 "id": {
                     "type": "integer"
                 },
@@ -725,6 +735,9 @@ var doc = `{
                     "type": "string"
                 },
                 "lastName": {
+                    "type": "string"
+                },
+                "lastNameKana": {
                     "type": "string"
                 },
                 "lineId": {
