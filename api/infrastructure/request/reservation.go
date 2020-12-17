@@ -39,9 +39,9 @@ func NewReservationFind(req *http.Request) (*requestmodel.ReservationFind, error
 	return r, nil
 }
 
-// NewReservationFindByGuest ゲスト予約履歴取得関数
-func NewReservationFindByGuest(req *http.Request) *requestmodel.ReservationFindByGuest {
-	r := &requestmodel.ReservationFindByGuest{}
+// NewReservationFindByUser ゲスト予約履歴取得関数
+func NewReservationFindByUser(req *http.Request) *requestmodel.ReservationFindByUser {
+	r := &requestmodel.ReservationFindByUser{}
 	r.AuthID = context.AuthID(req.Context())
 	return r
 }

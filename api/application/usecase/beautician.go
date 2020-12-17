@@ -9,7 +9,6 @@ import (
 	"github.com/myapp/noname/api/infrastructure/response"
 
 	"github.com/myapp/noname/api/domain/repository"
-	"github.com/rs/xid"
 )
 
 // Beautician 美容師
@@ -24,6 +23,7 @@ type beautician struct {
 	beauticianResponse   response.Beautician
 	menuRepository       repository.Menu
 	salonRepository      repository.Salon
+	userRepository       repository.User
 }
 
 // NewBeautician usecaseの初期化
@@ -32,25 +32,27 @@ func NewBeautician(
 	beauticianResponse response.Beautician,
 	menuRepository repository.Menu,
 	salonRepository repository.Salon,
+	userRepository repository.User,
 ) Beautician {
 	return &beautician{
 		beauticianRepository: beauticianRepository,
 		beauticianResponse:   beauticianResponse,
 		menuRepository:       menuRepository,
 		salonRepository:      salonRepository,
+		userRepository:       userRepository,
 	}
 }
 
 func (b *beautician) Create(ctx context.Context, r *requestmodel.BeauticianCreate) (*responsemodel.BeauticianCreate, error) {
-	ent := r.NewBeautician(xid.New().String())
-	if err := b.beauticianRepository.Create(ctx, ent); err != nil {
-		return nil, err
-	}
-	bt, err := b.beauticianRepository.GetByAuthID(ctx, ent.AuthID)
+	me, err := b.userRepository.GetByAuthID(ctx, r.AuthID)
 	if err != nil {
 		return nil, err
 	}
-	res := b.beauticianResponse.NewBeauticianCreate(bt)
+	ent := r.NewBeautician(me.ID)
+	if err := b.beauticianRepository.Create(ctx, ent); err != nil {
+		return nil, err
+	}
+	res := b.beauticianResponse.NewBeauticianCreate(ent)
 	return res, nil
 }
 
@@ -98,7 +100,11 @@ func (b *beautician) Find(ctx context.Context, r *requestmodel.BeauticianFind) (
 }
 
 func (b *beautician) Get(ctx context.Context, r *requestmodel.BeauticianGet) (*responsemodel.BeauticianGet, error) {
-	ent, err := b.beauticianRepository.GetByAuthID(ctx, r.AuthID)
+	us, err := b.userRepository.GetByAuthID(ctx, r.AuthID)
+	if err != nil {
+		return nil, err
+	}
+	ent, err := b.beauticianRepository.GetByUserID(ctx, us.ID)
 	if err != nil {
 		return nil, err
 	}

@@ -9,7 +9,7 @@ import (
 type Beautician interface {
 	NewBeauticianCreate(ent *entity.Beautician) *responsemodel.BeauticianCreate
 	NewBeauticianGet(ent *entity.Beautician) *responsemodel.BeauticianGet
-	NewBeauticianFind(ents []*entity.Beautician) *responsemodel.BeauticianFind
+	NewBeauticianFind(ents []*entity.User) *responsemodel.BeauticianFind
 }
 
 type beautician struct {
@@ -23,19 +23,19 @@ func NewBeautician() Beautician {
 // NewResponseModelBeautician エンティティーをレスポンスへ変換
 func NewResponseModelBeautician(ent *entity.Beautician) *responsemodel.Beautician {
 	return &responsemodel.Beautician{
-		ID:            ent.ID,
-		RandID:        ent.RandID,
-		FirstName:     ent.FirstName,
-		LastName:      ent.LastName,
-		FirstNameKana: ent.FirstNameKana,
-		LastNameKana:  ent.LastNameKana,
-		PhoneNumber:   ent.PhoneNumber,
-		LineID:        ent.LineID,
-		InstagramID:   ent.InstagramID,
-		Comment:       ent.Comment,
-		Menus:         NewBeauticianMenusResponsemodel(ent.R.BeauticianMenus),
-		CreatedAt:     ent.CreatedAt,
-		UpdatedAt:     ent.UpdatedAt,
+		// ID:            ent.ID,
+		// RandID:        ent.RandID,
+		// FirstName:     ent.FirstName,
+		// LastName:      ent.LastName,
+		// FirstNameKana: ent.FirstNameKana,
+		// LastNameKana:  ent.LastNameKana,
+		// PhoneNumber:   ent.PhoneNumber,
+		LineID:      ent.LineID.Ptr(),
+		InstagramID: ent.InstagramID.Ptr(),
+		// Comment:       ent.Comment,
+		// Menus:         NewBeauticianMenusResponsemodel(ent.R.BeauticianMenus),
+		CreatedAt: ent.CreatedAt,
+		UpdatedAt: ent.UpdatedAt,
 	}
 }
 
@@ -53,10 +53,10 @@ func (b *beautician) NewBeauticianGet(ent *entity.Beautician) *responsemodel.Bea
 	}
 }
 
-func (b *beautician) NewBeauticianFind(ents []*entity.Beautician) *responsemodel.BeauticianFind {
-	bs := make([]*responsemodel.Beautician, len(ents))
+func (b *beautician) NewBeauticianFind(ents []*entity.User) *responsemodel.BeauticianFind {
+	bs := make([]*responsemodel.User, len(ents))
 	for i, v := range ents {
-		bs[i] = NewResponseModelBeautician(v)
+		bs[i] = NewUserResponsemodel(v)
 	}
 	return &responsemodel.BeauticianFind{
 		Beauticians: bs,

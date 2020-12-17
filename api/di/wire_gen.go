@@ -22,21 +22,22 @@ func InitBeautician() handler.Beautician {
 	responseBeautician := response.NewBeautician()
 	menu := repository.NewMenu(conn)
 	salon := repository.NewSalon(conn)
-	usecaseBeautician := usecase.NewBeautician(beautician, responseBeautician, menu, salon)
+	user := repository.NewUser(conn)
+	usecaseBeautician := usecase.NewBeautician(beautician, responseBeautician, menu, salon, user)
 	handlerBeautician := handler.NewBeautician(usecaseBeautician)
 	return handlerBeautician
 }
 
 func InitReservation() handler.Reservation {
 	conn := db.New()
-	guest := repository.NewGuest(conn)
+	user := repository.NewUser(conn)
 	reservation := entityx.NewReservation()
 	repositoryReservation := repository.NewReservation(conn, reservation)
 	responseReservation := response.NewReservation()
 	beautician := repository.NewBeautician(conn)
 	salon := repository.NewSalon(conn)
 	menu := repository.NewMenu(conn)
-	usecaseReservation := usecase.NewReservation(guest, repositoryReservation, responseReservation, beautician, salon, menu)
+	usecaseReservation := usecase.NewReservation(user, repositoryReservation, responseReservation, beautician, salon, menu)
 	handlerReservation := handler.NewReservation(usecaseReservation)
 	return handlerReservation
 }
@@ -45,8 +46,8 @@ func InitSalon() handler.Salon {
 	conn := db.New()
 	salon := repository.NewSalon(conn)
 	responseSalon := response.NewSalon()
-	beautician := repository.NewBeautician(conn)
-	usecaseSalon := usecase.NewSalon(salon, responseSalon, beautician)
+	user := repository.NewUser(conn)
+	usecaseSalon := usecase.NewSalon(salon, responseSalon, user)
 	handlerSalon := handler.NewSalon(usecaseSalon)
 	return handlerSalon
 }
@@ -55,19 +56,19 @@ func InitMenu() handler.Menu {
 	conn := db.New()
 	menu := repository.NewMenu(conn)
 	responseMenu := response.NewMenu()
-	beautician := repository.NewBeautician(conn)
-	usecaseMenu := usecase.NewMenu(menu, responseMenu, beautician)
+	user := repository.NewUser(conn)
+	usecaseMenu := usecase.NewMenu(menu, responseMenu, user)
 	handlerMenu := handler.NewMenu(usecaseMenu)
 	return handlerMenu
 }
 
-func InitGuest() handler.Guest {
+func InitUser() handler.User {
 	conn := db.New()
-	guest := repository.NewGuest(conn)
-	responseGuest := response.NewGuest()
+	user := repository.NewUser(conn)
+	responseUser := response.NewUser()
 	reservation := entityx.NewReservation()
 	repositoryReservation := repository.NewReservation(conn, reservation)
-	usecaseGuest := usecase.NewGuest(guest, responseGuest, repositoryReservation)
-	handlerGuest := handler.NewGuest(usecaseGuest)
-	return handlerGuest
+	usecaseUser := usecase.NewUser(user, responseUser, repositoryReservation)
+	handlerUser := handler.NewUser(usecaseUser)
+	return handlerUser
 }

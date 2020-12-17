@@ -68,8 +68,8 @@ func (r *reservation) FindByBeautician(ctx context.Context, beauticianID int64) 
 	).All(ctx, r.Conn)
 }
 
-func (r *reservation) FindByGuest(ctx context.Context, guestID int64) ([]*entityx.ReservationGetByGuest, error) {
-	var results []*entityx.ReservationGetByGuest
+func (r *reservation) FindByUser(ctx context.Context, userID int64) ([]*entityx.ReservationGetByUser, error) {
+	var results []*entityx.ReservationGetByUser
 	if err := entity.NewQuery(
 		qm.Select("*"),
 		qm.Select("salons.name AS salon_name"),
@@ -77,10 +77,10 @@ func (r *reservation) FindByGuest(ctx context.Context, guestID int64) ([]*entity
 		qm.From(entity.TableNames.Reservations),
 		qm.InnerJoin("spaces ON spaces.id = reservations.space_id"),
 		qm.InnerJoin("salons ON salons.id = spaces.salon_id"),
-		qm.InnerJoin("beauticians ON beauticians.id = reservations.beautician_id"),
+		qm.InnerJoin("users ON users.id = reservations.beautician_id"),
 		qm.OrderBy("reservations.id DESC"),
 		entity.ReservationWhere.DeletedAt.IsNull(),
-		entity.ReservationWhere.GuestID.EQ(guestID),
+		entity.ReservationWhere.UserID.EQ(userID),
 	).Bind(ctx, r.Conn, &results); err != nil {
 		return nil, err
 	}
@@ -88,7 +88,7 @@ func (r *reservation) FindByGuest(ctx context.Context, guestID int64) ([]*entity
 		qm.Load(entity.BeauticianMenuRels.ReservationMenus),
 		qm.InnerJoin("reservation_menus ON reservation_menus.beautician_menu_id = beautician_menus.id"),
 		qm.InnerJoin("reservations ON reservations.id = reservation_menus.reservation_id"),
-		entity.ReservationWhere.GuestID.EQ(guestID),
+		entity.ReservationWhere.UserID.EQ(userID),
 		entity.BeauticianMenuWhere.DeletedAt.IsNull(),
 	).All(ctx, r.Conn)
 	if err != nil {

@@ -15,32 +15,32 @@ type Salon interface {
 }
 
 type salon struct {
-	salonRepository      repository.Salon
-	salonResponse        response.Salon
-	beauticianRepository repository.Beautician
+	salonRepository repository.Salon
+	salonResponse   response.Salon
+	userRepository  repository.User
 }
 
 // NewSalon DI初期化関数
 func NewSalon(
 	salonRepository repository.Salon,
 	salonResponse response.Salon,
-	beauticianRepository repository.Beautician,
+	userRepository repository.User,
 ) Salon {
 	return &salon{
-		salonRepository:      salonRepository,
-		salonResponse:        salonResponse,
-		beauticianRepository: beauticianRepository,
+		salonRepository: salonRepository,
+		salonResponse:   salonResponse,
+		userRepository:  userRepository,
 	}
 }
 
 func (s *salon) Find(ctx context.Context, r *requestmodel.SalonFind) (*responsemodel.SalonFind, error) {
 	var beauticianID *int64
-	if r.BeauticianRandID != "" {
-		bt, err := s.beauticianRepository.GetByRandID(ctx, r.BeauticianRandID)
+	if r.BeauticianRandID != nil {
+		us, err := s.userRepository.GetByRandID(ctx, *r.BeauticianRandID)
 		if err != nil {
 			return nil, err
 		}
-		beauticianID = &bt.ID
+		beauticianID = &us.ID
 	}
 	sl, err := s.salonRepository.Find(ctx, beauticianID, r.Date)
 	if err != nil {

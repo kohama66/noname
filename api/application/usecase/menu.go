@@ -17,28 +17,28 @@ type Menu interface {
 }
 
 type menu struct {
-	menuRepository       repository.Menu
-	menuResponse         response.Menu
-	beauticianRepository repository.Beautician
+	menuRepository repository.Menu
+	menuResponse   response.Menu
+	userRepository repository.User
 }
 
 // NewMenu Di初期化関数
 func NewMenu(
 	menuRepository repository.Menu,
 	menuResponse response.Menu,
-	beauticianRepository repository.Beautician,
+	userRepository repository.User,
 ) Menu {
 	return &menu{
-		menuRepository:       menuRepository,
-		menuResponse:         menuResponse,
-		beauticianRepository: beauticianRepository,
+		menuRepository: menuRepository,
+		menuResponse:   menuResponse,
+		userRepository: userRepository,
 	}
 }
 
 func (m *menu) Find(ctx context.Context, r *requestmodel.MenuFind) (*responsemodel.MenuFind, error) {
 	var menus []*entity.Menu
 	if r.BeauticianRandID != "" {
-		bt, err := m.beauticianRepository.GetByRandID(ctx, r.BeauticianRandID)
+		bt, err := m.userRepository.GetByRandID(ctx, r.BeauticianRandID)
 		if err != nil {
 			return nil, err
 		}
@@ -58,7 +58,7 @@ func (m *menu) Find(ctx context.Context, r *requestmodel.MenuFind) (*responsemod
 }
 
 func (m *menu) FindByBeauticianWithMenuRandIDs(ctx context.Context, r *requestmodel.MenuFindByBeauticianWithMenuRandIDs) (*responsemodel.MenuFindByBeauticianWithMenuRandIDs, error) {
-	bt, err := m.beauticianRepository.GetByRandID(ctx, r.BeauticianRandID)
+	bt, err := m.userRepository.GetByRandID(ctx, r.BeauticianRandID)
 	if err != nil {
 		return nil, err
 	}

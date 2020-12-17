@@ -24,109 +24,89 @@ import (
 
 // Beautician is an object representing the database table.
 type Beautician struct {
-	ID            int64     `boil:"id" json:"id" toml:"id" yaml:"id"`
-	AuthID        string    `boil:"auth_id" json:"auth_id" toml:"auth_id" yaml:"auth_id"`
-	RandID        string    `boil:"rand_id" json:"rand_id" toml:"rand_id" yaml:"rand_id"`
-	FirstName     string    `boil:"first_name" json:"first_name" toml:"first_name" yaml:"first_name"`
-	LastName      string    `boil:"last_name" json:"last_name" toml:"last_name" yaml:"last_name"`
-	FirstNameKana string    `boil:"first_name_kana" json:"first_name_kana" toml:"first_name_kana" yaml:"first_name_kana"`
-	LastNameKana  string    `boil:"last_name_kana" json:"last_name_kana" toml:"last_name_kana" yaml:"last_name_kana"`
-	Email         string    `boil:"email" json:"email" toml:"email" yaml:"email"`
-	PhoneNumber   string    `boil:"phone_number" json:"phone_number" toml:"phone_number" yaml:"phone_number"`
-	LineID        string    `boil:"line_id" json:"line_id" toml:"line_id" yaml:"line_id"`
-	InstagramID   string    `boil:"instagram_id" json:"instagram_id" toml:"instagram_id" yaml:"instagram_id"`
-	Comment       string    `boil:"comment" json:"comment" toml:"comment" yaml:"comment"`
-	CreatedAt     time.Time `boil:"created_at" json:"created_at" toml:"created_at" yaml:"created_at"`
-	UpdatedAt     time.Time `boil:"updated_at" json:"updated_at" toml:"updated_at" yaml:"updated_at"`
-	DeletedAt     null.Time `boil:"deleted_at" json:"deleted_at,omitempty" toml:"deleted_at" yaml:"deleted_at,omitempty"`
+	UserID      int64       `boil:"user_id" json:"user_id" toml:"user_id" yaml:"user_id"`
+	LineID      null.String `boil:"line_id" json:"line_id,omitempty" toml:"line_id" yaml:"line_id,omitempty"`
+	InstagramID null.String `boil:"instagram_id" json:"instagram_id,omitempty" toml:"instagram_id" yaml:"instagram_id,omitempty"`
+	Comment     null.String `boil:"comment" json:"comment,omitempty" toml:"comment" yaml:"comment,omitempty"`
+	CreatedAt   time.Time   `boil:"created_at" json:"created_at" toml:"created_at" yaml:"created_at"`
+	UpdatedAt   time.Time   `boil:"updated_at" json:"updated_at" toml:"updated_at" yaml:"updated_at"`
+	DeletedAt   null.Time   `boil:"deleted_at" json:"deleted_at,omitempty" toml:"deleted_at" yaml:"deleted_at,omitempty"`
 
 	R *beauticianR `boil:"-" json:"-" toml:"-" yaml:"-"`
 	L beauticianL  `boil:"-" json:"-" toml:"-" yaml:"-"`
 }
 
 var BeauticianColumns = struct {
-	ID            string
-	AuthID        string
-	RandID        string
-	FirstName     string
-	LastName      string
-	FirstNameKana string
-	LastNameKana  string
-	Email         string
-	PhoneNumber   string
-	LineID        string
-	InstagramID   string
-	Comment       string
-	CreatedAt     string
-	UpdatedAt     string
-	DeletedAt     string
+	UserID      string
+	LineID      string
+	InstagramID string
+	Comment     string
+	CreatedAt   string
+	UpdatedAt   string
+	DeletedAt   string
 }{
-	ID:            "id",
-	AuthID:        "auth_id",
-	RandID:        "rand_id",
-	FirstName:     "first_name",
-	LastName:      "last_name",
-	FirstNameKana: "first_name_kana",
-	LastNameKana:  "last_name_kana",
-	Email:         "email",
-	PhoneNumber:   "phone_number",
-	LineID:        "line_id",
-	InstagramID:   "instagram_id",
-	Comment:       "comment",
-	CreatedAt:     "created_at",
-	UpdatedAt:     "updated_at",
-	DeletedAt:     "deleted_at",
+	UserID:      "user_id",
+	LineID:      "line_id",
+	InstagramID: "instagram_id",
+	Comment:     "comment",
+	CreatedAt:   "created_at",
+	UpdatedAt:   "updated_at",
+	DeletedAt:   "deleted_at",
 }
 
 // Generated where
 
+type whereHelpernull_String struct{ field string }
+
+func (w whereHelpernull_String) EQ(x null.String) qm.QueryMod {
+	return qmhelper.WhereNullEQ(w.field, false, x)
+}
+func (w whereHelpernull_String) NEQ(x null.String) qm.QueryMod {
+	return qmhelper.WhereNullEQ(w.field, true, x)
+}
+func (w whereHelpernull_String) IsNull() qm.QueryMod    { return qmhelper.WhereIsNull(w.field) }
+func (w whereHelpernull_String) IsNotNull() qm.QueryMod { return qmhelper.WhereIsNotNull(w.field) }
+func (w whereHelpernull_String) LT(x null.String) qm.QueryMod {
+	return qmhelper.Where(w.field, qmhelper.LT, x)
+}
+func (w whereHelpernull_String) LTE(x null.String) qm.QueryMod {
+	return qmhelper.Where(w.field, qmhelper.LTE, x)
+}
+func (w whereHelpernull_String) GT(x null.String) qm.QueryMod {
+	return qmhelper.Where(w.field, qmhelper.GT, x)
+}
+func (w whereHelpernull_String) GTE(x null.String) qm.QueryMod {
+	return qmhelper.Where(w.field, qmhelper.GTE, x)
+}
+
 var BeauticianWhere = struct {
-	ID            whereHelperint64
-	AuthID        whereHelperstring
-	RandID        whereHelperstring
-	FirstName     whereHelperstring
-	LastName      whereHelperstring
-	FirstNameKana whereHelperstring
-	LastNameKana  whereHelperstring
-	Email         whereHelperstring
-	PhoneNumber   whereHelperstring
-	LineID        whereHelperstring
-	InstagramID   whereHelperstring
-	Comment       whereHelperstring
-	CreatedAt     whereHelpertime_Time
-	UpdatedAt     whereHelpertime_Time
-	DeletedAt     whereHelpernull_Time
+	UserID      whereHelperint64
+	LineID      whereHelpernull_String
+	InstagramID whereHelpernull_String
+	Comment     whereHelpernull_String
+	CreatedAt   whereHelpertime_Time
+	UpdatedAt   whereHelpertime_Time
+	DeletedAt   whereHelpernull_Time
 }{
-	ID:            whereHelperint64{field: "`beauticians`.`id`"},
-	AuthID:        whereHelperstring{field: "`beauticians`.`auth_id`"},
-	RandID:        whereHelperstring{field: "`beauticians`.`rand_id`"},
-	FirstName:     whereHelperstring{field: "`beauticians`.`first_name`"},
-	LastName:      whereHelperstring{field: "`beauticians`.`last_name`"},
-	FirstNameKana: whereHelperstring{field: "`beauticians`.`first_name_kana`"},
-	LastNameKana:  whereHelperstring{field: "`beauticians`.`last_name_kana`"},
-	Email:         whereHelperstring{field: "`beauticians`.`email`"},
-	PhoneNumber:   whereHelperstring{field: "`beauticians`.`phone_number`"},
-	LineID:        whereHelperstring{field: "`beauticians`.`line_id`"},
-	InstagramID:   whereHelperstring{field: "`beauticians`.`instagram_id`"},
-	Comment:       whereHelperstring{field: "`beauticians`.`comment`"},
-	CreatedAt:     whereHelpertime_Time{field: "`beauticians`.`created_at`"},
-	UpdatedAt:     whereHelpertime_Time{field: "`beauticians`.`updated_at`"},
-	DeletedAt:     whereHelpernull_Time{field: "`beauticians`.`deleted_at`"},
+	UserID:      whereHelperint64{field: "`beauticians`.`user_id`"},
+	LineID:      whereHelpernull_String{field: "`beauticians`.`line_id`"},
+	InstagramID: whereHelpernull_String{field: "`beauticians`.`instagram_id`"},
+	Comment:     whereHelpernull_String{field: "`beauticians`.`comment`"},
+	CreatedAt:   whereHelpertime_Time{field: "`beauticians`.`created_at`"},
+	UpdatedAt:   whereHelpertime_Time{field: "`beauticians`.`updated_at`"},
+	DeletedAt:   whereHelpernull_Time{field: "`beauticians`.`deleted_at`"},
 }
 
 // BeauticianRels is where relationship names are stored.
 var BeauticianRels = struct {
-	BeauticianMenus string
-	Reservations    string
+	User string
 }{
-	BeauticianMenus: "BeauticianMenus",
-	Reservations:    "Reservations",
+	User: "User",
 }
 
 // beauticianR is where relationships are stored.
 type beauticianR struct {
-	BeauticianMenus BeauticianMenuSlice
-	Reservations    ReservationSlice
+	User *User
 }
 
 // NewStruct creates a new relationship struct
@@ -138,10 +118,10 @@ func (*beauticianR) NewStruct() *beauticianR {
 type beauticianL struct{}
 
 var (
-	beauticianAllColumns            = []string{"id", "auth_id", "rand_id", "first_name", "last_name", "first_name_kana", "last_name_kana", "email", "phone_number", "line_id", "instagram_id", "comment", "created_at", "updated_at", "deleted_at"}
-	beauticianColumnsWithoutDefault = []string{"auth_id", "rand_id", "first_name", "last_name", "first_name_kana", "last_name_kana", "email", "phone_number", "line_id", "instagram_id", "comment", "created_at", "updated_at", "deleted_at"}
-	beauticianColumnsWithDefault    = []string{"id"}
-	beauticianPrimaryKeyColumns     = []string{"id"}
+	beauticianAllColumns            = []string{"user_id", "line_id", "instagram_id", "comment", "created_at", "updated_at", "deleted_at"}
+	beauticianColumnsWithoutDefault = []string{"user_id", "line_id", "instagram_id", "comment", "created_at", "updated_at", "deleted_at"}
+	beauticianColumnsWithDefault    = []string{}
+	beauticianPrimaryKeyColumns     = []string{"user_id"}
 )
 
 type (
@@ -419,51 +399,23 @@ func (q beauticianQuery) Exists(ctx context.Context, exec boil.ContextExecutor) 
 	return count > 0, nil
 }
 
-// BeauticianMenus retrieves all the beautician_menu's BeauticianMenus with an executor.
-func (o *Beautician) BeauticianMenus(mods ...qm.QueryMod) beauticianMenuQuery {
-	var queryMods []qm.QueryMod
-	if len(mods) != 0 {
-		queryMods = append(queryMods, mods...)
+// User pointed to by the foreign key.
+func (o *Beautician) User(mods ...qm.QueryMod) userQuery {
+	queryMods := []qm.QueryMod{
+		qm.Where("`id` = ?", o.UserID),
 	}
 
-	queryMods = append(queryMods,
-		qm.Where("`beautician_menus`.`beautician_id`=?", o.ID),
-	)
+	queryMods = append(queryMods, mods...)
 
-	query := BeauticianMenus(queryMods...)
-	queries.SetFrom(query.Query, "`beautician_menus`")
-
-	if len(queries.GetSelect(query.Query)) == 0 {
-		queries.SetSelect(query.Query, []string{"`beautician_menus`.*"})
-	}
+	query := Users(queryMods...)
+	queries.SetFrom(query.Query, "`users`")
 
 	return query
 }
 
-// Reservations retrieves all the reservation's Reservations with an executor.
-func (o *Beautician) Reservations(mods ...qm.QueryMod) reservationQuery {
-	var queryMods []qm.QueryMod
-	if len(mods) != 0 {
-		queryMods = append(queryMods, mods...)
-	}
-
-	queryMods = append(queryMods,
-		qm.Where("`reservations`.`beautician_id`=?", o.ID),
-	)
-
-	query := Reservations(queryMods...)
-	queries.SetFrom(query.Query, "`reservations`")
-
-	if len(queries.GetSelect(query.Query)) == 0 {
-		queries.SetSelect(query.Query, []string{"`reservations`.*"})
-	}
-
-	return query
-}
-
-// LoadBeauticianMenus allows an eager lookup of values, cached into the
-// loaded structs of the objects. This is for a 1-M or N-M relationship.
-func (beauticianL) LoadBeauticianMenus(ctx context.Context, e boil.ContextExecutor, singular bool, maybeBeautician interface{}, mods queries.Applicator) error {
+// LoadUser allows an eager lookup of values, cached into the
+// loaded structs of the objects. This is for an N-1 relationship.
+func (beauticianL) LoadUser(ctx context.Context, e boil.ContextExecutor, singular bool, maybeBeautician interface{}, mods queries.Applicator) error {
 	var slice []*Beautician
 	var object *Beautician
 
@@ -478,7 +430,8 @@ func (beauticianL) LoadBeauticianMenus(ctx context.Context, e boil.ContextExecut
 		if object.R == nil {
 			object.R = &beauticianR{}
 		}
-		args = append(args, object.ID)
+		args = append(args, object.UserID)
+
 	} else {
 	Outer:
 		for _, obj := range slice {
@@ -487,12 +440,13 @@ func (beauticianL) LoadBeauticianMenus(ctx context.Context, e boil.ContextExecut
 			}
 
 			for _, a := range args {
-				if a == obj.ID {
+				if a == obj.UserID {
 					continue Outer
 				}
 			}
 
-			args = append(args, obj.ID)
+			args = append(args, obj.UserID)
+
 		}
 	}
 
@@ -500,52 +454,56 @@ func (beauticianL) LoadBeauticianMenus(ctx context.Context, e boil.ContextExecut
 		return nil
 	}
 
-	query := NewQuery(qm.From(`beautician_menus`), qm.WhereIn(`beautician_menus.beautician_id in ?`, args...))
+	query := NewQuery(qm.From(`users`), qm.WhereIn(`users.id in ?`, args...))
 	if mods != nil {
 		mods.Apply(query)
 	}
 
 	results, err := query.QueryContext(ctx, e)
 	if err != nil {
-		return errors.Wrap(err, "failed to eager load beautician_menus")
+		return errors.Wrap(err, "failed to eager load User")
 	}
 
-	var resultSlice []*BeauticianMenu
+	var resultSlice []*User
 	if err = queries.Bind(results, &resultSlice); err != nil {
-		return errors.Wrap(err, "failed to bind eager loaded slice beautician_menus")
+		return errors.Wrap(err, "failed to bind eager loaded slice User")
 	}
 
 	if err = results.Close(); err != nil {
-		return errors.Wrap(err, "failed to close results in eager load on beautician_menus")
+		return errors.Wrap(err, "failed to close results of eager load for users")
 	}
 	if err = results.Err(); err != nil {
-		return errors.Wrap(err, "error occurred during iteration of eager loaded relations for beautician_menus")
+		return errors.Wrap(err, "error occurred during iteration of eager loaded relations for users")
 	}
 
-	if len(beauticianMenuAfterSelectHooks) != 0 {
+	if len(beauticianAfterSelectHooks) != 0 {
 		for _, obj := range resultSlice {
 			if err := obj.doAfterSelectHooks(ctx, e); err != nil {
 				return err
 			}
 		}
 	}
-	if singular {
-		object.R.BeauticianMenus = resultSlice
-		for _, foreign := range resultSlice {
-			if foreign.R == nil {
-				foreign.R = &beauticianMenuR{}
-			}
-			foreign.R.Beautician = object
-		}
+
+	if len(resultSlice) == 0 {
 		return nil
 	}
 
-	for _, foreign := range resultSlice {
-		for _, local := range slice {
-			if local.ID == foreign.BeauticianID {
-				local.R.BeauticianMenus = append(local.R.BeauticianMenus, foreign)
+	if singular {
+		foreign := resultSlice[0]
+		object.R.User = foreign
+		if foreign.R == nil {
+			foreign.R = &userR{}
+		}
+		foreign.R.Beautician = object
+		return nil
+	}
+
+	for _, local := range slice {
+		for _, foreign := range resultSlice {
+			if local.UserID == foreign.ID {
+				local.R.User = foreign
 				if foreign.R == nil {
-					foreign.R = &beauticianMenuR{}
+					foreign.R = &userR{}
 				}
 				foreign.R.Beautician = local
 				break
@@ -556,204 +514,50 @@ func (beauticianL) LoadBeauticianMenus(ctx context.Context, e boil.ContextExecut
 	return nil
 }
 
-// LoadReservations allows an eager lookup of values, cached into the
-// loaded structs of the objects. This is for a 1-M or N-M relationship.
-func (beauticianL) LoadReservations(ctx context.Context, e boil.ContextExecutor, singular bool, maybeBeautician interface{}, mods queries.Applicator) error {
-	var slice []*Beautician
-	var object *Beautician
-
-	if singular {
-		object = maybeBeautician.(*Beautician)
-	} else {
-		slice = *maybeBeautician.(*[]*Beautician)
-	}
-
-	args := make([]interface{}, 0, 1)
-	if singular {
-		if object.R == nil {
-			object.R = &beauticianR{}
-		}
-		args = append(args, object.ID)
-	} else {
-	Outer:
-		for _, obj := range slice {
-			if obj.R == nil {
-				obj.R = &beauticianR{}
-			}
-
-			for _, a := range args {
-				if a == obj.ID {
-					continue Outer
-				}
-			}
-
-			args = append(args, obj.ID)
-		}
-	}
-
-	if len(args) == 0 {
-		return nil
-	}
-
-	query := NewQuery(qm.From(`reservations`), qm.WhereIn(`reservations.beautician_id in ?`, args...))
-	if mods != nil {
-		mods.Apply(query)
-	}
-
-	results, err := query.QueryContext(ctx, e)
-	if err != nil {
-		return errors.Wrap(err, "failed to eager load reservations")
-	}
-
-	var resultSlice []*Reservation
-	if err = queries.Bind(results, &resultSlice); err != nil {
-		return errors.Wrap(err, "failed to bind eager loaded slice reservations")
-	}
-
-	if err = results.Close(); err != nil {
-		return errors.Wrap(err, "failed to close results in eager load on reservations")
-	}
-	if err = results.Err(); err != nil {
-		return errors.Wrap(err, "error occurred during iteration of eager loaded relations for reservations")
-	}
-
-	if len(reservationAfterSelectHooks) != 0 {
-		for _, obj := range resultSlice {
-			if err := obj.doAfterSelectHooks(ctx, e); err != nil {
-				return err
-			}
-		}
-	}
-	if singular {
-		object.R.Reservations = resultSlice
-		for _, foreign := range resultSlice {
-			if foreign.R == nil {
-				foreign.R = &reservationR{}
-			}
-			foreign.R.Beautician = object
-		}
-		return nil
-	}
-
-	for _, foreign := range resultSlice {
-		for _, local := range slice {
-			if local.ID == foreign.BeauticianID {
-				local.R.Reservations = append(local.R.Reservations, foreign)
-				if foreign.R == nil {
-					foreign.R = &reservationR{}
-				}
-				foreign.R.Beautician = local
-				break
-			}
-		}
-	}
-
-	return nil
-}
-
-// AddBeauticianMenus adds the given related objects to the existing relationships
-// of the beautician, optionally inserting them as new records.
-// Appends related to o.R.BeauticianMenus.
-// Sets related.R.Beautician appropriately.
-func (o *Beautician) AddBeauticianMenus(ctx context.Context, exec boil.ContextExecutor, insert bool, related ...*BeauticianMenu) error {
+// SetUser of the beautician to the related item.
+// Sets o.R.User to related.
+// Adds o to related.R.Beautician.
+func (o *Beautician) SetUser(ctx context.Context, exec boil.ContextExecutor, insert bool, related *User) error {
 	var err error
-	for _, rel := range related {
-		if insert {
-			rel.BeauticianID = o.ID
-			if err = rel.Insert(ctx, exec, boil.Infer()); err != nil {
-				return errors.Wrap(err, "failed to insert into foreign table")
-			}
-		} else {
-			updateQuery := fmt.Sprintf(
-				"UPDATE `beautician_menus` SET %s WHERE %s",
-				strmangle.SetParamNames("`", "`", 0, []string{"beautician_id"}),
-				strmangle.WhereClause("`", "`", 0, beauticianMenuPrimaryKeyColumns),
-			)
-			values := []interface{}{o.ID, rel.ID}
-
-			if boil.IsDebug(ctx) {
-				writer := boil.DebugWriterFrom(ctx)
-				fmt.Fprintln(writer, updateQuery)
-				fmt.Fprintln(writer, values)
-			}
-			if _, err = exec.ExecContext(ctx, updateQuery, values...); err != nil {
-				return errors.Wrap(err, "failed to update foreign table")
-			}
-
-			rel.BeauticianID = o.ID
+	if insert {
+		if err = related.Insert(ctx, exec, boil.Infer()); err != nil {
+			return errors.Wrap(err, "failed to insert into foreign table")
 		}
 	}
 
+	updateQuery := fmt.Sprintf(
+		"UPDATE `beauticians` SET %s WHERE %s",
+		strmangle.SetParamNames("`", "`", 0, []string{"user_id"}),
+		strmangle.WhereClause("`", "`", 0, beauticianPrimaryKeyColumns),
+	)
+	values := []interface{}{related.ID, o.UserID}
+
+	if boil.IsDebug(ctx) {
+		writer := boil.DebugWriterFrom(ctx)
+		fmt.Fprintln(writer, updateQuery)
+		fmt.Fprintln(writer, values)
+	}
+	if _, err = exec.ExecContext(ctx, updateQuery, values...); err != nil {
+		return errors.Wrap(err, "failed to update local table")
+	}
+
+	o.UserID = related.ID
 	if o.R == nil {
 		o.R = &beauticianR{
-			BeauticianMenus: related,
+			User: related,
 		}
 	} else {
-		o.R.BeauticianMenus = append(o.R.BeauticianMenus, related...)
+		o.R.User = related
 	}
 
-	for _, rel := range related {
-		if rel.R == nil {
-			rel.R = &beauticianMenuR{
-				Beautician: o,
-			}
-		} else {
-			rel.R.Beautician = o
-		}
-	}
-	return nil
-}
-
-// AddReservations adds the given related objects to the existing relationships
-// of the beautician, optionally inserting them as new records.
-// Appends related to o.R.Reservations.
-// Sets related.R.Beautician appropriately.
-func (o *Beautician) AddReservations(ctx context.Context, exec boil.ContextExecutor, insert bool, related ...*Reservation) error {
-	var err error
-	for _, rel := range related {
-		if insert {
-			rel.BeauticianID = o.ID
-			if err = rel.Insert(ctx, exec, boil.Infer()); err != nil {
-				return errors.Wrap(err, "failed to insert into foreign table")
-			}
-		} else {
-			updateQuery := fmt.Sprintf(
-				"UPDATE `reservations` SET %s WHERE %s",
-				strmangle.SetParamNames("`", "`", 0, []string{"beautician_id"}),
-				strmangle.WhereClause("`", "`", 0, reservationPrimaryKeyColumns),
-			)
-			values := []interface{}{o.ID, rel.ID}
-
-			if boil.IsDebug(ctx) {
-				writer := boil.DebugWriterFrom(ctx)
-				fmt.Fprintln(writer, updateQuery)
-				fmt.Fprintln(writer, values)
-			}
-			if _, err = exec.ExecContext(ctx, updateQuery, values...); err != nil {
-				return errors.Wrap(err, "failed to update foreign table")
-			}
-
-			rel.BeauticianID = o.ID
-		}
-	}
-
-	if o.R == nil {
-		o.R = &beauticianR{
-			Reservations: related,
+	if related.R == nil {
+		related.R = &userR{
+			Beautician: o,
 		}
 	} else {
-		o.R.Reservations = append(o.R.Reservations, related...)
+		related.R.Beautician = o
 	}
 
-	for _, rel := range related {
-		if rel.R == nil {
-			rel.R = &reservationR{
-				Beautician: o,
-			}
-		} else {
-			rel.R.Beautician = o
-		}
-	}
 	return nil
 }
 
@@ -765,7 +569,7 @@ func Beauticians(mods ...qm.QueryMod) beauticianQuery {
 
 // FindBeautician retrieves a single record by ID with an executor.
 // If selectCols is empty Find will return all columns.
-func FindBeautician(ctx context.Context, exec boil.ContextExecutor, iD int64, selectCols ...string) (*Beautician, error) {
+func FindBeautician(ctx context.Context, exec boil.ContextExecutor, userID int64, selectCols ...string) (*Beautician, error) {
 	beauticianObj := &Beautician{}
 
 	sel := "*"
@@ -773,10 +577,10 @@ func FindBeautician(ctx context.Context, exec boil.ContextExecutor, iD int64, se
 		sel = strings.Join(strmangle.IdentQuoteSlice(dialect.LQ, dialect.RQ, selectCols), ",")
 	}
 	query := fmt.Sprintf(
-		"select %s from `beauticians` where `id`=?", sel,
+		"select %s from `beauticians` where `user_id`=?", sel,
 	)
 
-	q := queries.Raw(query, iD)
+	q := queries.Raw(query, userID)
 
 	err := q.Bind(ctx, exec, beauticianObj)
 	if err != nil {
@@ -858,31 +662,20 @@ func (o *Beautician) Insert(ctx context.Context, exec boil.ContextExecutor, colu
 		fmt.Fprintln(writer, cache.query)
 		fmt.Fprintln(writer, vals)
 	}
-	result, err := exec.ExecContext(ctx, cache.query, vals...)
+	_, err = exec.ExecContext(ctx, cache.query, vals...)
 
 	if err != nil {
 		return errors.Wrap(err, "entity: unable to insert into beauticians")
 	}
 
-	var lastID int64
 	var identifierCols []interface{}
 
 	if len(cache.retMapping) == 0 {
 		goto CacheNoHooks
 	}
 
-	lastID, err = result.LastInsertId()
-	if err != nil {
-		return ErrSyncFail
-	}
-
-	o.ID = int64(lastID)
-	if lastID != 0 && len(cache.retMapping) == 1 && cache.retMapping[0] == beauticianMapping["id"] {
-		goto CacheNoHooks
-	}
-
 	identifierCols = []interface{}{
-		o.ID,
+		o.UserID,
 	}
 
 	if boil.IsDebug(ctx) {
@@ -1040,7 +833,7 @@ func (o BeauticianSlice) UpdateAll(ctx context.Context, exec boil.ContextExecuto
 }
 
 var mySQLBeauticianUniqueColumns = []string{
-	"id",
+	"user_id",
 }
 
 // Upsert attempts an insert using an executor, and does an update or ignore on conflict.
@@ -1145,27 +938,16 @@ func (o *Beautician) Upsert(ctx context.Context, exec boil.ContextExecutor, upda
 		fmt.Fprintln(writer, cache.query)
 		fmt.Fprintln(writer, vals)
 	}
-	result, err := exec.ExecContext(ctx, cache.query, vals...)
+	_, err = exec.ExecContext(ctx, cache.query, vals...)
 
 	if err != nil {
 		return errors.Wrap(err, "entity: unable to upsert for beauticians")
 	}
 
-	var lastID int64
 	var uniqueMap []uint64
 	var nzUniqueCols []interface{}
 
 	if len(cache.retMapping) == 0 {
-		goto CacheNoHooks
-	}
-
-	lastID, err = result.LastInsertId()
-	if err != nil {
-		return ErrSyncFail
-	}
-
-	o.ID = int64(lastID)
-	if lastID != 0 && len(cache.retMapping) == 1 && cache.retMapping[0] == beauticianMapping["id"] {
 		goto CacheNoHooks
 	}
 
@@ -1207,7 +989,7 @@ func (o *Beautician) Delete(ctx context.Context, exec boil.ContextExecutor) (int
 	}
 
 	args := queries.ValuesFromMapping(reflect.Indirect(reflect.ValueOf(o)), beauticianPrimaryKeyMapping)
-	sql := "DELETE FROM `beauticians` WHERE `id`=?"
+	sql := "DELETE FROM `beauticians` WHERE `user_id`=?"
 
 	if boil.IsDebug(ctx) {
 		writer := boil.DebugWriterFrom(ctx)
@@ -1304,7 +1086,7 @@ func (o BeauticianSlice) DeleteAll(ctx context.Context, exec boil.ContextExecuto
 // Reload refetches the object from the database
 // using the primary keys with an executor.
 func (o *Beautician) Reload(ctx context.Context, exec boil.ContextExecutor) error {
-	ret, err := FindBeautician(ctx, exec, o.ID)
+	ret, err := FindBeautician(ctx, exec, o.UserID)
 	if err != nil {
 		return err
 	}
@@ -1343,16 +1125,16 @@ func (o *BeauticianSlice) ReloadAll(ctx context.Context, exec boil.ContextExecut
 }
 
 // BeauticianExists checks if the Beautician row exists.
-func BeauticianExists(ctx context.Context, exec boil.ContextExecutor, iD int64) (bool, error) {
+func BeauticianExists(ctx context.Context, exec boil.ContextExecutor, userID int64) (bool, error) {
 	var exists bool
-	sql := "select exists(select 1 from `beauticians` where `id`=? limit 1)"
+	sql := "select exists(select 1 from `beauticians` where `user_id`=? limit 1)"
 
 	if boil.IsDebug(ctx) {
 		writer := boil.DebugWriterFrom(ctx)
 		fmt.Fprintln(writer, sql)
-		fmt.Fprintln(writer, iD)
+		fmt.Fprintln(writer, userID)
 	}
-	row := exec.QueryRowContext(ctx, sql, iD)
+	row := exec.QueryRowContext(ctx, sql, userID)
 
 	err := row.Scan(&exists)
 	if err != nil {

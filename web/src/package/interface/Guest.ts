@@ -10,12 +10,4 @@ export interface Guest {
   phoneNumber: string
 }
 
-// export interface GuestByMyPage {
-//   randId: string
-//   firstName: string
-//   lastName: string
-//   reservations: GuestMyPageReservation[]
-// }
-
 export const initGuest: Guest = <Guest>{}
-// export const initGuestByMyPage: GuestByMyPage = <GuestByMyPage>{}

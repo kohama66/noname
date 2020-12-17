@@ -3,7 +3,6 @@ package usecase
 import (
 	"context"
 	"errors"
-	"fmt"
 	"time"
 
 	"github.com/myapp/noname/api/application/usecase/requestmodel"
@@ -18,11 +17,11 @@ type Reservation interface {
 	Create(ctx context.Context, req *requestmodel.ReservationCreate) (*responsemodel.ReservationCreate, error)
 	FindByBeautician(ctx context.Context, req *requestmodel.ReservationFindByBeautician) (*responsemodel.ReservationFindByBeautician, error)
 	Find(ctx context.Context, req *requestmodel.ReservationFind) (*responsemodel.ReservationFind, error)
-	FindByGuest(ctx context.Context, req *requestmodel.ReservationFindByGuest) (*responsemodel.ReservationFindByGuest, error)
+	FindByUser(ctx context.Context, req *requestmodel.ReservationFindByUser) (*responsemodel.ReservationFindByUser, error)
 }
 
 type reservation struct {
-	guestRepository       repository.Guest
+	userRepository        repository.User
 	reservationRepository repository.Reservation
 	reservationResponse   response.Reservation
 	beauticianRepository  repository.Beautician
@@ -32,7 +31,7 @@ type reservation struct {
 
 // NewReservation DI初期化
 func NewReservation(
-	guestRepository repository.Guest,
+	userRepository repository.User,
 	reservationRepository repository.Reservation,
 	reservationResponse response.Reservation,
 	beauticianRepository repository.Beautician,
@@ -40,7 +39,7 @@ func NewReservation(
 	menuRepository repository.Menu,
 ) Reservation {
 	return &reservation{
-		guestRepository:       guestRepository,
+		userRepository:        userRepository,
 		reservationRepository: reservationRepository,
 		reservationResponse:   reservationResponse,
 		beauticianRepository:  beauticianRepository,
@@ -54,12 +53,11 @@ func (r *reservation) Create(ctx context.Context, req *requestmodel.ReservationC
 	if err != nil {
 		return nil, err
 	}
-	fmt.Println(req.AuthID)
-	gs, err := r.guestRepository.GetByAuthID(ctx, req.AuthID)
+	gs, err := r.userRepository.GetByAuthID(ctx, req.AuthID)
 	if err != nil {
 		return nil, err
 	}
-	bt, err := r.beauticianRepository.GetByRandID(ctx, req.BeauticianID)
+	bt, err := r.userRepository.GetByRandID(ctx, req.BeauticianID)
 	if err != nil {
 		return nil, err
 	}
@@ -108,7 +106,7 @@ func (r *reservation) Create(ctx context.Context, req *requestmodel.ReservationC
 }
 
 func (r *reservation) FindByBeautician(ctx context.Context, req *requestmodel.ReservationFindByBeautician) (*responsemodel.ReservationFindByBeautician, error) {
-	bt, err := r.beauticianRepository.GetByAuthID(ctx, req.AuthID)
+	bt, err := r.userRepository.GetByAuthID(ctx, req.AuthID)
 	if err != nil {
 		return nil, err
 	}
@@ -122,7 +120,7 @@ func (r *reservation) FindByBeautician(ctx context.Context, req *requestmodel.Re
 func (r *reservation) Find(ctx context.Context, req *requestmodel.ReservationFind) (*responsemodel.ReservationFind, error) {
 	var reva []*entity.Reservation
 	if req.BeauticianRandID != "" {
-		bt, err := r.beauticianRepository.GetByRandID(ctx, req.BeauticianRandID)
+		bt, err := r.userRepository.GetByRandID(ctx, req.BeauticianRandID)
 		if err != nil {
 			return nil, err
 		}
@@ -135,14 +133,14 @@ func (r *reservation) Find(ctx context.Context, req *requestmodel.ReservationFin
 	return r.reservationResponse.NewReservationFind(reva), nil
 }
 
-func (r *reservation) FindByGuest(ctx context.Context, req *requestmodel.ReservationFindByGuest) (*responsemodel.ReservationFindByGuest, error) {
-	gs, err := r.guestRepository.GetByAuthID(ctx, req.AuthID)
+func (r *reservation) FindByUser(ctx context.Context, req *requestmodel.ReservationFindByUser) (*responsemodel.ReservationFindByUser, error) {
+	gs, err := r.userRepository.GetByAuthID(ctx, req.AuthID)
 	if err != nil {
 		return nil, err
 	}
-	rv, err := r.reservationRepository.FindByGuest(ctx, gs.ID)
+	rv, err := r.reservationRepository.FindByUser(ctx, gs.ID)
 	if err != nil {
 		return nil, err
 	}
-	return r.reservationResponse.NewReservationFindByGuest(rv), nil
+	return r.reservationResponse.NewReservationFindByUser(rv), nil
 }

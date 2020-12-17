@@ -16,12 +16,12 @@ type ReservationCreate struct {
 }
 
 // NewReservation 予約モデル変換メソッド
-func (r *ReservationCreate) NewReservation(guestID, spaceID, beauticanID int64, date time.Time) *entity.Reservation {
+func (r *ReservationCreate) NewReservation(userID, spaceID, beauticanID int64, date time.Time) *entity.Reservation {
 	return &entity.Reservation{
 		Date:         date,
 		SpaceID:      spaceID,
 		BeauticianID: beauticanID,
-		GuestID:      guestID,
+		UserID:       userID,
 	}
 }
 
@@ -36,7 +36,7 @@ type ReservationFind struct {
 	BeauticianRandID string `schema:"beauticianRandId"`
 }
 
-// ReservationFindByGuest ゲスト予約履歴取得構造体
-type ReservationFindByGuest struct {
+// ReservationFindByUser ゲスト予約履歴取得構造体
+type ReservationFindByUser struct {
 	AuthID string `json:"-"`
 }

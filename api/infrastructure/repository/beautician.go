@@ -24,27 +24,27 @@ func (b *beautician) Create(ctx context.Context, ent *entity.Beautician) error {
 	return ent.Insert(ctx, b.Conn, boil.Infer())
 }
 
-func (b *beautician) GetByAuthID(ctx context.Context, authID string) (*entity.Beautician, error) {
+func (b *beautician) GetByUserID(ctx context.Context, ID int64) (*entity.Beautician, error) {
 	return entity.Beauticians(
-		entity.BeauticianWhere.AuthID.EQ(authID),
+		entity.BeauticianWhere.UserID.EQ(ID),
 		entity.BeauticianWhere.DeletedAt.IsNull(),
-		qm.Load(entity.BeauticianRels.BeauticianMenus),
+		// qm.Load(entity.BeauticianRels.BeauticianMenus),
 	).One(ctx, b.Conn)
 }
 
-func (b *beautician) GetByRandID(ctx context.Context, randID string) (*entity.Beautician, error) {
-	return entity.Beauticians(
-		entity.BeauticianWhere.RandID.EQ(randID),
-		entity.BeauticianWhere.DeletedAt.IsNull(),
-		qm.Load(entity.BeauticianRels.BeauticianMenus),
-	).One(ctx, b.Conn)
-}
+// func (b *beautician) GetByRandID(ctx context.Context, randID string) (*entity.Beautician, error) {
+// 	return entity.Beauticians(
+// 		entity.BeauticianWhere.RandID.EQ(randID),
+// 		entity.BeauticianWhere.DeletedAt.IsNull(),
+// 		qm.Load(entity.BeauticianRels.BeauticianMenus),
+// 	).One(ctx, b.Conn)
+// }
 
-func (b *beautician) GetAll(ctx context.Context) ([]*entity.Beautician, error) {
-	return entity.Beauticians(
-		qm.Load(entity.BeauticianRels.BeauticianMenus),
-		entity.BeauticianWhere.DeletedAt.IsNull(),
-		qm.Load(entity.BeauticianRels.BeauticianMenus),
+func (b *beautician) GetAll(ctx context.Context) ([]*entity.User, error) {
+	return entity.Users(
+		entity.UserWhere.DeletedAt.IsNull(),
+		qm.Load(entity.UserRels.BeauticianBeauticianMenus),
+		qm.Load(entity.UserRels.Beautician),
 	).All(ctx, b.Conn)
 }
 
@@ -91,33 +91,111 @@ func (b *beautician) GetAll(ctx context.Context) ([]*entity.Beautician, error) {
 // 	).All(ctx, b.Conn)
 // }
 
-func (b *beautician) Find(ctx context.Context, date time.Time, salon *int64, menus []int64) ([]*entity.Beautician, error) {
-	var bts entity.BeauticianSlice
+// func (b *beautician) Find(ctx context.Context, date time.Time, salon *int64, menus []int64) ([]*entity.Beautician, error) {
+// 	var bts entity.BeauticianSlice
+// 	var count int64
+// 	if !date.IsZero() {
+// 		bt, err := entity.Beauticians(
+// 			qm.Select(entity.TableNames.Beauticians+".*"),
+// 			qm.LeftOuterJoin(entity.TableNames.Reservations+" ON reservations.beautician_id = beauticians.id"),
+// 			qm.GroupBy("beauticians.id"),
+// 			qm.Having("COUNT(date = ? OR NULL) = 0", date),
+// 			qm.Load(entity.BeauticianRels.BeauticianMenus),
+// 		).All(ctx, b.Conn)
+// 		if err != nil {
+// 			return nil, err
+// 		}
+// 		bts = append(bts, bt...)
+// 		count++
+// 	}
+// 	if salon != nil {
+// 		bt, err := entity.Beauticians(
+// 			entity.BeauticianSalonWhere.SalonID.EQ(*salon),
+// 			qm.InnerJoin("beautician_salons ON beautician_salons.beautician_id = beauticians.id"),
+// 			qm.Load(entity.BeauticianRels.BeauticianMenus),
+// 		).All(ctx, b.Conn)
+// 		if err != nil {
+// 			return nil, err
+// 		}
+// 		bts = append(bts, bt...)
+// 		count++
+// 	}
+// 	if len(menus) != 0 {
+// 		convertedIDs := make([]interface{}, len(menus))
+// 		for i, v := range menus {
+// 			convertedIDs[i] = v
+// 		}
+// 		bt, err := entity.Beauticians(
+// 			qm.Select(entity.TableNames.Beauticians+".*"),
+// 			qm.InnerJoin("beautician_menus ON beautician_menus.beautician_id = beauticians.id"),
+// 			qm.WhereIn("beautician_menus.menu_id IN ?", convertedIDs...),
+// 			qm.GroupBy("beauticians.id"),
+// 			qm.Having("COUNT(*) = ?", len(menus)),
+// 			qm.Load(entity.BeauticianRels.BeauticianMenus),
+// 		).All(ctx, b.Conn)
+// 		if err != nil {
+// 			return nil, err
+// 		}
+// 		bts = append(bts, bt...)
+// 		count++
+// 	}
+// 	if count == 0 {
+// 		return b.GetAll(ctx)
+// 	}
+// 	var beauticians entity.BeauticianSlice
+// 	m := make(map[int64]int64)
+// 	for _, v := range bts {
+// 		if ct, ok := m[v.ID]; !ok {
+// 			m[v.ID]++
+// 			if count == 1 {
+// 				beauticians = append(beauticians, v)
+// 			}
+// 		} else if ct < count {
+// 			m[v.ID]++
+// 			if m[v.ID] == count {
+// 				beauticians = append(beauticians, v)
+// 			}
+// 		}
+// 	}
+// 	return beauticians, nil
+// }
+
+func (b *beautician) FindPossibleSalon(ctx context.Context, beauciaonID int64) (entity.BeauticianSalonSlice, error) {
+	return entity.BeauticianSalons(
+		entity.BeauticianSalonWhere.BeauticianID.EQ(beauciaonID),
+		entity.BeauticianSalonWhere.DeletedAt.IsNull(),
+	).All(ctx, b.Conn)
+}
+
+func (b *beautician) Find(ctx context.Context, date time.Time, salon *int64, menus []int64) ([]*entity.User, error) {
+	var uss entity.UserSlice
 	var count int64
 	if !date.IsZero() {
-		bt, err := entity.Beauticians(
-			qm.Select(entity.TableNames.Beauticians+".*"),
-			qm.LeftOuterJoin(entity.TableNames.Reservations+" ON reservations.beautician_id = beauticians.id"),
-			qm.GroupBy("beauticians.id"),
+		us, err := entity.Users(
+			qm.Select(entity.TableNames.Users+".*"),
+			qm.LeftOuterJoin(entity.TableNames.Reservations+" ON reservations.beautician_id = users.id"),
+			qm.GroupBy("users.id"),
 			qm.Having("COUNT(date = ? OR NULL) = 0", date),
-			qm.Load(entity.BeauticianRels.BeauticianMenus),
+			qm.Load(entity.UserRels.BeauticianBeauticianMenus),
+			qm.Load(entity.UserRels.Beautician),
 		).All(ctx, b.Conn)
 		if err != nil {
 			return nil, err
 		}
-		bts = append(bts, bt...)
+		uss = append(uss, us...)
 		count++
 	}
 	if salon != nil {
-		bt, err := entity.Beauticians(
+		us, err := entity.Users(
 			entity.BeauticianSalonWhere.SalonID.EQ(*salon),
-			qm.InnerJoin("beautician_salons ON beautician_salons.beautician_id = beauticians.id"),
-			qm.Load(entity.BeauticianRels.BeauticianMenus),
+			qm.InnerJoin("beautician_salons ON beautician_salons.beautician_id = users.id"),
+			qm.Load(entity.UserRels.BeauticianBeauticianMenus),
+			qm.Load(entity.UserRels.Beautician),
 		).All(ctx, b.Conn)
 		if err != nil {
 			return nil, err
 		}
-		bts = append(bts, bt...)
+		uss = append(uss, us...)
 		count++
 	}
 	if len(menus) != 0 {
@@ -125,26 +203,27 @@ func (b *beautician) Find(ctx context.Context, date time.Time, salon *int64, men
 		for i, v := range menus {
 			convertedIDs[i] = v
 		}
-		bt, err := entity.Beauticians(
-			qm.Select(entity.TableNames.Beauticians+".*"),
-			qm.InnerJoin("beautician_menus ON beautician_menus.beautician_id = beauticians.id"),
+		us, err := entity.Users(
+			qm.Select(entity.TableNames.Users+".*"),
+			qm.InnerJoin("beautician_menus ON beautician_menus.beautician_id = users.id"),
 			qm.WhereIn("beautician_menus.menu_id IN ?", convertedIDs...),
-			qm.GroupBy("beauticians.id"),
+			qm.GroupBy("users.id"),
 			qm.Having("COUNT(*) = ?", len(menus)),
-			qm.Load(entity.BeauticianRels.BeauticianMenus),
+			qm.Load(entity.UserRels.BeauticianBeauticianMenus),
+			qm.Load(entity.UserRels.Beautician),
 		).All(ctx, b.Conn)
 		if err != nil {
 			return nil, err
 		}
-		bts = append(bts, bt...)
+		uss = append(uss, us...)
 		count++
 	}
 	if count == 0 {
 		return b.GetAll(ctx)
 	}
-	var beauticians entity.BeauticianSlice
+	var beauticians entity.UserSlice
 	m := make(map[int64]int64)
-	for _, v := range bts {
+	for _, v := range uss {
 		if ct, ok := m[v.ID]; !ok {
 			m[v.ID]++
 			if count == 1 {
@@ -158,11 +237,4 @@ func (b *beautician) Find(ctx context.Context, date time.Time, salon *int64, men
 		}
 	}
 	return beauticians, nil
-}
-
-func (b *beautician) FindPossibleSalon(ctx context.Context, beauciaonID int64) (entity.BeauticianSalonSlice, error) {
-	return entity.BeauticianSalons(
-		entity.BeauticianSalonWhere.BeauticianID.EQ(beauciaonID),
-		entity.BeauticianSalonWhere.DeletedAt.IsNull(),
-	).All(ctx, b.Conn)
 }

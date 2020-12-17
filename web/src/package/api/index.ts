@@ -114,16 +114,16 @@ export const createReservation = async (beauticianRandID: string, salonRandID: s
   })
 }
 
-export const getGuest = async (): Promise<guestResponse> => {
-  return get<guestResponse>(`api/v1/guest`)
+export const getMe = async (): Promise<guestResponse> => {
+  return get<guestResponse>(`api/v1/user`)
 }
 
-export const createGuest = async (guest: guestCreateRequest): Promise<guestResponse> => {
-  return post<guestResponse>(`api/v1/guest`, guest)
+export const createUser = async (guest: guestCreateRequest): Promise<guestResponse> => {
+  return post<guestResponse>(`api/v1/user`, guest)
 }
 
 export const getGuestMypage = async (): Promise<guestMypageReservationsResponse> => {
-  return get<guestMypageReservationsResponse>(`api/v1/reservation/guest`)
+  return get<guestMypageReservationsResponse>(`api/v1/reservation/user`)
 }
 
 export const createBeautician = async (request: beauticianCreateRequest): Promise<beauticianResponse> => {

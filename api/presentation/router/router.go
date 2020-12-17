@@ -35,7 +35,7 @@ func (r *Router) Routes() {
 	reservationController := di.InitReservation()
 	salonController := di.InitSalon()
 	menuController := di.InitMenu()
-	guestController := di.InitGuest()
+	userController := di.InitUser()
 
 	r.Route("/api", func(r chi.Router) {
 		r.Route("/v1", func(r chi.Router) {
@@ -50,12 +50,14 @@ func (r *Router) Routes() {
 				})
 			})
 			r.Group(func(r chi.Router) {
-				r.Use(middleware.AuthAPI)
 				r.Route("/reservation", func(r chi.Router) {
-					r.Post("/", reservationController.Create)
 					r.Get("/find", reservationController.Find)
-					r.Get("/beautician", reservationController.FindByBeautician)
-					r.Get("/guest", reservationController.FindByGuest)
+					r.Group(func(r chi.Router) {
+						r.Use(middleware.AuthAPI)
+						r.Post("/", reservationController.Create)
+						r.Get("/beautician", reservationController.FindByBeautician)
+						r.Get("/user", reservationController.FindByUser)
+					})
 				})
 			})
 			r.Group(func(r chi.Router) {
@@ -71,9 +73,9 @@ func (r *Router) Routes() {
 			})
 			r.Group(func(r chi.Router) {
 				r.Use(middleware.AuthAPI)
-				r.Route("/guest", func(r chi.Router) {
-					r.Get("/", guestController.Get)
-					r.Post("/", guestController.Create)
+				r.Route("/user", func(r chi.Router) {
+					r.Get("/", userController.Get)
+					r.Post("/", userController.Create)
 				})
 			})
 		})

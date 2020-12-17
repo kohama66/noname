@@ -1,20 +1,13 @@
 CREATE TABLE `beauticians` (
-  `id` bigint NOT NULL AUTO_INCREMENT,
-  `auth_id` varchar(255) NOT NULL,
-  `rand_id` varchar(255) NOT NULL,
-	`first_name` varchar(255) NOT NULL,
-  `last_name` varchar(255) NOT NULL,
-  `first_name_kana` varchar(255) NOT NULL,
-  `last_name_kana` varchar(255) NOT NULL,
-  `email` varchar(255) NOT NULL,
-  `phone_number` varchar(255) NOT NULL,
-  `line_id` varchar(255) NOT NULL,
-  `instagram_id` varchar(255) NOT NULL,
-  `comment` varchar(255) NOT NULL,
+  `user_id` bigint NOT NULL,
+  `line_id` varchar(255),
+  `instagram_id` varchar(255),
+  `comment` varchar(255),
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   `deleted_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`user_id`),
+  CONSTRAINT `user_beautician_fk` FOREIGN KEY (`user_id`) REFERENCES users (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `salons` (
@@ -36,7 +29,7 @@ CREATE TABLE `salons` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-CREATE TABLE `guests` (
+CREATE TABLE `users` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `auth_id` varchar(255) NOT NULL,
   `rand_id` varchar(255) NOT NULL,
@@ -78,14 +71,14 @@ CREATE TABLE `reservations` (
   `holiday` tinyint(1) NOT NULL,
   `space_id` bigint NOT NULL,
   `beautician_id` bigint NOT NULL,
-  `guest_id` bigint NOT NULL,
+  `user_id` bigint NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   `deleted_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   CONSTRAINT `space_reservations_fk` FOREIGN KEY (`space_id`) REFERENCES spaces (`id`),
-  CONSTRAINT `beautician_reservations_fk` FOREIGN KEY (`beautician_id`) REFERENCES beauticians (`id`),
-  CONSTRAINT `guest_reservations_fk` FOREIGN KEY (`guest_id`) REFERENCES guests (`id`)
+  CONSTRAINT `beautician_reservations_fk` FOREIGN KEY (`beautician_id`) REFERENCES users (`id`),
+  CONSTRAINT `user_reservations_fk` FOREIGN KEY (`user_id`) REFERENCES users (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `beautician_salons` (
@@ -107,7 +100,7 @@ CREATE TABLE `beautician_menus` (
   `updated_at` datetime NOT NULL,
   `deleted_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
-  CONSTRAINT `beautician_beautician_menus_fk` FOREIGN KEY (`beautician_id`) REFERENCES beauticians (`id`),
+  CONSTRAINT `beautician_beautician_menus_fk` FOREIGN KEY (`beautician_id`) REFERENCES users (`id`),
   CONSTRAINT `menu_beautician_menus_fk` FOREIGN KEY (`menu_id`) REFERENCES menus (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 

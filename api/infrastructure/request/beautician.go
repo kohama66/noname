@@ -23,13 +23,6 @@ func NewBeauticianCreate(req *http.Request) (*requestmodel.BeauticianCreate, err
 	return r, nil
 }
 
-// NewBeauticianGet 美容師情報取得request関数
-// func NewBeauticianGet(req *http.Request) (*requestmodel.BeauticianGet, error) {
-// 	r := &requestmodel.BeauticianGet{}
-// 	r.AuthID = context.AuthID(req.Context())
-// 	return r, nil
-// }
-
 // NewBeauticianFind 美容師検索request関数
 func NewBeauticianFind(req *http.Request) (*requestmodel.BeauticianFind, error) {
 	r := &requestmodel.BeauticianFind{}

@@ -1,5 +1,5 @@
 import React, { FC, useContext, useEffect, useState } from 'react';
-import { getGuest } from '../../../package/api';
+import { getMe } from '../../../package/api';
 import { GuestContext } from '../../../utils/context/GuestContext';
 import App from '../../App';
 
@@ -10,8 +10,8 @@ const Loading: FC = () => {
   useEffect(() => {
     const checkGuest = async () => {
       try {
-        const response = await getGuest()
-        setGuest(response.guest)
+        const response = await getMe()
+        setGuest(response.user)
       } catch (error) {
         console.log(error)
       }

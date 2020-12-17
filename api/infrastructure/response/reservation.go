@@ -11,7 +11,7 @@ type Reservation interface {
 	NewReservationCreate(ent *entity.Reservation) *responsemodel.ReservationCreate
 	NewReservationFindByBeautician(ents []*entity.Reservation) *responsemodel.ReservationFindByBeautician
 	NewReservationFind(ents []*entity.Reservation) *responsemodel.ReservationFind
-	NewReservationFindByGuest(ents []*entityx.ReservationGetByGuest) *responsemodel.ReservationFindByGuest
+	NewReservationFindByUser(ents []*entityx.ReservationGetByUser) *responsemodel.ReservationFindByUser
 }
 
 type reservation struct {
@@ -28,7 +28,7 @@ func NewResponseModelReservation(ent *entity.Reservation) *responsemodel.Reserva
 		Date:         ent.Date,
 		SpaceID:      ent.SpaceID,
 		BeauticianID: ent.BeauticianID,
-		GuestID:      ent.GuestID,
+		UserID:       ent.UserID,
 		CreatedAt:    ent.CreatedAt,
 		UpdatedAt:    ent.UpdatedAt,
 	}
@@ -60,20 +60,20 @@ func (r *reservation) NewReservationFind(ents []*entity.Reservation) *responsemo
 	}
 }
 
-func (r *reservation) NewReservationFindByGuest(ents []*entityx.ReservationGetByGuest) *responsemodel.ReservationFindByGuest {
-	rv := make([]*responsemodel.ReservationGetByGuest, len(ents))
+func (r *reservation) NewReservationFindByUser(ents []*entityx.ReservationGetByUser) *responsemodel.ReservationFindByUser {
+	rv := make([]*responsemodel.ReservationGetByUser, len(ents))
 	for i, v := range ents {
-		rv[i] = &responsemodel.ReservationGetByGuest{
+		rv[i] = &responsemodel.ReservationGetByUser{
 			ID:                  v.ID,
 			Date:                v.Date,
-			GuestID:             v.GuestID,
+			UserID:              v.UserID,
 			SalonName:           v.SalonName,
 			BeauticianFirstName: v.BeauticianFirstName,
 			BeauticianLatsName:  v.BeauticianLatsName,
 			Menus:               NewBeauticianMenusResponsemodel(v.Menus),
 		}
 	}
-	return &responsemodel.ReservationFindByGuest{
+	return &responsemodel.ReservationFindByUser{
 		Reservations: rv,
 	}
 }

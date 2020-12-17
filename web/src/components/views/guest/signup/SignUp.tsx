@@ -1,6 +1,6 @@
 import React, { FC, useContext, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { createGuest } from '../../../../package/api';
+import { createUser } from '../../../../package/api';
 import { deleteUser, signup } from '../../../../package/api/auth';
 import { GuestContext, useGuestContext } from '../../../../utils/context/GuestContext';
 import { deleteAuthToken } from '../../../../utils/function/Cookie';
@@ -16,6 +16,7 @@ const SignUp: FC = () => {
   const [lastNameKana, setLastNameKana] = useState<string>("")
   const [email, setEmail] = useState<string>("")
   const [passwoed, setPassword] = useState<string>("")
+  const [phoneNumber, setPhoneNumber] = useState<string>("09011111111")
   const [disabled, setDisabled] = useState<boolean>(false)
   const { error, customError } = useError()
   const history = useHistory()
@@ -30,14 +31,14 @@ const SignUp: FC = () => {
         password: passwoed
       })
       try {
-        const response = await createGuest({
+        const response = await createUser({
           lastName: lastName,
           firstName: firstName,
           lastNameKana: lastNameKana,
           firstNameKana: firstNameKana,
           email: email
         })
-        setGuest(response.guest)
+        setGuest(response.user)
         history.push("/guest")
       } catch (error) {
         deleteAuthToken()

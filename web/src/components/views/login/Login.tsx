@@ -1,6 +1,6 @@
 import React, { FC, useContext, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import { getGuest } from '../../../package/api';
+import { getMe } from '../../../package/api';
 import { signin } from '../../../package/api/auth';
 import { deleteAuthToken } from '../../../utils/function/Cookie';
 import { GuestContext } from '../../../utils/context/GuestContext';
@@ -22,7 +22,7 @@ const Login: FC = () => {
     setDisabled(true)
     try {
       await signin({ email, password })
-      setGuest((await getGuest()).guest)
+      setGuest((await getMe()).user)
       history.push("/guest")
     } catch (error) {
       deleteAuthToken()

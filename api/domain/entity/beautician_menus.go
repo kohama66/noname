@@ -168,7 +168,7 @@ var BeauticianMenuRels = struct {
 
 // beauticianMenuR is where relationships are stored.
 type beauticianMenuR struct {
-	Beautician       *Beautician
+	Beautician       *User
 	Menu             *Menu
 	ReservationMenus ReservationMenuSlice
 }
@@ -464,15 +464,15 @@ func (q beauticianMenuQuery) Exists(ctx context.Context, exec boil.ContextExecut
 }
 
 // Beautician pointed to by the foreign key.
-func (o *BeauticianMenu) Beautician(mods ...qm.QueryMod) beauticianQuery {
+func (o *BeauticianMenu) Beautician(mods ...qm.QueryMod) userQuery {
 	queryMods := []qm.QueryMod{
 		qm.Where("`id` = ?", o.BeauticianID),
 	}
 
 	queryMods = append(queryMods, mods...)
 
-	query := Beauticians(queryMods...)
-	queries.SetFrom(query.Query, "`beauticians`")
+	query := Users(queryMods...)
+	queries.SetFrom(query.Query, "`users`")
 
 	return query
 }
@@ -553,26 +553,26 @@ func (beauticianMenuL) LoadBeautician(ctx context.Context, e boil.ContextExecuto
 		return nil
 	}
 
-	query := NewQuery(qm.From(`beauticians`), qm.WhereIn(`beauticians.id in ?`, args...))
+	query := NewQuery(qm.From(`users`), qm.WhereIn(`users.id in ?`, args...))
 	if mods != nil {
 		mods.Apply(query)
 	}
 
 	results, err := query.QueryContext(ctx, e)
 	if err != nil {
-		return errors.Wrap(err, "failed to eager load Beautician")
+		return errors.Wrap(err, "failed to eager load User")
 	}
 
-	var resultSlice []*Beautician
+	var resultSlice []*User
 	if err = queries.Bind(results, &resultSlice); err != nil {
-		return errors.Wrap(err, "failed to bind eager loaded slice Beautician")
+		return errors.Wrap(err, "failed to bind eager loaded slice User")
 	}
 
 	if err = results.Close(); err != nil {
-		return errors.Wrap(err, "failed to close results of eager load for beauticians")
+		return errors.Wrap(err, "failed to close results of eager load for users")
 	}
 	if err = results.Err(); err != nil {
-		return errors.Wrap(err, "error occurred during iteration of eager loaded relations for beauticians")
+		return errors.Wrap(err, "error occurred during iteration of eager loaded relations for users")
 	}
 
 	if len(beauticianMenuAfterSelectHooks) != 0 {
@@ -591,9 +591,9 @@ func (beauticianMenuL) LoadBeautician(ctx context.Context, e boil.ContextExecuto
 		foreign := resultSlice[0]
 		object.R.Beautician = foreign
 		if foreign.R == nil {
-			foreign.R = &beauticianR{}
+			foreign.R = &userR{}
 		}
-		foreign.R.BeauticianMenus = append(foreign.R.BeauticianMenus, object)
+		foreign.R.BeauticianBeauticianMenus = append(foreign.R.BeauticianBeauticianMenus, object)
 		return nil
 	}
 
@@ -602,9 +602,9 @@ func (beauticianMenuL) LoadBeautician(ctx context.Context, e boil.ContextExecuto
 			if local.BeauticianID == foreign.ID {
 				local.R.Beautician = foreign
 				if foreign.R == nil {
-					foreign.R = &beauticianR{}
+					foreign.R = &userR{}
 				}
-				foreign.R.BeauticianMenus = append(foreign.R.BeauticianMenus, local)
+				foreign.R.BeauticianBeauticianMenus = append(foreign.R.BeauticianBeauticianMenus, local)
 				break
 			}
 		}
@@ -811,8 +811,8 @@ func (beauticianMenuL) LoadReservationMenus(ctx context.Context, e boil.ContextE
 
 // SetBeautician of the beauticianMenu to the related item.
 // Sets o.R.Beautician to related.
-// Adds o to related.R.BeauticianMenus.
-func (o *BeauticianMenu) SetBeautician(ctx context.Context, exec boil.ContextExecutor, insert bool, related *Beautician) error {
+// Adds o to related.R.BeauticianBeauticianMenus.
+func (o *BeauticianMenu) SetBeautician(ctx context.Context, exec boil.ContextExecutor, insert bool, related *User) error {
 	var err error
 	if insert {
 		if err = related.Insert(ctx, exec, boil.Infer()); err != nil {
@@ -846,11 +846,11 @@ func (o *BeauticianMenu) SetBeautician(ctx context.Context, exec boil.ContextExe
 	}
 
 	if related.R == nil {
-		related.R = &beauticianR{
-			BeauticianMenus: BeauticianMenuSlice{o},
+		related.R = &userR{
+			BeauticianBeauticianMenus: BeauticianMenuSlice{o},
 		}
 	} else {
-		related.R.BeauticianMenus = append(related.R.BeauticianMenus, o)
+		related.R.BeauticianBeauticianMenus = append(related.R.BeauticianBeauticianMenus, o)
 	}
 
 	return nil
