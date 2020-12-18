@@ -26,7 +26,7 @@ form{
       margin-bottom: 10px;
 
     }
-    &:nth-of-type(5), &:nth-of-type(6), &:nth-of-type(8){
+    &:nth-of-type(6), &:nth-of-type(7), &:nth-of-type(9){
       width: 100%;
     }
   }
@@ -39,5 +39,18 @@ form{
     line-height: 15px;
     font-weight: bold;
     color: red;
+  }
+}
+@media screen and (max-width: 767px) {
+  form{
+    width: 100%;
+    padding: 40px 20px 20px;
+    span{
+      width: 100%;
+      padding: 5px;
+      label{
+        font-size: 12px;
+      }
+    }
   }
 }

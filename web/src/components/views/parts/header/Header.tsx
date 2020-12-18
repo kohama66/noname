@@ -1,11 +1,11 @@
 import React, { FC, useContext } from 'react';
 import { Link } from 'react-router-dom';
-import { initGuest } from '../../../../package/interface/Guest';
-import { GuestContext } from '../../../../utils/context/GuestContext';
+import { initUser } from '../../../../package/interface/User';
+import { UserContext } from '../../../../utils/context/UserContext';
 import "./Header.scss"
 
 const Header: FC = () => {
-  const { guest } = useContext(GuestContext)
+  const { user } = useContext(UserContext)
   return (
     <header>
       <div className="header-top-icon">
@@ -13,7 +13,7 @@ const Header: FC = () => {
       </div>
       <div className="header-login">
         <Link to={(() => {
-          if(guest !== initGuest){
+          if (user !== initUser) {
             return "/guest/mypage"
           } else {
             return "/login"

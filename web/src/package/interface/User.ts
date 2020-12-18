@@ -1,6 +1,6 @@
 import { GuestMyPageReservation } from "./Reservation"
 
-export interface Guest {
+export interface User {
   randId: string
   firstName: string
   lastName: string
@@ -10,4 +10,4 @@ export interface Guest {
   phoneNumber: string
 }
 
-export const initGuest: Guest = <Guest>{}
+export const initUser: User = <User>{}

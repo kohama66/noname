@@ -2,7 +2,7 @@ import React, { FC, useContext, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { createUser } from '../../../../package/api';
 import { deleteUser, signup } from '../../../../package/api/auth';
-import { GuestContext, useGuestContext } from '../../../../utils/context/GuestContext';
+import { UserContext } from '../../../../utils/context/UserContext';
 import { deleteAuthToken } from '../../../../utils/function/Cookie';
 import { useError } from '../../../../utils/hooks/Error';
 import Form from '../../parts/form/Form';
@@ -16,11 +16,11 @@ const SignUp: FC = () => {
   const [lastNameKana, setLastNameKana] = useState<string>("")
   const [email, setEmail] = useState<string>("")
   const [passwoed, setPassword] = useState<string>("")
-  const [phoneNumber, setPhoneNumber] = useState<string>("09011111111")
+  const [phoneNumber, setPhoneNumber] = useState<string>("")
   const [disabled, setDisabled] = useState<boolean>(false)
   const { error, customError } = useError()
   const history = useHistory()
-  const { setGuest } = useContext(GuestContext)
+  const { setUser } = useContext(UserContext)
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault()
@@ -36,9 +36,10 @@ const SignUp: FC = () => {
           firstName: firstName,
           lastNameKana: lastNameKana,
           firstNameKana: firstNameKana,
-          email: email
+          email: email,
+          phoneNumber: phoneNumber
         })
-        setGuest(response.user)
+        setUser(response.user)
         history.push("/guest")
       } catch (error) {
         deleteAuthToken()
@@ -54,8 +55,10 @@ const SignUp: FC = () => {
   return (
     <div id="signup">
       <Title title="SIGNUP" text="新規登録" />
-      <Form handleSubmit={handleSubmit} lastName={lastName} lastNameKana={lastNameKana} firstName={firstName} firstNameKana={firstNameKana} email={email} password={passwoed} disabled={disabled} error={error}
-        setLastName={setLastName} setLastNameKana={setLastNameKana} setFirstName={setFirstName} setFirstNameKana={setFirstNameKana} setEmail={setEmail} setPassword={setPassword} />
+      <Form handleSubmit={handleSubmit} lastName={lastName} lastNameKana={lastNameKana} firstName={firstName} firstNameKana={firstNameKana}
+        phoneNumber={phoneNumber} setPhoneNumber={setPhoneNumber} email={email} password={passwoed} disabled={disabled} error={error}
+        setLastName={setLastName} setLastNameKana={setLastNameKana} setFirstName={setFirstName} setFirstNameKana={setFirstNameKana}
+        setEmail={setEmail} setPassword={setPassword} />
     </div>
   )
 }

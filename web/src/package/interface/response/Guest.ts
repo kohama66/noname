@@ -1,8 +1,8 @@
-import { Guest } from "../Guest";
+import { User } from "../User";
 import { GuestMyPageReservation } from "../Reservation"
 
 export interface guestResponse {
-  user: Guest
+  user: User
 }
 
 export interface guestMypageResponse {

@@ -22,19 +22,20 @@
     }
     input {
       margin: 10px 0 20px;
-      &:last-of-type{
+      &:last-of-type {
         margin: 0px 0 0;
       }
     }
-    a{
+    a {
       font-size: 10px;
       color: $lightGray;
       text-decoration: none;
       text-align: center;
       display: block;
+      width: 100%;
       margin: 10px 0 0;
     }
-    .error-message{
+    .error-message {
       margin-top: 20px;
       height: 15px;
       padding: 5px 0;
@@ -42,6 +43,19 @@
       line-height: 18px;
       font-weight: bold;
       color: red;
+    }
+  }
+}
+@media screen and (max-width: 767px) {
+  #login {
+    padding: 120px 5%;
+    form {
+      width: 100%;
+      margin: 30px auto 0;
+      padding: 40px 20px;
+      label{
+        font-size: 12px;
+      }
     }
   }
 }

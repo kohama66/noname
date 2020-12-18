@@ -1,19 +1,19 @@
 import React, { FC, memo } from 'react';
 import { BeauticainContext, useBeauticianContext } from '../../../utils/context/BeauticianContext';
-import { GuestContext, useGuestContext } from '../../../utils/context/GuestContext';
+import { UserContext, useUserContext } from '../../../utils/context/UserContext';
 import { ReservedContext, useReservedContext } from '../../../utils/context/ReservadContext ';
 
 const Provider: FC = memo(({ children }) => {
-  const rootGuestContext = useGuestContext()
+  const rootUserContext = useUserContext()
   const rootReservedContext = useReservedContext()
   const rootBeauticianContext = useBeauticianContext()
   return (
     <BeauticainContext.Provider value={rootBeauticianContext} >
-      <GuestContext.Provider value={rootGuestContext} >
+      <UserContext.Provider value={rootUserContext} >
         <ReservedContext.Provider value={rootReservedContext} >
           {children}
         </ReservedContext.Provider>
-      </GuestContext.Provider>
+      </UserContext.Provider>
     </BeauticainContext.Provider>
   )
 })

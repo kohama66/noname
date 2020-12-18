@@ -14,6 +14,7 @@ const SignUp: FC = () => {
   const [lastName, setLastName] = useState<string>("")
   const [firstNameKana, setFirstNameKana] = useState<string>("")
   const [lastNameKana, setLastNameKana] = useState<string>("")
+  const [phoneNumber, setPhoneNumber] = useState<string>("")
   const [email, setEmail] = useState<string>("")
   const [passwoed, setPassword] = useState<string>("")
   const [disabled, setDisabled] = useState<boolean>(false)
@@ -53,8 +54,10 @@ const SignUp: FC = () => {
   return (
     <div id="bt-signup">
       <Title title="SIGNUP" text="美容師登録" />
-      <Form handleSubmit={handleSubmit} lastName={lastName} lastNameKana={lastNameKana} firstName={firstName} firstNameKana={firstNameKana} email={email} password={passwoed} disabled={disabled} error={error}
-        setLastName={setLastName} setLastNameKana={setLastNameKana} setFirstName={setFirstName} setFirstNameKana={setFirstNameKana} setEmail={setEmail} setPassword={setPassword} />
+      <Form handleSubmit={handleSubmit} lastName={lastName} lastNameKana={lastNameKana} firstName={firstName} firstNameKana={firstNameKana}
+        phoneNumber={phoneNumber} setPhoneNumber={setPhoneNumber} email={email} password={passwoed} disabled={disabled} error={error}
+        setLastName={setLastName} setLastNameKana={setLastNameKana} setFirstName={setFirstName} setFirstNameKana={setFirstNameKana}
+        setEmail={setEmail} setPassword={setPassword} />
     </div>
   )
 }

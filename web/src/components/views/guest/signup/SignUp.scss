@@ -1,6 +1,6 @@
-@import 'src/css/common.scss';
+@import "src/css/common.scss";
 
-#signup{
+#signup {
   background-color: $baseColor;
   min-height: 100vh;
   box-sizing: border-box;
@@ -8,4 +8,9 @@
   flex-flow: column nowrap;
   padding: 150px 0;
   align-items: center;
+}
+@media screen and (max-width: 767px) {
+  #signup {
+    padding: 120px 5% 50px;
+  }
 }

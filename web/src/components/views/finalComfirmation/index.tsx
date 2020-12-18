@@ -1,9 +1,9 @@
 import React, { FC, useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { createReservation, findMenuDetails } from '../../../package/api';
-import { initGuest } from '../../../package/interface/Guest';
+import { initUser } from '../../../package/interface/User';
 import { MenuDetail } from '../../../package/interface/Menu';
-import { GuestContext } from '../../../utils/context/GuestContext';
+import { UserContext } from '../../../utils/context/UserContext';
 import { ReservedContext } from '../../../utils/context/ReservadContext ';
 import { useError } from '../../../utils/hooks/Error';
 import FinalComfirmationComponent from "./FinalComfirmation"
@@ -13,11 +13,11 @@ const FinalComfirmation: FC = () => {
   const [menus, setMenus] = useState<MenuDetail[]>([])
   const [totalPrice, setTotalPrice] = useState<number>(0)
   const history = useHistory()
-  const { guest } = useContext(GuestContext)
+  const { user } = useContext(UserContext)
   const { error, customError } = useError()
 
   const handleReserve = async () => {
-    if (guest !== initGuest) {
+    if (user !== initUser) {
       try {
         if (reservationDate != null) {
           await createReservation(beautician.randId, store.randId, getMenuIDs(), reservationDate)
@@ -44,7 +44,7 @@ const FinalComfirmation: FC = () => {
         })
         setTotalPrice(totalPrice)
       } catch (error) {
-        history.push("/guest")
+        history.push("/user")
       }
     }
     handleGetAllSelected()

@@ -8,6 +8,7 @@ interface props {
   firstName: string
   lastNameKana: string
   firstNameKana: string
+  phoneNumber: string
   email: string
   password: string
   error: string | undefined
@@ -16,6 +17,7 @@ interface props {
   setFirstName: React.Dispatch<React.SetStateAction<string>>
   setLastNameKana: React.Dispatch<React.SetStateAction<string>>
   setFirstNameKana: React.Dispatch<React.SetStateAction<string>>
+  setPhoneNumber: React.Dispatch<React.SetStateAction<string>>
   setEmail: React.Dispatch<React.SetStateAction<string>>
   setPassword: React.Dispatch<React.SetStateAction<string>>
 }
@@ -38,6 +40,10 @@ const Form: FC<props> = (props) => {
       <span>
         <label>名前(フリガナ)</label>
         <Input type="text" value={props.firstNameKana} required={true} setState={props.setFirstNameKana} disabled={props.disabled} />
+      </span>
+      <span>
+        <label>電話番号</label>
+        <Input type="text" value={props.phoneNumber} required={true} setState={props.setPhoneNumber} minLength={11} maxLength={11} disabled={props.disabled} />
       </span>
       <span>
         <label>メールアドレス</label>

@@ -1,23 +1,23 @@
 import React, { FC, useContext, useEffect, useState } from 'react';
 import { GuestMyPageReservation } from '../../../../package/interface/Reservation';
 import { getDay, getMonth, getHours } from '../../../../utils/function/GetDate';
-import { GuestContext } from '../../../../utils/context/GuestContext';
+import { UserContext } from '../../../../utils/context/UserContext';
 import ReservationInfor from '../../parts/ReservationInfor/ReservationInfor';
 import Title from '../parts/Title/Title';
 import './Mypage.scss'
 import { getGuestMypage } from '../../../../package/api';
-import { initGuest } from '../../../../package/interface/Guest';
+import { initUser } from '../../../../package/interface/User';
 import { useHistory } from 'react-router-dom';
 
 const Mypage: FC = () => {
   const [reserved, setReserved] = useState<GuestMyPageReservation>()
   const [previousReserved, setPreviousReserved] = useState<GuestMyPageReservation>()
-  const { guest } = useContext(GuestContext)
+  const { user } = useContext(UserContext)
   const history = useHistory()
 
   useEffect(() => {
     const getReserved = async () => {
-      if (guest !== initGuest) {
+      if (user !== initUser) {
         try {
           const response = await getGuestMypage()
           setReserved(response.reservations[0])
@@ -33,7 +33,7 @@ const Mypage: FC = () => {
   }, [])
 
   return (
-    <div id="guest-mypage">
+    <div id="user-mypage">
       <Title title="MY PAGE" text="マイページ" />
       <section>
         <div className="mypage-profile">
@@ -41,15 +41,15 @@ const Mypage: FC = () => {
           <dl>
             <span>
               <dd>名前</dd>
-              <dt>{`${guest.lastName} ${guest.firstName} 様`}</dt>
+              <dt>{`${user.lastName} ${user.firstName} 様`}</dt>
             </span>
             <span>
               <dd>メール</dd>
-              <dt>{guest.email}</dt>
+              <dt>{user.email}</dt>
             </span>
             <span>
               <dd>電話</dd>
-              <dt>{guest.phoneNumber}</dt>
+              <dt>{user.phoneNumber}</dt>
             </span>
           </dl>
         </div>
