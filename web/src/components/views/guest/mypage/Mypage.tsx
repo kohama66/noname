@@ -33,7 +33,7 @@ const Mypage: FC = () => {
   }, [])
 
   return (
-    <div id="user-mypage">
+    <div id="guest-mypage">
       <Title title="MY PAGE" text="マイページ" />
       <section>
         <div className="mypage-profile">

@@ -5,7 +5,7 @@ import { reservationsResponse, reservationResponse, guestMypageReservationsRespo
 import { salonsResponse } from '../interface/response/Salon';
 import qs from "qs"
 import { guestResponse } from '../interface/response/Guest';
-import { guestCreateRequest } from '../interface/request/Guest';
+import { userCreateRequest } from '../interface/request/User';
 import {getAuthToken} from '../../utils/function/Cookie'
 import { apiurl } from '../../config/config';
 import { beauticianCreateRequest } from '../interface/request/Beautician';
@@ -118,7 +118,7 @@ export const getMe = async (): Promise<guestResponse> => {
   return get<guestResponse>(`api/v1/user`)
 }
 
-export const createUser = async (guest: guestCreateRequest): Promise<guestResponse> => {
+export const createUser = async (guest: userCreateRequest): Promise<guestResponse> => {
   return post<guestResponse>(`api/v1/user`, guest)
 }
 

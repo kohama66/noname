@@ -15,6 +15,7 @@ type User struct {
 	LastNameKana    string             `json:"lastNameKana"`
 	Email           string             `json:"email"`
 	PhoneNumber     string             `json:"phoneNumber"`
+	IsBeauticina    bool               `json:"isBeautician"`
 	BeauticianInfo  *entity.Beautician `json:"beauticianInfo"`
 	BeauticianMenus []*BeauticianMenu  `json:"menus"`
 	CreatedAt       time.Time          `json:"createdAt"`

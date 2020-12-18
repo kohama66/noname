@@ -32,6 +32,7 @@ type User struct {
 	FirstNameKana string    `boil:"first_name_kana" json:"first_name_kana" toml:"first_name_kana" yaml:"first_name_kana"`
 	LastNameKana  string    `boil:"last_name_kana" json:"last_name_kana" toml:"last_name_kana" yaml:"last_name_kana"`
 	Email         string    `boil:"email" json:"email" toml:"email" yaml:"email"`
+	IsBeautician  bool      `boil:"is_beautician" json:"is_beautician" toml:"is_beautician" yaml:"is_beautician"`
 	PhoneNumber   string    `boil:"phone_number" json:"phone_number" toml:"phone_number" yaml:"phone_number"`
 	CreatedAt     time.Time `boil:"created_at" json:"created_at" toml:"created_at" yaml:"created_at"`
 	UpdatedAt     time.Time `boil:"updated_at" json:"updated_at" toml:"updated_at" yaml:"updated_at"`
@@ -50,6 +51,7 @@ var UserColumns = struct {
 	FirstNameKana string
 	LastNameKana  string
 	Email         string
+	IsBeautician  string
 	PhoneNumber   string
 	CreatedAt     string
 	UpdatedAt     string
@@ -63,6 +65,7 @@ var UserColumns = struct {
 	FirstNameKana: "first_name_kana",
 	LastNameKana:  "last_name_kana",
 	Email:         "email",
+	IsBeautician:  "is_beautician",
 	PhoneNumber:   "phone_number",
 	CreatedAt:     "created_at",
 	UpdatedAt:     "updated_at",
@@ -80,6 +83,7 @@ var UserWhere = struct {
 	FirstNameKana whereHelperstring
 	LastNameKana  whereHelperstring
 	Email         whereHelperstring
+	IsBeautician  whereHelperbool
 	PhoneNumber   whereHelperstring
 	CreatedAt     whereHelpertime_Time
 	UpdatedAt     whereHelpertime_Time
@@ -93,6 +97,7 @@ var UserWhere = struct {
 	FirstNameKana: whereHelperstring{field: "`users`.`first_name_kana`"},
 	LastNameKana:  whereHelperstring{field: "`users`.`last_name_kana`"},
 	Email:         whereHelperstring{field: "`users`.`email`"},
+	IsBeautician:  whereHelperbool{field: "`users`.`is_beautician`"},
 	PhoneNumber:   whereHelperstring{field: "`users`.`phone_number`"},
 	CreatedAt:     whereHelpertime_Time{field: "`users`.`created_at`"},
 	UpdatedAt:     whereHelpertime_Time{field: "`users`.`updated_at`"},
@@ -129,8 +134,8 @@ func (*userR) NewStruct() *userR {
 type userL struct{}
 
 var (
-	userAllColumns            = []string{"id", "auth_id", "rand_id", "first_name", "last_name", "first_name_kana", "last_name_kana", "email", "phone_number", "created_at", "updated_at", "deleted_at"}
-	userColumnsWithoutDefault = []string{"auth_id", "rand_id", "first_name", "last_name", "first_name_kana", "last_name_kana", "email", "phone_number", "created_at", "updated_at", "deleted_at"}
+	userAllColumns            = []string{"id", "auth_id", "rand_id", "first_name", "last_name", "first_name_kana", "last_name_kana", "email", "is_beautician", "phone_number", "created_at", "updated_at", "deleted_at"}
+	userColumnsWithoutDefault = []string{"auth_id", "rand_id", "first_name", "last_name", "first_name_kana", "last_name_kana", "email", "is_beautician", "phone_number", "created_at", "updated_at", "deleted_at"}
 	userColumnsWithDefault    = []string{"id"}
 	userPrimaryKeyColumns     = []string{"id"}
 )

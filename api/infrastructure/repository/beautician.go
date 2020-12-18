@@ -42,6 +42,7 @@ func (b *beautician) GetByUserID(ctx context.Context, ID int64) (*entity.Beautic
 
 func (b *beautician) GetAll(ctx context.Context) ([]*entity.User, error) {
 	return entity.Users(
+		entity.UserWhere.IsBeautician.EQ(true),
 		entity.UserWhere.DeletedAt.IsNull(),
 		qm.Load(entity.UserRels.BeauticianBeauticianMenus),
 		qm.Load(entity.UserRels.Beautician),
@@ -173,6 +174,7 @@ func (b *beautician) Find(ctx context.Context, date time.Time, salon *int64, men
 	if !date.IsZero() {
 		us, err := entity.Users(
 			qm.Select(entity.TableNames.Users+".*"),
+			entity.UserWhere.IsBeautician.EQ(true),
 			qm.LeftOuterJoin(entity.TableNames.Reservations+" ON reservations.beautician_id = users.id"),
 			qm.GroupBy("users.id"),
 			qm.Having("COUNT(date = ? OR NULL) = 0", date),
@@ -189,6 +191,7 @@ func (b *beautician) Find(ctx context.Context, date time.Time, salon *int64, men
 		us, err := entity.Users(
 			entity.BeauticianSalonWhere.SalonID.EQ(*salon),
 			qm.InnerJoin("beautician_salons ON beautician_salons.beautician_id = users.id"),
+			entity.UserWhere.IsBeautician.EQ(true),
 			qm.Load(entity.UserRels.BeauticianBeauticianMenus),
 			qm.Load(entity.UserRels.Beautician),
 		).All(ctx, b.Conn)
@@ -205,6 +208,7 @@ func (b *beautician) Find(ctx context.Context, date time.Time, salon *int64, men
 		}
 		us, err := entity.Users(
 			qm.Select(entity.TableNames.Users+".*"),
+			entity.UserWhere.IsBeautician.EQ(true),
 			qm.InnerJoin("beautician_menus ON beautician_menus.beautician_id = users.id"),
 			qm.WhereIn("beautician_menus.menu_id IN ?", convertedIDs...),
 			qm.GroupBy("users.id"),

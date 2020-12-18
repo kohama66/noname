@@ -9,3 +9,8 @@
   padding: 150px 0;
   align-items: center;
 }
+@media screen and (max-width: 767px) {
+  #bt-signup {
+    padding: 120px 5%;
+  }
+}

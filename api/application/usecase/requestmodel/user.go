@@ -15,7 +15,8 @@ type UserCreate struct {
 	LastNameKana  string `json:"lastNameKana" validate:"required"`
 	FirstNameKana string `json:"firstNameKana" validate:"required"`
 	Email         string `json:"email" validate:"required,email"`
-	// PhoneNumber   string `json:"phoneNumber" validate:"required,len=11"`
+	PhoneNumber   string `json:"phoneNumber" validate:"required,len=11"`
+	IsBeautician  bool   `json:"isBeautician"`
 }
 
 // NewUser リクエストモデルエンティティ変換メソッド
@@ -28,5 +29,7 @@ func (g *UserCreate) NewUser(randID string) *entity.User {
 		LastNameKana:  g.LastNameKana,
 		FirstNameKana: g.FirstNameKana,
 		Email:         g.Email,
+		PhoneNumber:   g.PhoneNumber,
+		IsBeautician:  g.IsBeautician,
 	}
 }

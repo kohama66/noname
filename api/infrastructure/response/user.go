@@ -28,6 +28,7 @@ func NewUserResponsemodel(ent *entity.User) *responsemodel.User {
 		LastNameKana:    ent.LastNameKana,
 		Email:           ent.Email,
 		PhoneNumber:     ent.PhoneNumber,
+		IsBeauticina:    ent.IsBeautician,
 		BeauticianInfo:  ent.R.Beautician,
 		BeauticianMenus: NewBeauticianMenusResponsemodel(ent.R.BeauticianBeauticianMenus),
 		CreatedAt:       ent.CreatedAt,

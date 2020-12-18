@@ -2,7 +2,7 @@ import React, { FC, useState } from 'react';
 import './Input.scss'
 
 interface props {
-  type: "text" | "email" | "password" | "submit"
+  type: "text" | "email" | "password" | "submit" | "hidden"
   value: string
   setState?: React.Dispatch<React.SetStateAction<string>>
   required?: true

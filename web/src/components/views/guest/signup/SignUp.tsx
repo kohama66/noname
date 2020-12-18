@@ -37,7 +37,8 @@ const SignUp: FC = () => {
           lastNameKana: lastNameKana,
           firstNameKana: firstNameKana,
           email: email,
-          phoneNumber: phoneNumber
+          phoneNumber: phoneNumber,
+          isBeautician: false
         })
         setUser(response.user)
         history.push("/guest")
