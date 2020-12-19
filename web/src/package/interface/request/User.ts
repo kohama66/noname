@@ -5,5 +5,5 @@ export interface userCreateRequest {
   lastName: string
   lastNameKana: string
   phoneNumber: string
-  isBeautician: false
+  isBeautician: boolean
 }

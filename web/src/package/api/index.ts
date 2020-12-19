@@ -4,7 +4,7 @@ import { menuDetailsResponse, menusResponse } from '../interface/response/Menu';
 import { reservationsResponse, reservationResponse, guestMypageReservationsResponse } from '../interface/response/Reservation'
 import { salonsResponse } from '../interface/response/Salon';
 import qs from "qs"
-import { guestResponse } from '../interface/response/Guest';
+import { userResponse } from '../interface/response/User';
 import { userCreateRequest } from '../interface/request/User';
 import {getAuthToken} from '../../utils/function/Cookie'
 import { apiurl } from '../../config/config';
@@ -114,12 +114,12 @@ export const createReservation = async (beauticianRandID: string, salonRandID: s
   })
 }
 
-export const getMe = async (): Promise<guestResponse> => {
-  return get<guestResponse>(`api/v1/user`)
+export const getMe = async (): Promise<userResponse> => {
+  return get<userResponse>(`api/v1/user`)
 }
 
-export const createUser = async (guest: userCreateRequest): Promise<guestResponse> => {
-  return post<guestResponse>(`api/v1/user`, guest)
+export const createUser = async (guest: userCreateRequest): Promise<userResponse> => {
+  return post<userResponse>(`api/v1/user`, guest)
 }
 
 export const getGuestMypage = async (): Promise<guestMypageReservationsResponse> => {

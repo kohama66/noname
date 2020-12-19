@@ -1,7 +1,7 @@
 import { User } from "../User";
 import { GuestMyPageReservation } from "../Reservation"
 
-export interface guestResponse {
+export interface userResponse {
   user: User
 }
 
