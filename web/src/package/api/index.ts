@@ -8,7 +8,7 @@ import { userResponse } from '../interface/response/User';
 import { userCreateRequest } from '../interface/request/User';
 import {getAuthToken} from '../../utils/function/Cookie'
 import { apiurl } from '../../config/config';
-import { beauticianCreateRequest } from '../interface/request/Beautician';
+import { beauticianCreateRequest, beauticianUpdateRequest } from '../interface/request/Beautician';
 
 const axios = Axios.create({
   baseURL: apiurl,
@@ -53,6 +53,10 @@ const get = <T>(url: string, data?: object): Promise<T> => {
 
 const post = <T>(url: string, data?: object): Promise<T> => {
   return requestAwait(axios.post(url, data))
+}
+
+const put = <T>(url: string, data?: object): Promise<T> => {
+  return requestAwait(axios.put(url, data))
 }
 
 export const findSalons = async (id?: string): Promise<salonsResponse> => {
@@ -128,4 +132,8 @@ export const getGuestMypage = async (): Promise<guestMypageReservationsResponse>
 
 export const createBeautician = async (request: beauticianCreateRequest): Promise<beauticianResponse> => {
   return post<beauticianResponse>(`api/v1/beautician`, request)
+}
+
+export const updateBeautician = async (request: beauticianUpdateRequest) => {
+  return put(`api/v1/beautician`, request)
 }

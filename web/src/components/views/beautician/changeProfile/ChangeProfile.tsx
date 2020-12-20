@@ -1,5 +1,9 @@
 import React, { FC, useContext, useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import { updateBeautician } from '../../../../package/api';
 import { UserContext } from '../../../../utils/context/UserContext';
+import { useError } from '../../../../utils/hooks/Error';
+import FormErrorMessage from '../../parts/formParts/FormErrorMessage';
 import FormParts from '../../parts/formParts/formParts';
 import './ChangeProfile.scss';
 
@@ -12,6 +16,8 @@ const ChangeProfile: FC = () => {
   const [disabled, setDisabled] = useState<boolean>(false)
   const [lineID, setLineID] = useState<string>("")
   const [instaID, setInstaID] = useState<string>("")
+  const history = useHistory()
+  const { customError, error } = useError()
 
   const { user } = useContext(UserContext)
   useEffect(() => {
@@ -31,6 +37,21 @@ const ChangeProfile: FC = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setDisabled(true)
+    try {
+      await updateBeautician({
+        lastName: lastName,
+        lastNameKana: lastNameKana,
+        firstName: firstName,
+        firstNameKana: firstNameKana,
+        phoneNumber: phoneNumber,
+        instagramId: instaID,
+        lineId: lineID
+      })
+      history.push("/beautician/mypage")
+    } catch (error) {
+      customError(error.message)
+    }
+    setDisabled(false)
   }
 
   return (
@@ -43,7 +64,8 @@ const ChangeProfile: FC = () => {
         <FormParts label="電話番号" type="text" value={phoneNumber} setState={setPhoneNumber} minLength={11} maxLength={11} required={true} disabled={disabled} />
         <FormParts label="Line ID" type="text" value={lineID} setState={setLineID} required={true} disabled={disabled} />
         <FormParts label="Instagram ID" type="text" value={instaID} setState={setInstaID} required={true} disabled={disabled} />
-        <FormParts type="submit" value="変更"  disabled={disabled} />
+        <FormErrorMessage error={error} />
+        <FormParts type="submit" value="変更" disabled={disabled} />
       </form>
     </div>
   )

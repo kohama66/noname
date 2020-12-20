@@ -1,4 +1,5 @@
 import React, { FC, useEffect, useState } from 'react';
+import FormErrorMessage from '../formParts/FormErrorMessage';
 import FormParts from '../formParts/formParts';
 import './Form.scss'
 
@@ -32,9 +33,7 @@ const Form: FC<props> = (props) => {
       <FormParts label="電話番号" type="text" value={props.phoneNumber} required={true} setState={props.setPhoneNumber} minLength={11} maxLength={11} disabled={props.disabled} />
       <FormParts label="メールアドレス" type="email" value={props.email} required={true} setState={props.setEmail} disabled={props.disabled} />
       <FormParts label="パスワード" type="password" value={props.password} required={true} setState={props.setPassword} minLength={8} placeHolder="8文字以上で入力してください" disabled={props.disabled} />
-      <span className="error-message">
-        <p>{props.error}</p>
-      </span>
+      <FormErrorMessage error={props.error} />
       <FormParts type="submit" value="登録" disabled={props.disabled} />
     </form>
   )
