@@ -156,3 +156,21 @@ func (s *salon) ExistsByBeauticianWithSalon(ctx context.Context, beauticianID, s
 		entity.BeauticianSalonWhere.DeletedAt.IsNull(),
 	).Exists(ctx, s.Conn)
 }
+
+func (s *salon) GetBeauticianSalons(ctx context.Context, beauticianID int64) (entity.SalonSlice, error) {
+	bs, err := entity.BeauticianSalons(
+		entity.BeauticianSalonWhere.BeauticianID.EQ(beauticianID),
+		entity.BeauticianSalonWhere.DeletedAt.IsNull(),
+	).All(ctx, s.Conn)
+	if err != nil {
+		return nil, err
+	}
+	ids := make([]int64, len(bs))
+	for i, v := range bs {
+		ids[i] = v.SalonID
+	}
+	return entity.Salons(
+		entity.SalonWhere.ID.IN(ids),
+		entity.SalonWhere.DeletedAt.IsNull(),
+	).All(ctx, s.Conn)
+}

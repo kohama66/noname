@@ -7,7 +7,7 @@ import (
 
 // User DIInterface
 type User interface {
-	NewUserGet(ent *entity.User) *responsemodel.UserGet
+	NewUserGet(ent *entity.User, salons []*entity.Salon) *responsemodel.UserGet
 	NewUserCreate(ent *entity.User) *responsemodel.UserCreate
 }
 
@@ -29,16 +29,30 @@ func NewUserResponsemodel(ent *entity.User) *responsemodel.User {
 		Email:           ent.Email,
 		PhoneNumber:     ent.PhoneNumber,
 		IsBeauticina:    ent.IsBeautician,
-		BeauticianInfo:  ent.R.Beautician,
+		BeauticianInfo:  NewBeauticianResponseModel(ent.R.Beautician),
 		BeauticianMenus: NewBeauticianMenusResponsemodel(ent.R.BeauticianBeauticianMenus),
 		CreatedAt:       ent.CreatedAt,
 		UpdatedAt:       ent.CreatedAt,
 	}
 }
 
-func (g *user) NewUserGet(ent *entity.User) *responsemodel.UserGet {
+func (g *user) NewUserGet(ent *entity.User, salons []*entity.Salon) *responsemodel.UserGet {
 	return &responsemodel.UserGet{
-		User: NewUserResponsemodel(ent),
+		User: &responsemodel.User{
+			RandID:           ent.RandID,
+			FirstName:        ent.FirstName,
+			LastName:         ent.LastName,
+			FirstNameKana:    ent.FirstNameKana,
+			LastNameKana:     ent.LastNameKana,
+			Email:            ent.Email,
+			PhoneNumber:      ent.PhoneNumber,
+			IsBeauticina:     ent.IsBeautician,
+			BeauticianInfo:   NewBeauticianResponseModel(ent.R.Beautician),
+			BeauticianMenus:  NewBeauticianMenusResponsemodel(ent.R.BeauticianBeauticianMenus),
+			BeauticianSalons: NewSalonsResponseModel(salons),
+			CreatedAt:        ent.CreatedAt,
+			UpdatedAt:        ent.CreatedAt,
+		},
 	}
 }
 

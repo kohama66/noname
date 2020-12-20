@@ -5,7 +5,7 @@ import {
   Route,
   useRouteMatch,
 } from "react-router-dom";
-import Mypage from './mypage/Mypage';
+import Mypage from './mypage';
 import SignUp from './signup/SignUp';
 
 const Beautician: FC = () => {

@@ -1,8 +1,11 @@
-import React, { FC } from 'react';
+import React, { FC, useContext } from 'react';
+import { UserContext } from '../../../../utils/context/UserContext';
 import Title from '../../guest/parts/Title/Title';
 import './Mypage.scss';
 
 const Mypage: FC = () => {
+  const { user } = useContext(UserContext)
+  console.log(user)
   return (
     <div id="bt-mypage">
       <Title title="MY PAGE" text="マイページ" />
@@ -13,24 +16,24 @@ const Mypage: FC = () => {
           </figure>
           <div>
             <span>
-              <h1>山本 浩一<span>ヤマモト コウイチ</span></h1>
+              <h1>{user.lastName + " " + user.firstName}<span>{user.lastNameKana + " " + user.firstNameKana}</span></h1>
               <button>
                 変更
               </button>
             </span>
             <h2>メールアドレス</h2>
-            <p>yamamoto@test.com</p>
+            <p>{user.email}</p>
             <h2>電話番号</h2>
-            <p>09012344321</p>
+            <p>{user.phoneNumber}</p>
             <div className="sns-content">
               <div className="line">
                 <figure className="fab fa-line"></figure>
-                <h2>yamamoto@line</h2>
+                <h2>{user.beauticianInfo.lineId ? user.beauticianInfo.lineId : "未設定"}</h2>
               </div>
               <div className="instagram">
                 <figure className="fab fa-instagram">
                 </figure>
-                <h2>yamamoto@line</h2>
+                <h2>{user.beauticianInfo.instagramId ? user.beauticianInfo.instagramId : "未設定"}</h2>
               </div>
             </div>
           </div>
@@ -39,36 +42,24 @@ const Mypage: FC = () => {
           <div className="menus">
             <h2>メニュー</h2>
             <dl>
-              <span>
-                <dt>カット</dt>
-                <dd>3000</dd>
-              </span>
-              <span>
-                <dt>カラー</dt>
-                <dd>5000</dd>
-              </span>
+              {user.beauticianMenus.map((menu, i) => {
+                return <span key={i}>
+                  <dt>{menu.name}</dt>
+                  <dd>{menu.price}</dd>
+                </span>
+              })}
             </dl>
           </div>
           <div className="salons">
             <h2>美容院</h2>
-            <dl>
-              <span>
-                <dt>カット</dt>
-                <dd>3000</dd>
-              </span>
-              <span>
-                <dt>カラー</dt>
-                <dd>5000</dd>
-              </span>
-              <span>
-                <dt>カット</dt>
-                <dd>3000</dd>
-              </span>
-              <span>
-                <dt>カラー</dt>
-                <dd>5000</dd>
-              </span>
-            </dl>
+            <ul>
+              {user.beauticianSalons.map((salon, i) => {
+                return <li key={i}>
+                  <h3>{salon.name}</h3>
+                  <p>{salon.prefectures + salon.city + salon.town + salon.addressOther}</p>
+                </li>
+              })}
+            </ul>
           </div>
         </div>
       </div>

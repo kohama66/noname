@@ -68,7 +68,8 @@ func InitUser() handler.User {
 	responseUser := response.NewUser()
 	reservation := entityx.NewReservation()
 	repositoryReservation := repository.NewReservation(conn, reservation)
-	usecaseUser := usecase.NewUser(user, responseUser, repositoryReservation)
+	salon := repository.NewSalon(conn)
+	usecaseUser := usecase.NewUser(user, responseUser, repositoryReservation, salon)
 	handlerUser := handler.NewUser(usecaseUser)
 	return handlerUser
 }

@@ -20,6 +20,7 @@ type user struct {
 	userRepository        repository.User
 	userResponse          response.User
 	reservationRepository repository.Reservation
+	salonRepository       repository.Salon
 }
 
 // NewUser DI初期化関数
@@ -27,11 +28,13 @@ func NewUser(
 	userRepository repository.User,
 	userResponse response.User,
 	reservationRepository repository.Reservation,
+	salonRepository repository.Salon,
 ) User {
 	return &user{
 		userRepository:        userRepository,
 		userResponse:          userResponse,
 		reservationRepository: reservationRepository,
+		salonRepository:       salonRepository,
 	}
 }
 
@@ -40,11 +43,15 @@ func (g *user) Get(ctx context.Context, r *requestmodel.UserGet) (*responsemodel
 	if err != nil {
 		return nil, err
 	}
+	sl, err := g.salonRepository.GetBeauticianSalons(ctx, gs.ID)
+	if err != nil {
+		return nil, err
+	}
 	// rs, err := g.reservationRepository.FindByUser(ctx, gs.ID)
 	// if err != nil {
 	// 	return nil, err
 	// }
-	return g.userResponse.NewUserGet(gs), nil
+	return g.userResponse.NewUserGet(gs, sl), nil
 }
 
 func (g *user) Create(ctx context.Context, r *requestmodel.UserCreate) (*responsemodel.UserCreate, error) {

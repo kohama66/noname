@@ -11,7 +11,7 @@ export interface Beautician {
 	menus?: MenuDetail[]
 }
 
-interface BeauticianInfo {
+export interface BeauticianInfo {
 	lineId?: string
 	instagramId?: string
 	comment?: string

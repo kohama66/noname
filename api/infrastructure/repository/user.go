@@ -26,6 +26,7 @@ func (g *user) GetByAuthID(ctx context.Context, authID string) (*entity.User, er
 		entity.UserWhere.AuthID.EQ(authID),
 		entity.UserWhere.DeletedAt.IsNull(),
 		qm.Load(entity.UserRels.Beautician),
+		qm.Load(entity.UserRels.BeauticianBeauticianMenus),
 	).One(ctx, g.Conn)
 }
 
@@ -38,5 +39,6 @@ func (g *user) GetByRandID(ctx context.Context, randID string) (*entity.User, er
 		entity.UserWhere.RandID.EQ(randID),
 		entity.UserWhere.DeletedAt.IsNull(),
 		qm.Load(entity.UserRels.Beautician),
+		qm.Load(entity.UserRels.BeauticianBeauticianMenus),
 	).One(ctx, g.Conn)
 }

@@ -72,6 +72,7 @@ func InitUser() handler.User {
 		db.New,
 		response.NewUser,
 		entityx.NewReservation,
+		repository.NewSalon,
 		repository.NewUser,
 		repository.NewReservation,
 		usecase.NewUser,

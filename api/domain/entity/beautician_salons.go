@@ -66,10 +66,17 @@ var BeauticianSalonWhere = struct {
 
 // BeauticianSalonRels is where relationship names are stored.
 var BeauticianSalonRels = struct {
-}{}
+	Beautician string
+	Salon      string
+}{
+	Beautician: "Beautician",
+	Salon:      "Salon",
+}
 
 // beauticianSalonR is where relationships are stored.
 type beauticianSalonR struct {
+	Beautician *User
+	Salon      *Salon
 }
 
 // NewStruct creates a new relationship struct
@@ -360,6 +367,330 @@ func (q beauticianSalonQuery) Exists(ctx context.Context, exec boil.ContextExecu
 	}
 
 	return count > 0, nil
+}
+
+// Beautician pointed to by the foreign key.
+func (o *BeauticianSalon) Beautician(mods ...qm.QueryMod) userQuery {
+	queryMods := []qm.QueryMod{
+		qm.Where("`id` = ?", o.BeauticianID),
+	}
+
+	queryMods = append(queryMods, mods...)
+
+	query := Users(queryMods...)
+	queries.SetFrom(query.Query, "`users`")
+
+	return query
+}
+
+// Salon pointed to by the foreign key.
+func (o *BeauticianSalon) Salon(mods ...qm.QueryMod) salonQuery {
+	queryMods := []qm.QueryMod{
+		qm.Where("`id` = ?", o.SalonID),
+	}
+
+	queryMods = append(queryMods, mods...)
+
+	query := Salons(queryMods...)
+	queries.SetFrom(query.Query, "`salons`")
+
+	return query
+}
+
+// LoadBeautician allows an eager lookup of values, cached into the
+// loaded structs of the objects. This is for an N-1 relationship.
+func (beauticianSalonL) LoadBeautician(ctx context.Context, e boil.ContextExecutor, singular bool, maybeBeauticianSalon interface{}, mods queries.Applicator) error {
+	var slice []*BeauticianSalon
+	var object *BeauticianSalon
+
+	if singular {
+		object = maybeBeauticianSalon.(*BeauticianSalon)
+	} else {
+		slice = *maybeBeauticianSalon.(*[]*BeauticianSalon)
+	}
+
+	args := make([]interface{}, 0, 1)
+	if singular {
+		if object.R == nil {
+			object.R = &beauticianSalonR{}
+		}
+		args = append(args, object.BeauticianID)
+
+	} else {
+	Outer:
+		for _, obj := range slice {
+			if obj.R == nil {
+				obj.R = &beauticianSalonR{}
+			}
+
+			for _, a := range args {
+				if a == obj.BeauticianID {
+					continue Outer
+				}
+			}
+
+			args = append(args, obj.BeauticianID)
+
+		}
+	}
+
+	if len(args) == 0 {
+		return nil
+	}
+
+	query := NewQuery(qm.From(`users`), qm.WhereIn(`users.id in ?`, args...))
+	if mods != nil {
+		mods.Apply(query)
+	}
+
+	results, err := query.QueryContext(ctx, e)
+	if err != nil {
+		return errors.Wrap(err, "failed to eager load User")
+	}
+
+	var resultSlice []*User
+	if err = queries.Bind(results, &resultSlice); err != nil {
+		return errors.Wrap(err, "failed to bind eager loaded slice User")
+	}
+
+	if err = results.Close(); err != nil {
+		return errors.Wrap(err, "failed to close results of eager load for users")
+	}
+	if err = results.Err(); err != nil {
+		return errors.Wrap(err, "error occurred during iteration of eager loaded relations for users")
+	}
+
+	if len(beauticianSalonAfterSelectHooks) != 0 {
+		for _, obj := range resultSlice {
+			if err := obj.doAfterSelectHooks(ctx, e); err != nil {
+				return err
+			}
+		}
+	}
+
+	if len(resultSlice) == 0 {
+		return nil
+	}
+
+	if singular {
+		foreign := resultSlice[0]
+		object.R.Beautician = foreign
+		if foreign.R == nil {
+			foreign.R = &userR{}
+		}
+		foreign.R.BeauticianBeauticianSalons = append(foreign.R.BeauticianBeauticianSalons, object)
+		return nil
+	}
+
+	for _, local := range slice {
+		for _, foreign := range resultSlice {
+			if local.BeauticianID == foreign.ID {
+				local.R.Beautician = foreign
+				if foreign.R == nil {
+					foreign.R = &userR{}
+				}
+				foreign.R.BeauticianBeauticianSalons = append(foreign.R.BeauticianBeauticianSalons, local)
+				break
+			}
+		}
+	}
+
+	return nil
+}
+
+// LoadSalon allows an eager lookup of values, cached into the
+// loaded structs of the objects. This is for an N-1 relationship.
+func (beauticianSalonL) LoadSalon(ctx context.Context, e boil.ContextExecutor, singular bool, maybeBeauticianSalon interface{}, mods queries.Applicator) error {
+	var slice []*BeauticianSalon
+	var object *BeauticianSalon
+
+	if singular {
+		object = maybeBeauticianSalon.(*BeauticianSalon)
+	} else {
+		slice = *maybeBeauticianSalon.(*[]*BeauticianSalon)
+	}
+
+	args := make([]interface{}, 0, 1)
+	if singular {
+		if object.R == nil {
+			object.R = &beauticianSalonR{}
+		}
+		args = append(args, object.SalonID)
+
+	} else {
+	Outer:
+		for _, obj := range slice {
+			if obj.R == nil {
+				obj.R = &beauticianSalonR{}
+			}
+
+			for _, a := range args {
+				if a == obj.SalonID {
+					continue Outer
+				}
+			}
+
+			args = append(args, obj.SalonID)
+
+		}
+	}
+
+	if len(args) == 0 {
+		return nil
+	}
+
+	query := NewQuery(qm.From(`salons`), qm.WhereIn(`salons.id in ?`, args...))
+	if mods != nil {
+		mods.Apply(query)
+	}
+
+	results, err := query.QueryContext(ctx, e)
+	if err != nil {
+		return errors.Wrap(err, "failed to eager load Salon")
+	}
+
+	var resultSlice []*Salon
+	if err = queries.Bind(results, &resultSlice); err != nil {
+		return errors.Wrap(err, "failed to bind eager loaded slice Salon")
+	}
+
+	if err = results.Close(); err != nil {
+		return errors.Wrap(err, "failed to close results of eager load for salons")
+	}
+	if err = results.Err(); err != nil {
+		return errors.Wrap(err, "error occurred during iteration of eager loaded relations for salons")
+	}
+
+	if len(beauticianSalonAfterSelectHooks) != 0 {
+		for _, obj := range resultSlice {
+			if err := obj.doAfterSelectHooks(ctx, e); err != nil {
+				return err
+			}
+		}
+	}
+
+	if len(resultSlice) == 0 {
+		return nil
+	}
+
+	if singular {
+		foreign := resultSlice[0]
+		object.R.Salon = foreign
+		if foreign.R == nil {
+			foreign.R = &salonR{}
+		}
+		foreign.R.BeauticianSalons = append(foreign.R.BeauticianSalons, object)
+		return nil
+	}
+
+	for _, local := range slice {
+		for _, foreign := range resultSlice {
+			if local.SalonID == foreign.ID {
+				local.R.Salon = foreign
+				if foreign.R == nil {
+					foreign.R = &salonR{}
+				}
+				foreign.R.BeauticianSalons = append(foreign.R.BeauticianSalons, local)
+				break
+			}
+		}
+	}
+
+	return nil
+}
+
+// SetBeautician of the beauticianSalon to the related item.
+// Sets o.R.Beautician to related.
+// Adds o to related.R.BeauticianBeauticianSalons.
+func (o *BeauticianSalon) SetBeautician(ctx context.Context, exec boil.ContextExecutor, insert bool, related *User) error {
+	var err error
+	if insert {
+		if err = related.Insert(ctx, exec, boil.Infer()); err != nil {
+			return errors.Wrap(err, "failed to insert into foreign table")
+		}
+	}
+
+	updateQuery := fmt.Sprintf(
+		"UPDATE `beautician_salons` SET %s WHERE %s",
+		strmangle.SetParamNames("`", "`", 0, []string{"beautician_id"}),
+		strmangle.WhereClause("`", "`", 0, beauticianSalonPrimaryKeyColumns),
+	)
+	values := []interface{}{related.ID, o.BeauticianID, o.SalonID}
+
+	if boil.IsDebug(ctx) {
+		writer := boil.DebugWriterFrom(ctx)
+		fmt.Fprintln(writer, updateQuery)
+		fmt.Fprintln(writer, values)
+	}
+	if _, err = exec.ExecContext(ctx, updateQuery, values...); err != nil {
+		return errors.Wrap(err, "failed to update local table")
+	}
+
+	o.BeauticianID = related.ID
+	if o.R == nil {
+		o.R = &beauticianSalonR{
+			Beautician: related,
+		}
+	} else {
+		o.R.Beautician = related
+	}
+
+	if related.R == nil {
+		related.R = &userR{
+			BeauticianBeauticianSalons: BeauticianSalonSlice{o},
+		}
+	} else {
+		related.R.BeauticianBeauticianSalons = append(related.R.BeauticianBeauticianSalons, o)
+	}
+
+	return nil
+}
+
+// SetSalon of the beauticianSalon to the related item.
+// Sets o.R.Salon to related.
+// Adds o to related.R.BeauticianSalons.
+func (o *BeauticianSalon) SetSalon(ctx context.Context, exec boil.ContextExecutor, insert bool, related *Salon) error {
+	var err error
+	if insert {
+		if err = related.Insert(ctx, exec, boil.Infer()); err != nil {
+			return errors.Wrap(err, "failed to insert into foreign table")
+		}
+	}
+
+	updateQuery := fmt.Sprintf(
+		"UPDATE `beautician_salons` SET %s WHERE %s",
+		strmangle.SetParamNames("`", "`", 0, []string{"salon_id"}),
+		strmangle.WhereClause("`", "`", 0, beauticianSalonPrimaryKeyColumns),
+	)
+	values := []interface{}{related.ID, o.BeauticianID, o.SalonID}
+
+	if boil.IsDebug(ctx) {
+		writer := boil.DebugWriterFrom(ctx)
+		fmt.Fprintln(writer, updateQuery)
+		fmt.Fprintln(writer, values)
+	}
+	if _, err = exec.ExecContext(ctx, updateQuery, values...); err != nil {
+		return errors.Wrap(err, "failed to update local table")
+	}
+
+	o.SalonID = related.ID
+	if o.R == nil {
+		o.R = &beauticianSalonR{
+			Salon: related,
+		}
+	} else {
+		o.R.Salon = related
+	}
+
+	if related.R == nil {
+		related.R = &salonR{
+			BeauticianSalons: BeauticianSalonSlice{o},
+		}
+	} else {
+		related.R.BeauticianSalons = append(related.R.BeauticianSalons, o)
+	}
+
+	return nil
 }
 
 // BeauticianSalons retrieves all the records using an executor.

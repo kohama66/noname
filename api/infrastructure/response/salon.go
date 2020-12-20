@@ -46,3 +46,12 @@ func (s *salon) NewSalonFind(ents []*entity.Salon) *responsemodel.SalonFind {
 		Salons: sl,
 	}
 }
+
+// NewSalonsResponseModel エンティティースライスをレスポンススライスへ変換
+func NewSalonsResponseModel(ents []*entity.Salon) []*responsemodel.Salon {
+	sls := make([]*responsemodel.Salon, len(ents))
+	for i, v := range ents {
+		sls[i] = NewSalonResponseModel(v)
+	}
+	return sls
+}

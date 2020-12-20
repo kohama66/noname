@@ -88,6 +88,8 @@ CREATE TABLE `beautician_salons` (
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   `deleted_at` datetime DEFAULT NULL,
+  CONSTRAINT `beautician_beautician_salons_fk` FOREIGN KEY (`beautician_id`) REFERENCES users (`id`),
+  CONSTRAINT `salon_beautician_salons_fk` FOREIGN KEY (`salon_id`) REFERENCES salons (`id`),
   PRIMARY KEY (`beautician_id`, `salon_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 

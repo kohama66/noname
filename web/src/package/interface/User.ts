@@ -1,4 +1,6 @@
-import { GuestMyPageReservation } from "./Reservation"
+import { BeauticianInfo } from "./Beautician"
+import { MenuDetail } from "./Menu"
+import { Salon } from "./Salon"
 
 export interface User {
   randId: string
@@ -8,6 +10,9 @@ export interface User {
   lastNameKana: string
   email: string
   phoneNumber: string
+  beauticianInfo: BeauticianInfo 
+  beauticianMenus: MenuDetail[]
+  beauticianSalons: Salon[]
   isBeautician: boolean
 }
 

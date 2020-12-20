@@ -15,7 +15,7 @@ type Beautician struct {
 	// PhoneNumber   string            `json:"phoneNumber"`
 	LineID      *string `json:"lineId"`
 	InstagramID *string `json:"instagramId"`
-	// Comment     string            `json:"comment"`
+	Comment     *string `json:"comment"`
 	// Menus     []*BeauticianMenu `json:"menus"`
 	CreatedAt time.Time `json:"createdAt"`
 	UpdatedAt time.Time `json:"updatedAt"`
