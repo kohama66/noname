@@ -5,7 +5,6 @@ import './Mypage.scss';
 
 const Mypage: FC = () => {
   const { user } = useContext(UserContext)
-  console.log(user)
   return (
     <div id="bt-mypage">
       <Title title="MY PAGE" text="マイページ" />

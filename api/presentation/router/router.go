@@ -46,6 +46,7 @@ func (r *Router) Routes() {
 						r.Use(middleware.AuthAPI)
 						r.Post("/", beauticianController.Create)
 						r.Get("/", beauticianController.GetByAuthID)
+						r.Put("/", beauticianController.Update)
 					})
 				})
 			})

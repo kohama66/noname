@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useState } from 'react';
-import Input from '../formParts/Input';
+import FormParts from '../formParts/formParts';
 import './Form.scss'
 
 interface props {
@@ -25,40 +25,17 @@ interface props {
 const Form: FC<props> = (props) => {
   return (
     <form onSubmit={props.handleSubmit}>
-      <span>
-        <label>苗字</label>
-        <Input type="text" value={props.lastName} required={true} setState={props.setLastName} disabled={props.disabled} />
-      </span>
-      <span>
-        <label>名前</label>
-        <Input type="text" value={props.firstName} required={true} setState={props.setFirstName} disabled={props.disabled} />
-      </span>
-      <span>
-        <label>苗字(フリガナ)</label>
-        <Input type="text" value={props.lastNameKana} required={true} setState={props.setLastNameKana} disabled={props.disabled} />
-      </span>
-      <span>
-        <label>名前(フリガナ)</label>
-        <Input type="text" value={props.firstNameKana} required={true} setState={props.setFirstNameKana} disabled={props.disabled} />
-      </span>
-      <span>
-        <label>電話番号</label>
-        <Input type="text" value={props.phoneNumber} required={true} setState={props.setPhoneNumber} minLength={11} maxLength={11} disabled={props.disabled} />
-      </span>
-      <span>
-        <label>メールアドレス</label>
-        <Input type="email" value={props.email} required={true} setState={props.setEmail} disabled={props.disabled} />
-      </span>
-      <span>
-        <label>パスワード</label>
-        <Input type="password" value={props.password} required={true} setState={props.setPassword} minLength={8} placeHolder="8文字以上で入力してください" disabled={props.disabled} />
-      </span>
+      <FormParts label="苗字" type="text" value={props.lastName} required={true} setState={props.setLastName} disabled={props.disabled} />
+      <FormParts label="名前" type="text" value={props.firstName} required={true} setState={props.setFirstName} disabled={props.disabled} />
+      <FormParts label="苗字(フリガナ)" type="text" value={props.lastNameKana} required={true} setState={props.setLastNameKana} disabled={props.disabled} />
+      <FormParts label="名前(フリガナ)" type="text" value={props.firstNameKana} required={true} setState={props.setFirstNameKana} disabled={props.disabled} />
+      <FormParts label="電話番号" type="text" value={props.phoneNumber} required={true} setState={props.setPhoneNumber} minLength={11} maxLength={11} disabled={props.disabled} />
+      <FormParts label="メールアドレス" type="email" value={props.email} required={true} setState={props.setEmail} disabled={props.disabled} />
+      <FormParts label="パスワード" type="password" value={props.password} required={true} setState={props.setPassword} minLength={8} placeHolder="8文字以上で入力してください" disabled={props.disabled} />
       <span className="error-message">
         <p>{props.error}</p>
       </span>
-      <span className="submit">
-        <Input type="submit" value="登録" disabled={props.disabled} />
-      </span>
+      <FormParts type="submit" value="登録" disabled={props.disabled} />
     </form>
   )
 }

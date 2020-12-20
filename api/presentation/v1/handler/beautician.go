@@ -13,6 +13,7 @@ type Beautician interface {
 	Create(w http.ResponseWriter, r *http.Request)
 	GetByAuthID(w http.ResponseWriter, r *http.Request)
 	Find(w http.ResponseWriter, r *http.Request)
+	Update(w http.ResponseWriter, r *http.Request)
 }
 
 type beautician struct {
@@ -94,5 +95,29 @@ func (b beautician) Find(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	factory.JSON(w, res)
+	return
+}
+
+// Update
+// @Summary 美容師情報更新
+// @Accept  json
+// @Produce  json
+// @Param data body requestmodel.BeauticianUpdate true "Request body"
+// @Success 200
+// @Failure 500 {object} resource.Error "Something went wrong"
+// @Router /api/v1/beautician [put]
+func (b beautician) Update(w http.ResponseWriter, r *http.Request) {
+	req, err := request.NewBeauticianUpdate(r)
+	if err != nil {
+		log.Warningf(r.Context(), "BeauticianUpdate.Request %v", err)
+		factory.ErrorJSON(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+	err = b.beauticianUsecase.Update(r.Context(), req)
+	if err != nil {
+		log.Errorf(r.Context(), "BeauticianUpdate: %v", err)
+		factory.ErrorJSON(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
 	return
 }

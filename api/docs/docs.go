@@ -59,6 +59,37 @@ var doc = `{
                     }
                 }
             },
+            "put": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "美容師情報更新",
+                "parameters": [
+                    {
+                        "description": "Request body",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/requestmodel.BeauticianUpdate"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    },
+                    "500": {
+                        "description": "Something went wrong",
+                        "schema": {
+                            "$ref": "#/definitions/resource.Error"
+                        }
+                    }
+                }
+            },
             "post": {
                 "consumes": [
                     "application/json"
@@ -119,76 +150,6 @@ var doc = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/responsemodel.BeauticianFind"
-                        }
-                    },
-                    "500": {
-                        "description": "Something went wrong",
-                        "schema": {
-                            "$ref": "#/definitions/resource.Error"
-                        }
-                    }
-                }
-            }
-        },
-        "/api/v1/guest": {
-            "get": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "summary": "ゲスト情報取得",
-                "parameters": [
-                    {
-                        "description": "Request body",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/requestmodel.GuestGet"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/responsemodel.GuestGet"
-                        }
-                    },
-                    "500": {
-                        "description": "Something went wrong",
-                        "schema": {
-                            "$ref": "#/definitions/resource.Error"
-                        }
-                    }
-                }
-            },
-            "post": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "summary": "ゲスト新規登録",
-                "parameters": [
-                    {
-                        "description": "Request body",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/requestmodel.GuestCreate"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/responsemodel.GuestCreate"
                         }
                     },
                     "500": {
@@ -380,7 +341,7 @@ var doc = `{
                 }
             }
         },
-        "/api/v1/reservation/guest": {
+        "/api/v1/reservation/user": {
             "get": {
                 "consumes": [
                     "application/json"
@@ -396,7 +357,7 @@ var doc = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/requestmodel.ReservationFindByGuest"
+                            "$ref": "#/definitions/requestmodel.ReservationFindByUser"
                         }
                     }
                 ],
@@ -404,7 +365,7 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/responsemodel.ReservationFindByGuest"
+                            "$ref": "#/definitions/responsemodel.ReservationFindByUser"
                         }
                     },
                     "500": {
@@ -451,32 +412,86 @@ var doc = `{
                     }
                 }
             }
+        },
+        "/api/v1/user": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "ゲスト情報取得",
+                "parameters": [
+                    {
+                        "description": "Request body",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/requestmodel.UserGet"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/responsemodel.UserGet"
+                        }
+                    },
+                    "500": {
+                        "description": "Something went wrong",
+                        "schema": {
+                            "$ref": "#/definitions/resource.Error"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "ゲスト新規登録",
+                "parameters": [
+                    {
+                        "description": "Request body",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/requestmodel.UserCreate"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/responsemodel.UserCreate"
+                        }
+                    },
+                    "500": {
+                        "description": "Something went wrong",
+                        "schema": {
+                            "$ref": "#/definitions/resource.Error"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
         "requestmodel.BeauticianCreate": {
             "type": "object",
-            "required": [
-                "email",
-                "firstName",
-                "firstNameKana",
-                "lastName",
-                "lastNameKana"
-            ],
             "properties": {
-                "email": {
+                "instagramId": {
                     "type": "string"
                 },
-                "firstName": {
-                    "type": "string"
-                },
-                "firstNameKana": {
-                    "type": "string"
-                },
-                "lastName": {
-                    "type": "string"
-                },
-                "lastNameKana": {
+                "lineId": {
                     "type": "string"
                 }
             }
@@ -501,23 +516,23 @@ var doc = `{
         "requestmodel.BeauticianGet": {
             "type": "object"
         },
-        "requestmodel.GuestCreate": {
+        "requestmodel.BeauticianUpdate": {
             "type": "object",
             "required": [
-                "email",
                 "firstName",
                 "firstNameKana",
                 "lastName",
-                "lastNameKana"
+                "lastNameKana",
+                "phoneNumber"
             ],
             "properties": {
-                "email": {
-                    "type": "string"
-                },
                 "firstName": {
                     "type": "string"
                 },
                 "firstNameKana": {
+                    "type": "string"
+                },
+                "instagramId": {
                     "type": "string"
                 },
                 "lastName": {
@@ -525,11 +540,14 @@ var doc = `{
                 },
                 "lastNameKana": {
                     "type": "string"
+                },
+                "lineId": {
+                    "type": "string"
+                },
+                "phoneNumber": {
+                    "type": "string"
                 }
             }
-        },
-        "requestmodel.GuestGet": {
-            "type": "object"
         },
         "requestmodel.MenuFind": {
             "type": "object",
@@ -586,7 +604,7 @@ var doc = `{
                 }
             }
         },
-        "requestmodel.ReservationFindByGuest": {
+        "requestmodel.ReservationFindByUser": {
             "type": "object"
         },
         "requestmodel.SalonFind": {
@@ -599,6 +617,43 @@ var doc = `{
                     "type": "string"
                 }
             }
+        },
+        "requestmodel.UserCreate": {
+            "type": "object",
+            "required": [
+                "email",
+                "firstName",
+                "firstNameKana",
+                "lastName",
+                "lastNameKana",
+                "phoneNumber"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "firstName": {
+                    "type": "string"
+                },
+                "firstNameKana": {
+                    "type": "string"
+                },
+                "isBeautician": {
+                    "type": "boolean"
+                },
+                "lastName": {
+                    "type": "string"
+                },
+                "lastNameKana": {
+                    "type": "string"
+                },
+                "phoneNumber": {
+                    "type": "string"
+                }
+            }
+        },
+        "requestmodel.UserGet": {
+            "type": "object"
         },
         "resource.Error": {
             "type": "object",
@@ -615,39 +670,14 @@ var doc = `{
                     "type": "string"
                 },
                 "createdAt": {
+                    "description": "Menus     []*BeauticianMenu ` + "`" + `json:\"menus\"` + "`" + `",
                     "type": "string"
-                },
-                "firstName": {
-                    "type": "string"
-                },
-                "firstNameKana": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "integer"
                 },
                 "instagramId": {
                     "type": "string"
                 },
-                "lastName": {
-                    "type": "string"
-                },
-                "lastNameKana": {
-                    "type": "string"
-                },
                 "lineId": {
-                    "type": "string"
-                },
-                "menus": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/responsemodel.BeauticianMenu"
-                    }
-                },
-                "phoneNumber": {
-                    "type": "string"
-                },
-                "randId": {
+                    "description": "ID            int64             ` + "`" + `json:\"id\"` + "`" + `\nRandID        string            ` + "`" + `json:\"randId\"` + "`" + `\nFirstName     string            ` + "`" + `json:\"firstName\"` + "`" + `\nLastName      string            ` + "`" + `json:\"lastName\"` + "`" + `\nFirstNameKana string            ` + "`" + `json:\"firstNameKana\"` + "`" + `\nLastNameKana  string            ` + "`" + `json:\"lastNameKana\"` + "`" + `\nPhoneNumber   string            ` + "`" + `json:\"phoneNumber\"` + "`" + `",
                     "type": "string"
                 },
                 "updatedAt": {
@@ -662,39 +692,14 @@ var doc = `{
                     "type": "string"
                 },
                 "createdAt": {
+                    "description": "Menus     []*BeauticianMenu ` + "`" + `json:\"menus\"` + "`" + `",
                     "type": "string"
-                },
-                "firstName": {
-                    "type": "string"
-                },
-                "firstNameKana": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "integer"
                 },
                 "instagramId": {
                     "type": "string"
                 },
-                "lastName": {
-                    "type": "string"
-                },
-                "lastNameKana": {
-                    "type": "string"
-                },
                 "lineId": {
-                    "type": "string"
-                },
-                "menus": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/responsemodel.BeauticianMenu"
-                    }
-                },
-                "phoneNumber": {
-                    "type": "string"
-                },
-                "randId": {
+                    "description": "ID            int64             ` + "`" + `json:\"id\"` + "`" + `\nRandID        string            ` + "`" + `json:\"randId\"` + "`" + `\nFirstName     string            ` + "`" + `json:\"firstName\"` + "`" + `\nLastName      string            ` + "`" + `json:\"lastName\"` + "`" + `\nFirstNameKana string            ` + "`" + `json:\"firstNameKana\"` + "`" + `\nLastNameKana  string            ` + "`" + `json:\"lastNameKana\"` + "`" + `\nPhoneNumber   string            ` + "`" + `json:\"phoneNumber\"` + "`" + `",
                     "type": "string"
                 },
                 "updatedAt": {
@@ -708,7 +713,7 @@ var doc = `{
                 "beauticians": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/responsemodel.Beautician"
+                        "$ref": "#/definitions/responsemodel.User"
                     }
                 }
             }
@@ -720,39 +725,14 @@ var doc = `{
                     "type": "string"
                 },
                 "createdAt": {
+                    "description": "Menus     []*BeauticianMenu ` + "`" + `json:\"menus\"` + "`" + `",
                     "type": "string"
-                },
-                "firstName": {
-                    "type": "string"
-                },
-                "firstNameKana": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "integer"
                 },
                 "instagramId": {
                     "type": "string"
                 },
-                "lastName": {
-                    "type": "string"
-                },
-                "lastNameKana": {
-                    "type": "string"
-                },
                 "lineId": {
-                    "type": "string"
-                },
-                "menus": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/responsemodel.BeauticianMenu"
-                    }
-                },
-                "phoneNumber": {
-                    "type": "string"
-                },
-                "randId": {
+                    "description": "ID            int64             ` + "`" + `json:\"id\"` + "`" + `\nRandID        string            ` + "`" + `json:\"randId\"` + "`" + `\nFirstName     string            ` + "`" + `json:\"firstName\"` + "`" + `\nLastName      string            ` + "`" + `json:\"lastName\"` + "`" + `\nFirstNameKana string            ` + "`" + `json:\"firstNameKana\"` + "`" + `\nLastNameKana  string            ` + "`" + `json:\"lastNameKana\"` + "`" + `\nPhoneNumber   string            ` + "`" + `json:\"phoneNumber\"` + "`" + `",
                     "type": "string"
                 },
                 "updatedAt": {
@@ -777,78 +757,6 @@ var doc = `{
                 },
                 "price": {
                     "type": "integer"
-                },
-                "updatedAt": {
-                    "type": "string"
-                }
-            }
-        },
-        "responsemodel.Guest": {
-            "type": "object",
-            "properties": {
-                "createdAt": {
-                    "type": "string"
-                },
-                "email": {
-                    "type": "string"
-                },
-                "firstName": {
-                    "type": "string"
-                },
-                "firstNameKana": {
-                    "type": "string"
-                },
-                "lastName": {
-                    "type": "string"
-                },
-                "lastNameKana": {
-                    "type": "string"
-                },
-                "phoneNumber": {
-                    "type": "string"
-                },
-                "randId": {
-                    "type": "string"
-                },
-                "updatedAt": {
-                    "type": "string"
-                }
-            }
-        },
-        "responsemodel.GuestCreate": {
-            "type": "object",
-            "properties": {
-                "guest": {
-                    "$ref": "#/definitions/responsemodel.Guest"
-                }
-            }
-        },
-        "responsemodel.GuestGet": {
-            "type": "object",
-            "properties": {
-                "createdAt": {
-                    "type": "string"
-                },
-                "email": {
-                    "type": "string"
-                },
-                "firstName": {
-                    "type": "string"
-                },
-                "firstNameKana": {
-                    "type": "string"
-                },
-                "lastName": {
-                    "type": "string"
-                },
-                "lastNameKana": {
-                    "type": "string"
-                },
-                "phoneNumber": {
-                    "type": "string"
-                },
-                "randId": {
-                    "type": "string"
                 },
                 "updatedAt": {
                     "type": "string"
@@ -909,9 +817,6 @@ var doc = `{
                 "date": {
                     "type": "string"
                 },
-                "guestId": {
-                    "type": "integer"
-                },
                 "menuId": {
                     "type": "integer"
                 },
@@ -920,6 +825,9 @@ var doc = `{
                 },
                 "updatedAt": {
                     "type": "string"
+                },
+                "userId": {
+                    "type": "integer"
                 }
             }
         },
@@ -935,9 +843,6 @@ var doc = `{
                 "date": {
                     "type": "string"
                 },
-                "guestId": {
-                    "type": "integer"
-                },
                 "menuId": {
                     "type": "integer"
                 },
@@ -946,6 +851,9 @@ var doc = `{
                 },
                 "updatedAt": {
                     "type": "string"
+                },
+                "userId": {
+                    "type": "integer"
                 }
             }
         },
@@ -971,18 +879,18 @@ var doc = `{
                 }
             }
         },
-        "responsemodel.ReservationFindByGuest": {
+        "responsemodel.ReservationFindByUser": {
             "type": "object",
             "properties": {
                 "reservations": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/responsemodel.ReservationGetByGuest"
+                        "$ref": "#/definitions/responsemodel.ReservationGetByUser"
                     }
                 }
             }
         },
-        "responsemodel.ReservationGetByGuest": {
+        "responsemodel.ReservationGetByUser": {
             "type": "object",
             "properties": {
                 "beauticianFirstName": {
@@ -993,9 +901,6 @@ var doc = `{
                 },
                 "date": {
                     "type": "string"
-                },
-                "guestId": {
-                    "type": "integer"
                 },
                 "id": {
                     "type": "integer"
@@ -1008,6 +913,9 @@ var doc = `{
                 },
                 "salonName": {
                     "type": "string"
+                },
+                "userId": {
+                    "type": "integer"
                 }
             }
         },
@@ -1066,6 +974,114 @@ var doc = `{
                     "items": {
                         "$ref": "#/definitions/responsemodel.Salon"
                     }
+                }
+            }
+        },
+        "responsemodel.User": {
+            "type": "object",
+            "properties": {
+                "beauticianInfo": {
+                    "$ref": "#/definitions/responsemodel.Beautician"
+                },
+                "beauticianMenus": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/responsemodel.BeauticianMenu"
+                    }
+                },
+                "beauticianSalons": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/responsemodel.Salon"
+                    }
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "firstName": {
+                    "type": "string"
+                },
+                "firstNameKana": {
+                    "type": "string"
+                },
+                "isBeautician": {
+                    "type": "boolean"
+                },
+                "lastName": {
+                    "type": "string"
+                },
+                "lastNameKana": {
+                    "type": "string"
+                },
+                "phoneNumber": {
+                    "type": "string"
+                },
+                "randId": {
+                    "type": "string"
+                },
+                "updatedAt": {
+                    "type": "string"
+                }
+            }
+        },
+        "responsemodel.UserCreate": {
+            "type": "object",
+            "properties": {
+                "user": {
+                    "$ref": "#/definitions/responsemodel.User"
+                }
+            }
+        },
+        "responsemodel.UserGet": {
+            "type": "object",
+            "properties": {
+                "beauticianInfo": {
+                    "$ref": "#/definitions/responsemodel.Beautician"
+                },
+                "beauticianMenus": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/responsemodel.BeauticianMenu"
+                    }
+                },
+                "beauticianSalons": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/responsemodel.Salon"
+                    }
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "firstName": {
+                    "type": "string"
+                },
+                "firstNameKana": {
+                    "type": "string"
+                },
+                "isBeautician": {
+                    "type": "boolean"
+                },
+                "lastName": {
+                    "type": "string"
+                },
+                "lastNameKana": {
+                    "type": "string"
+                },
+                "phoneNumber": {
+                    "type": "string"
+                },
+                "randId": {
+                    "type": "string"
+                },
+                "updatedAt": {
+                    "type": "string"
                 }
             }
         }

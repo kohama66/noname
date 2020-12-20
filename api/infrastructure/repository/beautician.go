@@ -28,7 +28,6 @@ func (b *beautician) GetByUserID(ctx context.Context, ID int64) (*entity.Beautic
 	return entity.Beauticians(
 		entity.BeauticianWhere.UserID.EQ(ID),
 		entity.BeauticianWhere.DeletedAt.IsNull(),
-		// qm.Load(entity.BeauticianRels.BeauticianMenus),
 	).One(ctx, b.Conn)
 }
 
@@ -241,4 +240,19 @@ func (b *beautician) Find(ctx context.Context, date time.Time, salon *int64, men
 		}
 	}
 	return beauticians, nil
+}
+
+func (b *beautician) Update(ctx context.Context, user *entity.User, beautician *entity.Beautician) error {
+	if err := db.RunInTx(ctx, func(tx *db.Tx) error {
+		if _, err := user.Update(ctx, tx, boil.Blacklist("id", "rand_id", "auth_id")); err != nil {
+			return err
+		}
+		if _, err := beautician.Update(ctx, tx, boil.Blacklist("user_id")); err != nil {
+			return err
+		}
+		return nil
+	}); err != nil {
+		return err
+	}
+	return nil
 }

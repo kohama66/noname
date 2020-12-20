@@ -15,4 +15,5 @@ type Beautician interface {
 	Find(ctx context.Context, date time.Time, salon *int64, menus []int64) ([]*entity.User, error)
 	// GetAll(ctx context.Context) ([]*entity.Beautician, error)
 	FindPossibleSalon(ctx context.Context, beauciaonID int64) (entity.BeauticianSalonSlice, error)
+	Update(ctx context.Context, user *entity.User, beautician *entity.Beautician) error
 }

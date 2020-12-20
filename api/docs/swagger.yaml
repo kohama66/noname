@@ -1,22 +1,10 @@
 definitions:
   requestmodel.BeauticianCreate:
     properties:
-      email:
+      instagramId:
         type: string
-      firstName:
+      lineId:
         type: string
-      firstNameKana:
-        type: string
-      lastName:
-        type: string
-      lastNameKana:
-        type: string
-    required:
-    - email
-    - firstName
-    - firstNameKana
-    - lastName
-    - lastNameKana
     type: object
   requestmodel.BeauticianFind:
     properties:
@@ -31,26 +19,28 @@ definitions:
     type: object
   requestmodel.BeauticianGet:
     type: object
-  requestmodel.GuestCreate:
+  requestmodel.BeauticianUpdate:
     properties:
-      email:
-        type: string
       firstName:
         type: string
       firstNameKana:
+        type: string
+      instagramId:
         type: string
       lastName:
         type: string
       lastNameKana:
         type: string
+      lineId:
+        type: string
+      phoneNumber:
+        type: string
     required:
-    - email
     - firstName
     - firstNameKana
     - lastName
     - lastNameKana
-    type: object
-  requestmodel.GuestGet:
+    - phoneNumber
     type: object
   requestmodel.MenuFind:
     properties:
@@ -87,7 +77,7 @@ definitions:
       offset:
         type: integer
     type: object
-  requestmodel.ReservationFindByGuest:
+  requestmodel.ReservationFindByUser:
     type: object
   requestmodel.SalonFind:
     properties:
@@ -95,6 +85,32 @@ definitions:
         type: string
       date:
         type: string
+    type: object
+  requestmodel.UserCreate:
+    properties:
+      email:
+        type: string
+      firstName:
+        type: string
+      firstNameKana:
+        type: string
+      isBeautician:
+        type: boolean
+      lastName:
+        type: string
+      lastNameKana:
+        type: string
+      phoneNumber:
+        type: string
+    required:
+    - email
+    - firstName
+    - firstNameKana
+    - lastName
+    - lastNameKana
+    - phoneNumber
+    type: object
+  requestmodel.UserGet:
     type: object
   resource.Error:
     properties:
@@ -106,28 +122,19 @@ definitions:
       comment:
         type: string
       createdAt:
+        description: Menus     []*BeauticianMenu `json:"menus"`
         type: string
-      firstName:
-        type: string
-      firstNameKana:
-        type: string
-      id:
-        type: integer
       instagramId:
         type: string
-      lastName:
-        type: string
-      lastNameKana:
-        type: string
       lineId:
-        type: string
-      menus:
-        items:
-          $ref: '#/definitions/responsemodel.BeauticianMenu'
-        type: array
-      phoneNumber:
-        type: string
-      randId:
+        description: |-
+          ID            int64             `json:"id"`
+          RandID        string            `json:"randId"`
+          FirstName     string            `json:"firstName"`
+          LastName      string            `json:"lastName"`
+          FirstNameKana string            `json:"firstNameKana"`
+          LastNameKana  string            `json:"lastNameKana"`
+          PhoneNumber   string            `json:"phoneNumber"`
         type: string
       updatedAt:
         type: string
@@ -137,28 +144,19 @@ definitions:
       comment:
         type: string
       createdAt:
+        description: Menus     []*BeauticianMenu `json:"menus"`
         type: string
-      firstName:
-        type: string
-      firstNameKana:
-        type: string
-      id:
-        type: integer
       instagramId:
         type: string
-      lastName:
-        type: string
-      lastNameKana:
-        type: string
       lineId:
-        type: string
-      menus:
-        items:
-          $ref: '#/definitions/responsemodel.BeauticianMenu'
-        type: array
-      phoneNumber:
-        type: string
-      randId:
+        description: |-
+          ID            int64             `json:"id"`
+          RandID        string            `json:"randId"`
+          FirstName     string            `json:"firstName"`
+          LastName      string            `json:"lastName"`
+          FirstNameKana string            `json:"firstNameKana"`
+          LastNameKana  string            `json:"lastNameKana"`
+          PhoneNumber   string            `json:"phoneNumber"`
         type: string
       updatedAt:
         type: string
@@ -167,7 +165,7 @@ definitions:
     properties:
       beauticians:
         items:
-          $ref: '#/definitions/responsemodel.Beautician'
+          $ref: '#/definitions/responsemodel.User'
         type: array
     type: object
   responsemodel.BeauticianGet:
@@ -175,28 +173,19 @@ definitions:
       comment:
         type: string
       createdAt:
+        description: Menus     []*BeauticianMenu `json:"menus"`
         type: string
-      firstName:
-        type: string
-      firstNameKana:
-        type: string
-      id:
-        type: integer
       instagramId:
         type: string
-      lastName:
-        type: string
-      lastNameKana:
-        type: string
       lineId:
-        type: string
-      menus:
-        items:
-          $ref: '#/definitions/responsemodel.BeauticianMenu'
-        type: array
-      phoneNumber:
-        type: string
-      randId:
+        description: |-
+          ID            int64             `json:"id"`
+          RandID        string            `json:"randId"`
+          FirstName     string            `json:"firstName"`
+          LastName      string            `json:"lastName"`
+          FirstNameKana string            `json:"firstNameKana"`
+          LastNameKana  string            `json:"lastNameKana"`
+          PhoneNumber   string            `json:"phoneNumber"`
         type: string
       updatedAt:
         type: string
@@ -213,53 +202,6 @@ definitions:
         type: string
       price:
         type: integer
-      updatedAt:
-        type: string
-    type: object
-  responsemodel.Guest:
-    properties:
-      createdAt:
-        type: string
-      email:
-        type: string
-      firstName:
-        type: string
-      firstNameKana:
-        type: string
-      lastName:
-        type: string
-      lastNameKana:
-        type: string
-      phoneNumber:
-        type: string
-      randId:
-        type: string
-      updatedAt:
-        type: string
-    type: object
-  responsemodel.GuestCreate:
-    properties:
-      guest:
-        $ref: '#/definitions/responsemodel.Guest'
-    type: object
-  responsemodel.GuestGet:
-    properties:
-      createdAt:
-        type: string
-      email:
-        type: string
-      firstName:
-        type: string
-      firstNameKana:
-        type: string
-      lastName:
-        type: string
-      lastNameKana:
-        type: string
-      phoneNumber:
-        type: string
-      randId:
-        type: string
       updatedAt:
         type: string
     type: object
@@ -298,14 +240,14 @@ definitions:
         type: string
       date:
         type: string
-      guestId:
-        type: integer
       menuId:
         type: integer
       spaceId:
         type: integer
       updatedAt:
         type: string
+      userId:
+        type: integer
     type: object
   responsemodel.ReservationCreate:
     properties:
@@ -315,14 +257,14 @@ definitions:
         type: string
       date:
         type: string
-      guestId:
-        type: integer
       menuId:
         type: integer
       spaceId:
         type: integer
       updatedAt:
         type: string
+      userId:
+        type: integer
     type: object
   responsemodel.ReservationFind:
     properties:
@@ -338,14 +280,14 @@ definitions:
           $ref: '#/definitions/responsemodel.Reservation'
         type: array
     type: object
-  responsemodel.ReservationFindByGuest:
+  responsemodel.ReservationFindByUser:
     properties:
       reservations:
         items:
-          $ref: '#/definitions/responsemodel.ReservationGetByGuest'
+          $ref: '#/definitions/responsemodel.ReservationGetByUser'
         type: array
     type: object
-  responsemodel.ReservationGetByGuest:
+  responsemodel.ReservationGetByUser:
     properties:
       beauticianFirstName:
         type: string
@@ -353,8 +295,6 @@ definitions:
         type: string
       date:
         type: string
-      guestId:
-        type: integer
       id:
         type: integer
       menus:
@@ -363,6 +303,8 @@ definitions:
         type: array
       salonName:
         type: string
+      userId:
+        type: integer
     type: object
   responsemodel.Salon:
     properties:
@@ -401,6 +343,77 @@ definitions:
         items:
           $ref: '#/definitions/responsemodel.Salon'
         type: array
+    type: object
+  responsemodel.User:
+    properties:
+      beauticianInfo:
+        $ref: '#/definitions/responsemodel.Beautician'
+      beauticianMenus:
+        items:
+          $ref: '#/definitions/responsemodel.BeauticianMenu'
+        type: array
+      beauticianSalons:
+        items:
+          $ref: '#/definitions/responsemodel.Salon'
+        type: array
+      createdAt:
+        type: string
+      email:
+        type: string
+      firstName:
+        type: string
+      firstNameKana:
+        type: string
+      isBeautician:
+        type: boolean
+      lastName:
+        type: string
+      lastNameKana:
+        type: string
+      phoneNumber:
+        type: string
+      randId:
+        type: string
+      updatedAt:
+        type: string
+    type: object
+  responsemodel.UserCreate:
+    properties:
+      user:
+        $ref: '#/definitions/responsemodel.User'
+    type: object
+  responsemodel.UserGet:
+    properties:
+      beauticianInfo:
+        $ref: '#/definitions/responsemodel.Beautician'
+      beauticianMenus:
+        items:
+          $ref: '#/definitions/responsemodel.BeauticianMenu'
+        type: array
+      beauticianSalons:
+        items:
+          $ref: '#/definitions/responsemodel.Salon'
+        type: array
+      createdAt:
+        type: string
+      email:
+        type: string
+      firstName:
+        type: string
+      firstNameKana:
+        type: string
+      isBeautician:
+        type: boolean
+      lastName:
+        type: string
+      lastNameKana:
+        type: string
+      phoneNumber:
+        type: string
+      randId:
+        type: string
+      updatedAt:
+        type: string
     type: object
 info:
   contact: {}
@@ -450,6 +463,26 @@ paths:
           schema:
             $ref: '#/definitions/resource.Error'
       summary: 美容師登録
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: Request body
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/requestmodel.BeauticianUpdate'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ""
+        "500":
+          description: Something went wrong
+          schema:
+            $ref: '#/definitions/resource.Error'
+      summary: 美容師情報更新
   /api/v1/beautician/find:
     get:
       consumes:
@@ -473,51 +506,6 @@ paths:
           schema:
             $ref: '#/definitions/resource.Error'
       summary: 美容師検索
-  /api/v1/guest:
-    get:
-      consumes:
-      - application/json
-      parameters:
-      - description: Request body
-        in: body
-        name: data
-        required: true
-        schema:
-          $ref: '#/definitions/requestmodel.GuestGet'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/responsemodel.GuestGet'
-        "500":
-          description: Something went wrong
-          schema:
-            $ref: '#/definitions/resource.Error'
-      summary: ゲスト情報取得
-    post:
-      consumes:
-      - application/json
-      parameters:
-      - description: Request body
-        in: body
-        name: data
-        required: true
-        schema:
-          $ref: '#/definitions/requestmodel.GuestCreate'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/responsemodel.GuestCreate'
-        "500":
-          description: Something went wrong
-          schema:
-            $ref: '#/definitions/resource.Error'
-      summary: ゲスト新規登録
   /api/v1/menu/find:
     get:
       consumes:
@@ -633,7 +621,7 @@ paths:
           schema:
             $ref: '#/definitions/resource.Error'
       summary: 予約検索
-  /api/v1/reservation/guest:
+  /api/v1/reservation/user:
     get:
       consumes:
       - application/json
@@ -643,14 +631,14 @@ paths:
         name: data
         required: true
         schema:
-          $ref: '#/definitions/requestmodel.ReservationFindByGuest'
+          $ref: '#/definitions/requestmodel.ReservationFindByUser'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/responsemodel.ReservationFindByGuest'
+            $ref: '#/definitions/responsemodel.ReservationFindByUser'
         "500":
           description: Something went wrong
           schema:
@@ -679,4 +667,49 @@ paths:
           schema:
             $ref: '#/definitions/resource.Error'
       summary: 美容院検索
+  /api/v1/user:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: Request body
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/requestmodel.UserGet'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responsemodel.UserGet'
+        "500":
+          description: Something went wrong
+          schema:
+            $ref: '#/definitions/resource.Error'
+      summary: ゲスト情報取得
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Request body
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/requestmodel.UserCreate'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responsemodel.UserCreate'
+        "500":
+          description: Something went wrong
+          schema:
+            $ref: '#/definitions/resource.Error'
+      summary: ゲスト新規登録
 swagger: "2.0"

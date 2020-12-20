@@ -1,6 +1,6 @@
-@import 'src/css/common.scss';
+@import "src/css/common.scss";
 
-form{
+form {
   border-radius: 15px;
   @include whiteShadow;
   background-color: #fff;
@@ -11,26 +11,15 @@ form{
   flex-flow: wrap row;
   letter-spacing: 0.05em;
   margin-top: 30px;
-  span{
+  .form-parts {
     width: 50%;
-    padding: 10px;
-    box-sizing: border-box;
-    label{
-      color: $blackFontColor;
-      font-weight: bold;
-      font-size: 14px;
-      margin-bottom: 10px;
-      display: block;
-    }
-    input{
-      margin-bottom: 10px;
-
-    }
-    &:nth-of-type(6), &:nth-of-type(7), &:nth-of-type(9){
+    &:nth-of-type(6),
+    &:nth-of-type(7),
+    &:nth-of-type(9) {
       width: 100%;
     }
   }
-  .error-message{
+  .error-message {
     margin-top: 10px;
     min-height: 15px;
     width: 100%;
@@ -42,13 +31,13 @@ form{
   }
 }
 @media screen and (max-width: 767px) {
-  form{
+  form {
     width: 100%;
     padding: 40px 20px 20px;
-    span{
+    .form-parts {
       width: 100%;
       padding: 5px;
-      label{
+      label {
         font-size: 12px;
       }
     }

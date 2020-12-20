@@ -38,3 +38,17 @@ func NewBeauticianGet(req *http.Request) *requestmodel.BeauticianGet {
 	r.AuthID = context.AuthID(req.Context())
 	return r
 }
+
+// NewBeauticianUpdate 美容師情報更新request関数
+func NewBeauticianUpdate(req *http.Request) (*requestmodel.BeauticianUpdate, error) {
+	r := &requestmodel.BeauticianUpdate{}
+	r.AuthID = context.AuthID(req.Context())
+	err := json.NewDecoder(req.Body).Decode(r)
+	if err != nil {
+		return nil, err
+	}
+	if err := validate.Struct(r); err != nil {
+		return nil, err
+	}
+	return r, nil
+}

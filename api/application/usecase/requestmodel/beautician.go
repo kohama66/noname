@@ -32,3 +32,25 @@ type BeauticianFind struct {
 type BeauticianGet struct {
 	AuthID string `json:"-"`
 }
+
+type BeauticianUpdate struct {
+	AuthID        string  `json:"-"`
+	LastName      string  `json:"lastName" validate:"required"`
+	FirstName     string  `json:"firstName" validate:"required"`
+	LastNameKana  string  `json:"lastNameKana" validate:"required"`
+	FirstNameKana string  `json:"firstNameKana" validate:"required"`
+	PhoneNumber   string  `json:"phoneNumber" validate:"required,len=11"`
+	LineID        *string `json:"lineId"`
+	InstagramID   *string `json:"instagramId"`
+}
+
+func (b *BeauticianUpdate) NewBeautician(user *entity.User, beautician *entity.Beautician) (*entity.User, *entity.Beautician) {
+	user.FirstName = b.FirstName
+	user.FirstNameKana = b.FirstNameKana
+	user.LastName = b.LastName
+	user.LastNameKana = b.LastNameKana
+	user.PhoneNumber = b.PhoneNumber
+	beautician.LineID = null.StringFromPtr(b.LineID)
+	beautician.InstagramID = null.StringFromPtr(b.InstagramID)
+	return user, beautician
+}

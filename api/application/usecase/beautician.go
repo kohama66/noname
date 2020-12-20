@@ -2,6 +2,7 @@ package usecase
 
 import (
 	"context"
+	"errors"
 	"time"
 
 	"github.com/myapp/noname/api/application/usecase/requestmodel"
@@ -16,6 +17,7 @@ type Beautician interface {
 	Create(ctx context.Context, r *requestmodel.BeauticianCreate) (*responsemodel.BeauticianCreate, error)
 	Get(ctx context.Context, r *requestmodel.BeauticianGet) (*responsemodel.BeauticianGet, error)
 	Find(ctx context.Context, r *requestmodel.BeauticianFind) (*responsemodel.BeauticianFind, error)
+	Update(ctx context.Context, r *requestmodel.BeauticianUpdate) error
 }
 
 type beautician struct {
@@ -110,4 +112,23 @@ func (b *beautician) Get(ctx context.Context, r *requestmodel.BeauticianGet) (*r
 	}
 	res := b.beauticianResponse.NewBeauticianGet(ent)
 	return res, nil
+}
+
+func (b *beautician) Update(ctx context.Context, r *requestmodel.BeauticianUpdate) error {
+	us, err := b.userRepository.GetByAuthID(ctx, r.AuthID)
+	if err != nil {
+		return err
+	}
+	if !us.IsBeautician {
+		return errors.New("not beautician")
+	}
+	bt, err := b.beauticianRepository.GetByUserID(ctx, us.ID)
+	if err != nil {
+		return err
+	}
+	us, bt = r.NewBeautician(us, bt)
+	if err := b.beauticianRepository.Update(ctx, us, bt); err != nil {
+		return err
+	}
+	return nil
 }
