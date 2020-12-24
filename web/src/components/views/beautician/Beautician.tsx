@@ -5,8 +5,9 @@ import {
   Route,
   useRouteMatch,
 } from "react-router-dom";
+import BtAuth from '../../container/btAuth/BtAuth';
 import ChangeProfile from './changeProfile/ChangeProfile';
-import Mypage from './mypage';
+import Mypage from './mypage/Mypage';
 import SignUp from './signup/SignUp';
 
 const Beautician: FC = () => {
@@ -15,8 +16,10 @@ const Beautician: FC = () => {
     <div id="beautician">
       <Switch>
         <Route path={match.path + "/signup"} component={SignUp} />
-        <Route path={match.path + "/mypage"} component={Mypage} />
-        <Route path={match.path + "/changeprofile"} component={ChangeProfile} />
+        <BtAuth >
+          <Route path={match.path + "/mypage"} component={Mypage} />
+          <Route path={match.path + "/changeprofile"} component={ChangeProfile} />
+        </BtAuth>
       </ Switch>
     </div>
   )

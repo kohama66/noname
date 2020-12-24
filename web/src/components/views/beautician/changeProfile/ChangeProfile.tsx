@@ -18,8 +18,8 @@ const ChangeProfile: FC = () => {
   const [instaID, setInstaID] = useState<string>("")
   const history = useHistory()
   const { customError, error } = useError()
-
   const { user } = useContext(UserContext)
+  
   useEffect(() => {
     setLastName(user.lastName)
     setFirstName(user.firstName)
