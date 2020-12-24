@@ -1,6 +1,6 @@
 import React, { FC, useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { updateBeautician } from '../../../../package/api';
+import { getMe, updateBeautician } from '../../../../package/api';
 import { UserContext } from '../../../../utils/context/UserContext';
 import { useError } from '../../../../utils/hooks/Error';
 import FormErrorMessage from '../../parts/formParts/FormErrorMessage';
@@ -18,7 +18,8 @@ const ChangeProfile: FC = () => {
   const [instaID, setInstaID] = useState<string>("")
   const history = useHistory()
   const { customError, error } = useError()
-  const { user } = useContext(UserContext)
+  const { user, setUser } = useContext(UserContext)
+
   
   useEffect(() => {
     setLastName(user.lastName)
@@ -47,11 +48,13 @@ const ChangeProfile: FC = () => {
         instagramId: instaID,
         lineId: lineID
       })
+      const response = await getMe()
+      setUser(response.user)
       history.push("/beautician/mypage")
     } catch (error) {
       customError(error.message)
+      setDisabled(false)
     }
-    setDisabled(false)
   }
 
   return (
