@@ -1,10 +1,12 @@
 import React, { FC, useContext } from 'react';
+import { useHistory } from 'react-router-dom';
 import { UserContext } from '../../../../utils/context/UserContext';
 import Title from '../../guest/parts/Title/Title';
 import './Mypage.scss';
 
 const Mypage: FC = () => {
   const { user } = useContext(UserContext)
+  const history = useHistory()
   return (
     <div id="bt-mypage">
       <Title title="MY PAGE" text="マイページ" />
@@ -16,7 +18,7 @@ const Mypage: FC = () => {
           <div>
             <span>
               <h1>{user.lastName + " " + user.firstName}<span>{user.lastNameKana + " " + user.firstNameKana}</span></h1>
-              <button>
+              <button onClick={() => history.push('/beautician/changeprofile')}>
                 変更
               </button>
             </span>

@@ -4,7 +4,7 @@ import { UserContext } from '../../../utils/context/UserContext';
 
 const BtAuth: FC = ({children}) => {
   const { user } = useContext(UserContext)
-  if (user.isBeautician) return <>children</>
+  if (user.isBeautician) return <>{children}</>
   return <Redirect to="/login" />
 }
 
