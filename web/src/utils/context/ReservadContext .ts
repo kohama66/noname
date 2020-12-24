@@ -1,12 +1,13 @@
 import { createContext, useState } from "react"
-import { Beautician, initBeautician, isBeauticianInterface } from "../../package/interface/Beautician"
+import { isBeautician } from "../../package/interface/Beautician"
 import { Menu } from "../../package/interface/Menu"
 import { initSalon, isSalonInterface, Salon } from "../../package/interface/Salon"
+import { initUser, User } from "../../package/interface/User"
 
 export const ReservedContext = createContext({
-  setSelectValue: (value: Beautician | Salon | Menu[] | string) => { },
+  setSelectValue: (value: User | Salon | Menu[] | string) => { },
   isAllChecked: (): boolean => false,
-  beautician: initBeautician,
+  beautician: initUser,
   store: initSalon,
   getMenuIDs: (): string[] => [""],
   reservationDate: <string | undefined>undefined,
@@ -14,13 +15,13 @@ export const ReservedContext = createContext({
 })
 
 export const useReservedContext = () => {
-  const [beautician, setBeautician] = useState<Beautician>(initBeautician)
+  const [beautician, setBeautician] = useState<User>(initUser)
   const [store, setStore] = useState<Salon>(initSalon)
   const [menus, setMenus] = useState<Menu[]>([])
   const [reservationDate, setReservationDate] = useState<string | undefined>(undefined)
 
-  const setSelectValue = (value: Beautician | Salon | Menu[] | string) => {
-    if (isBeauticianInterface(value)) {
+  const setSelectValue = (value: User | Salon | Menu[] | string) => {
+    if (isBeautician(value)) {
       setBeautician(value)
     } else if (isSalonInterface(value)) {
       setStore(value)
@@ -33,7 +34,7 @@ export const useReservedContext = () => {
   const getSelectID = (type: "beautician" | "store" | "date" | "menu"): string | string[] | undefined => {
     switch (type) {
       case "beautician":
-        if (beautician !== initBeautician) {
+        if (beautician !== initUser) {
           return beautician.randId;
         } else {
           return undefined
@@ -70,14 +71,14 @@ export const useReservedContext = () => {
     return menuIDs
   }
   const isAllChecked = (): boolean => {
-    if (beautician !== initBeautician && store !== initSalon && menus.length !== 0 && reservationDate !== undefined) {
+    if (beautician !== initUser && store !== initSalon && menus.length !== 0 && reservationDate !== undefined) {
       return true
     } else {
       return false
     }
   }
   const resetAllReservedState = () => {
-    setBeautician(initBeautician)
+    setBeautician(initUser)
     setStore(initSalon)
     setMenus([])
     setReservationDate(undefined)

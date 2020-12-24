@@ -1,15 +1,4 @@
-import { MenuDetail } from "./Menu"
-
-export interface Beautician {
-	randId: string
-	firstName: string
-	lastName: string
-	firstNameKana: string
-	lastNameKana: string
-	phoneNumber: string
-	beauticianInfo: BeauticianInfo
-	menus?: MenuDetail[]
-}
+import { User } from "./User"
 
 export interface BeauticianInfo {
 	lineId?: string
@@ -17,14 +6,12 @@ export interface BeauticianInfo {
 	comment?: string
 }
 
-export interface BeauticianGetAll {
-  beauticians: Beautician[]
-}
-
-export const initBeautician: Beautician = <Beautician>{}
-
-export const isBeauticianInterface = (arg: any): arg is Beautician => {
+export const isBeautician = (arg: any): arg is User => {
   return arg !== null &&
     typeof arg === "object" &&
-    typeof arg.firstName === "string" && typeof arg.lastName === "string" && typeof arg.phoneNumber === "string"
+    typeof arg.firstName === "string" && typeof arg.lastName === "string" && typeof arg.phoneNumber === "string" &&
+    typeof arg.firstNameKana === "string" && typeof arg.lastNameKana === "string" && typeof arg.email === "string" &&
+		typeof arg.isBeautician === "boolean" && typeof arg.beauticianInfo === "object" &&
+		typeof arg.beauticianMenus === "object" && Array.isArray(arg.beauticianMenus)
+		&& typeof arg.beauticianSalons === "object" && Array.isArray(arg.beauticianSalons)
 }

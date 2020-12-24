@@ -38,24 +38,9 @@ export interface BeauticianCardDetailProps {
   firstName: string
   lasttName: string
   phoneNumber: string
-  lineId: string
-  comment: string
-  instagramId: string
+  lineId?: string
+  instagramId?: string
   menus: MenuDetail[]
-}
-
-// export const isBeauticianCardDetail = (arg: any): arg is BeauticianCardDetailProps => {
-//   return arg !== null &&
-//     typeof arg === "object" &&
-//     typeof arg.firstName === "string" && typeof arg.lastName === "string" && typeof arg.phoneNumber === "string" &&
-//     typeof arg.lineId === "string" && typeof arg.comment === "string" && typeof arg.instagramId === "string" &&
-//     Array.isArray(arg.menus)
-// }
-export const isBeauticianCardDetail = (arg: any): arg is BeauticianCardDetailProps => {
-  return arg !== null &&
-    typeof arg === "object" &&
-    typeof arg.firstName === "string" && typeof arg.lastName === "string" && typeof arg.phoneNumber === "string" &&
-    Array.isArray(arg.menus)
 }
 
 export const BeauticianCardDetail: FC<BeauticianCardDetailProps> = (props) => {
@@ -68,7 +53,6 @@ export const BeauticianCardDetail: FC<BeauticianCardDetailProps> = (props) => {
   const handleClickInstagram = (e: React.MouseEvent<HTMLTableDataCellElement, MouseEvent>) => {
     e.stopPropagation()
   }
-
 
   return (
     <div>

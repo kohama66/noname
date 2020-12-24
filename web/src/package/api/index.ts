@@ -1,10 +1,9 @@
 import Axios, { AxiosPromise } from 'axios';
-import { beauticianResponse, beauticiansResponse } from '../interface/response/Beautician';
 import { menuDetailsResponse, menusResponse } from '../interface/response/Menu';
 import { reservationsResponse, reservationResponse, guestMypageReservationsResponse } from '../interface/response/Reservation'
 import { salonsResponse } from '../interface/response/Salon';
 import qs from "qs"
-import { userResponse } from '../interface/response/User';
+import { userResponse, usersResponse } from '../interface/response/User';
 import { userCreateRequest } from '../interface/request/User';
 import {getAuthToken} from '../../utils/function/Cookie'
 import { apiurl } from '../../config/config';
@@ -67,8 +66,8 @@ export const findSalons = async (id?: string): Promise<salonsResponse> => {
   })
 }
 
-export const findBeauticians = async (date?: string, menuIDs?: string[], salonRandID?: string): Promise<beauticiansResponse> => {
-  return get<beauticiansResponse>("/api/v1/beautician/find", {
+export const findBeauticians = async (date?: string, menuIDs?: string[], salonRandID?: string): Promise<usersResponse> => {
+  return get<usersResponse>("/api/v1/beautician/find", {
     params: {
       date: date,
       menuRandIds: menuIDs,
@@ -93,10 +92,6 @@ export const findReservation = async (beauticianRandID?: string): Promise<reserv
       beauticianRandId: beauticianRandID
     }
   })
-}
-
-export const getBeautician = async (randID: string): Promise<beauticianResponse> => {
-  return get<beauticianResponse>(`api/v1/beautician/`)
 }
 
 export const findMenuDetails = async (beauticianID: string, menuIDs?: string[]): Promise<menuDetailsResponse> => {
@@ -130,8 +125,8 @@ export const getGuestMypage = async (): Promise<guestMypageReservationsResponse>
   return get<guestMypageReservationsResponse>(`api/v1/reservation/user`)
 }
 
-export const createBeautician = async (request: beauticianCreateRequest): Promise<beauticianResponse> => {
-  return post<beauticianResponse>(`api/v1/beautician`, request)
+export const createBeautician = async (request: beauticianCreateRequest): Promise<userResponse> => {
+  return post<userResponse>(`api/v1/beautician`, request)
 }
 
 export const updateBeautician = async (request: beauticianUpdateRequest) => {

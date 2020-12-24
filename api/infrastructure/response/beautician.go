@@ -23,19 +23,11 @@ func NewBeautician() Beautician {
 // NewBeauticianResponseModel エンティティーをレスポンスへ変換
 func NewBeauticianResponseModel(ent *entity.Beautician) *responsemodel.Beautician {
 	return &responsemodel.Beautician{
-		// ID:            ent.ID,
-		// RandID:        ent.RandID,
-		// FirstName:     ent.FirstName,
-		// LastName:      ent.LastName,
-		// FirstNameKana: ent.FirstNameKana,
-		// LastNameKana:  ent.LastNameKana,
-		// PhoneNumber:   ent.PhoneNumber,
 		LineID:      ent.LineID.Ptr(),
 		InstagramID: ent.InstagramID.Ptr(),
 		Comment:     ent.Comment.Ptr(),
-		// Menus:         NewBeauticianMenusResponsemodel(ent.R.BeauticianMenus),
-		CreatedAt: ent.CreatedAt,
-		UpdatedAt: ent.UpdatedAt,
+		CreatedAt:   ent.CreatedAt,
+		UpdatedAt:   ent.UpdatedAt,
 	}
 }
 
@@ -56,7 +48,7 @@ func (b *beautician) NewBeauticianGet(ent *entity.Beautician) *responsemodel.Bea
 func (b *beautician) NewBeauticianFind(ents []*entity.User) *responsemodel.BeauticianFind {
 	bs := make([]*responsemodel.User, len(ents))
 	for i, v := range ents {
-		bs[i] = NewUserResponsemodel(v)
+		bs[i] = NewUserResponsemodel(v, nil)
 	}
 	return &responsemodel.BeauticianFind{
 		Beauticians: bs,

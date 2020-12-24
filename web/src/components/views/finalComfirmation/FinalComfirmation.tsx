@@ -1,13 +1,13 @@
 import React, { FC } from 'react';
-import { Beautician } from '../../../package/interface/Beautician';
 import { MenuDetail } from '../../../package/interface/Menu';
 import { Salon } from '../../../package/interface/Salon';
+import { User } from '../../../package/interface/User';
 import ChooseCard from '../guest/parts/ChooseCard';
 import Title from '../guest/parts/Title/Title';
 import "./FinalComfirmation.scss"
 
 interface props {
-  beautician: Beautician
+  beautician: User
   store: Salon
   date: string
   menus: MenuDetail[]

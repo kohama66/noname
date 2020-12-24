@@ -1,11 +1,12 @@
 import React, { FC } from 'react';
-import { Beautician } from '../../../../../package/interface/Beautician';
+import { isBeautician } from '../../../../../package/interface/Beautician';
 import { Salon } from '../../../../../package/interface/Salon';
-import { BeauticianCardDetail, isBeauticianCardDetail, isStoreCardDetailProps, StoreCardDetail, StoreCardDetailProps } from "./CardDetail"
+import { User } from '../../../../../package/interface/User';
+import { BeauticianCardDetail, isStoreCardDetailProps, StoreCardDetail } from "./CardDetail"
 
 interface props {
   type: "store" | "beautician"
-  content: Salon | Beautician
+  content: Salon | User
 }
 
 const CardDetail: FC<props> = (props) => {
@@ -13,10 +14,10 @@ const CardDetail: FC<props> = (props) => {
     return <StoreCardDetail name={props.content.name} phoneNumber={props.content.phoneNumber} openingHours={props.content.openingHours} closingHours={props.content.closingHours}
       postalCode={props.content.postalCode} prefectures={props.content.prefectures} city={props.content.city}
       town={props.content.town} addressCode={props.content.addressCode} addressOther={props.content.addressOther} />
-  } else if (isBeauticianCardDetail(props.content)) {
+  } else if (isBeautician(props.content)) {
     return <BeauticianCardDetail firstName={props.content.firstName} lasttName={props.content.lastName}
-    phoneNumber={props.content.phoneNumber} lineId={props.content.lineId} comment={props.content.comment}
-    instagramId={props.content.instagramId} menus={props.content.menus} />
+      phoneNumber={props.content.phoneNumber} lineId={props.content.beauticianInfo.lineId}
+      instagramId={props.content.beauticianInfo.instagramId} menus={props.content.beauticianMenus ? props.content.beauticianMenus : []} />
   }
   return (
     <div>???</div>

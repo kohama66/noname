@@ -5,6 +5,10 @@ export interface userResponse {
   user: User
 }
 
+export interface usersResponse {
+  users: User[]
+}
+
 export interface guestMypageResponse {
   randId: string
   firstName: string
