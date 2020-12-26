@@ -8,6 +8,7 @@ import (
 	"github.com/myapp/noname/api/di"
 	"github.com/myapp/noname/api/env"
 
+	// swagger用docs
 	_ "github.com/myapp/noname/api/docs"
 	"github.com/myapp/noname/api/presentation/middleware"
 
@@ -15,21 +16,25 @@ import (
 	httpSwagger "github.com/swaggo/http-swagger"
 )
 
+// Router 構造体
 type Router struct {
 	chi.Router
 }
 
+// Init Router初期化
 func Init() *Router {
 	r := chi.NewRouter()
 	return &Router{r}
 }
 
+// Run 起動
 func (r *Router) Run() {
 	port := env.GetPort()
 	fmt.Println("Listening on port " + port)
 	http.ListenAndServe(":"+port, r)
 }
 
+// Routes Routings
 func (r *Router) Routes() {
 	beauticianController := di.InitBeautician()
 	reservationController := di.InitReservation()
@@ -83,6 +88,7 @@ func (r *Router) Routes() {
 	})
 }
 
+// Swagger 開発用API管理
 func (r *Router) Swagger() {
 	r.Use(middleware.CORS)
 	r.Get("/api/swagger/*", httpSwagger.Handler(
