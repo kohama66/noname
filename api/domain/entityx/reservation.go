@@ -54,3 +54,14 @@ type ReservationGetByUser struct {
 type ReservationGetByUserSlice struct {
 	Reservations []*ReservationGetByUser
 }
+
+// ReservationInfo 予約詳細
+type ReservationInfo struct {
+	ID         int64              `boil:"id" json:"id"`
+	RandID     string             `boil:"randId" json:"randId"`
+	Date       time.Time          `boil:"date" json:"date"`
+	Holiday    bool               `boil:"holiday" json:"holiday"`
+	Salon      *entity.Salon      `boil:"salon" json:"salon"`
+	Beautician *entity.Beautician `boil:"beautician" json:"beautician"`
+	User       *entity.User       `boil:"user" json:"user"`
+}

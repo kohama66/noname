@@ -16,6 +16,7 @@ type Reservation interface {
 	FindByBeautician(w http.ResponseWriter, hr *http.Request)
 	Find(w http.ResponseWriter, hr *http.Request)
 	FindByUser(w http.ResponseWriter, hr *http.Request)
+	GetInfo(w http.ResponseWriter, hr *http.Request)
 }
 
 type reservation struct {
@@ -119,6 +120,31 @@ func (r reservation) FindByUser(w http.ResponseWriter, hr *http.Request) {
 	res, err := r.reservationUsecase.FindByUser(hr.Context(), req)
 	if err != nil {
 		log.Errorf(hr.Context(), "ReservationFindByUser: %v", err)
+		factory.ErrorJSON(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	factory.JSON(w, res)
+	return
+}
+
+// GetInfo
+// @Summary 予約詳細を取得
+// @Accept  json
+// @Produce  json
+// @Param data body requestmodel.ReservationGetInfo true "Request body"
+// @Success 200 {object} responsemodel.ReservationGetInfo
+// @Failure 500 {object} resource.Error "Something went wrong"
+// @Router /api/v1/reservation/{randID} [Get]
+func (r reservation) GetInfo(w http.ResponseWriter, hr *http.Request) {
+	req, err := request.NewReservationGetInfo(hr)
+	if err != nil {
+		log.Warningf(hr.Context(), "ReservationGetInfo.Request %v", err)
+		factory.ErrorJSON(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+	res, err := r.reservationUsecase.GetInfo(hr.Context(), req)
+	if err != nil {
+		log.Errorf(hr.Context(), "ReservationGetInfo: %v", err)
 		factory.ErrorJSON(w, err.Error(), http.StatusInternalServerError)
 		return
 	}

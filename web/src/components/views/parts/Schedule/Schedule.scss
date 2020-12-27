@@ -31,13 +31,6 @@
           background-color: $orangeColor1;
         }
       }
-      .reserved-square {
-        background-color: $baseColor;
-        pointer-events: none;
-      }
-      .reserved-square:hover {
-        background-color: $baseColor !important;
-      }
     }
   }
 }

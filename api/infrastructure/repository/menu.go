@@ -2,6 +2,7 @@ package repository
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/myapp/noname/api/domain/entity"
 	"github.com/myapp/noname/api/domain/repository"
@@ -73,4 +74,12 @@ func (m *menu) ExistsByBeauticianIDWithMenuIDs(ctx context.Context, beauticianID
 		qm.WhereIn("menu_id IN ?", convertedMenuIDs...),
 		entity.BeauticianMenuWhere.DeletedAt.IsNull(),
 	).Exists(ctx, m.Conn)
+}
+
+func (m *menu) GetBeauticianMenusByReservationID(ctx context.Context, reservationID int64) (entity.BeauticianMenuSlice, error) {
+	return entity.BeauticianMenus(
+		qm.InnerJoin(fmt.Sprintf("%v ON %v = %v", entity.TableNames.ReservationMenus, entity.ReservationMenuColumns.BeauticianMenuID, entity.BeauticianMenuColumns.ID)),
+		entity.ReservationMenuWhere.ReservationID.EQ(reservationID),
+		entity.BeauticianMenuWhere.DeletedAt.IsNull(),
+	).All(ctx, m.Conn)
 }

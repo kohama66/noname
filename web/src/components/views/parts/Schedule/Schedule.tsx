@@ -7,6 +7,7 @@ import { Reservation } from '../../../../package/interface/Reservation';
 interface props {
   reservations: Reservation[]
   weeks: Date[]
+  pathName?: string
 }
 
 const Schedule: FC<props> = (props) => {
@@ -25,7 +26,7 @@ const Schedule: FC<props> = (props) => {
             return <tr key={i}>
               <td>{time}時</td>
               {props.weeks.map((day, i) => {
-                return <Square key={i} day={day} time={time} reservations={props.reservations} />
+                return <Square key={i} day={day} time={time} reservations={props.reservations} pathName={props.pathName} />
               })}
             </tr>
           })}

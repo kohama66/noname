@@ -1,6 +1,6 @@
 import Axios, { AxiosPromise } from 'axios';
 import { menuDetailsResponse, menusResponse } from '../interface/response/Menu';
-import { reservationsResponse, reservationResponse, guestMypageReservationsResponse } from '../interface/response/Reservation'
+import { reservationsResponse, reservationResponse, guestMypageReservationsResponse, reservationInfoResponse } from '../interface/response/Reservation'
 import { salonsResponse } from '../interface/response/Salon';
 import qs from "qs"
 import { userResponse, usersResponse } from '../interface/response/User';
@@ -131,4 +131,12 @@ export const createBeautician = async (request: beauticianCreateRequest): Promis
 
 export const updateBeautician = async (request: beauticianUpdateRequest) => {
   return put(`api/v1/beautician`, request)
+}
+
+export const getReservationBeautician = async (): Promise<reservationsResponse> => {
+  return get<reservationsResponse>(`api/v1/reservation/beautician`)
+}
+
+export const getReservationInfo = async (randID: string): Promise<reservationInfoResponse> => {
+  return get<reservationInfoResponse>(`api/v1/reservation/${randID}`)
 }

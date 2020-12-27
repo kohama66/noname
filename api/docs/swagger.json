@@ -357,6 +357,42 @@
                 }
             }
         },
+        "/api/v1/reservation/{randID}": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "予約詳細を取得",
+                "parameters": [
+                    {
+                        "description": "Request body",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/requestmodel.ReservationGetInfo"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/responsemodel.ReservationGetInfo"
+                        }
+                    },
+                    "500": {
+                        "description": "Something went wrong",
+                        "schema": {
+                            "$ref": "#/definitions/resource.Error"
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/salon/find": {
             "get": {
                 "consumes": [
@@ -587,6 +623,14 @@
         "requestmodel.ReservationFindByUser": {
             "type": "object"
         },
+        "requestmodel.ReservationGetInfo": {
+            "type": "object",
+            "properties": {
+                "randId": {
+                    "type": "string"
+                }
+            }
+        },
         "requestmodel.SalonFind": {
             "type": "object",
             "properties": {
@@ -650,14 +694,12 @@
                     "type": "string"
                 },
                 "createdAt": {
-                    "description": "Menus     []*BeauticianMenu `json:\"menus\"`",
                     "type": "string"
                 },
                 "instagramId": {
                     "type": "string"
                 },
                 "lineId": {
-                    "description": "ID            int64             `json:\"id\"`\nRandID        string            `json:\"randId\"`\nFirstName     string            `json:\"firstName\"`\nLastName      string            `json:\"lastName\"`\nFirstNameKana string            `json:\"firstNameKana\"`\nLastNameKana  string            `json:\"lastNameKana\"`\nPhoneNumber   string            `json:\"phoneNumber\"`",
                     "type": "string"
                 },
                 "updatedAt": {
@@ -672,14 +714,12 @@
                     "type": "string"
                 },
                 "createdAt": {
-                    "description": "Menus     []*BeauticianMenu `json:\"menus\"`",
                     "type": "string"
                 },
                 "instagramId": {
                     "type": "string"
                 },
                 "lineId": {
-                    "description": "ID            int64             `json:\"id\"`\nRandID        string            `json:\"randId\"`\nFirstName     string            `json:\"firstName\"`\nLastName      string            `json:\"lastName\"`\nFirstNameKana string            `json:\"firstNameKana\"`\nLastNameKana  string            `json:\"lastNameKana\"`\nPhoneNumber   string            `json:\"phoneNumber\"`",
                     "type": "string"
                 },
                 "updatedAt": {
@@ -690,7 +730,7 @@
         "responsemodel.BeauticianFind": {
             "type": "object",
             "properties": {
-                "beauticians": {
+                "users": {
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/responsemodel.User"
@@ -705,14 +745,12 @@
                     "type": "string"
                 },
                 "createdAt": {
-                    "description": "Menus     []*BeauticianMenu `json:\"menus\"`",
                     "type": "string"
                 },
                 "instagramId": {
                     "type": "string"
                 },
                 "lineId": {
-                    "description": "ID            int64             `json:\"id\"`\nRandID        string            `json:\"randId\"`\nFirstName     string            `json:\"firstName\"`\nLastName      string            `json:\"lastName\"`\nFirstNameKana string            `json:\"firstNameKana\"`\nLastNameKana  string            `json:\"lastNameKana\"`\nPhoneNumber   string            `json:\"phoneNumber\"`",
                     "type": "string"
                 },
                 "updatedAt": {
@@ -800,6 +838,9 @@
                 "menuId": {
                     "type": "integer"
                 },
+                "randId": {
+                    "type": "string"
+                },
                 "spaceId": {
                     "type": "integer"
                 },
@@ -825,6 +866,9 @@
                 },
                 "menuId": {
                     "type": "integer"
+                },
+                "randId": {
+                    "type": "string"
                 },
                 "spaceId": {
                     "type": "integer"
@@ -896,6 +940,43 @@
                 },
                 "userId": {
                     "type": "integer"
+                }
+            }
+        },
+        "responsemodel.ReservationGetInfo": {
+            "type": "object",
+            "properties": {
+                "reservationInfo": {
+                    "$ref": "#/definitions/responsemodel.ReservationInfo"
+                }
+            }
+        },
+        "responsemodel.ReservationInfo": {
+            "type": "object",
+            "properties": {
+                "createdAt": {
+                    "type": "string"
+                },
+                "date": {
+                    "type": "string"
+                },
+                "menus": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/responsemodel.BeauticianMenu"
+                    }
+                },
+                "randId": {
+                    "type": "string"
+                },
+                "salon": {
+                    "$ref": "#/definitions/responsemodel.Salon"
+                },
+                "updatedAt": {
+                    "type": "string"
+                },
+                "user": {
+                    "$ref": "#/definitions/responsemodel.User"
                 }
             }
         },

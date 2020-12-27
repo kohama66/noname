@@ -9,6 +9,7 @@ import (
 	"github.com/myapp/noname/api/presentation/v1/resource/factory"
 )
 
+// Beautician DIInterface
 type Beautician interface {
 	Create(w http.ResponseWriter, r *http.Request)
 	GetByAuthID(w http.ResponseWriter, r *http.Request)
@@ -20,6 +21,7 @@ type beautician struct {
 	beauticianUsecase usecase.Beautician
 }
 
+// NewBeautician DI初期化
 func NewBeautician(
 	beauticianUsecase usecase.Beautician,
 ) Beautician {

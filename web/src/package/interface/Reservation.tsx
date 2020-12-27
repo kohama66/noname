@@ -1,6 +1,10 @@
 import { MenuDetail } from "./Menu"
+import { Salon } from "./Salon"
+import { User } from "./User"
+import { Menu } from "./Menu"
 
 export interface Reservation {
+	randId: string
 	date: string
 	spaceId: number
 	guestId: number
@@ -15,6 +19,14 @@ export interface GuestMyPageReservation {
 	beauticianFirstName: string
 	beauticianLastName: string
 	menus: MenuDetail[]
+}
+
+export interface ReservationInfo {
+	randID: string
+	date: string
+	salon: Salon
+	user: User
+	menus: Menu[]
 }
 
 export const isReservationInterface = (arg: any): arg is Reservation => {

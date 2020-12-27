@@ -26,6 +26,7 @@ CREATE TABLE `salons` (
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   `deleted_at` datetime DEFAULT NULL,
+  UNIQUE KEY `rand_id` (`rand_id`),
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -43,6 +44,8 @@ CREATE TABLE `users` (
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   `deleted_at` datetime DEFAULT NULL,
+  UNIQUE KEY `rand_id` (`rand_id`),
+  UNIQUE KEY `auth_id` (`auth_id`),
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -53,6 +56,7 @@ CREATE TABLE `menus` (
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   `deleted_at` datetime DEFAULT NULL,
+  UNIQUE KEY `rand_id` (`rand_id`),
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -68,6 +72,7 @@ CREATE TABLE `spaces` (
 
 CREATE TABLE `reservations` (
   `id` bigint NOT NULL AUTO_INCREMENT,
+  `rand_id` varchar(255) NOT NULL,
   `date` datetime NOT NULL,
   `holiday` tinyint(1) NOT NULL,
   `space_id` bigint NOT NULL,
@@ -77,6 +82,7 @@ CREATE TABLE `reservations` (
   `updated_at` datetime NOT NULL,
   `deleted_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
+  UNIQUE KEY `rand_id` (`rand_id`),
   CONSTRAINT `space_reservations_fk` FOREIGN KEY (`space_id`) REFERENCES spaces (`id`),
   CONSTRAINT `beautician_reservations_fk` FOREIGN KEY (`beautician_id`) REFERENCES users (`id`),
   CONSTRAINT `user_reservations_fk` FOREIGN KEY (`user_id`) REFERENCES users (`id`)

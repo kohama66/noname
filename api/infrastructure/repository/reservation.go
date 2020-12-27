@@ -105,3 +105,13 @@ func (r *reservation) FindByUser(ctx context.Context, userID int64) ([]*entityx.
 	}
 	return results, nil
 }
+
+func (r *reservation) GetByRandID(ctx context.Context, randID string) (*entity.Reservation, error) {
+	return entity.Reservations(
+		entity.ReservationWhere.RandID.EQ(randID),
+		qm.Load(entity.ReservationRels.User),
+		qm.Load(entity.ReservationRels.Beautician),
+		qm.Load(entity.ReservationRels.ReservationMenus),
+		entity.ReservationWhere.DeletedAt.IsNull(),
+	).One(ctx, r.Conn)
+}

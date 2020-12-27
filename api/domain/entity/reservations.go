@@ -25,6 +25,7 @@ import (
 // Reservation is an object representing the database table.
 type Reservation struct {
 	ID           int64     `boil:"id" json:"id" toml:"id" yaml:"id"`
+	RandID       string    `boil:"rand_id" json:"rand_id" toml:"rand_id" yaml:"rand_id"`
 	Date         time.Time `boil:"date" json:"date" toml:"date" yaml:"date"`
 	Holiday      bool      `boil:"holiday" json:"holiday" toml:"holiday" yaml:"holiday"`
 	SpaceID      int64     `boil:"space_id" json:"space_id" toml:"space_id" yaml:"space_id"`
@@ -40,6 +41,7 @@ type Reservation struct {
 
 var ReservationColumns = struct {
 	ID           string
+	RandID       string
 	Date         string
 	Holiday      string
 	SpaceID      string
@@ -50,6 +52,7 @@ var ReservationColumns = struct {
 	DeletedAt    string
 }{
 	ID:           "id",
+	RandID:       "rand_id",
 	Date:         "date",
 	Holiday:      "holiday",
 	SpaceID:      "space_id",
@@ -73,6 +76,7 @@ func (w whereHelperbool) GTE(x bool) qm.QueryMod { return qmhelper.Where(w.field
 
 var ReservationWhere = struct {
 	ID           whereHelperint64
+	RandID       whereHelperstring
 	Date         whereHelpertime_Time
 	Holiday      whereHelperbool
 	SpaceID      whereHelperint64
@@ -83,6 +87,7 @@ var ReservationWhere = struct {
 	DeletedAt    whereHelpernull_Time
 }{
 	ID:           whereHelperint64{field: "`reservations`.`id`"},
+	RandID:       whereHelperstring{field: "`reservations`.`rand_id`"},
 	Date:         whereHelpertime_Time{field: "`reservations`.`date`"},
 	Holiday:      whereHelperbool{field: "`reservations`.`holiday`"},
 	SpaceID:      whereHelperint64{field: "`reservations`.`space_id`"},
@@ -123,8 +128,8 @@ func (*reservationR) NewStruct() *reservationR {
 type reservationL struct{}
 
 var (
-	reservationAllColumns            = []string{"id", "date", "holiday", "space_id", "beautician_id", "user_id", "created_at", "updated_at", "deleted_at"}
-	reservationColumnsWithoutDefault = []string{"date", "holiday", "space_id", "beautician_id", "user_id", "created_at", "updated_at", "deleted_at"}
+	reservationAllColumns            = []string{"id", "rand_id", "date", "holiday", "space_id", "beautician_id", "user_id", "created_at", "updated_at", "deleted_at"}
+	reservationColumnsWithoutDefault = []string{"rand_id", "date", "holiday", "space_id", "beautician_id", "user_id", "created_at", "updated_at", "deleted_at"}
 	reservationColumnsWithDefault    = []string{"id"}
 	reservationPrimaryKeyColumns     = []string{"id"}
 )
@@ -1343,6 +1348,7 @@ func (o ReservationSlice) UpdateAll(ctx context.Context, exec boil.ContextExecut
 
 var mySQLReservationUniqueColumns = []string{
 	"id",
+	"rand_id",
 }
 
 // Upsert attempts an insert using an executor, and does an update or ignore on conflict.

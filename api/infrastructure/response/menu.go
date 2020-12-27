@@ -28,6 +28,15 @@ func NewMenuResponsemodel(ent *entity.Menu) *responsemodel.Menu {
 	}
 }
 
+// NewMenusResponsemodel エンティティをレスポンスモデルスライスへ変換
+func NewMenusResponsemodel(ents []*entity.Menu) []*responsemodel.Menu {
+	mn := make([]*responsemodel.Menu, len(ents))
+	for i, v := range ents {
+		mn[i] = NewMenuResponsemodel(v)
+	}
+	return mn
+}
+
 func (m *menu) NewMenuFind(ents []*entity.Menu) *responsemodel.MenuFind {
 	mn := make([]*responsemodel.Menu, len(ents))
 	for i, v := range ents {

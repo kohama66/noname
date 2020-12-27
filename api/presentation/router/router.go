@@ -60,6 +60,7 @@ func (r *Router) Routes() {
 					r.Get("/find", reservationController.Find)
 					r.Group(func(r chi.Router) {
 						r.Use(middleware.AuthAPI)
+						r.Get("/{randID}", reservationController.GetInfo)
 						r.Post("/", reservationController.Create)
 						r.Get("/beautician", reservationController.FindByBeautician)
 						r.Get("/user", reservationController.FindByUser)

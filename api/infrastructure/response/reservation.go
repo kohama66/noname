@@ -12,6 +12,7 @@ type Reservation interface {
 	NewReservationFindByBeautician(ents []*entity.Reservation) *responsemodel.ReservationFindByBeautician
 	NewReservationFind(ents []*entity.Reservation) *responsemodel.ReservationFind
 	NewReservationFindByUser(ents []*entityx.ReservationGetByUser) *responsemodel.ReservationFindByUser
+	NewReservationInfo(rs *entity.Reservation, sl *entity.Salon, mn []*entity.BeauticianMenu) *responsemodel.ReservationGetInfo
 }
 
 type reservation struct {
@@ -25,6 +26,7 @@ func NewReservation() Reservation {
 // NewResponseModelReservation エンティティーをレスポンスへ変換
 func NewResponseModelReservation(ent *entity.Reservation) *responsemodel.Reservation {
 	return &responsemodel.Reservation{
+		RandID:       ent.RandID,
 		Date:         ent.Date,
 		SpaceID:      ent.SpaceID,
 		BeauticianID: ent.BeauticianID,
@@ -75,5 +77,24 @@ func (r *reservation) NewReservationFindByUser(ents []*entityx.ReservationGetByU
 	}
 	return &responsemodel.ReservationFindByUser{
 		Reservations: rv,
+	}
+}
+
+// NewReservationInfo 予約詳細レスポンスモデル変換
+func NewReservationInfo(rs *entity.Reservation, sl *entity.Salon, mn []*entity.BeauticianMenu) *responsemodel.ReservationInfo {
+	return &responsemodel.ReservationInfo{
+		RandID:    rs.RandID,
+		Date:      rs.Date,
+		User:      NewUserResponsemodel(rs.R.User),
+		Salon:     NewSalonResponseModel(sl),
+		Menus:     NewBeauticianMenusResponsemodel(mn),
+		CreatedAt: rs.CreatedAt,
+		UpdatedAt: rs.UpdatedAt,
+	}
+}
+
+func (r *reservation) NewReservationInfo(rs *entity.Reservation, sl *entity.Salon, mn []*entity.BeauticianMenu) *responsemodel.ReservationGetInfo {
+	return &responsemodel.ReservationGetInfo{
+		ReservationInfo: NewReservationInfo(rs, sl, mn),
 	}
 }

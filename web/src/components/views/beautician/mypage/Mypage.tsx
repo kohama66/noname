@@ -1,12 +1,25 @@
-import React, { FC, useContext } from 'react';
+import React, { FC, useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import { getReservationBeautician } from '../../../../package/api';
+import { Reservation } from '../../../../package/interface/Reservation';
 import { UserContext } from '../../../../utils/context/UserContext';
 import Title from '../../guest/parts/Title/Title';
+import Schedule from '../../parts/Schedule';
 import './Mypage.scss';
 
 const Mypage: FC = () => {
+  const [reserved, setReserved] = useState<Reservation[]>([])
   const { user } = useContext(UserContext)
   const history = useHistory()
+
+  useEffect(() => {
+    const handleGetReserved = async () => {
+      const response = await getReservationBeautician()
+      setReserved(response.reservations)
+    }
+    handleGetReserved()
+  },[])
+
   return (
     <div id="bt-mypage">
       <Title title="MY PAGE" text="マイページ" />
@@ -62,6 +75,9 @@ const Mypage: FC = () => {
               })}
             </ul>
           </div>
+        </div>
+        <div className="bottom-content">
+          <Schedule reservations={reserved} />
         </div>
       </div>
     </div>

@@ -3,6 +3,7 @@ package usecase
 import (
 	"context"
 	"errors"
+	"fmt"
 	"time"
 
 	"github.com/myapp/noname/api/application/usecase/requestmodel"
@@ -10,6 +11,7 @@ import (
 	"github.com/myapp/noname/api/domain/entity"
 	"github.com/myapp/noname/api/domain/repository"
 	"github.com/myapp/noname/api/infrastructure/response"
+	"github.com/rs/xid"
 )
 
 // Reservation DIInterface
@@ -18,6 +20,7 @@ type Reservation interface {
 	FindByBeautician(ctx context.Context, req *requestmodel.ReservationFindByBeautician) (*responsemodel.ReservationFindByBeautician, error)
 	Find(ctx context.Context, req *requestmodel.ReservationFind) (*responsemodel.ReservationFind, error)
 	FindByUser(ctx context.Context, req *requestmodel.ReservationFindByUser) (*responsemodel.ReservationFindByUser, error)
+	GetInfo(ctx context.Context, re *requestmodel.ReservationGetInfo) (*responsemodel.ReservationGetInfo, error)
 }
 
 type reservation struct {
@@ -98,7 +101,7 @@ func (r *reservation) Create(ctx context.Context, req *requestmodel.ReservationC
 	if ng {
 		return nil, errors.New("美容師の予約が重複しています")
 	}
-	ent := req.NewReservation(gs.ID, sp.ID, bt.ID, convDate)
+	ent := req.NewReservation(gs.ID, sp.ID, bt.ID, xid.New().String(), convDate)
 	if err = r.reservationRepository.Create(ctx, ent, mnids); err != nil {
 		return nil, err
 	}
@@ -143,4 +146,21 @@ func (r *reservation) FindByUser(ctx context.Context, req *requestmodel.Reservat
 		return nil, err
 	}
 	return r.reservationResponse.NewReservationFindByUser(rv), nil
+}
+
+func (r *reservation) GetInfo(ctx context.Context, re *requestmodel.ReservationGetInfo) (*responsemodel.ReservationGetInfo, error) {
+	rs, err := r.reservationRepository.GetByRandID(ctx, re.RandID)
+	if err != nil {
+		return nil, err
+	}
+	sl, err := r.salonRepository.GetBySpaceID(ctx, rs.SpaceID)
+	if err != nil {
+		return nil, err
+	}
+	mn, err := r.menuRepository.GetBeauticianMenusByReservationID(ctx, rs.ID)
+	if err != nil {
+		return nil, err
+	}
+	fmt.Println(mn)
+	return r.reservationResponse.NewReservationInfo(rs, sl, mn), nil
 }

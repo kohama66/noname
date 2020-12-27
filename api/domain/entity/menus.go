@@ -824,6 +824,7 @@ func (o MenuSlice) UpdateAll(ctx context.Context, exec boil.ContextExecutor, col
 
 var mySQLMenuUniqueColumns = []string{
 	"id",
+	"rand_id",
 }
 
 // Upsert attempts an insert using an executor, and does an update or ignore on conflict.

@@ -22,16 +22,6 @@ type User struct {
 	// Reservations []*Reservation `json:"reservations"`
 }
 
-// UserGet ゲスト情報取得レスポンス構造体
-// type UserGet struct {
-// 	RandID       string                   `json:"randId"`
-// 	FirstName    string                   `json:"firstName"`
-// 	LastName     string                   `json:"lastName"`
-// 	Reservations []*ReservationGetByUser `json:"reservations"`
-// 	CreatedAt    time.Time                `json:"createdAt"`
-// 	UpdatedAt    time.Time                `json:"updatedAt"`
-// }
-
 // UserGet ユーザー情報取得レスポンス構造体
 type UserGet struct {
 	*User `json:"user"`

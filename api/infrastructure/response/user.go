@@ -19,7 +19,23 @@ func NewUser() User {
 }
 
 // NewUserResponsemodel レスポンスモデル変換関数
-func NewUserResponsemodel(ent *entity.User, salons []*entity.Salon) *responsemodel.User {
+func NewUserResponsemodel(ent *entity.User) *responsemodel.User {
+	return &responsemodel.User{
+		RandID:        ent.RandID,
+		FirstName:     ent.FirstName,
+		LastName:      ent.LastName,
+		FirstNameKana: ent.FirstNameKana,
+		LastNameKana:  ent.LastNameKana,
+		Email:         ent.Email,
+		PhoneNumber:   ent.PhoneNumber,
+		IsBeauticina:  ent.IsBeautician,
+		CreatedAt:     ent.CreatedAt,
+		UpdatedAt:     ent.CreatedAt,
+	}
+}
+
+// NewBeauticianUserResponsemodel レスポンスモデル変換関数
+func NewBeauticianUserResponsemodel(ent *entity.User, salons []*entity.Salon) *responsemodel.User {
 	return &responsemodel.User{
 		RandID:           ent.RandID,
 		FirstName:        ent.FirstName,
@@ -38,27 +54,18 @@ func NewUserResponsemodel(ent *entity.User, salons []*entity.Salon) *responsemod
 }
 
 func (g *user) NewUserGet(ent *entity.User, salons []*entity.Salon) *responsemodel.UserGet {
+	if ent.IsBeautician {
+		return &responsemodel.UserGet{
+			User: NewBeauticianUserResponsemodel(ent, salons),
+		}
+	}
 	return &responsemodel.UserGet{
-		User: &responsemodel.User{
-			RandID:           ent.RandID,
-			FirstName:        ent.FirstName,
-			LastName:         ent.LastName,
-			FirstNameKana:    ent.FirstNameKana,
-			LastNameKana:     ent.LastNameKana,
-			Email:            ent.Email,
-			PhoneNumber:      ent.PhoneNumber,
-			IsBeauticina:     ent.IsBeautician,
-			BeauticianInfo:   NewBeauticianResponseModel(ent.R.Beautician),
-			BeauticianMenus:  NewBeauticianMenusResponsemodel(ent.R.BeauticianBeauticianMenus),
-			BeauticianSalons: NewSalonsResponseModel(salons),
-			CreatedAt:        ent.CreatedAt,
-			UpdatedAt:        ent.CreatedAt,
-		},
+		User: NewUserResponsemodel(ent),
 	}
 }
 
 func (g *user) NewUserCreate(ent *entity.User) *responsemodel.UserCreate {
 	return &responsemodel.UserCreate{
-		User: NewUserResponsemodel(ent, nil),
+		User: NewUserResponsemodel(ent),
 	}
 }

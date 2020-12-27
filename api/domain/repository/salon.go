@@ -16,4 +16,5 @@ type Salon interface {
 	GetVacantSpace(ctx context.Context, date time.Time, salonID int64) (*entity.Space, error)
 	ExistsByBeauticianWithSalon(ctx context.Context, beauticianID, salonID int64) (bool, error)
 	GetBeauticianSalons(ctx context.Context, beauticianID int64) (entity.SalonSlice, error)
+	GetBySpaceID(ctx context.Context, spaceID int64) (*entity.Salon, error)
 }

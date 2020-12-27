@@ -79,6 +79,11 @@ definitions:
     type: object
   requestmodel.ReservationFindByUser:
     type: object
+  requestmodel.ReservationGetInfo:
+    properties:
+      randId:
+        type: string
+    type: object
   requestmodel.SalonFind:
     properties:
       beauticianRandID:
@@ -122,19 +127,10 @@ definitions:
       comment:
         type: string
       createdAt:
-        description: Menus     []*BeauticianMenu `json:"menus"`
         type: string
       instagramId:
         type: string
       lineId:
-        description: |-
-          ID            int64             `json:"id"`
-          RandID        string            `json:"randId"`
-          FirstName     string            `json:"firstName"`
-          LastName      string            `json:"lastName"`
-          FirstNameKana string            `json:"firstNameKana"`
-          LastNameKana  string            `json:"lastNameKana"`
-          PhoneNumber   string            `json:"phoneNumber"`
         type: string
       updatedAt:
         type: string
@@ -144,26 +140,17 @@ definitions:
       comment:
         type: string
       createdAt:
-        description: Menus     []*BeauticianMenu `json:"menus"`
         type: string
       instagramId:
         type: string
       lineId:
-        description: |-
-          ID            int64             `json:"id"`
-          RandID        string            `json:"randId"`
-          FirstName     string            `json:"firstName"`
-          LastName      string            `json:"lastName"`
-          FirstNameKana string            `json:"firstNameKana"`
-          LastNameKana  string            `json:"lastNameKana"`
-          PhoneNumber   string            `json:"phoneNumber"`
         type: string
       updatedAt:
         type: string
     type: object
   responsemodel.BeauticianFind:
     properties:
-      beauticians:
+      users:
         items:
           $ref: '#/definitions/responsemodel.User'
         type: array
@@ -173,19 +160,10 @@ definitions:
       comment:
         type: string
       createdAt:
-        description: Menus     []*BeauticianMenu `json:"menus"`
         type: string
       instagramId:
         type: string
       lineId:
-        description: |-
-          ID            int64             `json:"id"`
-          RandID        string            `json:"randId"`
-          FirstName     string            `json:"firstName"`
-          LastName      string            `json:"lastName"`
-          FirstNameKana string            `json:"firstNameKana"`
-          LastNameKana  string            `json:"lastNameKana"`
-          PhoneNumber   string            `json:"phoneNumber"`
         type: string
       updatedAt:
         type: string
@@ -242,6 +220,8 @@ definitions:
         type: string
       menuId:
         type: integer
+      randId:
+        type: string
       spaceId:
         type: integer
       updatedAt:
@@ -259,6 +239,8 @@ definitions:
         type: string
       menuId:
         type: integer
+      randId:
+        type: string
       spaceId:
         type: integer
       updatedAt:
@@ -305,6 +287,30 @@ definitions:
         type: string
       userId:
         type: integer
+    type: object
+  responsemodel.ReservationGetInfo:
+    properties:
+      reservationInfo:
+        $ref: '#/definitions/responsemodel.ReservationInfo'
+    type: object
+  responsemodel.ReservationInfo:
+    properties:
+      createdAt:
+        type: string
+      date:
+        type: string
+      menus:
+        items:
+          $ref: '#/definitions/responsemodel.BeauticianMenu'
+        type: array
+      randId:
+        type: string
+      salon:
+        $ref: '#/definitions/responsemodel.Salon'
+      updatedAt:
+        type: string
+      user:
+        $ref: '#/definitions/responsemodel.User'
     type: object
   responsemodel.Salon:
     properties:
@@ -575,6 +581,29 @@ paths:
           schema:
             $ref: '#/definitions/resource.Error'
       summary: 予約登録
+  /api/v1/reservation/{randID}:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: Request body
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/requestmodel.ReservationGetInfo'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responsemodel.ReservationGetInfo'
+        "500":
+          description: Something went wrong
+          schema:
+            $ref: '#/definitions/resource.Error'
+      summary: 予約詳細を取得
   /api/v1/reservation/beautician:
     get:
       consumes:

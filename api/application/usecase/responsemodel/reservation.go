@@ -6,6 +6,7 @@ import (
 
 // Reservation response構造体
 type Reservation struct {
+	RandID       string    `json:"randId"`
 	Date         time.Time `json:"date"`
 	SpaceID      int64     `json:"spaceId"`
 	UserID       int64     `json:"userId"`
@@ -43,4 +44,20 @@ type ReservationGetByUser struct {
 
 type ReservationFindByUser struct {
 	Reservations []*ReservationGetByUser `json:"reservations"`
+}
+
+// ReservationInfo 予約詳細取得
+type ReservationInfo struct {
+	RandID    string            `json:"randId"`
+	Date      time.Time         `json:"date"`
+	Salon     *Salon            `json:"salon"`
+	User      *User             `json:"user"`
+	Menus     []*BeauticianMenu `json:"menus"`
+	CreatedAt time.Time         `json:"createdAt"`
+	UpdatedAt time.Time         `json:"updatedAt"`
+}
+
+// ReservationGetInfo 予約詳細取得
+type ReservationGetInfo struct {
+	ReservationInfo *ReservationInfo `json:"reservationInfo"`
 }

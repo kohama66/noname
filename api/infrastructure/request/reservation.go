@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 
+	"github.com/go-chi/chi"
 	"github.com/gorilla/schema"
 	"github.com/myapp/noname/api/application/usecase/requestmodel"
 	"github.com/myapp/noname/api/pkg/context"
@@ -44,4 +45,12 @@ func NewReservationFindByUser(req *http.Request) *requestmodel.ReservationFindBy
 	r := &requestmodel.ReservationFindByUser{}
 	r.AuthID = context.AuthID(req.Context())
 	return r
+}
+
+// NewReservationGetInfo 予約詳細取得
+func NewReservationGetInfo(req *http.Request) (*requestmodel.ReservationGetInfo, error) {
+	r := &requestmodel.ReservationGetInfo{}
+	RandID := chi.URLParam(req, "randID")
+	r.RandID = RandID
+	return r, nil
 }

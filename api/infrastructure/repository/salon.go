@@ -174,3 +174,12 @@ func (s *salon) GetBeauticianSalons(ctx context.Context, beauticianID int64) (en
 		entity.SalonWhere.DeletedAt.IsNull(),
 	).All(ctx, s.Conn)
 }
+
+func (s *salon) GetBySpaceID(ctx context.Context, spaceID int64) (*entity.Salon, error) {
+	return entity.Salons(
+		qm.InnerJoin("spaces ON spaces.salon_id = salons.id"),
+		entity.SpaceWhere.ID.EQ(spaceID),
+		entity.SpaceWhere.DeletedAt.IsNull(),
+		entity.SalonWhere.DeletedAt.IsNull(),
+	).One(ctx, s.Conn)
+}
