@@ -27,10 +27,10 @@ const ChangeProfile: FC = () => {
     setLastNameKana(user.lastNameKana)
     setFirstNameKana(user.firstNameKana)
     setPhoneNumber(user.phoneNumber)
-    if (user.beauticianInfo.lineId) {
+    if (user.beauticianInfo?.lineId) {
       setLineID(user.beauticianInfo.lineId)
     }
-    if (user.beauticianInfo.instagramId) {
+    if (user.beauticianInfo?.instagramId) {
       setInstaID(user.beauticianInfo.instagramId)
     }
   }, [])

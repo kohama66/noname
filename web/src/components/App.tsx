@@ -15,16 +15,16 @@ const App: FC = () => {
     <>
       <section id="top">
         <section className="inner">
-            <Router>
-              <Header />
-              <Switch>
-                <Route path="/" exact component={Home} />
-                <Route path="/beautician" component={Beautician} />
-                <Route path="/guest" component={Guest} />
-                <Route path="/login" component={Login} />
-                <Route path="/reserved" component={Reserved} />
-              </Switch>
-            </Router>
+          <Router>
+            <Header />
+            <Switch>
+              <Route path="/" exact component={Home} />
+              <Route path="/beautician" component={Beautician} />
+              <Route path="/guest" component={Guest} />
+              <Route path="/login" component={Login} />
+              <Route path="/reserved" component={Reserved} />
+            </Switch>
+          </Router>
         </section>
       </section>
     </>

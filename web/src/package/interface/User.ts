@@ -10,9 +10,9 @@ export interface User {
   lastNameKana: string
   email: string
   phoneNumber: string
-  beauticianInfo: BeauticianInfo
-  beauticianMenus: MenuDetail[]
-  beauticianSalons: Salon[]
+  beauticianInfo?: BeauticianInfo
+  beauticianMenus?: MenuDetail[]
+  beauticianSalons?: Salon[]
   isBeautician: boolean
 }
 

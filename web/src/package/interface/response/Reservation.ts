@@ -13,5 +13,5 @@ export interface guestMypageReservationsResponse {
 }
 
 export interface reservationInfoResponse {
-  reservation: ReservationInfo
+  reservationInfo: ReservationInfo
 }

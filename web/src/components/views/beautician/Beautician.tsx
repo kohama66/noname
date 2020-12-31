@@ -8,6 +8,7 @@ import {
 import BtAuth from '../../container/btAuth/BtAuth';
 import ChangeProfile from './changeProfile/ChangeProfile';
 import Mypage from './mypage/Mypage';
+import ReservationVerify from './reservedInfo/ReservationVerify';
 import SignUp from './signup/SignUp';
 
 const Beautician: FC = () => {
@@ -19,6 +20,7 @@ const Beautician: FC = () => {
         <BtAuth >
           <Route path={match.path + "/mypage"} component={Mypage} />
           <Route path={match.path + "/changeprofile"} component={ChangeProfile} />
+          <Route path={match.path + "/reservationverify"} component={ReservationVerify} />
         </BtAuth>
       </ Switch>
     </div>

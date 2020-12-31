@@ -18,7 +18,7 @@ const Mypage: FC = () => {
       setReserved(response.reservations)
     }
     handleGetReserved()
-  },[])
+  }, [])
 
   return (
     <div id="bt-mypage">
@@ -42,12 +42,12 @@ const Mypage: FC = () => {
             <div className="sns-content">
               <div className="line">
                 <figure className="fab fa-line"></figure>
-                <h2>{user.beauticianInfo.lineId ? user.beauticianInfo.lineId : "未設定"}</h2>
+                <h2>{user.beauticianInfo?.lineId ? user.beauticianInfo.lineId : "未設定"}</h2>
               </div>
               <div className="instagram">
                 <figure className="fab fa-instagram">
                 </figure>
-                <h2>{user.beauticianInfo.instagramId ? user.beauticianInfo.instagramId : "未設定"}</h2>
+                <h2>{user.beauticianInfo?.instagramId ? user.beauticianInfo.instagramId : "未設定"}</h2>
               </div>
             </div>
           </div>
@@ -56,7 +56,7 @@ const Mypage: FC = () => {
           <div className="menus">
             <h2>メニュー</h2>
             <dl>
-              {user.beauticianMenus.map((menu, i) => {
+              {user.beauticianMenus?.map((menu, i) => {
                 return <span key={i}>
                   <dt>{menu.name}</dt>
                   <dd>{menu.price}</dd>
@@ -67,7 +67,7 @@ const Mypage: FC = () => {
           <div className="salons">
             <h2>美容院</h2>
             <ul>
-              {user.beauticianSalons.map((salon, i) => {
+              {user.beauticianSalons?.map((salon, i) => {
                 return <li key={i}>
                   <h3>{salon.name}</h3>
                   <p>{salon.prefectures + salon.city + salon.town + salon.addressOther}</p>

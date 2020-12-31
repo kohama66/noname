@@ -22,7 +22,22 @@ const Square: FC<props> = (props) => {
     if (history.location.pathname === "/beautician/mypage") {
       if (reserved) {
         const response = await getReservationInfo(reserved.randId)
-        console.log(response)
+        const date = new Date(response.reservationInfo.date)
+        console.log(date)
+        history.push({
+          pathname: "/beautician/reservationverify",
+          state: {
+            userName: response.reservationInfo.user.lastName + " " + response.reservationInfo.user.firstName,
+            userNameKana: response.reservationInfo.user.lastNameKana + " " + response.reservationInfo.user.firstNameKana,
+            userPhoneNmber: response.reservationInfo.user.phoneNumber,
+            salonName: response.reservationInfo.salon.name,
+            salonAddress: response.reservationInfo.salon.prefectures + response.reservationInfo.salon.town +
+              response.reservationInfo.salon.city + response.reservationInfo.salon.addressOther,
+            reservedDate: `${date.getFullYear()}年 ${date.getMonth() + 1}月${date.getDate()}日`,
+            reservedTime: `${date.getHours()}:${('0' + date.getMinutes()).slice(-2)}時から`,
+            menus: response.reservationInfo.menus
+          }
+        })
       } else {
 
       }
