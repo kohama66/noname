@@ -84,6 +84,11 @@ definitions:
       randId:
         type: string
     type: object
+  requestmodel.ReservationSetHoliday:
+    properties:
+      holiday:
+        type: string
+    type: object
   requestmodel.SalonFind:
     properties:
       beauticianRandID:
@@ -311,6 +316,25 @@ definitions:
         type: string
       user:
         $ref: '#/definitions/responsemodel.User'
+    type: object
+  responsemodel.ReservationSetHoliday:
+    properties:
+      beauticiaId:
+        type: integer
+      createdAt:
+        type: string
+      date:
+        type: string
+      menuId:
+        type: integer
+      randId:
+        type: string
+      spaceId:
+        type: integer
+      updatedAt:
+        type: string
+      userId:
+        type: integer
     type: object
   responsemodel.Salon:
     properties:
@@ -627,6 +651,28 @@ paths:
           schema:
             $ref: '#/definitions/resource.Error'
       summary: 美容師予約情報取得
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Request body
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/requestmodel.ReservationSetHoliday'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responsemodel.ReservationSetHoliday'
+        "500":
+          description: Something went wrong
+          schema:
+            $ref: '#/definitions/resource.Error'
+      summary: 美容師休日を設定
   /api/v1/reservation/find:
     get:
       consumes:

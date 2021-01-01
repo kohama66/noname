@@ -3,13 +3,13 @@ import { useHistory } from 'react-router-dom';
 import { getReservationInfo } from '../../../../../package/api';
 import { Reservation } from '../../../../../package/interface/Reservation';
 import { ReservedContext } from '../../../../../utils/context/ReservadContext ';
-import SquareComponent from './Square'
 
 interface props {
   day: Date
   time: number
   reservations: Reservation[]
   pathName?: string
+  handleModalClick?: (date: Date) => void
 }
 
 const Square: FC<props> = (props) => {
@@ -23,7 +23,6 @@ const Square: FC<props> = (props) => {
       if (reserved) {
         const response = await getReservationInfo(reserved.randId)
         const date = new Date(response.reservationInfo.date)
-        console.log(date)
         history.push({
           pathname: "/beautician/reservationverify",
           state: {
@@ -39,7 +38,12 @@ const Square: FC<props> = (props) => {
           }
         })
       } else {
-
+        if(props.handleModalClick){
+          props.handleModalClick((() => {
+            props.day.setHours(props.time)
+            return props.day
+          })())
+        }
       }
     } else {
       // ゲスト予約セット
@@ -52,8 +56,8 @@ const Square: FC<props> = (props) => {
   }
 
   useEffect(() => {
-    const parseTime = (time: number) => {
-      setTime(("0" + time).slice(-2) + ":00:00")
+    const parseTime = () => {
+      setTime(("0" + props.time).slice(-2) + ":00:00")
     }
     const verifyReserved = () => {
       props.reservations.map((reservation) => {
@@ -62,7 +66,7 @@ const Square: FC<props> = (props) => {
         }
       })
     }
-    parseTime(props.time)
+    parseTime()
     verifyReserved()
   })
 

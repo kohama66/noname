@@ -22,30 +22,24 @@ const ReservationVerify: FC = () => {
       <Title title="RESERVED" text="予約確認" />
       <div className="reservation-verify-contents">
         <div className="reservation-verify-content">
-          <h2>名前</h2>
+          <h2>NAME</h2>
           <p>{location.state.userName}<span>{location.state.userNameKana}</span></p>
-          <h2>電話番号</h2>
+          <h2>PHONE-NUMBER</h2>
           <p>{location.state.userPhoneNmber ? location.state.userPhoneNmber : "未設定"}</p>
-        </div>
-        <div className="reservation-verify-content">
-          <h2>美容院</h2>
+          <h2>SALON</h2>
           <p>{location.state.salonName}</p>
-          <h2>住所</h2>
+          <h2>SALON-ADDRESS</h2>
           <p>{location.state.salonAddress}</p>
-        </div>
-        <div className="reservation-verify-content">
-          <h2>日付</h2>
+          <h2>DATE</h2>
           <p>{location.state.reservedDate}</p>
-          <h2>時間</h2>
+          <h2>TIME</h2>
           <p>{location.state.reservedTime}</p>
           <p></p>
-          <h2>メニュー</h2>
+          <h2>MENUS</h2>
           <ul>
-            {location.state.menus?.map((menu) => {
-              return <li>{menu.name}</li>
-            })}
+            {location.state.menus?.map((menu) => <li>{menu.name}</li>)}
           </ul>
-          <h2>合計</h2>
+          <h2>PRICE</h2>
           <p>4500</p>
         </div>
       </div>

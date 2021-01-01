@@ -46,3 +46,21 @@ type ReservationFindByUser struct {
 type ReservationGetInfo struct {
 	RandID string `json:"randId"`
 }
+
+// ReservationSetHoliday 美容師休日設定
+type ReservationSetHoliday struct {
+	AuthID  string    `json:"-"`
+	Holiday time.Time `json:"holiday"`
+}
+
+// NewReservationSetHoliday 美容師休日エンティティ変換関数
+func (r *ReservationSetHoliday) NewReservationSetHoliday(randID string, beauticianID int64) *entity.Reservation {
+	return &entity.Reservation{
+		RandID:       randID,
+		Date:         r.Holiday,
+		Holiday:      true,
+		SpaceID:      1,
+		BeauticianID: beauticianID,
+		UserID:       1,
+	}
+}

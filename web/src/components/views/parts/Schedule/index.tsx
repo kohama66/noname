@@ -8,10 +8,11 @@ import Square from './Square';
 
 interface props {
   reservations: Reservation[]
+  handleModalClick?: (date: Date) => void
 }
 
 const Schedule: FC<props> = (props) => {
-  const [weeks, setWeeks] = useState<Date[]>([])
+  const [displayWeek, setDisplayWeek] = useState<Date[]>([])
   const [pagePathName, setPagePathName] = useState<string>("")
   const history = useHistory()
   const isDesktop = useMediaQuery({ query: "(min-width: 766px)" })
@@ -20,18 +21,19 @@ const Schedule: FC<props> = (props) => {
   useEffect(() => {
     const getWeek = () => {
       const weeks = []
+      var weekCount: number
       if (isDesktop) {
-        for (let i = 0; i < 14; i++) {
-          weeks.push(new Date())
-          weeks[i].setDate(weeks[i].getDate() + i)
-        }
+        weekCount = 14
       } else {
-        for (let i = 0; i < 7; i++) {
-          weeks.push(new Date())
-          weeks[i].setDate(weeks[i].getDate() + i)
-        }
+        weekCount = 7
       }
-      setWeeks(weeks)
+      for (let i = 0; i < weekCount; i++) {
+        weeks.push(new Date())
+        weeks[i].setDate(weeks[i].getDate() + i)
+        weeks[i].setMinutes(0)
+        weeks[i].setSeconds(0)
+      }
+      setDisplayWeek(weeks)
     }
     const getPagePathName = () => {
       setPagePathName(history.location.pathname)
@@ -46,15 +48,15 @@ const Schedule: FC<props> = (props) => {
         <tbody>
           <tr>
             <th></th>
-            {weeks.map((day, i) => {
+            {displayWeek.map((day, i) => {
               return <DaySquare day={day.getDate()} key={i} />
             })}
           </tr>
           {times.map((time, i) => {
             return <tr key={i}>
               <td>{time}時</td>
-              {weeks.map((day, i) => {
-                return <Square key={i} day={day} time={time} reservations={props.reservations} pathName={pagePathName} />
+              {displayWeek.map((day, i) => {
+                return <Square key={i} day={day} time={time} reservations={props.reservations} pathName={pagePathName} handleModalClick={props.handleModalClick} />
               })}
             </tr>
           })}

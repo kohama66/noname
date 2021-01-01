@@ -115,3 +115,29 @@ func (r *reservation) GetByRandID(ctx context.Context, randID string) (*entity.R
 		entity.ReservationWhere.DeletedAt.IsNull(),
 	).One(ctx, r.Conn)
 }
+
+func (r *reservation) CreateHoliday(ctx context.Context, ent *entity.Reservation) error {
+	return ent.Insert(ctx, r.Conn, boil.Infer())
+}
+
+func (r *reservation) FindByDate(ctx context.Context, date time.Time) (*entity.Reservation, error) {
+	return entity.Reservations(
+		entity.ReservationWhere.Date.EQ(date),
+		entity.ReservationWhere.DeletedAt.IsNull(),
+	).One(ctx, r.Conn)
+}
+
+func (r *reservation) Update(ctx context.Context, ent *entity.Reservation) (int64, error) {
+	return ent.Update(ctx, r.Conn, boil.Blacklist(entity.ReservationColumns.ID, entity.ReservationColumns.RandID))
+}
+
+func (r *reservation) Delete(ctx context.Context, ent *entity.Reservation) (int64, error) {
+	return ent.Delete(ctx, r.Conn)
+}
+
+func (r *reservation) ExistsByDate(ctx context.Context, date time.Time) (bool, error) {
+	return entity.Reservations(
+		entity.ReservationWhere.Date.EQ(date),
+		entity.ReservationWhere.DeletedAt.IsNull(),
+	).Exists(ctx, r.Conn)
+}

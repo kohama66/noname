@@ -303,6 +303,40 @@ var doc = `{
                         }
                     }
                 }
+            },
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "美容師休日を設定",
+                "parameters": [
+                    {
+                        "description": "Request body",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/requestmodel.ReservationSetHoliday"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/responsemodel.ReservationSetHoliday"
+                        }
+                    },
+                    "500": {
+                        "description": "Something went wrong",
+                        "schema": {
+                            "$ref": "#/definitions/resource.Error"
+                        }
+                    }
+                }
             }
         },
         "/api/v1/reservation/find": {
@@ -647,6 +681,14 @@ var doc = `{
             "type": "object",
             "properties": {
                 "randId": {
+                    "type": "string"
+                }
+            }
+        },
+        "requestmodel.ReservationSetHoliday": {
+            "type": "object",
+            "properties": {
+                "holiday": {
                     "type": "string"
                 }
             }
@@ -997,6 +1039,35 @@ var doc = `{
                 },
                 "user": {
                     "$ref": "#/definitions/responsemodel.User"
+                }
+            }
+        },
+        "responsemodel.ReservationSetHoliday": {
+            "type": "object",
+            "properties": {
+                "beauticiaId": {
+                    "type": "integer"
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "date": {
+                    "type": "string"
+                },
+                "menuId": {
+                    "type": "integer"
+                },
+                "randId": {
+                    "type": "string"
+                },
+                "spaceId": {
+                    "type": "integer"
+                },
+                "updatedAt": {
+                    "type": "string"
+                },
+                "userId": {
+                    "type": "integer"
                 }
             }
         },

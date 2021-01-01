@@ -54,3 +54,17 @@ func NewReservationGetInfo(req *http.Request) (*requestmodel.ReservationGetInfo,
 	r.RandID = RandID
 	return r, nil
 }
+
+// NewReservationSetHoliday 美容師休日設定
+func NewReservationSetHoliday(req *http.Request) (*requestmodel.ReservationSetHoliday, error) {
+	r := &requestmodel.ReservationSetHoliday{}
+	r.AuthID = context.AuthID(req.Context())
+	err := json.NewDecoder(req.Body).Decode(r)
+	if err != nil {
+		return nil, err
+	}
+	if err := validate.Struct(r); err != nil {
+		return nil, err
+	}
+	return r, err
+}

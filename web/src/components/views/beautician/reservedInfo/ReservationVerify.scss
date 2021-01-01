@@ -10,19 +10,20 @@
     border-radius: 10px;
     width: 450px;
     margin: 30px auto 0;
+    padding: 40px;
     @include whiteShadow;
     .reservation-verify-content {
-      padding: 20px;
+      padding: 10px 0;
       line-height: 16px;
+      margin-bottom: 10px;
       h2 {
-        font-size: 14px;
-        color: $blackFontColor;
-        margin-bottom: 5px;
+        font-size: 12px;
+        color: $darkGray;
+        margin-top: 10px;
       }
       p {
         font-size: 14px;
-        color: $darkGray;
-        margin-bottom: 10px;
+        color: $blackFontColor;
         font-weight: bold;
         span {
           font-size: 10px;
@@ -32,12 +33,19 @@
       ul {
         li {
           font-size: 14px;
-          color: $darkGray;
+          color: $blackFontColor;
           list-style: none;
           font-weight: bold;
         }
-        margin-bottom: 10px;
       }
+    }
+  }
+}
+@media screen and (max-width: 767px) {
+  #reservation-verify {
+    .reservation-verify-contents {
+      width: 300px;
+      padding: 20px;
     }
   }
 }

@@ -13,6 +13,7 @@ type Reservation interface {
 	NewReservationFind(ents []*entity.Reservation) *responsemodel.ReservationFind
 	NewReservationFindByUser(ents []*entityx.ReservationGetByUser) *responsemodel.ReservationFindByUser
 	NewReservationInfo(rs *entity.Reservation, sl *entity.Salon, mn []*entity.BeauticianMenu) *responsemodel.ReservationGetInfo
+	NewSetHoliday(ent *entity.Reservation) *responsemodel.ReservationSetHoliday
 }
 
 type reservation struct {
@@ -96,5 +97,11 @@ func NewReservationInfo(rs *entity.Reservation, sl *entity.Salon, mn []*entity.B
 func (r *reservation) NewReservationInfo(rs *entity.Reservation, sl *entity.Salon, mn []*entity.BeauticianMenu) *responsemodel.ReservationGetInfo {
 	return &responsemodel.ReservationGetInfo{
 		ReservationInfo: NewReservationInfo(rs, sl, mn),
+	}
+}
+
+func (r *reservation) NewSetHoliday(ent *entity.Reservation) *responsemodel.ReservationSetHoliday {
+	return &responsemodel.ReservationSetHoliday{
+		Reservation: NewResponseModelReservation(ent),
 	}
 }

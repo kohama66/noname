@@ -64,6 +64,7 @@ func (r *Router) Routes() {
 						r.Post("/", reservationController.Create)
 						r.Get("/beautician", reservationController.FindByBeautician)
 						r.Get("/user", reservationController.FindByUser)
+						r.Post("/beautician", reservationController.SetHoliday)
 					})
 				})
 			})

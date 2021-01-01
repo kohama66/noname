@@ -17,6 +17,7 @@ type Reservation interface {
 	Find(w http.ResponseWriter, hr *http.Request)
 	FindByUser(w http.ResponseWriter, hr *http.Request)
 	GetInfo(w http.ResponseWriter, hr *http.Request)
+	SetHoliday(w http.ResponseWriter, hr *http.Request)
 }
 
 type reservation struct {
@@ -145,6 +146,31 @@ func (r reservation) GetInfo(w http.ResponseWriter, hr *http.Request) {
 	res, err := r.reservationUsecase.GetInfo(hr.Context(), req)
 	if err != nil {
 		log.Errorf(hr.Context(), "ReservationGetInfo: %v", err)
+		factory.ErrorJSON(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	factory.JSON(w, res)
+	return
+}
+
+// SetHoliday
+// @Summary 美容師休日を設定
+// @Accept  json
+// @Produce  json
+// @Param data body requestmodel.ReservationSetHoliday true "Request body"
+// @Success 200 {object} responsemodel.ReservationSetHoliday
+// @Failure 500 {object} resource.Error "Something went wrong"
+// @Router /api/v1/reservation/beautician [post]
+func (r reservation) SetHoliday(w http.ResponseWriter, hr *http.Request) {
+	req, err := request.NewReservationSetHoliday(hr)
+	if err != nil {
+		log.Warningf(hr.Context(), "ReservationSetHoliday.Request %v", err)
+		factory.ErrorJSON(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+	res, err := r.reservationUsecase.SetHoliday(hr.Context(), req)
+	if err != nil {
+		log.Errorf(hr.Context(), "ReservationSetHoliday: %v", err)
 		factory.ErrorJSON(w, err.Error(), http.StatusInternalServerError)
 		return
 	}

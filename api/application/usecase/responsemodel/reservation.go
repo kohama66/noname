@@ -11,7 +11,6 @@ type Reservation struct {
 	SpaceID      int64     `json:"spaceId"`
 	UserID       int64     `json:"userId"`
 	BeauticianID int64     `json:"beauticiaId"`
-	MenuID       int64     `json:"menuId"`
 	CreatedAt    time.Time `json:"createdAt"`
 	UpdatedAt    time.Time `json:"updatedAt"`
 }
@@ -60,4 +59,9 @@ type ReservationInfo struct {
 // ReservationGetInfo 予約詳細取得
 type ReservationGetInfo struct {
 	ReservationInfo *ReservationInfo `json:"reservationInfo"`
+}
+
+// ReservationSetHoliday 美容師休日設定
+type ReservationSetHoliday struct {
+	*Reservation `json:"reservation"`
 }

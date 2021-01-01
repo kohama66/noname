@@ -21,6 +21,7 @@ type Reservation interface {
 	Find(ctx context.Context, req *requestmodel.ReservationFind) (*responsemodel.ReservationFind, error)
 	FindByUser(ctx context.Context, req *requestmodel.ReservationFindByUser) (*responsemodel.ReservationFindByUser, error)
 	GetInfo(ctx context.Context, re *requestmodel.ReservationGetInfo) (*responsemodel.ReservationGetInfo, error)
+	SetHoliday(ctx context.Context, req *requestmodel.ReservationSetHoliday) (*responsemodel.ReservationSetHoliday, error)
 }
 
 type reservation struct {
@@ -163,4 +164,40 @@ func (r *reservation) GetInfo(ctx context.Context, re *requestmodel.ReservationG
 	}
 	fmt.Println(mn)
 	return r.reservationResponse.NewReservationInfo(rs, sl, mn), nil
+}
+
+func (r *reservation) SetHoliday(ctx context.Context, req *requestmodel.ReservationSetHoliday) (*responsemodel.ReservationSetHoliday, error) {
+	bt, err := r.userRepository.GetByAuthID(ctx, req.AuthID)
+	if err != nil {
+		return nil, err
+	}
+	if !bt.IsBeautician {
+		return nil, fmt.Errorf("You are not beautician")
+	}
+	ex, err := r.reservationRepository.ExistsByDate(ctx, req.Holiday)
+	if err != nil {
+		return nil, err
+	}
+	var holiday *entity.Reservation
+	if ex {
+		rs, err := r.reservationRepository.FindByDate(ctx, req.Holiday)
+		if err != nil {
+			return nil, err
+		}
+		if rs.Holiday { // 既に休日に場合
+			if _, err := r.reservationRepository.Delete(ctx, rs); err != nil {
+				return nil, err
+			}
+			holiday = rs
+		} else { // 既にお客様の予約が入っている場合
+			return nil, fmt.Errorf("Reservation already exists")
+		}
+	} else { // 休日に設定
+		hd := req.NewReservationSetHoliday(xid.New().String(), bt.ID)
+		if err := r.reservationRepository.CreateHoliday(ctx, hd); err != nil {
+			return nil, err
+		}
+		holiday = hd
+	}
+	return r.reservationResponse.NewSetHoliday(holiday), nil
 }
