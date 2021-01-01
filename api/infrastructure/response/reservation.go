@@ -29,6 +29,7 @@ func NewResponseModelReservation(ent *entity.Reservation) *responsemodel.Reserva
 	return &responsemodel.Reservation{
 		RandID:       ent.RandID,
 		Date:         ent.Date,
+		Holiday:      ent.Holiday,
 		SpaceID:      ent.SpaceID,
 		BeauticianID: ent.BeauticianID,
 		UserID:       ent.UserID,

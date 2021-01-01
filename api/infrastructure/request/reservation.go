@@ -2,6 +2,7 @@ package request
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 
 	"github.com/go-chi/chi"
@@ -63,6 +64,7 @@ func NewReservationSetHoliday(req *http.Request) (*requestmodel.ReservationSetHo
 	if err != nil {
 		return nil, err
 	}
+	fmt.Println(r.Holiday)
 	if err := validate.Struct(r); err != nil {
 		return nil, err
 	}

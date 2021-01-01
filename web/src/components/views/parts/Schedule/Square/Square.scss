@@ -1,9 +1,19 @@
-@import 'src/css/common.scss';
-
-.reserved-square {
-  background-color: $baseColor!important;
-  pointer-events: none;
-}
-.reserved-square:hover {
-  background-color: $baseColor !important;
+@import "src/css/common.scss";
+#schedule {
+  table {
+    tbody {
+      .reserved-square {
+        background-color: $baseColor;
+        &:hover {
+          background-color: $baseColor !important;
+        }
+        &.holiday-square {
+          background-color: $blueColor;
+          &:hover {
+            background-color: $blueColor !important;
+          }
+        }
+      }
+    }
+  }
 }

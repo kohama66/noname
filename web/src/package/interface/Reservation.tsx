@@ -6,6 +6,7 @@ import { Menu } from "./Menu"
 export interface Reservation {
 	randId: string
 	date: string
+	holiday: boolean
 	spaceId: number
 	guestId: number
 	beauticiaId: number

@@ -1,10 +1,11 @@
 import React, { FC, useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { getReservationBeautician } from '../../../../package/api';
+import { getReservationBeautician, setHoliday } from '../../../../package/api';
 import { Reservation } from '../../../../package/interface/Reservation';
 import { UserContext } from '../../../../utils/context/UserContext';
+import { dateToString } from '../../../../utils/function/GetDate';
 import Title from '../../guest/parts/Title/Title';
-import Schedule from '../../parts/Schedule';
+import Schedule from '../../parts/Schedule/Schedule';
 import './Mypage.scss';
 
 const Mypage: FC = () => {
@@ -25,7 +26,15 @@ const Mypage: FC = () => {
     switch (type) {
       case "yes":
         try {
-          console.log(clickDate)
+          if (clickDate) {
+            const response = await setHoliday({
+              holiday: dateToString(clickDate)
+            })
+            handleGetReserved()
+            setModal(false)
+          } else {
+            setModalText("エラーが発生しました、しばらく後にやり直して下さい")
+          }
         } catch (error) {
           setModalText("エラーが発生しました、しばらく後にやり直して下さい")
         }
@@ -37,11 +46,12 @@ const Mypage: FC = () => {
     }
   }
 
+  const handleGetReserved = async () => {
+    const response = await getReservationBeautician()
+    setReserved(response.reservations)
+  }
+
   useEffect(() => {
-    const handleGetReserved = async () => {
-      const response = await getReservationBeautician()
-      setReserved(response.reservations)
-    }
     handleGetReserved()
   }, [])
 

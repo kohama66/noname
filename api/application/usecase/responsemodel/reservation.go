@@ -8,6 +8,7 @@ import (
 type Reservation struct {
 	RandID       string    `json:"randId"`
 	Date         time.Time `json:"date"`
+	Holiday      bool      `json:"holiday"`
 	SpaceID      int64     `json:"spaceId"`
 	UserID       int64     `json:"userId"`
 	BeauticianID int64     `json:"beauticiaId"`

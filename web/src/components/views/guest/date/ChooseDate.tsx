@@ -1,6 +1,6 @@
 import React, { FC, useContext } from 'react';
 import { Reservation } from '../../../../package/interface/Reservation';
-import Schedule from '../../parts/Schedule';
+import Schedule from '../../parts/Schedule/Schedule';
 import Title from '../parts/Title/Title';
 import './ChooseDate.scss'
 
