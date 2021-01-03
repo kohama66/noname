@@ -1,0 +1,61 @@
+@import "src/css/common.scss";
+
+#modal {
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  top: 0;
+  background-color: rgba(41, 10, 0, 0.8);
+  z-index: 2;
+  justify-content: center;
+  align-items: center;
+  display: none;
+  &.on-modal {
+    display: flex;
+  }
+  #modal-contents {
+    background-color: #fff;
+    padding: 50px;
+    border-radius: 10px;
+    text-align: center;
+    h2 {
+      font-size: 14px;
+      margin-bottom: 15px;
+      color: $blackFontColor;
+    }
+    i {
+      font-size: 35px;
+      margin-bottom: 20px;
+      color: $orangeColor1;
+    }
+    div {
+      width: 150px;
+      display: flex;
+      justify-content: space-between;
+      margin: 0 auto;
+      button {
+        border: none;
+        width: 45%;
+        font-size: 14px;
+        padding: 10px 12px;
+        color: $darkGray;
+        cursor: pointer;
+        &:first-of-type {
+          background-color: $orangeColor1;
+          color: #fff;
+        }
+      }
+    }
+  }
+}
+@media screen and (max-width: 767px) {
+  #modal {
+    #modal-contents {
+      max-width: 300px;
+      padding: 40px;
+      h2 {
+        font-size: 14px;
+      }
+    }
+  }
+}

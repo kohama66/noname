@@ -18,7 +18,6 @@ const Input: FC<props> = (props) => {
       props.setState(e.currentTarget.value)
     }
   }
-
   return (
     <input type={props.type} value={props.value} onChange={handleChange} required={props.required}
       maxLength={props.maxLength} minLength={props.minLength} placeholder={props.placeHolder}

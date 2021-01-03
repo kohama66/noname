@@ -64,7 +64,6 @@ const Square: FC<props> = (props) => {
       }
     }
   }
-
   useEffect(() => {
     const verifyReserved = () => {
       setReserved(undefined)
@@ -92,7 +91,6 @@ const Square: FC<props> = (props) => {
             return "×"
           }
         }
-        return ""
       })()}
     </td>
   )

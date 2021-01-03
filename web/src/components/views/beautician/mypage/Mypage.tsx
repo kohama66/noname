@@ -5,24 +5,27 @@ import { Reservation } from '../../../../package/interface/Reservation';
 import { UserContext } from '../../../../utils/context/UserContext';
 import { dateToString } from '../../../../utils/function/GetDate';
 import Title from '../../guest/parts/Title/Title';
+import SingleForm from '../../parts/form/SingleForm';
+import Modal from '../../parts/modal/Modal';
 import Schedule from '../../parts/Schedule/Schedule';
 import './Mypage.scss';
 
 const Mypage: FC = () => {
   const [reserved, setReserved] = useState<Reservation[]>([])
-  const [onModal, setModal] = useState<boolean>(false)
   const [buttonDisabled, setButtonDisbled] = useState<boolean>(false)
   const [modalText, setModalText] = useState<string>("休日に設定しますか?")
+  const [isModal, setIsModal] = useState<boolean>(false)
   const [clickDate, setClickDate] = useState<Date>()
   const { user } = useContext(UserContext)
   const history = useHistory()
 
   const handleModalClick = (date: Date) => {
-    setModal(true)
+    setIsModal(true)
     setClickDate(date)
   }
 
   const handleClick = async (type: "yes" | "no") => {
+    setButtonDisbled(true)
     switch (type) {
       case "yes":
         try {
@@ -31,16 +34,20 @@ const Mypage: FC = () => {
               holiday: dateToString(clickDate)
             })
             handleGetReserved()
-            setModal(false)
+            setIsModal(false)
+            setButtonDisbled(false)
           } else {
             setModalText("エラーが発生しました、しばらく後にやり直して下さい")
+            setButtonDisbled(false)
           }
         } catch (error) {
           setModalText("エラーが発生しました、しばらく後にやり直して下さい")
+          setButtonDisbled(false)
         }
         break
       case "no":
-        setModal(false)
+        setIsModal(false)
+        setButtonDisbled(false)
         setModalText("休日に設定しますか?")
         break
     }
@@ -58,16 +65,7 @@ const Mypage: FC = () => {
   return (
     <div id="bt-mypage">
       <Title title="MY PAGE" text="マイページ" />
-      <div id="modal" className={onModal ? "on-modal" : ""}>
-        <div id="modal-contents">
-          <h2>{modalText}</h2>
-          <i className="fas fa-smile"></i>
-          <div>
-            <button onClick={() => handleClick("yes")} disabled={buttonDisabled}>Yes</button>
-            <button onClick={() => handleClick("no")} disabled={buttonDisabled}>No</button>
-          </div>
-        </div>
-      </div>
+      <Modal modelText={modalText} isModal={isModal} handleClick={handleClick} buttonDisabled={buttonDisabled} />
       <div className="bt-mypage-contents">
         <div className="top-content">
           <figure>
@@ -108,6 +106,7 @@ const Mypage: FC = () => {
                 </span>
               })}
             </dl>
+            <SingleForm disabled={buttonDisabled} type="menu" />
           </div>
           <div className="salons">
             <h2>SALONS</h2>

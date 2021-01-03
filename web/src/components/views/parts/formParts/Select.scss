@@ -1,0 +1,9 @@
+@import "src/css/common.scss";
+
+#select{
+  box-sizing: border-box;
+  padding: 10px;
+  border: none;
+  background-color: $baseColor;
+  border-radius: 4px;
+}

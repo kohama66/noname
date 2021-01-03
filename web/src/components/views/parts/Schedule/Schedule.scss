@@ -26,6 +26,8 @@
         }
         td:not(:nth-of-type(1)) {
           cursor: pointer;
+          font-size: 20px;
+          font-weight: lighter;
         }
         td:not(:nth-of-type(1)):hover {
           background-color: $orangeColor1;
