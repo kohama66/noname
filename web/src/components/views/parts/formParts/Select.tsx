@@ -4,7 +4,7 @@ import { Menu } from '../../../../package/interface/Menu';
 import "./Select.scss";
 
 interface props {
-  type: "menu" | "salon"
+  type: "menu"
   value: string
   setState?: React.Dispatch<React.SetStateAction<string>>
 }
@@ -30,7 +30,8 @@ const Select: FC<props> = (props) => {
   }, [])
 
   return (
-    <select id="select" name={props.type} onChange={handleChange} required={true} value={props.value} >
+    <select id="select" onChange={handleChange} required={true} value={props.value} >
+      <option value="">カテゴリー</option>
       {optionValues.map((option, i) => {
         return <option key={i} value={option.randId}>{option.name}</option>
       })}

@@ -75,7 +75,7 @@ func (m *menu) CreateToBeautician(ctx context.Context, r *requestmodel.Beauticia
 	if err != nil {
 		return nil, err
 	}
-	mn, err := m.menuRepository.GetByRandID(ctx, r.AuthID)
+	mn, err := m.menuRepository.GetByRandID(ctx, r.MenuCategory)
 	if err != nil {
 		return nil, err
 	}

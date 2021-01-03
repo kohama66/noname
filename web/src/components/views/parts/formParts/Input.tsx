@@ -21,8 +21,7 @@ const Input: FC<props> = (props) => {
   return (
     <input type={props.type} value={props.value} onChange={handleChange} required={props.required}
       maxLength={props.maxLength} minLength={props.minLength} placeholder={props.placeHolder}
-      disabled={props.disabled}
-    />
+      disabled={props.disabled} />
   )
 }
 

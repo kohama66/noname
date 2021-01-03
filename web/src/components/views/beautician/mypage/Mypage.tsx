@@ -30,7 +30,7 @@ const Mypage: FC = () => {
       case "yes":
         try {
           if (clickDate) {
-            const response = await setHoliday({
+            await setHoliday({
               holiday: dateToString(clickDate)
             })
             handleGetReserved()

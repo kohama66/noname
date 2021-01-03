@@ -10,6 +10,13 @@ export interface MenuDetail {
   name: string
 }
 
+export interface BeauticianMenu {
+  beauticianId: number
+  menuId: number
+  name: string
+  price: number
+}
+
 export const initMenu: Menu = <Menu>{}
 
 export const initMenuDetail: MenuDetail = <MenuDetail>{}

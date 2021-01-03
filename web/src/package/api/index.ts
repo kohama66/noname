@@ -1,5 +1,5 @@
 import Axios, { AxiosPromise } from 'axios';
-import { menuDetailsResponse, menusResponse } from '../interface/response/Menu';
+import { beauticianMenuResponse, menuDetailsResponse, menusResponse } from '../interface/response/Menu';
 import { reservationsResponse, reservationResponse, guestMypageReservationsResponse, reservationInfoResponse } from '../interface/response/Reservation'
 import { salonsResponse } from '../interface/response/Salon';
 import qs from "qs"
@@ -9,6 +9,7 @@ import { getAuthToken } from '../../utils/function/Cookie'
 import { apiurl } from '../../config/config';
 import { beauticianCreateRequest, beauticianUpdateRequest } from '../interface/request/Beautician';
 import { setHolidayRequest } from '../interface/request/Reservation';
+import { beauticianMenuRequest } from '../interface/request/Menu';
 
 const axios = Axios.create({
   baseURL: apiurl,
@@ -144,4 +145,8 @@ export const getReservationInfo = async (randID: string): Promise<reservationInf
 
 export const setHoliday = async (req: setHolidayRequest): Promise<reservationResponse> => {
   return post<reservationResponse>(`api/v1/reservation/beautician`, req)
+}
+
+export const postBeauticianMenu = async (req: beauticianMenuRequest): Promise<beauticianMenuResponse> => {
+  return post<beauticianMenuResponse>(`api/v1/menu/beautician`, req)
 }
