@@ -13,8 +13,16 @@ const SingleForm: FC<props> = (props) => {
   const [stateName, setStateName] = useState<string>("")
   const [stateType, setStateType] = useState<string>("")
 
+  const handleSubmit = async () => {
+    switch (props.type) {
+      case "menu":
+        // const response = await 
+        break
+    }
+  }
+
   return (
-    <form id="single-form">
+    <form id="single-form" onSubmit={handleSubmit}>
       <Input type="text" value={stateName} setState={setStateName} disabled={props.disabled} required={true} placeHolder="新しいメニューを追加する" />
       <Select type="menu" value={stateType} setState={setStateType} />
       <Input type="submit" value="登録" />

@@ -9,6 +9,7 @@ import (
 type Menu interface {
 	NewMenuFind(ents []*entity.Menu) *responsemodel.MenuFind
 	NewFindByBeauticianWithMenuRandIDs(ents []*entity.BeauticianMenu) *responsemodel.MenuFindByBeauticianWithMenuRandIDs
+	NewBeauticianMenuCreate(ent *entity.BeauticianMenu) *responsemodel.BeauticianMenuCreate
 }
 type menu struct{}
 
@@ -75,5 +76,11 @@ func (m *menu) NewFindByBeauticianWithMenuRandIDs(ents []*entity.BeauticianMenu)
 	}
 	return &responsemodel.MenuFindByBeauticianWithMenuRandIDs{
 		BeauticianMenus: bms,
+	}
+}
+
+func (m *menu) NewBeauticianMenuCreate(ent *entity.BeauticianMenu) *responsemodel.BeauticianMenuCreate {
+	return &responsemodel.BeauticianMenuCreate{
+		BeauticianMenu: NewBeauticianMenuResponsemodel(ent),
 	}
 }

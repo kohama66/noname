@@ -7,6 +7,7 @@ import (
 	"github.com/myapp/noname/api/domain/entity"
 	"github.com/myapp/noname/api/domain/repository"
 	"github.com/myapp/noname/api/infrastructure/db"
+	"github.com/volatiletech/sqlboiler/boil"
 	"github.com/volatiletech/sqlboiler/queries/qm"
 )
 
@@ -82,4 +83,8 @@ func (m *menu) GetBeauticianMenusByReservationID(ctx context.Context, reservatio
 		entity.ReservationMenuWhere.ReservationID.EQ(reservationID),
 		entity.BeauticianMenuWhere.DeletedAt.IsNull(),
 	).All(ctx, m.Conn)
+}
+
+func (m *menu) CreateBeauticianMenu(ctx context.Context, ent *entity.BeauticianMenu) error {
+	return ent.Insert(ctx, m.Conn, boil.Infer())
 }

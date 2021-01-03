@@ -161,6 +161,42 @@ var doc = `{
                 }
             }
         },
+        "/api/v1/menu/beautician": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "美容師のメニュー作成",
+                "parameters": [
+                    {
+                        "description": "Request body",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/requestmodel.BeauticianMenuCreate"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/responsemodel.BeauticianMenuCreate"
+                        }
+                    },
+                    "500": {
+                        "description": "Something went wrong",
+                        "schema": {
+                            "$ref": "#/definitions/resource.Error"
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/menu/find": {
             "get": {
                 "consumes": [
@@ -586,6 +622,25 @@ var doc = `{
         "requestmodel.BeauticianGet": {
             "type": "object"
         },
+        "requestmodel.BeauticianMenuCreate": {
+            "type": "object",
+            "required": [
+                "menuCategory",
+                "menuName",
+                "price"
+            ],
+            "properties": {
+                "menuCategory": {
+                    "type": "string"
+                },
+                "menuName": {
+                    "type": "string"
+                },
+                "price": {
+                    "type": "integer"
+                }
+            }
+        },
         "requestmodel.BeauticianUpdate": {
             "type": "object",
             "required": [
@@ -843,6 +898,14 @@ var doc = `{
                 }
             }
         },
+        "responsemodel.BeauticianMenuCreate": {
+            "type": "object",
+            "properties": {
+                "beauticianMenu": {
+                    "$ref": "#/definitions/responsemodel.BeauticianMenu"
+                }
+            }
+        },
         "responsemodel.Menu": {
             "type": "object",
             "properties": {
@@ -897,8 +960,8 @@ var doc = `{
                 "date": {
                     "type": "string"
                 },
-                "menuId": {
-                    "type": "integer"
+                "holiday": {
+                    "type": "boolean"
                 },
                 "randId": {
                     "type": "string"
@@ -926,8 +989,8 @@ var doc = `{
                 "date": {
                     "type": "string"
                 },
-                "menuId": {
-                    "type": "integer"
+                "holiday": {
+                    "type": "boolean"
                 },
                 "randId": {
                     "type": "string"
@@ -1054,8 +1117,8 @@ var doc = `{
                 "date": {
                     "type": "string"
                 },
-                "menuId": {
-                    "type": "integer"
+                "holiday": {
+                    "type": "boolean"
                 },
                 "randId": {
                     "type": "string"

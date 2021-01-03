@@ -14,6 +14,7 @@ import (
 type Menu interface {
 	Find(ctx context.Context, r *requestmodel.MenuFind) (*responsemodel.MenuFind, error)
 	FindByBeauticianWithMenuRandIDs(ctx context.Context, r *requestmodel.MenuFindByBeauticianWithMenuRandIDs) (*responsemodel.MenuFindByBeauticianWithMenuRandIDs, error)
+	CreateToBeautician(ctx context.Context, r *requestmodel.BeauticianMenuCreate) (*responsemodel.BeauticianMenuCreate, error)
 }
 
 type menu struct {
@@ -67,4 +68,20 @@ func (m *menu) FindByBeauticianWithMenuRandIDs(ctx context.Context, r *requestmo
 		return nil, err
 	}
 	return m.menuResponse.NewFindByBeauticianWithMenuRandIDs(mns), nil
+}
+
+func (m *menu) CreateToBeautician(ctx context.Context, r *requestmodel.BeauticianMenuCreate) (*responsemodel.BeauticianMenuCreate, error) {
+	bt, err := m.userRepository.GetByAuthID(ctx, r.AuthID)
+	if err != nil {
+		return nil, err
+	}
+	mn, err := m.menuRepository.GetByRandID(ctx, r.AuthID)
+	if err != nil {
+		return nil, err
+	}
+	ent := r.NewBeauticianMenu(bt.ID, mn.ID)
+	if err := m.menuRepository.CreateBeauticianMenu(ctx, ent); err != nil {
+		return nil, err
+	}
+	return m.menuResponse.NewBeauticianMenuCreate(ent), nil
 }

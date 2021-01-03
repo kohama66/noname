@@ -19,6 +19,19 @@ definitions:
     type: object
   requestmodel.BeauticianGet:
     type: object
+  requestmodel.BeauticianMenuCreate:
+    properties:
+      menuCategory:
+        type: string
+      menuName:
+        type: string
+      price:
+        type: integer
+    required:
+    - menuCategory
+    - menuName
+    - price
+    type: object
   requestmodel.BeauticianUpdate:
     properties:
       firstName:
@@ -188,6 +201,11 @@ definitions:
       updatedAt:
         type: string
     type: object
+  responsemodel.BeauticianMenuCreate:
+    properties:
+      beauticianMenu:
+        $ref: '#/definitions/responsemodel.BeauticianMenu'
+    type: object
   responsemodel.Menu:
     properties:
       createdAt:
@@ -223,8 +241,8 @@ definitions:
         type: string
       date:
         type: string
-      menuId:
-        type: integer
+      holiday:
+        type: boolean
       randId:
         type: string
       spaceId:
@@ -242,8 +260,8 @@ definitions:
         type: string
       date:
         type: string
-      menuId:
-        type: integer
+      holiday:
+        type: boolean
       randId:
         type: string
       spaceId:
@@ -325,8 +343,8 @@ definitions:
         type: string
       date:
         type: string
-      menuId:
-        type: integer
+      holiday:
+        type: boolean
       randId:
         type: string
       spaceId:
@@ -536,6 +554,29 @@ paths:
           schema:
             $ref: '#/definitions/resource.Error'
       summary: 美容師検索
+  /api/v1/menu/beautician:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Request body
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/requestmodel.BeauticianMenuCreate'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responsemodel.BeauticianMenuCreate'
+        "500":
+          description: Something went wrong
+          schema:
+            $ref: '#/definitions/resource.Error'
+      summary: 美容師のメニュー作成
   /api/v1/menu/find:
     get:
       consumes:

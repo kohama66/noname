@@ -13,6 +13,7 @@ import (
 type Menu interface {
 	Find(w http.ResponseWriter, r *http.Request)
 	FindByBeauticianWithMenuRandID(w http.ResponseWriter, r *http.Request)
+	CreateBeauticianMenu(w http.ResponseWriter, r *http.Request)
 }
 
 type menu struct {
@@ -71,6 +72,31 @@ func (m menu) FindByBeauticianWithMenuRandID(w http.ResponseWriter, r *http.Requ
 	res, err := m.menuUsecase.FindByBeauticianWithMenuRandIDs(r.Context(), req)
 	if err != nil {
 		log.Errorf(r.Context(), "MenuFindByBeauticianWithMenuRandID: %v", err)
+		factory.ErrorJSON(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	factory.JSON(w, res)
+	return
+}
+
+// CreateBeauticianMenu
+// @Summary 美容師のメニュー作成
+// @Accept  json
+// @Produce  json
+// @Param data body requestmodel.BeauticianMenuCreate true "Request body"
+// @Success 200 {object} responsemodel.BeauticianMenuCreate
+// @Failure 500 {object} resource.Error "Something went wrong"
+// @Router /api/v1/menu/beautician [post]
+func (m menu) CreateBeauticianMenu(w http.ResponseWriter, r *http.Request) {
+	req, err := request.NewBeauticianMenuCreate(r)
+	if err != nil {
+		log.Warningf(r.Context(), "CreateBeauticianMenu.Request %v", err)
+		factory.ErrorJSON(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+	res, err := m.menuUsecase.CreateToBeautician(r.Context(), req)
+	if err != nil {
+		log.Errorf(r.Context(), "CreateBeauticianMenu: %v", err)
 		factory.ErrorJSON(w, err.Error(), http.StatusInternalServerError)
 		return
 	}

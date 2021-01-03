@@ -30,3 +30,8 @@ type BeauticianMenu struct {
 type MenuFindByBeauticianWithMenuRandIDs struct {
 	BeauticianMenus []*BeauticianMenu `json:"beauticianMenus"`
 }
+
+// BeauticianMenuCreate 美容師メニュー作成
+type BeauticianMenuCreate struct {
+	BeauticianMenu *BeauticianMenu `json:"beauticianMenu"`
+}
