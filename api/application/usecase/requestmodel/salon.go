@@ -7,3 +7,8 @@ type SalonFind struct {
 	BeauticianRandID *string    `schema:"beauticianRandId"`
 	Date             *time.Time `schema:"date"`
 }
+
+// SalonFindNotBelongs 美容師が所属してない美容院検索
+type SalonFindNotBelongs struct {
+	AuthID string `json:"-"`
+}

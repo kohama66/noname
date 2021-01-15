@@ -16,6 +16,7 @@ type salon struct {
 // Salon DIInterface
 type Salon interface {
 	Find(w http.ResponseWriter, r *http.Request)
+	FindNotBelongs(w http.ResponseWriter, r *http.Request)
 }
 
 // NewSalon DI初期化関数
@@ -45,6 +46,26 @@ func (s salon) Find(w http.ResponseWriter, r *http.Request) {
 	res, err := s.salonUsecase.Find(r.Context(), req)
 	if err != nil {
 		log.Errorf(r.Context(), "SalonFind: %v", err)
+		factory.ErrorJSON(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	factory.JSON(w, res)
+	return
+}
+
+// FindNotBelongs
+// @Summary 美容院検索
+// @Accept  json
+// @Produce  json
+// @Param data body requestmodel.SalonFindNotBelongs true "Request body"
+// @Success 200 {object} responsemodel.SalonFindNotBelongs
+// @Failure 500 {object} resource.Error "Something went wrong"
+// @Router /api/v1/salon/find [get]
+func (s salon) FindNotBelongs(w http.ResponseWriter, r *http.Request) {
+	req := request.NewSalonFindNotBelongs(r)
+	res, err := s.salonUsecase.FindNotBelongs(r.Context(), req)
+	if err != nil {
+		log.Errorf(r.Context(), "SalonFindNotBelongs: %v", err)
 		factory.ErrorJSON(w, err.Error(), http.StatusInternalServerError)
 		return
 	}

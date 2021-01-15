@@ -17,4 +17,5 @@ type Salon interface {
 	ExistsByBeauticianWithSalon(ctx context.Context, beauticianID, salonID int64) (bool, error)
 	GetBeauticianSalons(ctx context.Context, beauticianID int64) (entity.SalonSlice, error)
 	GetBySpaceID(ctx context.Context, spaceID int64) (*entity.Salon, error)
+	FindNotBelongs(ctx context.Context, beauticianID int64) (entity.SalonSlice, error)
 }

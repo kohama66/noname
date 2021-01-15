@@ -183,3 +183,11 @@ func (s *salon) GetBySpaceID(ctx context.Context, spaceID int64) (*entity.Salon,
 		entity.SalonWhere.DeletedAt.IsNull(),
 	).One(ctx, s.Conn)
 }
+
+func (s *salon) FindNotBelongs(ctx context.Context, beauticianID int64) (entity.SalonSlice, error) {
+	return entity.Salons(
+		qm.InnerJoin(fmt.Sprintf(`%s ON %v = %v`, entity.TableNames.BeauticianSalons, entity.BeauticianSalonColumns.BeauticianID, entity.SalonColumns.ID)),
+		entity.BeauticianSalonWhere.BeauticianID.NEQ(beauticianID),
+		entity.SalonWhere.DeletedAt.IsNull(),
+	).All(ctx, s.Conn)
+}

@@ -2,6 +2,7 @@ package usecase
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/myapp/noname/api/application/usecase/requestmodel"
 	"github.com/myapp/noname/api/application/usecase/responsemodel"
@@ -12,6 +13,7 @@ import (
 // Salon DIInterface
 type Salon interface {
 	Find(ctx context.Context, r *requestmodel.SalonFind) (*responsemodel.SalonFind, error)
+	FindNotBelongs(ctx context.Context, r *requestmodel.SalonFindNotBelongs) (*responsemodel.SalonFindNotBelongs, error)
 }
 
 type salon struct {
@@ -47,4 +49,19 @@ func (s *salon) Find(ctx context.Context, r *requestmodel.SalonFind) (*responsem
 		return nil, err
 	}
 	return s.salonResponse.NewSalonFind(sl), nil
+}
+
+func (s *salon) FindNotBelongs(ctx context.Context, r *requestmodel.SalonFindNotBelongs) (*responsemodel.SalonFindNotBelongs, error) {
+	me, err := s.userRepository.GetByAuthID(ctx, r.AuthID)
+	if err != nil {
+		return nil, err
+	}
+	if !me.IsBeautician {
+		return nil, fmt.Errorf("You are not beautician")
+	}
+	sa, err := s.salonRepository.FindNotBelongs(ctx, me.ID)
+	if err != nil {
+		return nil, err
+	}
+	return s.salonResponse.NewSalonFindNotBelongs(sa), nil
 }

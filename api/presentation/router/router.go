@@ -71,6 +71,10 @@ func (r *Router) Routes() {
 			r.Group(func(r chi.Router) {
 				r.Route("/salon", func(r chi.Router) {
 					r.Get("/find", salonController.Find)
+					r.Group(func(r chi.Router) {
+						r.Use(middleware.AuthAPI)
+						r.Get("/belongs", salonController.FindNotBelongs)
+					})
 				})
 			})
 			r.Group(func(r chi.Router) {

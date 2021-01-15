@@ -8,6 +8,7 @@ import (
 // Salon DIInterface
 type Salon interface {
 	NewSalonFind(ents []*entity.Salon) *responsemodel.SalonFind
+	NewSalonFindNotBelongs(ents []*entity.Salon) *responsemodel.SalonFindNotBelongs
 }
 
 type salon struct{}
@@ -54,4 +55,15 @@ func NewSalonsResponseModel(ents []*entity.Salon) []*responsemodel.Salon {
 		sls[i] = NewSalonResponseModel(v)
 	}
 	return sls
+}
+
+// NewSalonFindNotBelongs 美容師が所属してない美容院検索
+func (s *salon) NewSalonFindNotBelongs(ents []*entity.Salon) *responsemodel.SalonFindNotBelongs {
+	sls := make([]*responsemodel.Salon, len(ents))
+	for i, v := range ents {
+		sls[i] = NewSalonResponseModel(v)
+	}
+	return &responsemodel.SalonFindNotBelongs{
+		Salons: sls,
+	}
 }
