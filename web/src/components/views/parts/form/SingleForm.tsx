@@ -1,5 +1,6 @@
 import React, { FC, useContext, useEffect, useState } from 'react';
-import { getMe, postBeauticianMenu } from '../../../../package/api';
+import { findMenus, getMe, postBeauticianMenu } from '../../../../package/api';
+import { Menu } from '../../../../package/interface/Menu';
 import { UserContext } from '../../../../utils/context/UserContext';
 import { useError } from '../../../../utils/hooks/Error';
 import FormErrorMessage from '../formParts/FormErrorMessage';
@@ -16,12 +17,12 @@ const SingleForm: FC<props> = (props) => {
   const [stateName, setStateName] = useState<string>("")
   const [statePrice, setStatePrice] = useState<string>("")
   const [stateType, setStateType] = useState<string>("")
+  const [menus, setMenus] = useState<Menu[]>([])
   const { error, customError } = useError()
   const { setUser } = useContext(UserContext)
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    console.log(stateType)
     switch (props.type) {
       case "menu":
         try {
@@ -32,6 +33,9 @@ const SingleForm: FC<props> = (props) => {
           })
           const response = await getMe()
           setUser(response.user)
+          setStateName("")
+          setStatePrice("")
+          setStateType("")
           customError("")
         } catch (error) {
           customError("エラーです、やり直して下さい")
@@ -41,14 +45,23 @@ const SingleForm: FC<props> = (props) => {
   }
 
   useEffect(() => {
-
-  },[])
+    const handleFindMenus = async () => {
+      try {
+        const response = await findMenus()
+        setMenus(response.menus)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    handleFindMenus()
+  }, [])
 
   return (
     <form id="single-form" onSubmit={handleSubmit}>
       <Input type="text" value={stateName} setState={setStateName} disabled={props.disabled} required={true} placeHolder="新しいメニューを追加する" />
       <Input type="text" value={statePrice} setState={setStatePrice} disabled={props.disabled} required={true} placeHolder="値段設定" />
-      <Select type="menu" value={stateType} setState={setStateType} />
+      {/* <Select type="menu" value={stateType} setState={setStateType} /> */}
+      <Select defaultValueLabel="カテゴリー" optionData={menus} value={stateType} setState={setStateType} required={true} />
       <Input type="submit" value="登録" />
       <FormErrorMessage error={error} />
     </form>
