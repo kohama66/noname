@@ -1,0 +1,10 @@
+@import "src/css/common.scss";
+
+#search-salon {
+  width: 100%;
+  box-shadow: none;
+  padding: 0;
+  select {
+    margin-bottom: 10px;
+  }
+}

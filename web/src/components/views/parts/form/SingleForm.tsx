@@ -60,7 +60,6 @@ const SingleForm: FC<props> = (props) => {
     <form id="single-form" onSubmit={handleSubmit}>
       <Input type="text" value={stateName} setState={setStateName} disabled={props.disabled} required={true} placeHolder="新しいメニューを追加する" />
       <Input type="text" value={statePrice} setState={setStatePrice} disabled={props.disabled} required={true} placeHolder="値段設定" />
-      {/* <Select type="menu" value={stateType} setState={setStateType} /> */}
       <Select defaultValueLabel="カテゴリー" optionData={menus} value={stateType} setState={setStateType} required={true} />
       <Input type="submit" value="登録" />
       <FormErrorMessage error={error} />

@@ -1,12 +1,15 @@
 import React, { FC, useEffect, useState } from 'react';
-import { findMenus } from '../../../../package/api';
-import { Menu } from '../../../../package/interface/Menu';
 import "./Select.scss";
+
+interface SelectData {
+  name: string
+  randId: string
+}
 
 interface props {
   value: string
   defaultValueLabel: string
-  optionData: Menu[]
+  optionData: SelectData[]
   setState?: React.Dispatch<React.SetStateAction<string>>
   required?: true
 }
@@ -21,8 +24,8 @@ const Select: FC<props> = (props) => {
   return (
     <select id="select" onChange={handleChange} required={props.required} value={props.value}>
       <option value="">{props.defaultValueLabel}</option>
-      {props.optionData.map((data, i) => {
-        return <option key={i} value={data.randId}>{data.name}</option>
+      {props.optionData.map((option, i) => {
+        return <option key={i} value={option.randId}>{option.name}</option>
       })}
     </select>
   )

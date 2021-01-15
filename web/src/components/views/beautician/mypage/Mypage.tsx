@@ -8,6 +8,7 @@ import Title from '../../guest/parts/Title/Title';
 import SingleForm from '../../parts/form/SingleForm';
 import Modal from '../../parts/modal/Modal';
 import Schedule from '../../parts/Schedule/Schedule';
+import SearchSalon from '../../parts/searchSalon/SearchSalon';
 import './Mypage.scss';
 
 const Mypage: FC = () => {
@@ -118,6 +119,7 @@ const Mypage: FC = () => {
                 </li>
               })}
             </ul>
+            <SearchSalon />
           </div>
         </div>
         <div className="bottom-content">
