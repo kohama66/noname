@@ -10,6 +10,7 @@ import { apiurl } from '../../config/config';
 import { beauticianCreateRequest, beauticianUpdateRequest } from '../interface/request/Beautician';
 import { setHolidayRequest } from '../interface/request/Reservation';
 import { beauticianMenuRequest } from '../interface/request/Menu';
+import { postBeauticianSalonRequest } from '../interface/request/Salon';
 
 const axios = Axios.create({
   baseURL: apiurl,
@@ -34,7 +35,7 @@ const requestAwait = async <T>(request: Promise<AxiosPromise<T>>): Promise<T> =>
     const response = await request
     return response.data
   } catch (error) {
-    // console.log(error.response)
+    console.log(error)
     let errorTetx: string
     switch (error.message) {
       case "Request failed with status code 500":
@@ -153,4 +154,8 @@ export const postBeauticianMenu = async (req: beauticianMenuRequest): Promise<be
 
 export const findSalonNoBelongs = async (): Promise<salonsResponse> => {
   return get<salonsResponse>(`api/v1/salon/belongs`)
+}
+
+export const postBeauticianSalon = async (req: postBeauticianSalonRequest): Promise<undefined> => {
+  return post<undefined>(`api/v1/salon/beautician`, req)
 }

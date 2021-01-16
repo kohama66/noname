@@ -8,6 +8,7 @@ import (
 	"github.com/myapp/noname/api/domain/entity"
 	"github.com/myapp/noname/api/domain/repository"
 	"github.com/myapp/noname/api/infrastructure/db"
+	"github.com/volatiletech/sqlboiler/boil"
 	"github.com/volatiletech/sqlboiler/queries/qm"
 )
 
@@ -190,4 +191,8 @@ func (s *salon) FindNotBelongs(ctx context.Context, beauticianID int64) (entity.
 		qm.Where(fmt.Sprintf("%v IS NULL", entity.BeauticianMenuColumns.BeauticianID)),
 		entity.SalonWhere.DeletedAt.IsNull(),
 	).All(ctx, s.Conn)
+}
+
+func (s *salon) CreateBeauticianSalon(ctx context.Context, ent *entity.BeauticianSalon) error {
+	return ent.Insert(ctx, s.Conn, boil.Infer())
 }

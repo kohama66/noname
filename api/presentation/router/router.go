@@ -74,6 +74,7 @@ func (r *Router) Routes() {
 					r.Group(func(r chi.Router) {
 						r.Use(middleware.AuthAPI)
 						r.Get("/belongs", salonController.FindNotBelongs)
+						r.Post("/beautician", salonController.CreateBeauticianSalon)
 					})
 				})
 			})

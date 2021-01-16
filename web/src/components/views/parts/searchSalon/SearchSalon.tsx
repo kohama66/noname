@@ -1,31 +1,41 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useContext, useEffect, useState } from 'react';
 import "./SearchSalon.scss";
-import { findSalonNoBelongs, findSalons } from '../../../../package/api';
+import { findSalonNoBelongs, findSalons, getMe, postBeauticianSalon } from '../../../../package/api';
 import { Salon } from '../../../../package/interface/Salon';
 import Input from '../formParts/Input';
 import Select from '../formParts/Select';
+import { UserContext } from '../../../../utils/context/UserContext';
 
 const SearchSalon: FC = () => {
   const [salonRandID, setSalonRandID] = useState<string>("")
   const [salons, setSalons] = useState<Salon[]>([])
+  const { setUser } = useContext(UserContext)
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-
+    try {
+      await postBeauticianSalon({
+        salonRandId: salonRandID
+      })
+      const response = await getMe()
+      setUser(response.user)
+      setSalonRandID("")
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   useEffect(() => {
     const handleFindSalons = async () => {
       try {
         const response = await findSalonNoBelongs()
-        console.log(response)
         setSalons(response.salons)
       } catch (error) {
         console.log(error.message)
       }
     }
     handleFindSalons()
-  }, [])
+  }, [salonRandID])
 
   return (
     <form id="search-salon" onSubmit={handleSubmit}>

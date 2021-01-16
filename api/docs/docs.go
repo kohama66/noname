@@ -483,6 +483,73 @@ var doc = `{
                 }
             }
         },
+        "/api/v1/salon/beautician": {
+            "post": {
+                "description": "美容師が仕事可能な美容院を一つ追加します",
+                "consumes": [
+                    "application/json"
+                ],
+                "summary": "美容師美容院追加",
+                "parameters": [
+                    {
+                        "description": "Request body",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/requestmodel.BeauticianSalonCreata"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    },
+                    "500": {
+                        "description": "Something went wrong",
+                        "schema": {
+                            "$ref": "#/definitions/resource.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/salon/belongs": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "美容院検索",
+                "parameters": [
+                    {
+                        "description": "Request body",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/requestmodel.SalonFindNotBelongs"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/responsemodel.SalonFindNotBelongs"
+                        }
+                    },
+                    "500": {
+                        "description": "Something went wrong",
+                        "schema": {
+                            "$ref": "#/definitions/resource.Error"
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/salon/find": {
             "get": {
                 "consumes": [
@@ -641,6 +708,17 @@ var doc = `{
                 }
             }
         },
+        "requestmodel.BeauticianSalonCreata": {
+            "type": "object",
+            "required": [
+                "salonRandId"
+            ],
+            "properties": {
+                "salonRandId": {
+                    "type": "string"
+                }
+            }
+        },
         "requestmodel.BeauticianUpdate": {
             "type": "object",
             "required": [
@@ -758,6 +836,9 @@ var doc = `{
                     "type": "string"
                 }
             }
+        },
+        "requestmodel.SalonFindNotBelongs": {
+            "type": "object"
         },
         "requestmodel.UserCreate": {
             "type": "object",
@@ -1182,6 +1263,17 @@ var doc = `{
             }
         },
         "responsemodel.SalonFind": {
+            "type": "object",
+            "properties": {
+                "salons": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/responsemodel.Salon"
+                    }
+                }
+            }
+        },
+        "responsemodel.SalonFindNotBelongs": {
             "type": "object",
             "properties": {
                 "salons": {

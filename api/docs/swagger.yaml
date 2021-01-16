@@ -32,6 +32,13 @@ definitions:
     - menuName
     - price
     type: object
+  requestmodel.BeauticianSalonCreata:
+    properties:
+      salonRandId:
+        type: string
+    required:
+    - salonRandId
+    type: object
   requestmodel.BeauticianUpdate:
     properties:
       firstName:
@@ -108,6 +115,8 @@ definitions:
         type: string
       date:
         type: string
+    type: object
+  requestmodel.SalonFindNotBelongs:
     type: object
   requestmodel.UserCreate:
     properties:
@@ -386,6 +395,13 @@ definitions:
         type: string
     type: object
   responsemodel.SalonFind:
+    properties:
+      salons:
+        items:
+          $ref: '#/definitions/responsemodel.Salon'
+        type: array
+    type: object
+  responsemodel.SalonFindNotBelongs:
     properties:
       salons:
         items:
@@ -760,6 +776,49 @@ paths:
           schema:
             $ref: '#/definitions/resource.Error'
       summary: ゲストの予約履歴を取得
+  /api/v1/salon/beautician:
+    post:
+      consumes:
+      - application/json
+      description: 美容師が仕事可能な美容院を一つ追加します
+      parameters:
+      - description: Request body
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/requestmodel.BeauticianSalonCreata'
+      responses:
+        "200":
+          description: ""
+        "500":
+          description: Something went wrong
+          schema:
+            $ref: '#/definitions/resource.Error'
+      summary: 美容師美容院追加
+  /api/v1/salon/belongs:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: Request body
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/requestmodel.SalonFindNotBelongs'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responsemodel.SalonFindNotBelongs'
+        "500":
+          description: Something went wrong
+          schema:
+            $ref: '#/definitions/resource.Error'
+      summary: 美容院検索
   /api/v1/salon/find:
     get:
       consumes:

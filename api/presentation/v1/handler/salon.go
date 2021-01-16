@@ -1,7 +1,6 @@
 package handler
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/myapp/noname/api/application/usecase"
@@ -18,6 +17,7 @@ type salon struct {
 type Salon interface {
 	Find(w http.ResponseWriter, r *http.Request)
 	FindNotBelongs(w http.ResponseWriter, r *http.Request)
+	CreateBeauticianSalon(w http.ResponseWriter, r *http.Request)
 }
 
 // NewSalon DI初期化関数
@@ -70,7 +70,30 @@ func (s salon) FindNotBelongs(w http.ResponseWriter, r *http.Request) {
 		factory.ErrorJSON(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	fmt.Println(res)
 	factory.JSON(w, res)
+	return
+}
+
+// CreateBeauticianSalon
+// @Summary 美容師美容院追加
+// @Description 美容師が仕事可能な美容院を一つ追加します
+// @Accept  json
+// @Param data body requestmodel.BeauticianSalonCreata true "Request body"
+// @Success 200
+// @Failure 500 {object} resource.Error "Something went wrong"
+// @Router /api/v1/salon/beautician [post]
+func (s salon) CreateBeauticianSalon(w http.ResponseWriter, r *http.Request) {
+	req, err := request.NewBeauticianSalonCreata(r)
+	if err != nil {
+		log.Warningf(r.Context(), "CreateBeauticianSalon.Request %v", err)
+		factory.ErrorJSON(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+	err = s.salonUsecase.CreateToBeautician(r.Context(), req)
+	if err != nil {
+		log.Errorf(r.Context(), "CreateBeauticianSalon: %v", err)
+		factory.ErrorJSON(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
 	return
 }

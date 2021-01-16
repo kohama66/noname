@@ -6,6 +6,7 @@ import (
 
 	"github.com/myapp/noname/api/application/usecase/requestmodel"
 	"github.com/myapp/noname/api/application/usecase/responsemodel"
+	"github.com/myapp/noname/api/domain/entityx"
 	"github.com/myapp/noname/api/domain/repository"
 	"github.com/myapp/noname/api/infrastructure/response"
 )
@@ -14,6 +15,7 @@ import (
 type Salon interface {
 	Find(ctx context.Context, r *requestmodel.SalonFind) (*responsemodel.SalonFind, error)
 	FindNotBelongs(ctx context.Context, r *requestmodel.SalonFindNotBelongs) (*responsemodel.SalonFindNotBelongs, error)
+	CreateToBeautician(ctx context.Context, r *requestmodel.BeauticianSalonCreata) error
 }
 
 type salon struct {
@@ -64,4 +66,29 @@ func (s *salon) FindNotBelongs(ctx context.Context, r *requestmodel.SalonFindNot
 		return nil, err
 	}
 	return s.salonResponse.NewSalonFindNotBelongs(sa), nil
+}
+
+func (s *salon) CreateToBeautician(ctx context.Context, r *requestmodel.BeauticianSalonCreata) error {
+	me, err := s.userRepository.GetByAuthID(ctx, r.AuthID)
+	if err != nil {
+		return err
+	}
+	if !me.IsBeautician {
+		return fmt.Errorf("You are not beautician")
+	}
+	sl, err := s.salonRepository.GetByRandID(ctx, r.SalonRandID)
+	if err != nil {
+		return err
+	}
+	ng, err := s.salonRepository.ExistsByBeauticianWithSalon(ctx, me.ID, sl.ID)
+	if err != nil {
+		return err
+	}
+	if ng {
+		return fmt.Errorf("Already exists")
+	}
+	if err := s.salonRepository.CreateBeauticianSalon(ctx, entityx.NewBeauticianSalon(me.ID, sl.ID)); err != nil {
+		return err
+	}
+	return nil
 }
