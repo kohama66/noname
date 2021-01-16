@@ -5,6 +5,7 @@ import { Reservation } from '../../../../package/interface/Reservation';
 import { UserContext } from '../../../../utils/context/UserContext';
 import { dateToString } from '../../../../utils/function/GetDate';
 import Title from '../../guest/parts/Title/Title';
+import Accordion from '../../parts/accordion/Accordion';
 import SingleForm from '../../parts/form/SingleForm';
 import Modal from '../../parts/modal/Modal';
 import Schedule from '../../parts/Schedule/Schedule';
@@ -98,28 +99,30 @@ const Mypage: FC = () => {
         </div>
         <div className="middle-content">
           <div className="menus">
-            <h2>MENUS</h2>
-            <dl>
-              {user.beauticianMenus?.map((menu, i) => {
-                return <span key={i}>
-                  <dt>{menu.name}</dt>
-                  <dd>{menu.price}</dd>
-                </span>
-              })}
-            </dl>
-            <SingleForm disabled={buttonDisabled} type="menu" />
+            <Accordion buttonText="MENUS">
+              <dl>
+                {user.beauticianMenus?.map((menu, i) => {
+                  return <span key={i}>
+                    <dt>{menu.name}</dt>
+                    <dd>{menu.price}</dd>
+                  </span>
+                })}
+              </dl>
+              <SingleForm disabled={buttonDisabled} type="menu" />
+            </Accordion>
           </div>
           <div className="salons">
-            <h2>SALONS</h2>
-            <ul>
-              {user.beauticianSalons?.map((salon, i) => {
-                return <li key={i}>
-                  <h3>{salon.name}</h3>
-                  <p>{salon.prefectures + salon.city + salon.town + salon.addressOther}</p>
-                </li>
-              })}
-            </ul>
-            <SearchSalon />
+            <Accordion buttonText="SALONS" >
+              <ul>
+                {user.beauticianSalons?.map((salon, i) => {
+                  return <li key={i}>
+                    <h3>{salon.name}</h3>
+                    <p>{salon.prefectures + salon.city + salon.town + salon.addressOther}</p>
+                  </li>
+                })}
+              </ul>
+              <SearchSalon />
+            </Accordion>
           </div>
         </div>
         <div className="bottom-content">
