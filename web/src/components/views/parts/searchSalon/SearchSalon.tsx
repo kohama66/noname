@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useState } from 'react';
 import "./SearchSalon.scss";
-import { findSalons } from '../../../../package/api';
+import { findSalonNoBelongs, findSalons } from '../../../../package/api';
 import { Salon } from '../../../../package/interface/Salon';
 import Input from '../formParts/Input';
 import Select from '../formParts/Select';
@@ -17,7 +17,8 @@ const SearchSalon: FC = () => {
   useEffect(() => {
     const handleFindSalons = async () => {
       try {
-        const response = await findSalons()
+        const response = await findSalonNoBelongs()
+        console.log(response)
         setSalons(response.salons)
       } catch (error) {
         console.log(error.message)

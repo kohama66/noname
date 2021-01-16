@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/myapp/noname/api/application/usecase"
@@ -60,7 +61,7 @@ func (s salon) Find(w http.ResponseWriter, r *http.Request) {
 // @Param data body requestmodel.SalonFindNotBelongs true "Request body"
 // @Success 200 {object} responsemodel.SalonFindNotBelongs
 // @Failure 500 {object} resource.Error "Something went wrong"
-// @Router /api/v1/salon/find [get]
+// @Router /api/v1/salon/belongs [get]
 func (s salon) FindNotBelongs(w http.ResponseWriter, r *http.Request) {
 	req := request.NewSalonFindNotBelongs(r)
 	res, err := s.salonUsecase.FindNotBelongs(r.Context(), req)
@@ -69,6 +70,7 @@ func (s salon) FindNotBelongs(w http.ResponseWriter, r *http.Request) {
 		factory.ErrorJSON(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+	fmt.Println(res)
 	factory.JSON(w, res)
 	return
 }

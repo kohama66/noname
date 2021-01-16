@@ -150,3 +150,7 @@ export const setHoliday = async (req: setHolidayRequest): Promise<reservationRes
 export const postBeauticianMenu = async (req: beauticianMenuRequest): Promise<beauticianMenuResponse> => {
   return post<beauticianMenuResponse>(`api/v1/menu/beautician`, req)
 }
+
+export const findSalonNoBelongs = async (): Promise<salonsResponse> => {
+  return get<salonsResponse>(`api/v1/salon/belongs`)
+}
