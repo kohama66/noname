@@ -127,10 +127,13 @@
           font-size: 12px;
           span {
             display: flex;
-            justify-content: space-between;
+            align-items: center;
             padding: 5px 0;
             dt {
               font-weight: bold;
+            }
+            dd {
+              margin-left: auto;
             }
           }
         }
@@ -138,19 +141,32 @@
           li {
             list-style: none;
             margin-bottom: 10px;
-            h3 {
-              font-size: 12px;
-              font-weight: lighter;
-              line-height: 22px;
-              font-weight: bold;
-            }
-            p {
-              font-size: 12px;
-              line-height: 18px;
-              color: $darkGray;
-              font-weight: bold;
+            display: flex;
+            span {
+              h3 {
+                font-size: 12px;
+                font-weight: lighter;
+                line-height: 22px;
+                font-weight: bold;
+              }
+              p {
+                font-size: 12px;
+                line-height: 18px;
+                color: $darkGray;
+                font-weight: bold;
+              }
             }
           }
+        }
+        .delete-button {
+          background-color: $darkGray;
+          text-align: center;
+          width: auto;
+          margin: 0;
+          padding: 2px 5px;
+          margin-right: 8px;
+          font-size: 14px;
+          font-weight: bold;
         }
       }
       .salons {

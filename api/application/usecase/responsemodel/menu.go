@@ -18,6 +18,7 @@ type MenuFind struct {
 
 // BeauticianMenu response構造体
 type BeauticianMenu struct {
+	RandID       string    `json:"randId"`
 	Price        int64     `json:"price"`
 	BeauticianID int64     `json:"beauticianId"`
 	MenuID       int64     `json:"menuId"`

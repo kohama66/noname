@@ -30,3 +30,9 @@ func (m *BeauticianMenuCreate) NewBeauticianMenu(beauticianID, menuID int64) *en
 		MenuID:       menuID,
 	}
 }
+
+// BeauticianMenuDelete 美容師のメニューを削除します
+type BeauticianMenuDelete struct {
+	AuthID string
+	RandID string
+}

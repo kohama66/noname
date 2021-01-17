@@ -101,6 +101,7 @@ CREATE TABLE `beautician_salons` (
 
 CREATE TABLE `beautician_menus` (
   `id` bigint NOT NULL AUTO_INCREMENT,
+  `rand_id` varchar(255) NOT NULL,
   `name` varchar(255) NOT NULL,
   `price` bigint NOT NULL,
   `beautician_id` bigint NOT NULL,

@@ -51,6 +51,7 @@ func (m *menu) NewMenuFind(ents []*entity.Menu) *responsemodel.MenuFind {
 // NewBeauticianMenuResponsemodel エンティティ変換関数
 func NewBeauticianMenuResponsemodel(ent *entity.BeauticianMenu) *responsemodel.BeauticianMenu {
 	return &responsemodel.BeauticianMenu{
+		RandID:       ent.RandID,
 		Price:        ent.Price,
 		Name:         ent.Name,
 		BeauticianID: ent.BeauticianID,

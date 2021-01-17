@@ -4,6 +4,7 @@ export interface Menu {
 }
 
 export interface MenuDetail {
+  randId: string
   menuId: number
   beauticianId: number
   price: number
@@ -11,6 +12,7 @@ export interface MenuDetail {
 }
 
 export interface BeauticianMenu {
+  randId: string
   beauticianId: number
   menuId: number
   name: string

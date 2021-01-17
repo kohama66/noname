@@ -61,6 +61,10 @@ const put = <T>(url: string, data?: object): Promise<T> => {
   return requestAwait(axios.put(url, data))
 }
 
+const deleteAxios = <T>(url: string, data?: object): Promise<T> => {
+  return requestAwait(axios.delete(url, data))
+}
+
 export const findSalons = async (beauticianRandId?: string): Promise<salonsResponse> => {
   return get<salonsResponse>("/api/v1/salon/find", {
     params: {
@@ -158,4 +162,8 @@ export const findSalonNoBelongs = async (): Promise<salonsResponse> => {
 
 export const postBeauticianSalon = async (req: postBeauticianSalonRequest): Promise<undefined> => {
   return post<undefined>(`api/v1/salon/beautician`, req)
+}
+
+export const deleteBeauticianMenu = async (randID: string): Promise<undefined> => {
+  return deleteAxios<undefined>(`/api/v1/menu/beautician/${randID}`)
 }

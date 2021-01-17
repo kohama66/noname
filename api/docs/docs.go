@@ -197,6 +197,39 @@ var doc = `{
                 }
             }
         },
+        "/api/v1/menu/beautician/{randID}": {
+            "delete": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "美容師のメニュー削除",
+                "parameters": [
+                    {
+                        "description": "Request body",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/requestmodel.BeauticianMenuDelete"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    },
+                    "500": {
+                        "description": "Something went wrong",
+                        "schema": {
+                            "$ref": "#/definitions/resource.Error"
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/menu/find": {
             "get": {
                 "consumes": [
@@ -705,6 +738,17 @@ var doc = `{
                 },
                 "price": {
                     "type": "integer"
+                }
+            }
+        },
+        "requestmodel.BeauticianMenuDelete": {
+            "type": "object",
+            "properties": {
+                "authID": {
+                    "type": "string"
+                },
+                "randID": {
+                    "type": "string"
                 }
             }
         },

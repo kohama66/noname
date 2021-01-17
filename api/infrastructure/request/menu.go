@@ -43,3 +43,11 @@ func NewBeauticianMenuCreate(req *http.Request) (*requestmodel.BeauticianMenuCre
 	}
 	return r, nil
 }
+
+// NewBeauticianMenuDelete 美容師のメニュー削除
+func NewBeauticianMenuDelete(req *http.Request) *requestmodel.BeauticianMenuDelete {
+	r := &requestmodel.BeauticianMenuDelete{}
+	r.AuthID = context.AuthID(req.Context())
+	r.RandID = chi.URLParam(req, "randID")
+	return r
+}

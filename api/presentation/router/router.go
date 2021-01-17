@@ -85,6 +85,7 @@ func (r *Router) Routes() {
 					r.Group(func(r chi.Router) {
 						r.Use(middleware.AuthAPI)
 						r.Post("/beautician", menuController.CreateBeauticianMenu)
+						r.Delete("/beautician/{randID}", menuController.DeleteBeauticianMenu)
 					})
 				})
 			})

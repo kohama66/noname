@@ -2,6 +2,7 @@ package usecase
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/myapp/noname/api/application/usecase/requestmodel"
 	"github.com/myapp/noname/api/application/usecase/responsemodel"
@@ -15,6 +16,7 @@ type Menu interface {
 	Find(ctx context.Context, r *requestmodel.MenuFind) (*responsemodel.MenuFind, error)
 	FindByBeauticianWithMenuRandIDs(ctx context.Context, r *requestmodel.MenuFindByBeauticianWithMenuRandIDs) (*responsemodel.MenuFindByBeauticianWithMenuRandIDs, error)
 	CreateToBeautician(ctx context.Context, r *requestmodel.BeauticianMenuCreate) (*responsemodel.BeauticianMenuCreate, error)
+	DeleteToBeautician(ctx context.Context, r *requestmodel.BeauticianMenuDelete) error
 }
 
 type menu struct {
@@ -84,4 +86,22 @@ func (m *menu) CreateToBeautician(ctx context.Context, r *requestmodel.Beauticia
 		return nil, err
 	}
 	return m.menuResponse.NewBeauticianMenuCreate(ent), nil
+}
+
+func (m *menu) DeleteToBeautician(ctx context.Context, r *requestmodel.BeauticianMenuDelete) error {
+	me, err := m.userRepository.GetByAuthID(ctx, r.AuthID)
+	if err != nil {
+		return err
+	}
+	mn, err := m.menuRepository.GetBeauticianMenuByRandID(ctx, r.RandID)
+	if err != nil {
+		return err
+	}
+	if me.ID != mn.BeauticianID {
+		return fmt.Errorf("Not yours menu")
+	}
+	if _, err := m.menuRepository.DeleteBeauticianMenu(ctx, mn); err != nil {
+		return err
+	}
+	return nil
 }

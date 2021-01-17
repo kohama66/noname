@@ -88,3 +88,14 @@ func (m *menu) GetBeauticianMenusByReservationID(ctx context.Context, reservatio
 func (m *menu) CreateBeauticianMenu(ctx context.Context, ent *entity.BeauticianMenu) error {
 	return ent.Insert(ctx, m.Conn, boil.Infer())
 }
+
+func (m *menu) DeleteBeauticianMenu(ctx context.Context, ent *entity.BeauticianMenu) (int64, error) {
+	return ent.Delete(ctx, m.Conn)
+}
+
+func (m *menu) GetBeauticianMenuByRandID(ctx context.Context, randID string) (*entity.BeauticianMenu, error) {
+	return entity.BeauticianMenus(
+		entity.BeauticianMenuWhere.RandID.EQ(randID),
+		entity.BeauticianMenuWhere.DeletedAt.IsNull(),
+	).One(ctx, m.Conn)
+}

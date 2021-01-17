@@ -1,6 +1,6 @@
 import React, { FC, useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { getReservationBeautician, setHoliday } from '../../../../package/api';
+import { deleteBeauticianMenu, getMe, getReservationBeautician, setHoliday } from '../../../../package/api';
 import { Reservation } from '../../../../package/interface/Reservation';
 import { UserContext } from '../../../../utils/context/UserContext';
 import { dateToString } from '../../../../utils/function/GetDate';
@@ -18,7 +18,7 @@ const Mypage: FC = () => {
   const [modalText, setModalText] = useState<string>("休日に設定しますか?")
   const [isModal, setIsModal] = useState<boolean>(false)
   const [clickDate, setClickDate] = useState<Date>()
-  const { user } = useContext(UserContext)
+  const { user, setUser } = useContext(UserContext)
   const history = useHistory()
 
   const handleModalClick = (date: Date) => {
@@ -52,6 +52,23 @@ const Mypage: FC = () => {
         setButtonDisbled(false)
         setModalText("休日に設定しますか?")
         break
+    }
+  }
+
+  const handleDelete = async (randID: string, type: "menu" | "salon") => {
+    try {
+      switch (type) {
+        case "menu":
+          await deleteBeauticianMenu(randID)
+          break
+        case "salon":
+          await deleteBeauticianMenu(randID)
+          break
+      }
+      const response = await getMe()
+      setUser(response.user)
+    } catch (error) {
+      console.log(error.message)
     }
   }
 
@@ -103,6 +120,7 @@ const Mypage: FC = () => {
               <dl>
                 {user.beauticianMenus?.map((menu, i) => {
                   return <span key={i}>
+                    <button className="delete-button" onClick={() => handleDelete(menu.randId, "menu")}>-</button>
                     <dt>{menu.name}</dt>
                     <dd>{menu.price}</dd>
                   </span>
@@ -116,8 +134,11 @@ const Mypage: FC = () => {
               <ul>
                 {user.beauticianSalons?.map((salon, i) => {
                   return <li key={i}>
-                    <h3>{salon.name}</h3>
-                    <p>{salon.prefectures + salon.city + salon.town + salon.addressOther}</p>
+                    <button className="delete-button">-</button>
+                    <span>
+                      <h3>{salon.name}</h3>
+                      <p>{salon.prefectures + salon.city + salon.town + salon.addressOther}</p>
+                    </span>
                   </li>
                 })}
               </ul>

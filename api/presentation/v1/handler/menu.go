@@ -14,6 +14,7 @@ type Menu interface {
 	Find(w http.ResponseWriter, r *http.Request)
 	FindByBeauticianWithMenuRandID(w http.ResponseWriter, r *http.Request)
 	CreateBeauticianMenu(w http.ResponseWriter, r *http.Request)
+	DeleteBeauticianMenu(w http.ResponseWriter, r *http.Request)
 }
 
 type menu struct {
@@ -101,5 +102,24 @@ func (m menu) CreateBeauticianMenu(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	factory.JSON(w, res)
+	return
+}
+
+// DeleteBeauticianMenu
+// @Summary 美容師のメニュー削除
+// @Accept json
+// @Produce json
+// @Param data body requestmodel.BeauticianMenuDelete true "Request body"
+// @Success 200
+// @Failure 500 {object} resource.Error "Something went wrong"
+// @Router /api/v1/menu/beautician/{randID} [delete]
+func (m menu) DeleteBeauticianMenu(w http.ResponseWriter, r *http.Request) {
+	req := request.NewBeauticianMenuDelete(r)
+	err := m.menuUsecase.DeleteToBeautician(r.Context(), req)
+	if err != nil {
+		log.Errorf(r.Context(), "DeleteBeauticianMenu: %v", err)
+		factory.ErrorJSON(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
 	return
 }

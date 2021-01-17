@@ -25,6 +25,7 @@ import (
 // BeauticianMenu is an object representing the database table.
 type BeauticianMenu struct {
 	ID           int64     `boil:"id" json:"id" toml:"id" yaml:"id"`
+	RandID       string    `boil:"rand_id" json:"rand_id" toml:"rand_id" yaml:"rand_id"`
 	Name         string    `boil:"name" json:"name" toml:"name" yaml:"name"`
 	Price        int64     `boil:"price" json:"price" toml:"price" yaml:"price"`
 	BeauticianID int64     `boil:"beautician_id" json:"beautician_id" toml:"beautician_id" yaml:"beautician_id"`
@@ -39,6 +40,7 @@ type BeauticianMenu struct {
 
 var BeauticianMenuColumns = struct {
 	ID           string
+	RandID       string
 	Name         string
 	Price        string
 	BeauticianID string
@@ -48,6 +50,7 @@ var BeauticianMenuColumns = struct {
 	DeletedAt    string
 }{
 	ID:           "id",
+	RandID:       "rand_id",
 	Name:         "name",
 	Price:        "price",
 	BeauticianID: "beautician_id",
@@ -137,6 +140,7 @@ func (w whereHelpernull_Time) GTE(x null.Time) qm.QueryMod {
 
 var BeauticianMenuWhere = struct {
 	ID           whereHelperint64
+	RandID       whereHelperstring
 	Name         whereHelperstring
 	Price        whereHelperint64
 	BeauticianID whereHelperint64
@@ -146,6 +150,7 @@ var BeauticianMenuWhere = struct {
 	DeletedAt    whereHelpernull_Time
 }{
 	ID:           whereHelperint64{field: "`beautician_menus`.`id`"},
+	RandID:       whereHelperstring{field: "`beautician_menus`.`rand_id`"},
 	Name:         whereHelperstring{field: "`beautician_menus`.`name`"},
 	Price:        whereHelperint64{field: "`beautician_menus`.`price`"},
 	BeauticianID: whereHelperint64{field: "`beautician_menus`.`beautician_id`"},
@@ -182,8 +187,8 @@ func (*beauticianMenuR) NewStruct() *beauticianMenuR {
 type beauticianMenuL struct{}
 
 var (
-	beauticianMenuAllColumns            = []string{"id", "name", "price", "beautician_id", "menu_id", "created_at", "updated_at", "deleted_at"}
-	beauticianMenuColumnsWithoutDefault = []string{"name", "price", "beautician_id", "menu_id", "created_at", "updated_at", "deleted_at"}
+	beauticianMenuAllColumns            = []string{"id", "rand_id", "name", "price", "beautician_id", "menu_id", "created_at", "updated_at", "deleted_at"}
+	beauticianMenuColumnsWithoutDefault = []string{"rand_id", "name", "price", "beautician_id", "menu_id", "created_at", "updated_at", "deleted_at"}
 	beauticianMenuColumnsWithDefault    = []string{"id"}
 	beauticianMenuPrimaryKeyColumns     = []string{"id"}
 )

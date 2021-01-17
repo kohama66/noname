@@ -32,6 +32,13 @@ definitions:
     - menuName
     - price
     type: object
+  requestmodel.BeauticianMenuDelete:
+    properties:
+      authID:
+        type: string
+      randID:
+        type: string
+    type: object
   requestmodel.BeauticianSalonCreata:
     properties:
       salonRandId:
@@ -593,6 +600,27 @@ paths:
           schema:
             $ref: '#/definitions/resource.Error'
       summary: 美容師のメニュー作成
+  /api/v1/menu/beautician/{randID}:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: Request body
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/requestmodel.BeauticianMenuDelete'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ""
+        "500":
+          description: Something went wrong
+          schema:
+            $ref: '#/definitions/resource.Error'
+      summary: 美容師のメニュー削除
   /api/v1/menu/find:
     get:
       consumes:
