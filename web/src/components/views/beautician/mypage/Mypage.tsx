@@ -116,7 +116,7 @@ const Mypage: FC = () => {
         </div>
         <div className="middle-content">
           <div className="menus">
-            <Accordion buttonText="MENUS">
+            <Accordion buttonText="MENUS ▼">
               <dl>
                 {user.beauticianMenus?.map((menu, i) => {
                   return <span key={i}>
@@ -130,11 +130,11 @@ const Mypage: FC = () => {
             </Accordion>
           </div>
           <div className="salons">
-            <Accordion buttonText="SALONS" >
+            <Accordion buttonText="SALONS ▼" >
               <ul>
                 {user.beauticianSalons?.map((salon, i) => {
                   return <li key={i}>
-                    <button className="delete-button">-</button>
+                    <button className="delete-button" onClick={() => handleDelete(salon.randId, "salon")}>-</button>
                     <span>
                       <h3>{salon.name}</h3>
                       <p>{salon.prefectures + salon.city + salon.town + salon.addressOther}</p>

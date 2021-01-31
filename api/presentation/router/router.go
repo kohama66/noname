@@ -75,6 +75,7 @@ func (r *Router) Routes() {
 						r.Use(middleware.AuthAPI)
 						r.Get("/belongs", salonController.FindNotBelongs)
 						r.Post("/beautician", salonController.CreateBeauticianSalon)
+						r.Delete("/beautician/{randID}", salonController.DeleteBeauticianSalon)
 					})
 				})
 			})

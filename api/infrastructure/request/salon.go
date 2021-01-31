@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 
+	"github.com/go-chi/chi"
 	"github.com/gorilla/schema"
 	"github.com/myapp/noname/api/application/usecase/requestmodel"
 	"github.com/myapp/noname/api/pkg/context"
@@ -37,4 +38,12 @@ func NewBeauticianSalonCreata(req *http.Request) (*requestmodel.BeauticianSalonC
 		return nil, err
 	}
 	return r, nil
+}
+
+// NewBeauticianSalonDelete 美容師の行ける美容院削除
+func NewBeauticianSalonDelete(req *http.Request) *requestmodel.BeauticianSalonDelete {
+	r := &requestmodel.BeauticianSalonDelete{}
+	r.AuthID = context.AuthID(req.Context())
+	r.SalonRandID = chi.URLParam(req, "randID")
+	return r
 }

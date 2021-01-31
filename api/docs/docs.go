@@ -547,6 +547,37 @@ var doc = `{
                 }
             }
         },
+        "/api/v1/salon/beautician/{randID}": {
+            "delete": {
+                "description": "美容師が仕事可能な美容院を一つ削除します",
+                "consumes": [
+                    "application/json"
+                ],
+                "summary": "美容師美容院削除",
+                "parameters": [
+                    {
+                        "description": "Request body",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/requestmodel.BeauticianSalonDelete"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    },
+                    "500": {
+                        "description": "Something went wrong",
+                        "schema": {
+                            "$ref": "#/definitions/resource.Error"
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/salon/belongs": {
             "get": {
                 "consumes": [
@@ -757,6 +788,14 @@ var doc = `{
             "required": [
                 "salonRandId"
             ],
+            "properties": {
+                "salonRandId": {
+                    "type": "string"
+                }
+            }
+        },
+        "requestmodel.BeauticianSalonDelete": {
+            "type": "object",
             "properties": {
                 "salonRandId": {
                     "type": "string"
@@ -1017,6 +1056,9 @@ var doc = `{
                 },
                 "price": {
                     "type": "integer"
+                },
+                "randId": {
+                    "type": "string"
                 },
                 "updatedAt": {
                     "type": "string"

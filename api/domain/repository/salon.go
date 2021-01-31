@@ -19,4 +19,5 @@ type Salon interface {
 	GetBySpaceID(ctx context.Context, spaceID int64) (*entity.Salon, error)
 	FindNotBelongs(ctx context.Context, beauticianID int64) (entity.SalonSlice, error)
 	CreateBeauticianSalon(ctx context.Context, ent *entity.BeauticianSalon) error
+	DeleteBeauticianSalon(ctx context.Context, ent *entity.BeauticianSalon) (int64, error)
 }

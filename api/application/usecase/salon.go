@@ -16,6 +16,7 @@ type Salon interface {
 	Find(ctx context.Context, r *requestmodel.SalonFind) (*responsemodel.SalonFind, error)
 	FindNotBelongs(ctx context.Context, r *requestmodel.SalonFindNotBelongs) (*responsemodel.SalonFindNotBelongs, error)
 	CreateToBeautician(ctx context.Context, r *requestmodel.BeauticianSalonCreata) error
+	DeleteToBeautician(ctx context.Context, r *requestmodel.BeauticianSalonDelete) error
 }
 
 type salon struct {
@@ -88,6 +89,21 @@ func (s *salon) CreateToBeautician(ctx context.Context, r *requestmodel.Beautici
 		return fmt.Errorf("Already exists")
 	}
 	if err := s.salonRepository.CreateBeauticianSalon(ctx, entityx.NewBeauticianSalon(me.ID, sl.ID)); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *salon) DeleteToBeautician(ctx context.Context, r *requestmodel.BeauticianSalonDelete) error {
+	me, err := s.userRepository.GetByAuthID(ctx, r.AuthID)
+	if err != nil {
+		return err
+	}
+	sa, err := s.salonRepository.GetByRandID(ctx, r.SalonRandID)
+	if err != nil {
+		return err
+	}
+	if _, err := s.salonRepository.DeleteBeauticianSalon(ctx, r.NewBeauticianSalon(me.ID, sa.ID)); err != nil {
 		return err
 	}
 	return nil

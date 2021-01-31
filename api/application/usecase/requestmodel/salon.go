@@ -2,6 +2,8 @@ package requestmodel
 
 import (
 	"time"
+
+	"github.com/myapp/noname/api/domain/entity"
 )
 
 // SalonFind 美容師検索リクエスト構造体
@@ -19,4 +21,18 @@ type SalonFindNotBelongs struct {
 type BeauticianSalonCreata struct {
 	AuthID      string `json:"-"`
 	SalonRandID string `json:"salonRandId" validate:"required"`
+}
+
+// BeauticianSalonDelete 美容師の行ける美容院削除
+type BeauticianSalonDelete struct {
+	AuthID      string `json:"-"`
+	SalonRandID string `json:"salonRandId"`
+}
+
+// NewBeauticianSalon ファクトリ関数
+func (b *BeauticianSalonDelete) NewBeauticianSalon(beauticianID, salonID int64) *entity.BeauticianSalon {
+	return &entity.BeauticianSalon{
+		BeauticianID: beauticianID,
+		SalonID:      salonID,
+	}
 }

@@ -18,6 +18,7 @@ type Salon interface {
 	Find(w http.ResponseWriter, r *http.Request)
 	FindNotBelongs(w http.ResponseWriter, r *http.Request)
 	CreateBeauticianSalon(w http.ResponseWriter, r *http.Request)
+	DeleteBeauticianSalon(w http.ResponseWriter, r *http.Request)
 }
 
 // NewSalon DI初期化関数
@@ -92,6 +93,25 @@ func (s salon) CreateBeauticianSalon(w http.ResponseWriter, r *http.Request) {
 	err = s.salonUsecase.CreateToBeautician(r.Context(), req)
 	if err != nil {
 		log.Errorf(r.Context(), "CreateBeauticianSalon: %v", err)
+		factory.ErrorJSON(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	return
+}
+
+// DeleteBeauticianSalon
+// @Summary 美容師美容院削除
+// @Description 美容師が仕事可能な美容院を一つ削除します
+// @Accept  json
+// @Param data body requestmodel.BeauticianSalonDelete true "Request body"
+// @Success 200
+// @Failure 500 {object} resource.Error "Something went wrong"
+// @Router /api/v1/salon/beautician/{randID} [delete]
+func (s salon) DeleteBeauticianSalon(w http.ResponseWriter, r *http.Request) {
+	req := request.NewBeauticianSalonDelete(r)
+	err := s.salonUsecase.DeleteToBeautician(r.Context(), req)
+	if err != nil {
+		log.Errorf(r.Context(), "DeleteBeauticianSalon: %v", err)
 		factory.ErrorJSON(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
