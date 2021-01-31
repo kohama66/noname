@@ -13,7 +13,6 @@ const ChooseBeautician: FC = () => {
       try {
         const response = await findBeauticians(reservationDate, getMenuIDs(), store.randId)
         setBeauticians(response.users)
-        console.log(response)
       } catch (err) {
         console.log(err)
       }
