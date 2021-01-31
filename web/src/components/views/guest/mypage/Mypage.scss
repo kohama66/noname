@@ -23,7 +23,6 @@
       }
       .mypage-profile-contents {
         padding: 10px 0 0;
-
         .mypage-profile-content {
           padding: 10px 0 0;
           h3 {
@@ -33,6 +32,18 @@
           p {
             padding: 5px 0;
             font-size: 14px;
+          }
+          a{
+            font-size: 14px;
+            text-decoration: none;
+            font-weight: bold;
+            color: $orangeColor1;
+            border: 2px solid $orangeColor1;
+            border-radius: 5px;
+            padding: 5px 50px;
+          }
+          &:last-of-type{
+            margin-top: 20px;
           }
         }
       }

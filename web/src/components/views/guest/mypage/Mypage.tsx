@@ -7,7 +7,7 @@ import Title from '../parts/Title/Title';
 import './Mypage.scss'
 import { getGuestMypage } from '../../../../package/api';
 import { initUser } from '../../../../package/interface/User';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 const Mypage: FC = () => {
   const [reserved, setReserved] = useState<GuestMyPageReservation>()
@@ -47,6 +47,9 @@ const Mypage: FC = () => {
               <h3>PHONE</h3>
               <p>{user.phoneNumber}</p>
             </div>
+            {user.isBeautician ? <div className="mypage-profile-content">
+              <Link to="/beautician/mypage">美容師用マイページ</Link>
+            </div> : undefined}
           </div>
         </div>
         <div className="mypage-reserved-history">
@@ -72,52 +75,6 @@ const Mypage: FC = () => {
           }
         </div>
       </section>
-      {/* <section>
-        <div>
-          <div className="mypage-profile">
-            <h2>プロフィール</h2>
-            <dl>
-              <span>
-                <dd>名前</dd>
-                <dt>{`${user.lastName} ${user.firstName} 様`}</dt>
-              </span>
-              <span>
-                <dd>メール</dd>
-                <dt>{user.email}</dt>
-              </span>
-              <span>
-                <dd>電話</dd>
-                <dt>{user.phoneNumber}</dt>
-              </span>
-            </dl>
-          </div>
-          <div className="beautician-mypage-button" >
-            <h2>美容師用マイページ</h2>
-          </div>
-        </div>
-        <div className="mypage-contents">
-          {(() => {
-            if (reserved) {
-              return <ReservationInfor titleText="最新の予約" storeName={reserved.salonName} beauticianLastName={reserved.beauticianLastName}
-                beauticianFirstName={reserved.beauticianFirstName} month={(() => getMonth(reserved.date))()} day={(() => getDay(reserved.date))()}
-                hours={(() => getHours(reserved.date))()} menus={reserved.menus} />
-            } else {
-              return <ReservationInfor titleText="最新の予約" storeName="無し" beauticianFirstName="" beauticianLastName="" month={null} day={null} hours={null} menus={[]} />
-            }
-          })()
-          }
-          {(() => {
-            if (previousReserved) {
-              return <ReservationInfor titleText="前回の予約" storeName={previousReserved.salonName} beauticianLastName={previousReserved.beauticianLastName}
-                beauticianFirstName={previousReserved.beauticianFirstName} month={(() => getMonth(previousReserved.date))()} day={(() => getDay(previousReserved.date))()}
-                hours={(() => getHours(previousReserved.date))()} menus={previousReserved.menus} />
-            } else {
-              return <ReservationInfor titleText="最新の予約" storeName="無し" beauticianFirstName="" beauticianLastName="" month={null} day={null} hours={null} menus={[]} />
-            }
-          })()
-          }
-        </div>
-      </section> */}
     </div>
   )
 }
