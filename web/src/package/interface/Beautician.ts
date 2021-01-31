@@ -22,5 +22,5 @@ export const isBeautician = (arg: any): arg is User => {
 		typeof arg.firstName === "string" && typeof arg.lastName === "string" && typeof arg.phoneNumber === "string" &&
 		typeof arg.firstNameKana === "string" && typeof arg.lastNameKana === "string" && typeof arg.email === "string" &&
 		typeof arg.isBeautician === "boolean" && typeof arg.beauticianInfo === "object" &&
-		typeof arg.beauticianMenus === "object" && typeof arg.beauticianSalons === "object"
+		typeof arg.beauticianMenus === "object"
 }

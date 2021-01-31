@@ -48,7 +48,7 @@ func (b *beautician) NewBeauticianGet(ent *entity.Beautician) *responsemodel.Bea
 func (b *beautician) NewBeauticianFind(ents []*entity.User) *responsemodel.BeauticianFind {
 	bs := make([]*responsemodel.User, len(ents))
 	for i, v := range ents {
-		bs[i] = NewUserResponsemodel(v)
+		bs[i] = NewBeauticianUserResponsemodel(v)
 	}
 	return &responsemodel.BeauticianFind{
 		Beauticians: bs,

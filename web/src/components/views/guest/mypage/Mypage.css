@@ -1,0 +1,105 @@
+#guest-mypage {
+  background-color: #f3f3f3;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  min-height: 100vh;
+  padding: 150px 0;
+}
+
+#guest-mypage section {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 950px;
+  margin: 50px auto 0;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+#guest-mypage section .mypage-profile {
+  width: 250px;
+  background-color: #fff;
+  padding: 30px;
+  -webkit-box-shadow: 0px 10px 15px #e0e0e0;
+          box-shadow: 0px 10px 15px #e0e0e0;
+  border-radius: 5px;
+  -ms-flex-item-align: start;
+      align-self: flex-start;
+}
+
+#guest-mypage section .mypage-profile h2 {
+  font-size: 18px;
+  color: #242429;
+}
+
+#guest-mypage section .mypage-profile .mypage-profile-contents {
+  padding: 10px 0 0;
+}
+
+#guest-mypage section .mypage-profile .mypage-profile-contents .mypage-profile-content {
+  padding: 10px 0 0;
+}
+
+#guest-mypage section .mypage-profile .mypage-profile-contents .mypage-profile-content h3 {
+  font-size: 14px;
+  color: #7c7c7c;
+}
+
+#guest-mypage section .mypage-profile .mypage-profile-contents .mypage-profile-content p {
+  padding: 5px 0;
+  font-size: 14px;
+}
+
+#guest-mypage section .mypage-profile .mypage-profile-contents .mypage-profile-content a {
+  font-size: 14px;
+  text-decoration: none;
+  font-weight: bold;
+  color: #f08642;
+  border: 2px solid #f08642;
+  border-radius: 5px;
+  padding: 5px 50px;
+}
+
+#guest-mypage section .mypage-profile .mypage-profile-contents .mypage-profile-content:last-of-type {
+  margin-top: 20px;
+}
+
+#guest-mypage section .mypage-reserved-history {
+  width: 600px;
+  background-color: #fff;
+  -webkit-box-shadow: 0px 10px 15px #e0e0e0;
+          box-shadow: 0px 10px 15px #e0e0e0;
+  border-radius: 5px;
+}
+
+@media screen and (max-width: 1249px) {
+  #guest-mypage section {
+    width: 100%;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-flow: wrap row;
+            flex-flow: wrap row;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+  }
+  #guest-mypage section .mypage-profile {
+    margin-bottom: 30px;
+  }
+}
+
+@media screen and (max-width: 749px) {
+  #guest-mypage section .mypage-profile {
+    padding: 30px 20px;
+    min-width: 300px;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+  }
+  #guest-mypage section .mypage-profile h2 {
+    font-size: 12px;
+  }
+  #guest-mypage section .mypage-reserved-history {
+    max-width: 300px;
+  }
+}

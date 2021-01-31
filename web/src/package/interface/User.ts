@@ -12,7 +12,7 @@ export interface User {
   phoneNumber: string
   beauticianInfo?: BeauticianInfo
   beauticianMenus?: MenuDetail[]
-  beauticianSalons?: Salon[]
+  // beauticianSalons?: Salon[]
   isBeautician: boolean
 }
 

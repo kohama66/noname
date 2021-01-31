@@ -132,7 +132,7 @@ const Mypage: FC = () => {
           <div className="salons">
             <Accordion buttonText="SALONS ▼" >
               <ul>
-                {user.beauticianSalons?.map((salon, i) => {
+                {/* {user.beauticianSalons?.map((salon, i) => {
                   return <li key={i}>
                     <button className="delete-button" onClick={() => handleDelete(salon.randId, "salon")}>-</button>
                     <span>
@@ -140,7 +140,7 @@ const Mypage: FC = () => {
                       <p>{salon.prefectures + salon.city + salon.town + salon.addressOther}</p>
                     </span>
                   </li>
-                })}
+                })} */}
               </ul>
               <SearchSalon />
             </Accordion>

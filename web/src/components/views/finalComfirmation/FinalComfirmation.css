@@ -1,0 +1,169 @@
+#final-comfirmation {
+  background-color: #f3f3f3;
+  min-height: 100vh;
+}
+
+.final-answer {
+  width: clamp(300px, 100%, 800px);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin: 50px auto 10px;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  letter-spacing: 0.1em;
+}
+
+.final-answer button {
+  letter-spacing: 0.1em;
+  border: none;
+  cursor: pointer;
+  color: #fff;
+  padding: 10px 25px;
+  margin-left: 30px;
+  font-size: 18px;
+  font-weight: bold;
+  border-radius: 5px;
+  background-color: #f08642;
+}
+
+.final-comfirmation-content-wrapper {
+  width: clamp(300px, 80%, 1200px);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: row wrap;
+          flex-flow: row wrap;
+  margin: 0 auto;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.final-comfirmation-content-wrapper .choose-card {
+  pointer-events: none;
+}
+
+.final-comfirmation-content {
+  width: 380px;
+  height: 520px;
+  color: #242429;
+  background-color: #fff;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  padding: 35px 25px;
+  margin: 30px 0 0;
+  -webkit-box-shadow: 0px 10px 15px #e0e0e0;
+          box-shadow: 0px 10px 15px #e0e0e0;
+  border-radius: 5px;
+  font-family: Arial, Helvetica, sans-serif;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: column wrap;
+          flex-flow: column wrap;
+}
+
+.final-comfirmation-content h2 {
+  font-size: 18px;
+}
+
+.final-comfirmation-content div {
+  padding: 10px 0;
+}
+
+.final-comfirmation-content div p {
+  font-size: 15px;
+  padding: 1px 0;
+  margin-bottom: 40px;
+}
+
+.final-comfirmation-content div dl {
+  width: 100%;
+}
+
+.final-comfirmation-content div dl span {
+  width: 100%;
+  border-bottom: 2px solid #f08642;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin-bottom: 5px;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: row wrap;
+          flex-flow: row wrap;
+  line-height: 25px;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+.final-comfirmation-content div dl span dt {
+  width: 40%;
+  list-style: none;
+  font-size: 15px;
+}
+
+.final-comfirmation-content div dl span dd {
+  width: 60%;
+  text-align: right;
+  font-size: 15px;
+}
+
+.final-comfirmation-content .total-price {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  width: 100%;
+  height: 35px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  margin-top: auto;
+}
+
+.final-comfirmation-content .total-price p {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+@media screen and (max-width: 1199px) {
+  .final-comfirmation-content {
+    margin-bottom: 100px;
+    width: 49%;
+    max-width: 350px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .final-answer {
+    margin: 70px auto 10px;
+  }
+  .final-answer h2 {
+    font-size: 14px;
+  }
+  .final-answer button {
+    margin-left: 10px;
+    font-size: 14px;
+    padding: 7px 22px;
+  }
+  .final-comfirmation-content {
+    margin-bottom: 100px;
+    width: 100%;
+    max-width: 350px;
+    height: 400px;
+  }
+  .final-comfirmation-content h2 {
+    font-size: 16px;
+  }
+}

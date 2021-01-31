@@ -7,7 +7,7 @@ import (
 
 // User DIInterface
 type User interface {
-	NewUserGet(ent *entity.User, salons []*entity.Salon) *responsemodel.UserGet
+	NewUserGet(ent *entity.User) *responsemodel.UserGet
 	NewUserCreate(ent *entity.User) *responsemodel.UserCreate
 }
 
@@ -35,28 +35,28 @@ func NewUserResponsemodel(ent *entity.User) *responsemodel.User {
 }
 
 // NewBeauticianUserResponsemodel レスポンスモデル変換関数
-func NewBeauticianUserResponsemodel(ent *entity.User, salons []*entity.Salon) *responsemodel.User {
+func NewBeauticianUserResponsemodel(ent *entity.User) *responsemodel.User {
 	return &responsemodel.User{
-		RandID:           ent.RandID,
-		FirstName:        ent.FirstName,
-		LastName:         ent.LastName,
-		FirstNameKana:    ent.FirstNameKana,
-		LastNameKana:     ent.LastNameKana,
-		Email:            ent.Email,
-		PhoneNumber:      ent.PhoneNumber,
-		IsBeauticina:     ent.IsBeautician,
-		BeauticianInfo:   NewBeauticianResponseModel(ent.R.Beautician),
-		BeauticianMenus:  NewBeauticianMenusResponsemodel(ent.R.BeauticianBeauticianMenus),
-		BeauticianSalons: NewSalonsResponseModel(salons),
-		CreatedAt:        ent.CreatedAt,
-		UpdatedAt:        ent.CreatedAt,
+		RandID:          ent.RandID,
+		FirstName:       ent.FirstName,
+		LastName:        ent.LastName,
+		FirstNameKana:   ent.FirstNameKana,
+		LastNameKana:    ent.LastNameKana,
+		Email:           ent.Email,
+		PhoneNumber:     ent.PhoneNumber,
+		IsBeauticina:    ent.IsBeautician,
+		BeauticianInfo:  NewBeauticianResponseModel(ent.R.Beautician),
+		BeauticianMenus: NewBeauticianMenusResponsemodel(ent.R.BeauticianBeauticianMenus),
+		// BeauticianSalons: NewSalonsResponseModel(salons),
+		CreatedAt: ent.CreatedAt,
+		UpdatedAt: ent.CreatedAt,
 	}
 }
 
-func (g *user) NewUserGet(ent *entity.User, salons []*entity.Salon) *responsemodel.UserGet {
+func (u *user) NewUserGet(ent *entity.User) *responsemodel.UserGet {
 	if ent.IsBeautician {
 		return &responsemodel.UserGet{
-			User: NewBeauticianUserResponsemodel(ent, salons),
+			User: NewBeauticianUserResponsemodel(ent),
 		}
 	}
 	return &responsemodel.UserGet{
@@ -64,7 +64,7 @@ func (g *user) NewUserGet(ent *entity.User, salons []*entity.Salon) *responsemod
 	}
 }
 
-func (g *user) NewUserCreate(ent *entity.User) *responsemodel.UserCreate {
+func (u *user) NewUserCreate(ent *entity.User) *responsemodel.UserCreate {
 	return &responsemodel.UserCreate{
 		User: NewUserResponsemodel(ent),
 	}

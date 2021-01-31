@@ -39,19 +39,11 @@ func NewUser(
 }
 
 func (g *user) Get(ctx context.Context, r *requestmodel.UserGet) (*responsemodel.UserGet, error) {
-	gs, err := g.userRepository.GetByAuthID(ctx, r.AuthID)
+	u, err := g.userRepository.GetByAuthID(ctx, r.AuthID)
 	if err != nil {
 		return nil, err
 	}
-	sl, err := g.salonRepository.GetBeauticianSalons(ctx, gs.ID)
-	if err != nil {
-		return nil, err
-	}
-	// rs, err := g.reservationRepository.FindByUser(ctx, gs.ID)
-	// if err != nil {
-	// 	return nil, err
-	// }
-	return g.userResponse.NewUserGet(gs, sl), nil
+	return g.userResponse.NewUserGet(u), nil
 }
 
 func (g *user) Create(ctx context.Context, r *requestmodel.UserCreate) (*responsemodel.UserCreate, error) {
