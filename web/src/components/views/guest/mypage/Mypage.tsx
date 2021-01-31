@@ -6,7 +6,6 @@ import ReservationInfor from '../../parts/ReservationInfor/ReservationInfor';
 import Title from '../parts/Title/Title';
 import './Mypage.scss'
 import { getGuestMypage } from '../../../../package/api';
-import { initUser } from '../../../../package/interface/User';
 import { Link, useHistory } from 'react-router-dom';
 
 const Mypage: FC = () => {
@@ -17,15 +16,11 @@ const Mypage: FC = () => {
 
   useEffect(() => {
     const getReserved = async () => {
-      if (user !== initUser) {
-        try {
-          const response = await getGuestMypage()
-          setReserved(response.reservations[0])
-          setPreviousReserved(response.reservations[1])
-        } catch (error) {
-          history.push("/login")
-        }
-      } else {
+      try {
+        const response = await getGuestMypage()
+        setReserved(response.reservations[0])
+        setPreviousReserved(response.reservations[1])
+      } catch (error) {
         history.push("/login")
       }
     }

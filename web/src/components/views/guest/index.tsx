@@ -13,6 +13,7 @@ import Mypage from './mypage/Mypage';
 import SignUp from './signup/SignUp';
 import GuestHome from './home/Guest';
 import ChooseStore from './store/ChooseStore';
+import Auth from '../../container/auth/Auth';
 
 const Guest: FC = () => {
   const match = useRouteMatch()
@@ -25,7 +26,9 @@ const Guest: FC = () => {
       <Route exact path={match.path + "/date"} component={ChooseDate} />
       <Route exact path={match.path + "/menu"} component={ChooseMenu} />
       <Route exact path={match.path + "/final_comfirmation"} component={FinalComfirmation} />
-      <Route exact path={match.path + "/mypage"} component={Mypage} />
+      <Auth>
+        <Route exact path={match.path + "/mypage"} component={Mypage} />
+      </Auth>
       <Route exact path={match.path + "/signup"} component={SignUp} />
     </Switch>
   )

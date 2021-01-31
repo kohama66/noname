@@ -28,7 +28,8 @@
         }
         dd {
           width: 50%;
-          color: $darkGray;
+          color: $blackFontColor;
+          font-weight: normal;
         }
         &.menus {
           height: 100px;
@@ -36,7 +37,7 @@
             margin: 0;
             display: flex;
             flex-flow: nowrap column;
-            width: 200px;
+            width: 50%;
             span {
               margin: 0 0 5px;
               dd {

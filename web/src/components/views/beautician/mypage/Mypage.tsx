@@ -97,9 +97,9 @@ const Mypage: FC = () => {
                 変更
               </button>
             </span>
-            <h2>E-MAIL</h2>
+            <h2>EMAIL</h2>
             <p>{user.email}</p>
-            <h2>PHONE-NUMBER</h2>
+            <h2>PHONE</h2>
             <p>{user.phoneNumber}</p>
             <div className="sns-content">
               <div className="line">

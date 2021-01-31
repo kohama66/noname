@@ -21,7 +21,7 @@
     margin-left: 30px;
     font-size: 18px;
     font-weight: bold;
-    border-radius: 15px;
+    border-radius: 5px;
     background-color: $orangeColor1;
   }
 }
@@ -46,7 +46,7 @@
   padding: 35px 25px;
   margin: 30px 0 0;
   @include whiteShadow;
-  border-radius: 15px;
+  border-radius: 5px;
   font-family: Arial, Helvetica, sans-serif;
   display: flex;
   flex-flow: column wrap;

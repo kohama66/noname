@@ -20,7 +20,8 @@ const FinalComfirmation: FC = () => {
     if (user !== initUser) {
       try {
         if (reservationDate != null) {
-          await createReservation(beautician.randId, store.randId, getMenuIDs(), reservationDate)
+          const date = reservationDate + " 00:00:00"
+          await createReservation(beautician.randId, store.randId, getMenuIDs(), date)
           resetAllReservedState()
           history.push("/reserved")
         }
