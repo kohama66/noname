@@ -39,11 +39,11 @@ const ReservationInfor: FC<props> = (props) => {
           </span>
           <span>
             <dt>日付</dt>
-            <dd>{`${props.month}月 ${props.day}日`}</dd>
+            <dd>{props.month && props.day ? `${props.month}月 ${props.day}日` : " "}</dd>
           </span>
           <span>
             <dt>時間</dt>
-            <dd>{`${props.hours}時から`}</dd>
+            <dd>{props.hours ? `${props.hours}時から` : ""}</dd>
           </span>
           <span className="menus">
             <dt>メニュー</dt>

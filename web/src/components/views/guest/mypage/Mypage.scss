@@ -4,93 +4,73 @@
   background-color: $baseColor;
   box-sizing: border-box;
   min-height: 100vh;
-  padding-top: 150px;
+  padding: 150px 0;
   section {
-    margin-top: 30px;
-    height: 100%;
     display: flex;
-    flex-flow: row wrap;
-    justify-content: center;
-    letter-spacing: 0.05em;
+    width: 950px;
+    margin: 50px auto 0;
+    justify-content: space-between;
     .mypage-profile {
-      margin: 0 5px;
-      padding: 50px;
-      align-self: flex-start;
+      width: 250px;
       background-color: #fff;
-      box-sizing: border-box;
-      border-radius: 15px;
+      padding: 30px;
       @include whiteShadow;
+      border-radius: 5px;
+      align-self: flex-start;
       h2 {
-        font-size: 14px;
-        color: $orangeColor1;
-        margin-bottom: 40px;
-        padding: 5px 0;
-        text-align: center;
-        border-radius: 5px;
-        border: 3px solid $orangeColor1;
-        box-sizing: border-box;
+        font-size: 18px;
+        color: $blackFontColor;
       }
-      dl {
-        span {
-          font-size: 16px;
-          font-weight: bold;
-          display: flex;
-          margin: 10px 0;
-          dd {
-            width: 100px;
-            color: $blackFontColor;
-          }
-          dt {
+      .mypage-profile-contents {
+        padding: 10px 0 0;
+
+        .mypage-profile-content {
+          padding: 10px 0 0;
+          h3 {
+            font-size: 14px;
             color: $darkGray;
+          }
+          p {
+            padding: 5px 0;
+            font-size: 14px;
           }
         }
       }
     }
-    .mypage-contents {
-      display: flex;
+    .mypage-reserved-history {
+      width: 600px;
+      background-color: #fff;
+      @include whiteShadow;
+      border-radius: 5px;
     }
   }
 }
 
-@media screen and (max-width: 1249px){
+@media screen and (max-width: 1249px) {
   #guest-mypage {
-    padding: 150px 0 100px;
-    section{
-      .mypage-profile{
-        margin-bottom: 10px;
+    section {
+      width: 100%;
+      flex-flow: wrap row;
+      justify-content: center;
+      .mypage-profile {
+        margin-bottom: 30px;
       }
     }
   }
 }
-@media screen and (max-width: 749px){
+@media screen and (max-width: 749px) {
   #guest-mypage {
-    padding: 150px 0 100px;
-    section{
-      width: 95%;
-      max-width: 320px;
-      margin: 30px auto 0;
-      .mypage-profile{
+    section {
+      .mypage-profile {
         padding: 30px 20px;
-        margin: 0 0 10px;
-        width: 100%;
-        h2{
+        min-width: 300px;
+        box-sizing: border-box;
+        h2 {
           font-size: 12px;
         }
-        dl{
-          span{
-            font-size: 12px;
-            dd{
-              width: 33%;
-            }
-            dt{
-              width: 67%;
-            }
-          }
-        }
       }
-      .mypage-contents {
-        flex-flow: column nowrap;
-        width: 100%;
+      .mypage-reserved-history {
+        max-width: 300px;
       }
     }
   }
