@@ -1,6 +1,6 @@
 import React, { FC, useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { deleteBeauticianMenu, getMe, getReservationBeautician, setHoliday } from '../../../../package/api';
+import { deleteBeauticianMenu, deleteBeauticianSalon, getMe, getReservationBeautician, setHoliday } from '../../../../package/api';
 import { Reservation } from '../../../../package/interface/Reservation';
 import { UserContext } from '../../../../utils/context/UserContext';
 import { dateToString } from '../../../../utils/function/GetDate';
@@ -62,7 +62,7 @@ const Mypage: FC = () => {
           await deleteBeauticianMenu(randID)
           break
         case "salon":
-          await deleteBeauticianMenu(randID)
+          await deleteBeauticianSalon(randID)
           break
       }
       const response = await getMe()
