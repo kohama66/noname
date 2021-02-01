@@ -52,3 +52,10 @@ func NewBeauticianUpdate(req *http.Request) (*requestmodel.BeauticianUpdate, err
 	}
 	return r, nil
 }
+
+// NewBeauticianMyPage 美容師マイページ用情報取得
+func NewBeauticianMyPage(req *http.Request) *requestmodel.BeauticianMyPageGet {
+	r := &requestmodel.BeauticianMyPageGet{}
+	r.AuthID = context.AuthID(req.Context())
+	return r
+}

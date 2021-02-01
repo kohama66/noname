@@ -15,6 +15,7 @@ type Beautician interface {
 	GetByAuthID(w http.ResponseWriter, r *http.Request)
 	Find(w http.ResponseWriter, r *http.Request)
 	Update(w http.ResponseWriter, r *http.Request)
+	GetMyPage(w http.ResponseWriter, r *http.Request)
 }
 
 type beautician struct {
@@ -121,5 +122,25 @@ func (b beautician) Update(w http.ResponseWriter, r *http.Request) {
 		factory.ErrorJSON(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+	return
+}
+
+// GetMyPage
+// @Summary 美容師マイページ情報取得
+// @Accept  json
+// @Produce  json
+// @Param data body requestmodel.BeauticianMyPageGet true "Request body"
+// @Success 200 {object} responsemodel.BeauticianMyPageGet
+// @Failure 500 {object} resource.Error "Something went wrong"
+// @Router /api/v1/beautician/mypage [get]
+func (b beautician) GetMyPage(w http.ResponseWriter, r *http.Request) {
+	req := request.NewBeauticianMyPage(r)
+	res, err := b.beauticianUsecase.GetMyPage(r.Context(), req)
+	if err != nil {
+		log.Errorf(r.Context(), "BeauticianMyPageGet: %v", err)
+		factory.ErrorJSON(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	factory.JSON(w, res)
 	return
 }

@@ -18,6 +18,7 @@ type Beautician interface {
 	Get(ctx context.Context, r *requestmodel.BeauticianGet) (*responsemodel.BeauticianGet, error)
 	Find(ctx context.Context, r *requestmodel.BeauticianFind) (*responsemodel.BeauticianFind, error)
 	Update(ctx context.Context, r *requestmodel.BeauticianUpdate) error
+	GetMyPage(ctx context.Context, r *requestmodel.BeauticianMyPageGet) (*responsemodel.BeauticianMyPageGet, error)
 }
 
 type beautician struct {
@@ -110,8 +111,7 @@ func (b *beautician) Get(ctx context.Context, r *requestmodel.BeauticianGet) (*r
 	if err != nil {
 		return nil, err
 	}
-	res := b.beauticianResponse.NewBeauticianGet(ent)
-	return res, nil
+	return b.beauticianResponse.NewBeauticianGet(ent), nil
 }
 
 func (b *beautician) Update(ctx context.Context, r *requestmodel.BeauticianUpdate) error {
@@ -131,4 +131,20 @@ func (b *beautician) Update(ctx context.Context, r *requestmodel.BeauticianUpdat
 		return err
 	}
 	return nil
+}
+
+func (b *beautician) GetMyPage(ctx context.Context, r *requestmodel.BeauticianMyPageGet) (*responsemodel.BeauticianMyPageGet, error) {
+	u, err := b.userRepository.GetByAuthID(ctx, r.AuthID)
+	if err != nil {
+		return nil, err
+	}
+	be, err := b.beauticianRepository.GetByUserID(ctx, u.ID)
+	if err != nil {
+		return nil, err
+	}
+	s, err := b.salonRepository.FindByBeauticianID(ctx, u.ID)
+	if err != nil {
+		return nil, err
+	}
+	return b.beauticianResponse.NewBeauticianMyPageGet(u, be, s), nil
 }

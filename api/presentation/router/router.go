@@ -52,6 +52,7 @@ func (r *Router) Routes() {
 						r.Post("/", beauticianController.Create)
 						r.Get("/", beauticianController.GetByAuthID)
 						r.Put("/", beauticianController.Update)
+						r.Get("/mypage", beauticianController.GetMyPage)
 					})
 				})
 			})

@@ -10,6 +10,7 @@ type Beautician interface {
 	NewBeauticianCreate(ent *entity.Beautician) *responsemodel.BeauticianCreate
 	NewBeauticianGet(ent *entity.Beautician) *responsemodel.BeauticianGet
 	NewBeauticianFind(ents []*entity.User) *responsemodel.BeauticianFind
+	NewBeauticianMyPageGet(user *entity.User, beau *entity.Beautician, salons []*entity.Salon) *responsemodel.BeauticianMyPageGet
 }
 
 type beautician struct {
@@ -52,5 +53,13 @@ func (b *beautician) NewBeauticianFind(ents []*entity.User) *responsemodel.Beaut
 	}
 	return &responsemodel.BeauticianFind{
 		Beauticians: bs,
+	}
+}
+
+func (b *beautician) NewBeauticianMyPageGet(user *entity.User, beau *entity.Beautician, salons []*entity.Salon) *responsemodel.BeauticianMyPageGet {
+	return &responsemodel.BeauticianMyPageGet{
+		User:       NewUserResponsemodel(user),
+		Beautician: NewBeauticianResponseModel(beau),
+		Salons:     NewSalonsResponseModel(salons),
 	}
 }

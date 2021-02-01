@@ -54,3 +54,8 @@ func (b *BeauticianUpdate) NewBeautician(user *entity.User, beautician *entity.B
 	beautician.InstagramID = null.StringFromPtr(b.InstagramID)
 	return user, beautician
 }
+
+// BeauticianMyPageGet 美容師マイページ用情報取得
+type BeauticianMyPageGet struct {
+	AuthID string `json:"-"`
+}
