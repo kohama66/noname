@@ -58,8 +58,9 @@ func (b *beautician) NewBeauticianFind(ents []*entity.User) *responsemodel.Beaut
 
 func (b *beautician) NewBeauticianMyPageGet(user *entity.User, beau *entity.Beautician, salons []*entity.Salon) *responsemodel.BeauticianMyPageGet {
 	return &responsemodel.BeauticianMyPageGet{
-		User:       NewUserResponsemodel(user),
-		Beautician: NewBeauticianResponseModel(beau),
-		Salons:     NewSalonsResponseModel(salons),
+		User:            NewUserResponsemodel(user),
+		Beautician:      NewBeauticianResponseModel(beau),
+		Salons:          NewSalonsResponseModel(salons),
+		BeauticianMenus: NewBeauticianMenusResponsemodel(user.R.BeauticianBeauticianMenus),
 	}
 }

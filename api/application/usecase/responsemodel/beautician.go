@@ -30,7 +30,8 @@ type BeauticianFind struct {
 
 // BeauticianMyPageGet response構造体
 type BeauticianMyPageGet struct {
-	*User       `json:"user"`
-	*Beautician `json:"beautician"`
-	Salons      []*Salon `json:"salons"`
+	*User           `json:"user"`
+	*Beautician     `json:"beautician"`
+	Salons          []*Salon          `json:"salons"`
+	BeauticianMenus []*BeauticianMenu `json:"beauticianMenus"`
 }

@@ -1,7 +1,8 @@
 import React, { FC, useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { deleteBeauticianMenu, deleteBeauticianSalon, getMe, getReservationBeautician, setHoliday } from '../../../../package/api';
+import { deleteBeauticianMenu, deleteBeauticianSalon, getBeauticianMypage, getMe, getReservationBeautician, setHoliday } from '../../../../package/api';
 import { Reservation } from '../../../../package/interface/Reservation';
+import { BeauticianMyPage } from '../../../../package/interface/response/Beautician';
 import { UserContext } from '../../../../utils/context/UserContext';
 import { dateToString } from '../../../../utils/function/GetDate';
 import Title from '../../guest/parts/Title/Title';
@@ -19,6 +20,7 @@ const Mypage: FC = () => {
   const [isModal, setIsModal] = useState<boolean>(false)
   const [clickDate, setClickDate] = useState<Date>()
   const { user, setUser } = useContext(UserContext)
+  const [mypage, setMypage] = useState<BeauticianMyPage>()
   const history = useHistory()
 
   const handleModalClick = (date: Date) => {
@@ -78,7 +80,16 @@ const Mypage: FC = () => {
   }
 
   useEffect(() => {
+    const hendleGetMypage = async () => {
+      try {
+        const response = await getBeauticianMypage()
+        setMypage(response)
+      } catch (error) {
+        console.log(error)
+      }
+    }
     handleGetReserved()
+    hendleGetMypage()
   }, [])
 
   return (
@@ -92,24 +103,24 @@ const Mypage: FC = () => {
           </figure>
           <div>
             <span>
-              <h1>{user.lastName + " " + user.firstName}<span>{user.lastNameKana + " " + user.firstNameKana}</span></h1>
+              <h1>{mypage?.user.lastName + " " + mypage?.user.firstName}<span>{mypage?.user.lastNameKana + " " + mypage?.user.firstNameKana}</span></h1>
               <button onClick={() => history.push('/beautician/changeprofile')}>
                 変更
               </button>
             </span>
             <h2>EMAIL</h2>
-            <p>{user.email}</p>
+            <p>{mypage?.user.email}</p>
             <h2>PHONE</h2>
-            <p>{user.phoneNumber}</p>
+            <p>{mypage?.user.phoneNumber}</p>
             <div className="sns-content">
               <div className="line">
                 <figure className="fab fa-line"></figure>
-                <h2>{user.beauticianInfo?.lineId ? user.beauticianInfo.lineId : "未設定"}</h2>
+                <h2>{mypage?.beautician?.lineId ? mypage?.beautician.lineId : "未設定"}</h2>
               </div>
               <div className="instagram">
                 <figure className="fab fa-instagram">
                 </figure>
-                <h2>{user.beauticianInfo?.instagramId ? user.beauticianInfo.instagramId : "未設定"}</h2>
+                <h2>{mypage?.beautician.instagramId ? mypage?.beautician.instagramId : "未設定"}</h2>
               </div>
             </div>
           </div>
@@ -118,7 +129,7 @@ const Mypage: FC = () => {
           <div className="menus">
             <Accordion buttonText="MENUS ▼">
               <dl>
-                {user.beauticianMenus?.map((menu, i) => {
+                {mypage?.beauticianMenus.map((menu, i) => {
                   return <span key={i}>
                     <button className="delete-button" onClick={() => handleDelete(menu.randId, "menu")}>-</button>
                     <dt>{menu.name}</dt>
@@ -132,7 +143,7 @@ const Mypage: FC = () => {
           <div className="salons">
             <Accordion buttonText="SALONS ▼" >
               <ul>
-                {/* {user.beauticianSalons?.map((salon, i) => {
+                {mypage?.salons.map((salon, i) => {
                   return <li key={i}>
                     <button className="delete-button" onClick={() => handleDelete(salon.randId, "salon")}>-</button>
                     <span>
@@ -140,7 +151,7 @@ const Mypage: FC = () => {
                       <p>{salon.prefectures + salon.city + salon.town + salon.addressOther}</p>
                     </span>
                   </li>
-                })} */}
+                })}
               </ul>
               <SearchSalon />
             </Accordion>

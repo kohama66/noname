@@ -11,6 +11,7 @@ import { beauticianCreateRequest, beauticianUpdateRequest } from '../interface/r
 import { setHolidayRequest } from '../interface/request/Reservation';
 import { beauticianMenuRequest } from '../interface/request/Menu';
 import { postBeauticianSalonRequest } from '../interface/request/Salon';
+import { BeauticianMyPage } from '../interface/response/Beautician';
 
 const axios = Axios.create({
   baseURL: apiurl,
@@ -168,10 +169,10 @@ export const deleteBeauticianMenu = async (randID: string): Promise<undefined> =
   return deleteAxios<undefined>(`/api/v1/menu/beautician/${randID}`)
 }
 
-export const deleteBeauticianSalon = async (randID: string): Promise<undefined> => {
-  return deleteAxios<undefined>(`/api/v1/salon/beautician/${randID}`)
+export const deleteBeauticianSalon = async (randID: string): Promise<void> => {
+  return deleteAxios<void>(`/api/v1/salon/beautician/${randID}`)
 }
 
-export const getBeauticianMypage = async () => {
-  return get(`/api/v1/beautician/mypage`)
+export const getBeauticianMypage = async (): Promise<BeauticianMyPage> => {
+  return get<BeauticianMyPage>(`/api/v1/beautician/mypage`)
 }

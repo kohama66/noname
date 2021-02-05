@@ -130,7 +130,7 @@ func (s *salon) ExistsByBeauticianWithSalon(ctx context.Context, beauticianID, s
 
 func (s *salon) FindByBeauticianID(ctx context.Context, beauticianID int64) (entity.SalonSlice, error) {
 	return entity.Salons(
-		qm.InnerJoin(fmt.Sprintf("%s ON %s.%v = %s.%v", entity.TableNames.BeauticianSalons, entity.TableNames.BeauticianSalons, entity.BeauticianSalonWhere.SalonID, entity.TableNames.Salons, entity.SalonWhere.ID)),
+		qm.InnerJoin(fmt.Sprintf("%s ON %s.%s = %s.%s", entity.TableNames.BeauticianSalons, entity.TableNames.BeauticianSalons, entity.BeauticianSalonColumns.SalonID, entity.TableNames.Salons, entity.SalonColumns.ID)),
 		entity.BeauticianSalonWhere.BeauticianID.EQ(beauticianID),
 		entity.SalonWhere.DeletedAt.IsNull(),
 		entity.BeauticianSalonWhere.DeletedAt.IsNull(),
