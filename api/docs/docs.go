@@ -161,6 +161,42 @@ var doc = `{
                 }
             }
         },
+        "/api/v1/beautician/mypage": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "美容師マイページ情報取得",
+                "parameters": [
+                    {
+                        "description": "Request body",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/requestmodel.BeauticianMyPageGet"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/responsemodel.BeauticianMyPageGet"
+                        }
+                    },
+                    "500": {
+                        "description": "Something went wrong",
+                        "schema": {
+                            "$ref": "#/definitions/resource.Error"
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/menu/beautician": {
             "post": {
                 "consumes": [
@@ -783,6 +819,9 @@ var doc = `{
                 }
             }
         },
+        "requestmodel.BeauticianMyPageGet": {
+            "type": "object"
+        },
         "requestmodel.BeauticianSalonCreata": {
             "type": "object",
             "required": [
@@ -1070,6 +1109,65 @@ var doc = `{
             "properties": {
                 "beauticianMenu": {
                     "$ref": "#/definitions/responsemodel.BeauticianMenu"
+                }
+            }
+        },
+        "responsemodel.BeauticianMyPageGet": {
+            "type": "object",
+            "properties": {
+                "beauticianInfo": {
+                    "$ref": "#/definitions/responsemodel.Beautician"
+                },
+                "beauticianMenus": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/responsemodel.BeauticianMenu"
+                    }
+                },
+                "comment": {
+                    "type": "string"
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "firstName": {
+                    "type": "string"
+                },
+                "firstNameKana": {
+                    "type": "string"
+                },
+                "instagramId": {
+                    "type": "string"
+                },
+                "isBeautician": {
+                    "type": "boolean"
+                },
+                "lastName": {
+                    "type": "string"
+                },
+                "lastNameKana": {
+                    "type": "string"
+                },
+                "lineId": {
+                    "type": "string"
+                },
+                "phoneNumber": {
+                    "type": "string"
+                },
+                "randId": {
+                    "type": "string"
+                },
+                "salons": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/responsemodel.Salon"
+                    }
+                },
+                "updatedAt": {
+                    "type": "string"
                 }
             }
         },
@@ -1382,13 +1480,8 @@ var doc = `{
                         "$ref": "#/definitions/responsemodel.BeauticianMenu"
                     }
                 },
-                "beauticianSalons": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/responsemodel.Salon"
-                    }
-                },
                 "createdAt": {
+                    "description": "BeauticianSalons []*Salon          ` + "`" + `json:\"beauticianSalons\"` + "`" + `",
                     "type": "string"
                 },
                 "email": {
@@ -1440,13 +1533,8 @@ var doc = `{
                         "$ref": "#/definitions/responsemodel.BeauticianMenu"
                     }
                 },
-                "beauticianSalons": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/responsemodel.Salon"
-                    }
-                },
                 "createdAt": {
+                    "description": "BeauticianSalons []*Salon          ` + "`" + `json:\"beauticianSalons\"` + "`" + `",
                     "type": "string"
                 },
                 "email": {

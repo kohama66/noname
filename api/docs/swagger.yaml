@@ -39,6 +39,8 @@ definitions:
       randID:
         type: string
     type: object
+  requestmodel.BeauticianMyPageGet:
+    type: object
   requestmodel.BeauticianSalonCreata:
     properties:
       salonRandId:
@@ -228,6 +230,45 @@ definitions:
     properties:
       beauticianMenu:
         $ref: '#/definitions/responsemodel.BeauticianMenu'
+    type: object
+  responsemodel.BeauticianMyPageGet:
+    properties:
+      beauticianInfo:
+        $ref: '#/definitions/responsemodel.Beautician'
+      beauticianMenus:
+        items:
+          $ref: '#/definitions/responsemodel.BeauticianMenu'
+        type: array
+      comment:
+        type: string
+      createdAt:
+        type: string
+      email:
+        type: string
+      firstName:
+        type: string
+      firstNameKana:
+        type: string
+      instagramId:
+        type: string
+      isBeautician:
+        type: boolean
+      lastName:
+        type: string
+      lastNameKana:
+        type: string
+      lineId:
+        type: string
+      phoneNumber:
+        type: string
+      randId:
+        type: string
+      salons:
+        items:
+          $ref: '#/definitions/responsemodel.Salon'
+        type: array
+      updatedAt:
+        type: string
     type: object
   responsemodel.Menu:
     properties:
@@ -430,11 +471,8 @@ definitions:
         items:
           $ref: '#/definitions/responsemodel.BeauticianMenu'
         type: array
-      beauticianSalons:
-        items:
-          $ref: '#/definitions/responsemodel.Salon'
-        type: array
       createdAt:
+        description: BeauticianSalons []*Salon          `json:"beauticianSalons"`
         type: string
       email:
         type: string
@@ -468,11 +506,8 @@ definitions:
         items:
           $ref: '#/definitions/responsemodel.BeauticianMenu'
         type: array
-      beauticianSalons:
-        items:
-          $ref: '#/definitions/responsemodel.Salon'
-        type: array
       createdAt:
+        description: BeauticianSalons []*Salon          `json:"beauticianSalons"`
         type: string
       email:
         type: string
@@ -584,6 +619,29 @@ paths:
           schema:
             $ref: '#/definitions/resource.Error'
       summary: 美容師検索
+  /api/v1/beautician/mypage:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: Request body
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/requestmodel.BeauticianMyPageGet'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responsemodel.BeauticianMyPageGet'
+        "500":
+          description: Something went wrong
+          schema:
+            $ref: '#/definitions/resource.Error'
+      summary: 美容師マイページ情報取得
   /api/v1/menu/beautician:
     post:
       consumes:

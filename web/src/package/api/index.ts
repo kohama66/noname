@@ -171,3 +171,7 @@ export const deleteBeauticianMenu = async (randID: string): Promise<undefined> =
 export const deleteBeauticianSalon = async (randID: string): Promise<undefined> => {
   return deleteAxios<undefined>(`/api/v1/salon/beautician/${randID}`)
 }
+
+export const getBeauticianMypage = async () => {
+  return get(`/api/v1/beautician/mypage`)
+}
