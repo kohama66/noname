@@ -1,7 +1,6 @@
 import { myFirebase } from "../../lib/firebase/firebase"
 import { FirebaseUser } from "../interface/Firebase"
 import Cookie from "js-cookie"
-import { createGuest } from "."
 
 const auth = myFirebase.auth()
 

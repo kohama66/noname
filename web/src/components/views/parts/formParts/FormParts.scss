@@ -1,0 +1,25 @@
+@import "src/css/common.scss";
+
+.form-parts {
+  padding: 10px;
+  box-sizing: border-box;
+  width: 100%;
+  label {
+    color: $blackFontColor;
+    font-weight: bold;
+    font-size: 14px;
+    margin-bottom: 10px;
+    display: block;
+  }
+  input {
+    margin-bottom: 10px;
+  }
+}
+@media screen and (max-width: 767px) {
+  .form-parts {
+    padding: 5px;
+    label {
+      font-size: 12px;
+    }
+  }
+}

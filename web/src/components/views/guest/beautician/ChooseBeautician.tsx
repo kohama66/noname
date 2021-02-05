@@ -2,10 +2,10 @@ import React, { FC, useState } from 'react';
 import Title from '../parts/Title/Title'
 import "./ChooseBeautician.scss"
 import ChooseCard from '../parts/ChooseCard';
-import { Beautician } from '../../../../package/interface/Beautician';
+import { User } from '../../../../package/interface/User';
 
 type props = {
-  beauticians: Beautician[]
+  beauticians: User[]
 }
 
 const ChooseBeautician: FC<props> = (props) => {

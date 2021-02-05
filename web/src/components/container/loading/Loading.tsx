@@ -1,26 +1,26 @@
 import React, { FC, useContext, useEffect, useState } from 'react';
-import { getGuest } from '../../../package/api';
-import { GuestContext } from '../../../utils/context/GuestContext';
+import { getMe } from '../../../package/api';
+import { UserContext } from '../../../utils/context/UserContext';
 import App from '../../App';
 
 const Loading: FC = () => {
-  const { setGuest } = useContext(GuestContext)
+  const { setUser } = useContext(UserContext)
   const [isCheckLogin, setCheck] = useState<boolean>(false)
 
   useEffect(() => {
-    const checkGuest = async () => {
+    const checkUser = async () => {
       try {
-        const response = await getGuest()
-        setGuest(response.guest)
+        const response = await getMe()
+        setUser(response.user)
       } catch (error) {
         console.log(error)
       }
       setCheck(true)
     }
-    checkGuest()
+    checkUser()
   }, [])
 
-  if(!isCheckLogin) return <div></div> //ログイン確認してから<App>へ移行します
+  if (!isCheckLogin) return <div></div> //ログイン確認してから<App>へ移行します
   return <App />
 }
 

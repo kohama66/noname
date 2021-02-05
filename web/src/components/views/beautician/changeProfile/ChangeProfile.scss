@@ -1,0 +1,11 @@
+@import 'src/css/common.scss';
+
+#change-profile{
+  background-color: $baseColor;
+  min-height: 100vh;
+  padding-top: 150px;
+  box-sizing: border-box;
+  form{
+    margin: 0 auto;
+  }
+}

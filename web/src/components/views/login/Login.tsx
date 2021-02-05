@@ -1,9 +1,9 @@
 import React, { FC, useContext, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import { getGuest } from '../../../package/api';
+import { getMe } from '../../../package/api';
 import { signin } from '../../../package/api/auth';
 import { deleteAuthToken } from '../../../utils/function/Cookie';
-import { GuestContext } from '../../../utils/context/GuestContext';
+import { UserContext } from '../../../utils/context/UserContext';
 import Title from '../guest/parts/Title/Title';
 import Input from '../parts/formParts/Input';
 import './Login.scss'
@@ -13,7 +13,7 @@ const Login: FC = () => {
   const [email, setEmail] = useState<string>("")
   const [password, setPassword] = useState<string>("")
   const [disabled, setDisabled] = useState<boolean>(false)
-  const { setGuest } = useContext(GuestContext)
+  const { setUser } = useContext(UserContext)
   const { error, customError } = useError()
   const history = useHistory()
 
@@ -22,7 +22,7 @@ const Login: FC = () => {
     setDisabled(true)
     try {
       await signin({ email, password })
-      setGuest((await getGuest()).guest)
+      setUser((await getMe()).user)
       history.push("/guest")
     } catch (error) {
       deleteAuthToken()

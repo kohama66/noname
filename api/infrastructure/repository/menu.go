@@ -2,10 +2,12 @@ package repository
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/myapp/noname/api/domain/entity"
 	"github.com/myapp/noname/api/domain/repository"
 	"github.com/myapp/noname/api/infrastructure/db"
+	"github.com/volatiletech/sqlboiler/boil"
 	"github.com/volatiletech/sqlboiler/queries/qm"
 )
 
@@ -36,8 +38,8 @@ func (m *menu) GetAll(ctx context.Context) (entity.MenuSlice, error) {
 func (m *menu) FindByBeautician(ctx context.Context, beauticianID int64) (entity.MenuSlice, error) {
 	return entity.Menus(
 		qm.InnerJoin("beautician_menus ON menus.id = beautician_menus.menu_id"),
-		qm.InnerJoin("beauticians ON beauticians.id = beautician_menus.beautician_id"),
-		entity.BeauticianWhere.ID.EQ(beauticianID),
+		qm.InnerJoin("users ON users.id = beautician_menus.beautician_id"),
+		entity.UserWhere.ID.EQ(beauticianID),
 		entity.MenuWhere.DeletedAt.IsNull(),
 	).All(ctx, m.Conn)
 }
@@ -73,4 +75,27 @@ func (m *menu) ExistsByBeauticianIDWithMenuIDs(ctx context.Context, beauticianID
 		qm.WhereIn("menu_id IN ?", convertedMenuIDs...),
 		entity.BeauticianMenuWhere.DeletedAt.IsNull(),
 	).Exists(ctx, m.Conn)
+}
+
+func (m *menu) GetBeauticianMenusByReservationID(ctx context.Context, reservationID int64) (entity.BeauticianMenuSlice, error) {
+	return entity.BeauticianMenus(
+		qm.InnerJoin(fmt.Sprintf("%v ON %v = %v", entity.TableNames.ReservationMenus, entity.ReservationMenuColumns.BeauticianMenuID, entity.BeauticianMenuColumns.ID)),
+		entity.ReservationMenuWhere.ReservationID.EQ(reservationID),
+		entity.BeauticianMenuWhere.DeletedAt.IsNull(),
+	).All(ctx, m.Conn)
+}
+
+func (m *menu) CreateBeauticianMenu(ctx context.Context, ent *entity.BeauticianMenu) error {
+	return ent.Insert(ctx, m.Conn, boil.Infer())
+}
+
+func (m *menu) DeleteBeauticianMenu(ctx context.Context, ent *entity.BeauticianMenu) (int64, error) {
+	return ent.Delete(ctx, m.Conn)
+}
+
+func (m *menu) GetBeauticianMenuByRandID(ctx context.Context, randID string) (*entity.BeauticianMenu, error) {
+	return entity.BeauticianMenus(
+		entity.BeauticianMenuWhere.RandID.EQ(randID),
+		entity.BeauticianMenuWhere.DeletedAt.IsNull(),
+	).One(ctx, m.Conn)
 }

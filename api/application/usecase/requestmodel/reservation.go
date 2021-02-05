@@ -16,12 +16,13 @@ type ReservationCreate struct {
 }
 
 // NewReservation 予約モデル変換メソッド
-func (r *ReservationCreate) NewReservation(guestID, spaceID, beauticanID int64, date time.Time) *entity.Reservation {
+func (r *ReservationCreate) NewReservation(userID, spaceID, beauticanID int64, randID string, date time.Time) *entity.Reservation {
 	return &entity.Reservation{
+		RandID:       randID,
 		Date:         date,
 		SpaceID:      spaceID,
 		BeauticianID: beauticanID,
-		GuestID:      guestID,
+		UserID:       userID,
 	}
 }
 
@@ -36,7 +37,30 @@ type ReservationFind struct {
 	BeauticianRandID string `schema:"beauticianRandId"`
 }
 
-// ReservationFindByGuest ゲスト予約履歴取得構造体
-type ReservationFindByGuest struct {
+// ReservationFindByUser ゲスト予約履歴取得構造体
+type ReservationFindByUser struct {
 	AuthID string `json:"-"`
+}
+
+// ReservationGetInfo 予約詳細取得
+type ReservationGetInfo struct {
+	RandID string `json:"randId"`
+}
+
+// ReservationSetHoliday 美容師休日設定
+type ReservationSetHoliday struct {
+	AuthID  string    `json:"-"`
+	Holiday time.Time `json:"holiday"`
+}
+
+// NewReservationSetHoliday 美容師休日エンティティ変換関数
+func (r *ReservationSetHoliday) NewReservationSetHoliday(randID string, beauticianID int64) *entity.Reservation {
+	return &entity.Reservation{
+		RandID:       randID,
+		Date:         r.Holiday,
+		Holiday:      true,
+		SpaceID:      1,
+		BeauticianID: beauticianID,
+		UserID:       1,
+	}
 }

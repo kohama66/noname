@@ -24,3 +24,8 @@ type Salon struct {
 type SalonFind struct {
 	Salons []*Salon `json:"salons"`
 }
+
+// SalonFindNotBelongs 美容師が所属してない美容院検索
+type SalonFindNotBelongs struct {
+	Salons []*Salon `json:"salons"`
+}

@@ -11,5 +11,7 @@
   }
   #reservationInfor{
     width: 420px;
+    background-color: #fff;
+    @include whiteShadow;
   }
 }

@@ -6,11 +6,12 @@ import (
 
 // Reservation response構造体
 type Reservation struct {
+	RandID       string    `json:"randId"`
 	Date         time.Time `json:"date"`
+	Holiday      bool      `json:"holiday"`
 	SpaceID      int64     `json:"spaceId"`
-	GuestID      int64     `json:"guestId"`
+	UserID       int64     `json:"userId"`
 	BeauticianID int64     `json:"beauticiaId"`
-	MenuID       int64     `json:"menuId"`
 	CreatedAt    time.Time `json:"createdAt"`
 	UpdatedAt    time.Time `json:"updatedAt"`
 }
@@ -30,17 +31,38 @@ type ReservationFind struct {
 	Reservations []*Reservation `json:"reservations"`
 }
 
-// ReservationGetByGuest 用構造体
-type ReservationGetByGuest struct {
+// ReservationGetByUser 用構造体
+type ReservationGetByUser struct {
 	ID                  int64             `json:"id"`
 	Date                time.Time         `json:"date"`
-	GuestID             int64             `json:"guestId"`
+	UserID              int64             `json:"userId"`
 	SalonName           string            `json:"salonName"`
 	BeauticianFirstName string            `json:"beauticianFirstName"`
 	BeauticianLatsName  string            `json:"beauticianLastName"`
 	Menus               []*BeauticianMenu `json:"menus"`
 }
 
-type ReservationFindByGuest struct {
-	Reservations []*ReservationGetByGuest `json:"reservations"`
+type ReservationFindByUser struct {
+	Reservations []*ReservationGetByUser `json:"reservations"`
+}
+
+// ReservationInfo 予約詳細取得
+type ReservationInfo struct {
+	RandID    string            `json:"randId"`
+	Date      time.Time         `json:"date"`
+	Salon     *Salon            `json:"salon"`
+	User      *User             `json:"user"`
+	Menus     []*BeauticianMenu `json:"menus"`
+	CreatedAt time.Time         `json:"createdAt"`
+	UpdatedAt time.Time         `json:"updatedAt"`
+}
+
+// ReservationGetInfo 予約詳細取得
+type ReservationGetInfo struct {
+	ReservationInfo *ReservationInfo `json:"reservationInfo"`
+}
+
+// ReservationSetHoliday 美容師休日設定
+type ReservationSetHoliday struct {
+	*Reservation `json:"reservation"`
 }

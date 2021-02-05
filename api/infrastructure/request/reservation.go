@@ -2,8 +2,10 @@ package request
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 
+	"github.com/go-chi/chi"
 	"github.com/gorilla/schema"
 	"github.com/myapp/noname/api/application/usecase/requestmodel"
 	"github.com/myapp/noname/api/pkg/context"
@@ -39,9 +41,32 @@ func NewReservationFind(req *http.Request) (*requestmodel.ReservationFind, error
 	return r, nil
 }
 
-// NewReservationFindByGuest ゲスト予約履歴取得関数
-func NewReservationFindByGuest(req *http.Request) *requestmodel.ReservationFindByGuest {
-	r := &requestmodel.ReservationFindByGuest{}
+// NewReservationFindByUser ゲスト予約履歴取得関数
+func NewReservationFindByUser(req *http.Request) *requestmodel.ReservationFindByUser {
+	r := &requestmodel.ReservationFindByUser{}
 	r.AuthID = context.AuthID(req.Context())
 	return r
+}
+
+// NewReservationGetInfo 予約詳細取得
+func NewReservationGetInfo(req *http.Request) (*requestmodel.ReservationGetInfo, error) {
+	r := &requestmodel.ReservationGetInfo{}
+	RandID := chi.URLParam(req, "randID")
+	r.RandID = RandID
+	return r, nil
+}
+
+// NewReservationSetHoliday 美容師休日設定
+func NewReservationSetHoliday(req *http.Request) (*requestmodel.ReservationSetHoliday, error) {
+	r := &requestmodel.ReservationSetHoliday{}
+	r.AuthID = context.AuthID(req.Context())
+	err := json.NewDecoder(req.Body).Decode(r)
+	if err != nil {
+		return nil, err
+	}
+	fmt.Println(r.Holiday)
+	if err := validate.Struct(r); err != nil {
+		return nil, err
+	}
+	return r, err
 }

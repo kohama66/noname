@@ -1,25 +1,26 @@
-import { MenuDetail } from "./Menu"
+import { User } from "./User"
 
-export interface Beautician {
-	randId: string
-	firstName: string
-	lastName: string
-	phoneNumber: string
-	lineId: string
-	instagramId: string
-	comment: string
-	menus: MenuDetail[]
+export interface BeauticianInfo {
+	lineId?: string
+	instagramId?: string
+	comment?: string
 }
 
-export interface BeauticianGetAll {
-  beauticians: Beautician[]
-}
+// export const isBeautician = (arg: any): arg is User => {
+//   return arg !== null &&
+//     typeof arg === "object" &&
+//     typeof arg.firstName === "string" && typeof arg.lastName === "string" && typeof arg.phoneNumber === "string" &&
+//     typeof arg.firstNameKana === "string" && typeof arg.lastNameKana === "string" && typeof arg.email === "string" &&
+// 		typeof arg.isBeautician === "boolean" && typeof arg.beauticianInfo === "object" &&
+// 		typeof arg.beauticianMenus === "object" && Array.isArray(arg.beauticianMenus) && 
+// 		typeof arg.beauticianSalons === "object" && Array.isArray(arg.beauticianSalons)
+// }
 
-export const initBeautician: Beautician = <Beautician>{}
-
-export const isBeauticianInterface = (arg: any): arg is Beautician => {
-  return arg !== null &&
-    typeof arg === "object" &&
-    typeof arg.firstName === "string" && typeof arg.lastName === "string" && typeof arg.phoneNumber === "string" &&
-    typeof arg.lineId === "string" && typeof arg.comment === "string" && typeof arg.instagramId === "string"
+export const isBeautician = (arg: any): arg is User => {
+	return arg !== null &&
+		typeof arg === "object" &&
+		typeof arg.firstName === "string" && typeof arg.lastName === "string" && typeof arg.phoneNumber === "string" &&
+		typeof arg.firstNameKana === "string" && typeof arg.lastNameKana === "string" && typeof arg.email === "string" &&
+		typeof arg.isBeautician === "boolean" && typeof arg.beauticianInfo === "object" &&
+		typeof arg.beauticianMenus === "object"
 }

@@ -5,7 +5,7 @@
   @include whiteShadow;
   width: 350px;
   height: 520px;
-  border-radius: 15px;
+  border-radius: 5px;
   transition-duration: 0.3s;
   padding: 15px;
   box-sizing: border-box;
@@ -71,7 +71,7 @@
               color: $orangeColor1;
               border: 2px solid $orangeColor1;
               background-color: transparent;
-              border-radius: 15px;
+              border-radius: 5px;
               margin: 10px 0 0 -15px;
               font-size: 14px;
               font-weight: bold;

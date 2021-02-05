@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/go-chi/chi"
 	"github.com/gorilla/schema"
 	"github.com/myapp/noname/api/application/usecase/requestmodel"
 	"github.com/myapp/noname/api/pkg/context"
@@ -18,15 +17,11 @@ func NewBeauticianCreate(req *http.Request) (*requestmodel.BeauticianCreate, err
 	if err != nil {
 		return nil, err
 	}
+	if err := validate.Struct(r); err != nil {
+		return nil, err
+	}
 	return r, nil
 }
-
-// NewBeauticianGet 美容師情報取得request関数
-// func NewBeauticianGet(req *http.Request) (*requestmodel.BeauticianGet, error) {
-// 	r := &requestmodel.BeauticianGet{}
-// 	r.AuthID = context.AuthID(req.Context())
-// 	return r, nil
-// }
 
 // NewBeauticianFind 美容師検索request関数
 func NewBeauticianFind(req *http.Request) (*requestmodel.BeauticianFind, error) {
@@ -38,9 +33,29 @@ func NewBeauticianFind(req *http.Request) (*requestmodel.BeauticianFind, error) 
 }
 
 // NewBeauticianGet 美容師情報取得request関数
-func NewBeauticianGet(req *http.Request) (*requestmodel.BeauticianGet, error) {
+func NewBeauticianGet(req *http.Request) *requestmodel.BeauticianGet {
 	r := &requestmodel.BeauticianGet{}
-	RandID := chi.URLParam(req, "randID")
-	r.RandID = RandID
+	r.AuthID = context.AuthID(req.Context())
+	return r
+}
+
+// NewBeauticianUpdate 美容師情報更新request関数
+func NewBeauticianUpdate(req *http.Request) (*requestmodel.BeauticianUpdate, error) {
+	r := &requestmodel.BeauticianUpdate{}
+	r.AuthID = context.AuthID(req.Context())
+	err := json.NewDecoder(req.Body).Decode(r)
+	if err != nil {
+		return nil, err
+	}
+	if err := validate.Struct(r); err != nil {
+		return nil, err
+	}
 	return r, nil
+}
+
+// NewBeauticianMyPage 美容師マイページ用情報取得
+func NewBeauticianMyPage(req *http.Request) *requestmodel.BeauticianMyPageGet {
+	r := &requestmodel.BeauticianMyPageGet{}
+	r.AuthID = context.AuthID(req.Context())
+	return r
 }

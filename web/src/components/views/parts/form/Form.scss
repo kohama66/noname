@@ -1,0 +1,35 @@
+@import "src/css/common.scss";
+
+form {
+  border-radius: 5px;
+  @include whiteShadow;
+  background-color: #fff;
+  box-sizing: border-box;
+  padding: 50px 30px 30px;
+  width: 600px;
+  display: flex;
+  flex-flow: wrap row;
+  letter-spacing: 0.05em;
+  margin-top: 30px;
+  .form-parts {
+    width: 50%;
+    &:nth-of-type(6),
+    &:nth-of-type(7),
+    &:nth-of-type(9) {
+      width: 100%;
+    }
+  }
+}
+@media screen and (max-width: 767px) {
+  form {
+    width: 100%;
+    padding: 40px 20px 20px;
+    .form-parts {
+      width: 100%;
+      padding: 5px;
+      label {
+        font-size: 12px;
+      }
+    }
+  }
+}

@@ -5,41 +5,29 @@ import {
   Route,
   useRouteMatch,
 } from "react-router-dom";
+import Auth from '../../container/auth/Auth';
+import BtAuth from '../../container/btAuth/BtAuth';
+import ChangeProfile from './changeProfile/ChangeProfile';
+import Mypage from './mypage/Mypage';
+import ReservationVerify from './reservedInfo/ReservationVerify';
+import SignUp from './signup/SignUp';
 
 const Beautician: FC = () => {
   const match = useRouteMatch();
   return (
     <div id="beautician">
-      <Router>
-        <Switch>
-          <Route path={match.path + "/aaa"} component={signIn} />
-          {/* <Route path={match.path} component={Schedule} /> */}
-        </ Switch>
-      </Router>
+      <Switch>
+        <Route path={match.path + "/signup"} component={SignUp} />
+        <BtAuth >
+          <Auth>
+            <Route path={match.path + "/mypage"} component={Mypage} />
+            <Route path={match.path + "/changeprofile"} component={ChangeProfile} />
+            <Route path={match.path + "/reservationverify"} component={ReservationVerify} />
+          </Auth>
+        </BtAuth>
+      </ Switch>
     </div>
   )
 };
-
-const signIn: FC = () => {
-  return (
-    <section className="inner">
-      <figure>
-        <img src="../img/beautician_1.jpg" alt="" />
-        <div>
-          {/* <p>Cut Matchは</p> */}
-        </div>
-      </figure>
-      <form className="signIn">
-        <label>メールアドレス</label>
-        <input type="mail" />
-        <label>パスワード</label>
-        <input type="password" />
-        <button>ログイン</button>
-      </form>
-    </section>
-  )
-};
-
-
 
 export default Beautician;

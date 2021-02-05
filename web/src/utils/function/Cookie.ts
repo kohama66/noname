@@ -6,5 +6,5 @@ export const getAuthToken = (): string | undefined => {
 
 // cookie削除
 export const deleteAuthToken = () => {
-  Cookie.set("authHeader", "", { expires: 1 })
+  Cookie.set("authHeader", "", { expires: 5 })
 }

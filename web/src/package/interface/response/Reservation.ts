@@ -1,4 +1,4 @@
-import { GuestMyPageReservation, Reservation } from "../Reservation";
+import { GuestMyPageReservation, Reservation, ReservationInfo } from "../Reservation";
 
 export interface reservationsResponse {
   reservations: Reservation[]
@@ -10,4 +10,8 @@ export interface reservationResponse {
 
 export interface guestMypageReservationsResponse {
   reservations: GuestMyPageReservation[]
+}
+
+export interface reservationInfoResponse {
+  reservationInfo: ReservationInfo
 }

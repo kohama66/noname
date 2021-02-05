@@ -9,16 +9,20 @@ import (
 	"github.com/myapp/noname/api/presentation/v1/resource/factory"
 )
 
+// Beautician DIInterface
 type Beautician interface {
 	Create(w http.ResponseWriter, r *http.Request)
-	Get(w http.ResponseWriter, r *http.Request)
+	GetByAuthID(w http.ResponseWriter, r *http.Request)
 	Find(w http.ResponseWriter, r *http.Request)
+	Update(w http.ResponseWriter, r *http.Request)
+	GetMyPage(w http.ResponseWriter, r *http.Request)
 }
 
 type beautician struct {
 	beauticianUsecase usecase.Beautician
 }
 
+// NewBeautician DI初期化
 func NewBeautician(
 	beauticianUsecase usecase.Beautician,
 ) Beautician {
@@ -52,21 +56,16 @@ func (b beautician) Create(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-// Get
+// GetByAuthID
 // @Summary 美容師情報取得
 // @Accept  json
 // @Produce  json
 // @Param data body requestmodel.BeauticianGet true "Request body"
 // @Success 200 {object} responsemodel.BeauticianGet
 // @Failure 500 {object} resource.Error "Something went wrong"
-// @Router /api/v1/beautician/{randID} [get]
-func (b beautician) Get(w http.ResponseWriter, r *http.Request) {
-	req, err := request.NewBeauticianGet(r)
-	if err != nil {
-		log.Warningf(r.Context(), "BeauticianGet.Request %v", err)
-		factory.ErrorJSON(w, err.Error(), http.StatusBadRequest)
-		return
-	}
+// @Router /api/v1/beautician [get]
+func (b beautician) GetByAuthID(w http.ResponseWriter, r *http.Request) {
+	req := request.NewBeauticianGet(r)
 	res, err := b.beauticianUsecase.Get(r.Context(), req)
 	if err != nil {
 		log.Errorf(r.Context(), "BeauticianGet: %v", err)
@@ -95,6 +94,50 @@ func (b beautician) Find(w http.ResponseWriter, r *http.Request) {
 	res, err := b.beauticianUsecase.Find(r.Context(), req)
 	if err != nil {
 		log.Errorf(r.Context(), "BeauticianFind: %v", err)
+		factory.ErrorJSON(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	factory.JSON(w, res)
+	return
+}
+
+// Update
+// @Summary 美容師情報更新
+// @Accept  json
+// @Produce  json
+// @Param data body requestmodel.BeauticianUpdate true "Request body"
+// @Success 200
+// @Failure 500 {object} resource.Error "Something went wrong"
+// @Router /api/v1/beautician [put]
+func (b beautician) Update(w http.ResponseWriter, r *http.Request) {
+	req, err := request.NewBeauticianUpdate(r)
+	if err != nil {
+		log.Warningf(r.Context(), "BeauticianUpdate.Request %v", err)
+		factory.ErrorJSON(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+	err = b.beauticianUsecase.Update(r.Context(), req)
+	if err != nil {
+		log.Errorf(r.Context(), "BeauticianUpdate: %v", err)
+		factory.ErrorJSON(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	return
+}
+
+// GetMyPage
+// @Summary 美容師マイページ情報取得
+// @Accept  json
+// @Produce  json
+// @Param data body requestmodel.BeauticianMyPageGet true "Request body"
+// @Success 200 {object} responsemodel.BeauticianMyPageGet
+// @Failure 500 {object} resource.Error "Something went wrong"
+// @Router /api/v1/beautician/mypage [get]
+func (b beautician) GetMyPage(w http.ResponseWriter, r *http.Request) {
+	req := request.NewBeauticianMyPage(r)
+	res, err := b.beauticianUsecase.GetMyPage(r.Context(), req)
+	if err != nil {
+		log.Errorf(r.Context(), "BeauticianMyPageGet: %v", err)
 		factory.ErrorJSON(w, err.Error(), http.StatusInternalServerError)
 		return
 	}

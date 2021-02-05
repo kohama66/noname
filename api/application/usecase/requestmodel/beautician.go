@@ -2,34 +2,26 @@ package requestmodel
 
 import (
 	"github.com/myapp/noname/api/domain/entity"
+	"github.com/volatiletech/null"
 )
 
 // BeauticianCreate 美容師登録構造体
 type BeauticianCreate struct {
-	AuthID      string `json:"-"`
-	FirstName   string `json:"firstName"`
-	LastName    string `json:"lastName"`
-	Age         int64  `json:"age"`
-	PhoneNumber string `json:"phoneNumber"`
+	AuthID      string  `json:"-"`
+	LineID      *string `json:"lineId"`
+	InstagramID *string `json:"instagramId"`
 }
 
 // NewBeautician 美容師登録モデル変換メソッド
-func (b BeauticianCreate) NewBeautician(randID string) *entity.Beautician {
+func (b BeauticianCreate) NewBeautician(ID int64) *entity.Beautician {
 	return &entity.Beautician{
-		AuthID:      b.AuthID,
-		RandID:      randID,
-		FirstName:   b.FirstName,
-		LastName:    b.LastName,
-		Age:         b.Age,
-		PhoneNumber: b.PhoneNumber,
+		UserID:      ID,
+		LineID:      null.StringFromPtr(b.LineID),
+		InstagramID: null.StringFromPtr(b.InstagramID),
 	}
 }
 
-// // BeauticianGet 美容師情報取得構造体
-// type BeauticianGet struct {
-// 	AuthID string `json:"-"`
-// }
-
+// BeauticianFind 美容師検索
 type BeauticianFind struct {
 	SalonRandID string   `schema:"salonRandId"`
 	MenuRandIDs []string `schema:"menuRandIds"`
@@ -38,5 +30,32 @@ type BeauticianFind struct {
 
 // BeauticianGet 美容師情報取得構造体
 type BeauticianGet struct {
-	RandID string `json:"-"`
+	AuthID string `json:"-"`
+}
+
+type BeauticianUpdate struct {
+	AuthID        string  `json:"-"`
+	LastName      string  `json:"lastName" validate:"required"`
+	FirstName     string  `json:"firstName" validate:"required"`
+	LastNameKana  string  `json:"lastNameKana" validate:"required"`
+	FirstNameKana string  `json:"firstNameKana" validate:"required"`
+	PhoneNumber   string  `json:"phoneNumber" validate:"required,len=11"`
+	LineID        *string `json:"lineId"`
+	InstagramID   *string `json:"instagramId"`
+}
+
+func (b *BeauticianUpdate) NewBeautician(user *entity.User, beautician *entity.Beautician) (*entity.User, *entity.Beautician) {
+	user.FirstName = b.FirstName
+	user.FirstNameKana = b.FirstNameKana
+	user.LastName = b.LastName
+	user.LastNameKana = b.LastNameKana
+	user.PhoneNumber = b.PhoneNumber
+	beautician.LineID = null.StringFromPtr(b.LineID)
+	beautician.InstagramID = null.StringFromPtr(b.InstagramID)
+	return user, beautician
+}
+
+// BeauticianMyPageGet 美容師マイページ用情報取得
+type BeauticianMyPageGet struct {
+	AuthID string `json:"-"`
 }

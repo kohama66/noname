@@ -14,6 +14,10 @@ type Conn struct {
 	*sql.DB
 }
 
+var (
+	global *Conn
+)
+
 // New DB初期化関数
 func New() *Conn {
 	db, err := sql.Open("mysql", env.SqlSource())
@@ -23,6 +27,7 @@ func New() *Conn {
 	db.SetMaxOpenConns(8)
 	db.SetMaxIdleConns(8)
 	conn := &Conn{db}
+	global = conn
 	return conn
 }
 
@@ -42,4 +47,8 @@ func (c *Conn) RunInTx(ctx context.Context, f func(tx *Tx) error) error {
 		return err
 	}
 	return tx.Commit()
+}
+
+func RunInTx(ctx context.Context, f func(tx *Tx) error) error {
+	return global.RunInTx(ctx, f)
 }

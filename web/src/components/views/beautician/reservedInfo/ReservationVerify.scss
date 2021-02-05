@@ -1,0 +1,51 @@
+@import "src/css/common.scss";
+
+#reservation-verify {
+  min-height: 100vh;
+  background-color: $baseColor;
+  padding-top: 150px;
+  box-sizing: border-box;
+  .reservation-verify-contents {
+    background-color: #fff;
+    border-radius: 10px;
+    width: 450px;
+    margin: 30px auto 0;
+    padding: 40px;
+    @include whiteShadow;
+    .reservation-verify-content {
+      padding: 10px 0;
+      line-height: 16px;
+      margin-bottom: 10px;
+      h2 {
+        font-size: 12px;
+        color: $darkGray;
+        margin-top: 10px;
+      }
+      p {
+        font-size: 14px;
+        color: $blackFontColor;
+        font-weight: bold;
+        span {
+          font-size: 10px;
+          padding: 0 5px;
+        }
+      }
+      ul {
+        li {
+          font-size: 14px;
+          color: $blackFontColor;
+          list-style: none;
+          font-weight: bold;
+        }
+      }
+    }
+  }
+}
+@media screen and (max-width: 767px) {
+  #reservation-verify {
+    .reservation-verify-contents {
+      width: 300px;
+      padding: 20px;
+    }
+  }
+}

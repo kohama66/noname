@@ -1,0 +1,31 @@
+@import "src/css/common.scss";
+
+.accordion-wrapper {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-start;
+  button {
+    border: none;
+    background-color: $orangeColor1;
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+    width: 100%;
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+  }
+  .accordion {
+    transition-duration: 0.2s;
+    height: 0;
+    opacity: 0;
+    visibility: hidden;
+    &.open-accordion {
+      display: block;
+      height: auto;
+      opacity: 1;
+      transition-duration: 0.5s;
+      visibility: visible;
+    }
+  }
+}

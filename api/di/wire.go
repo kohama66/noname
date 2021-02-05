@@ -19,6 +19,7 @@ func InitBeautician() handler.Beautician {
 		response.NewBeautician,
 		repository.NewBeautician,
 		repository.NewSalon,
+		repository.NewUser,
 		repository.NewMenu,
 		usecase.NewBeautician,
 		handler.NewBeautician,
@@ -30,7 +31,7 @@ func InitReservation() handler.Reservation {
 	wire.Build(
 		db.New,
 		entityx.NewReservation,
-		repository.NewGuest,
+		repository.NewUser,
 		repository.NewMenu,
 		repository.NewReservation,
 		repository.NewBeautician,
@@ -47,7 +48,7 @@ func InitSalon() handler.Salon {
 		db.New,
 		response.NewSalon,
 		repository.NewSalon,
-		repository.NewBeautician,
+		repository.NewUser,
 		usecase.NewSalon,
 		handler.NewSalon,
 	)
@@ -58,7 +59,7 @@ func InitMenu() handler.Menu {
 	wire.Build(
 		db.New,
 		response.NewMenu,
-		repository.NewBeautician,
+		repository.NewUser,
 		repository.NewMenu,
 		usecase.NewMenu,
 		handler.NewMenu,
@@ -66,15 +67,16 @@ func InitMenu() handler.Menu {
 	return nil
 }
 
-func InitGuest() handler.Guest {
+func InitUser() handler.User {
 	wire.Build(
 		db.New,
-		response.NewGuest,
+		response.NewUser,
 		entityx.NewReservation,
-		repository.NewGuest,
+		repository.NewSalon,
+		repository.NewUser,
 		repository.NewReservation,
-		usecase.NewGuest,
-		handler.NewGuest,
+		usecase.NewUser,
+		handler.NewUser,
 	)
 	return nil
 }

@@ -25,6 +25,71 @@ var doc = `{
     "basePath": "{{.BasePath}}",
     "paths": {
         "/api/v1/beautician": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "美容師情報取得",
+                "parameters": [
+                    {
+                        "description": "Request body",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/requestmodel.BeauticianGet"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/responsemodel.BeauticianGet"
+                        }
+                    },
+                    "500": {
+                        "description": "Something went wrong",
+                        "schema": {
+                            "$ref": "#/definitions/resource.Error"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "美容師情報更新",
+                "parameters": [
+                    {
+                        "description": "Request body",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/requestmodel.BeauticianUpdate"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    },
+                    "500": {
+                        "description": "Something went wrong",
+                        "schema": {
+                            "$ref": "#/definitions/resource.Error"
+                        }
+                    }
+                }
+            },
             "post": {
                 "consumes": [
                     "application/json"
@@ -96,7 +161,7 @@ var doc = `{
                 }
             }
         },
-        "/api/v1/beautician/{randID}": {
+        "/api/v1/beautician/mypage": {
             "get": {
                 "consumes": [
                     "application/json"
@@ -104,7 +169,7 @@ var doc = `{
                 "produces": [
                     "application/json"
                 ],
-                "summary": "美容師情報取得",
+                "summary": "美容師マイページ情報取得",
                 "parameters": [
                     {
                         "description": "Request body",
@@ -112,7 +177,7 @@ var doc = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/requestmodel.BeauticianGet"
+                            "$ref": "#/definitions/requestmodel.BeauticianMyPageGet"
                         }
                     }
                 ],
@@ -120,7 +185,7 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/responsemodel.BeauticianGet"
+                            "$ref": "#/definitions/responsemodel.BeauticianMyPageGet"
                         }
                     },
                     "500": {
@@ -132,15 +197,15 @@ var doc = `{
                 }
             }
         },
-        "/api/v1/guest": {
-            "get": {
+        "/api/v1/menu/beautician": {
+            "post": {
                 "consumes": [
                     "application/json"
                 ],
                 "produces": [
                     "application/json"
                 ],
-                "summary": "ゲスト情報取得",
+                "summary": "美容師のメニュー作成",
                 "parameters": [
                     {
                         "description": "Request body",
@@ -148,7 +213,7 @@ var doc = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/requestmodel.GuestGet"
+                            "$ref": "#/definitions/requestmodel.BeauticianMenuCreate"
                         }
                     }
                 ],
@@ -156,7 +221,7 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/responsemodel.GuestGet"
+                            "$ref": "#/definitions/responsemodel.BeauticianMenuCreate"
                         }
                     },
                     "500": {
@@ -166,15 +231,17 @@ var doc = `{
                         }
                     }
                 }
-            },
-            "post": {
+            }
+        },
+        "/api/v1/menu/beautician/{randID}": {
+            "delete": {
                 "consumes": [
                     "application/json"
                 ],
                 "produces": [
                     "application/json"
                 ],
-                "summary": "ゲスト新規登録",
+                "summary": "美容師のメニュー削除",
                 "parameters": [
                     {
                         "description": "Request body",
@@ -182,16 +249,13 @@ var doc = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/requestmodel.GuestCreate"
+                            "$ref": "#/definitions/requestmodel.BeauticianMenuDelete"
                         }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/responsemodel.GuestCreate"
-                        }
+                        "description": ""
                     },
                     "500": {
                         "description": "Something went wrong",
@@ -344,6 +408,40 @@ var doc = `{
                         }
                     }
                 }
+            },
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "美容師休日を設定",
+                "parameters": [
+                    {
+                        "description": "Request body",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/requestmodel.ReservationSetHoliday"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/responsemodel.ReservationSetHoliday"
+                        }
+                    },
+                    "500": {
+                        "description": "Something went wrong",
+                        "schema": {
+                            "$ref": "#/definitions/resource.Error"
+                        }
+                    }
+                }
             }
         },
         "/api/v1/reservation/find": {
@@ -382,7 +480,7 @@ var doc = `{
                 }
             }
         },
-        "/api/v1/reservation/guest": {
+        "/api/v1/reservation/user": {
             "get": {
                 "consumes": [
                     "application/json"
@@ -398,7 +496,7 @@ var doc = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/requestmodel.ReservationFindByGuest"
+                            "$ref": "#/definitions/requestmodel.ReservationFindByUser"
                         }
                     }
                 ],
@@ -406,7 +504,141 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/responsemodel.ReservationFindByGuest"
+                            "$ref": "#/definitions/responsemodel.ReservationFindByUser"
+                        }
+                    },
+                    "500": {
+                        "description": "Something went wrong",
+                        "schema": {
+                            "$ref": "#/definitions/resource.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/reservation/{randID}": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "予約詳細を取得",
+                "parameters": [
+                    {
+                        "description": "Request body",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/requestmodel.ReservationGetInfo"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/responsemodel.ReservationGetInfo"
+                        }
+                    },
+                    "500": {
+                        "description": "Something went wrong",
+                        "schema": {
+                            "$ref": "#/definitions/resource.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/salon/beautician": {
+            "post": {
+                "description": "美容師が仕事可能な美容院を一つ追加します",
+                "consumes": [
+                    "application/json"
+                ],
+                "summary": "美容師美容院追加",
+                "parameters": [
+                    {
+                        "description": "Request body",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/requestmodel.BeauticianSalonCreata"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    },
+                    "500": {
+                        "description": "Something went wrong",
+                        "schema": {
+                            "$ref": "#/definitions/resource.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/salon/beautician/{randID}": {
+            "delete": {
+                "description": "美容師が仕事可能な美容院を一つ削除します",
+                "consumes": [
+                    "application/json"
+                ],
+                "summary": "美容師美容院削除",
+                "parameters": [
+                    {
+                        "description": "Request body",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/requestmodel.BeauticianSalonDelete"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    },
+                    "500": {
+                        "description": "Something went wrong",
+                        "schema": {
+                            "$ref": "#/definitions/resource.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/salon/belongs": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "美容院検索",
+                "parameters": [
+                    {
+                        "description": "Request body",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/requestmodel.SalonFindNotBelongs"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/responsemodel.SalonFindNotBelongs"
                         }
                     },
                     "500": {
@@ -453,22 +685,86 @@ var doc = `{
                     }
                 }
             }
+        },
+        "/api/v1/user": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "ゲスト情報取得",
+                "parameters": [
+                    {
+                        "description": "Request body",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/requestmodel.UserGet"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/responsemodel.UserGet"
+                        }
+                    },
+                    "500": {
+                        "description": "Something went wrong",
+                        "schema": {
+                            "$ref": "#/definitions/resource.Error"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "ゲスト新規登録",
+                "parameters": [
+                    {
+                        "description": "Request body",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/requestmodel.UserCreate"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/responsemodel.UserCreate"
+                        }
+                    },
+                    "500": {
+                        "description": "Something went wrong",
+                        "schema": {
+                            "$ref": "#/definitions/resource.Error"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
         "requestmodel.BeauticianCreate": {
             "type": "object",
             "properties": {
-                "age": {
-                    "type": "integer"
-                },
-                "firstName": {
+                "instagramId": {
                     "type": "string"
                 },
-                "lastName": {
-                    "type": "string"
-                },
-                "phoneNumber": {
+                "lineId": {
                     "type": "string"
                 }
             }
@@ -493,10 +789,61 @@ var doc = `{
         "requestmodel.BeauticianGet": {
             "type": "object"
         },
-        "requestmodel.GuestCreate": {
+        "requestmodel.BeauticianMenuCreate": {
             "type": "object",
             "required": [
-                "email",
+                "menuCategory",
+                "menuName",
+                "price"
+            ],
+            "properties": {
+                "menuCategory": {
+                    "type": "string"
+                },
+                "menuName": {
+                    "type": "string"
+                },
+                "price": {
+                    "type": "integer"
+                }
+            }
+        },
+        "requestmodel.BeauticianMenuDelete": {
+            "type": "object",
+            "properties": {
+                "authID": {
+                    "type": "string"
+                },
+                "randID": {
+                    "type": "string"
+                }
+            }
+        },
+        "requestmodel.BeauticianMyPageGet": {
+            "type": "object"
+        },
+        "requestmodel.BeauticianSalonCreata": {
+            "type": "object",
+            "required": [
+                "salonRandId"
+            ],
+            "properties": {
+                "salonRandId": {
+                    "type": "string"
+                }
+            }
+        },
+        "requestmodel.BeauticianSalonDelete": {
+            "type": "object",
+            "properties": {
+                "salonRandId": {
+                    "type": "string"
+                }
+            }
+        },
+        "requestmodel.BeauticianUpdate": {
+            "type": "object",
+            "required": [
                 "firstName",
                 "firstNameKana",
                 "lastName",
@@ -504,13 +851,13 @@ var doc = `{
                 "phoneNumber"
             ],
             "properties": {
-                "email": {
-                    "type": "string"
-                },
                 "firstName": {
                     "type": "string"
                 },
                 "firstNameKana": {
+                    "type": "string"
+                },
+                "instagramId": {
                     "type": "string"
                 },
                 "lastName": {
@@ -519,13 +866,13 @@ var doc = `{
                 "lastNameKana": {
                     "type": "string"
                 },
+                "lineId": {
+                    "type": "string"
+                },
                 "phoneNumber": {
                     "type": "string"
                 }
             }
-        },
-        "requestmodel.GuestGet": {
-            "type": "object"
         },
         "requestmodel.MenuFind": {
             "type": "object",
@@ -582,8 +929,24 @@ var doc = `{
                 }
             }
         },
-        "requestmodel.ReservationFindByGuest": {
+        "requestmodel.ReservationFindByUser": {
             "type": "object"
+        },
+        "requestmodel.ReservationGetInfo": {
+            "type": "object",
+            "properties": {
+                "randId": {
+                    "type": "string"
+                }
+            }
+        },
+        "requestmodel.ReservationSetHoliday": {
+            "type": "object",
+            "properties": {
+                "holiday": {
+                    "type": "string"
+                }
+            }
         },
         "requestmodel.SalonFind": {
             "type": "object",
@@ -596,6 +959,46 @@ var doc = `{
                 }
             }
         },
+        "requestmodel.SalonFindNotBelongs": {
+            "type": "object"
+        },
+        "requestmodel.UserCreate": {
+            "type": "object",
+            "required": [
+                "email",
+                "firstName",
+                "firstNameKana",
+                "lastName",
+                "lastNameKana",
+                "phoneNumber"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "firstName": {
+                    "type": "string"
+                },
+                "firstNameKana": {
+                    "type": "string"
+                },
+                "isBeautician": {
+                    "type": "boolean"
+                },
+                "lastName": {
+                    "type": "string"
+                },
+                "lastNameKana": {
+                    "type": "string"
+                },
+                "phoneNumber": {
+                    "type": "string"
+                }
+            }
+        },
+        "requestmodel.UserGet": {
+            "type": "object"
+        },
         "resource.Error": {
             "type": "object",
             "properties": {
@@ -607,40 +1010,16 @@ var doc = `{
         "responsemodel.Beautician": {
             "type": "object",
             "properties": {
-                "age": {
-                    "type": "integer"
-                },
                 "comment": {
                     "type": "string"
                 },
                 "createdAt": {
                     "type": "string"
                 },
-                "firstName": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "integer"
-                },
                 "instagramId": {
                     "type": "string"
                 },
-                "lastName": {
-                    "type": "string"
-                },
                 "lineId": {
-                    "type": "string"
-                },
-                "menus": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/responsemodel.BeauticianMenu"
-                    }
-                },
-                "phoneNumber": {
-                    "type": "string"
-                },
-                "randId": {
                     "type": "string"
                 },
                 "updatedAt": {
@@ -651,40 +1030,16 @@ var doc = `{
         "responsemodel.BeauticianCreate": {
             "type": "object",
             "properties": {
-                "age": {
-                    "type": "integer"
-                },
                 "comment": {
                     "type": "string"
                 },
                 "createdAt": {
                     "type": "string"
                 },
-                "firstName": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "integer"
-                },
                 "instagramId": {
                     "type": "string"
                 },
-                "lastName": {
-                    "type": "string"
-                },
                 "lineId": {
-                    "type": "string"
-                },
-                "menus": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/responsemodel.BeauticianMenu"
-                    }
-                },
-                "phoneNumber": {
-                    "type": "string"
-                },
-                "randId": {
                     "type": "string"
                 },
                 "updatedAt": {
@@ -695,10 +1050,10 @@ var doc = `{
         "responsemodel.BeauticianFind": {
             "type": "object",
             "properties": {
-                "beauticians": {
+                "users": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/responsemodel.Beautician"
+                        "$ref": "#/definitions/responsemodel.User"
                     }
                 }
             }
@@ -706,40 +1061,16 @@ var doc = `{
         "responsemodel.BeauticianGet": {
             "type": "object",
             "properties": {
-                "age": {
-                    "type": "integer"
-                },
                 "comment": {
                     "type": "string"
                 },
                 "createdAt": {
                     "type": "string"
                 },
-                "firstName": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "integer"
-                },
                 "instagramId": {
                     "type": "string"
                 },
-                "lastName": {
-                    "type": "string"
-                },
                 "lineId": {
-                    "type": "string"
-                },
-                "menus": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/responsemodel.BeauticianMenu"
-                    }
-                },
-                "phoneNumber": {
-                    "type": "string"
-                },
-                "randId": {
                     "type": "string"
                 },
                 "updatedAt": {
@@ -765,14 +1096,37 @@ var doc = `{
                 "price": {
                     "type": "integer"
                 },
+                "randId": {
+                    "type": "string"
+                },
                 "updatedAt": {
                     "type": "string"
                 }
             }
         },
-        "responsemodel.Guest": {
+        "responsemodel.BeauticianMenuCreate": {
             "type": "object",
             "properties": {
+                "beauticianMenu": {
+                    "$ref": "#/definitions/responsemodel.BeauticianMenu"
+                }
+            }
+        },
+        "responsemodel.BeauticianMyPageGet": {
+            "type": "object",
+            "properties": {
+                "beauticianInfo": {
+                    "$ref": "#/definitions/responsemodel.Beautician"
+                },
+                "beauticianMenus": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/responsemodel.BeauticianMenu"
+                    }
+                },
+                "comment": {
+                    "type": "string"
+                },
                 "createdAt": {
                     "type": "string"
                 },
@@ -785,10 +1139,19 @@ var doc = `{
                 "firstNameKana": {
                     "type": "string"
                 },
+                "instagramId": {
+                    "type": "string"
+                },
+                "isBeautician": {
+                    "type": "boolean"
+                },
                 "lastName": {
                     "type": "string"
                 },
                 "lastNameKana": {
+                    "type": "string"
+                },
+                "lineId": {
                     "type": "string"
                 },
                 "phoneNumber": {
@@ -797,45 +1160,11 @@ var doc = `{
                 "randId": {
                     "type": "string"
                 },
-                "updatedAt": {
-                    "type": "string"
-                }
-            }
-        },
-        "responsemodel.GuestCreate": {
-            "type": "object",
-            "properties": {
-                "guest": {
-                    "$ref": "#/definitions/responsemodel.Guest"
-                }
-            }
-        },
-        "responsemodel.GuestGet": {
-            "type": "object",
-            "properties": {
-                "createdAt": {
-                    "type": "string"
-                },
-                "email": {
-                    "type": "string"
-                },
-                "firstName": {
-                    "type": "string"
-                },
-                "firstNameKana": {
-                    "type": "string"
-                },
-                "lastName": {
-                    "type": "string"
-                },
-                "lastNameKana": {
-                    "type": "string"
-                },
-                "phoneNumber": {
-                    "type": "string"
-                },
-                "randId": {
-                    "type": "string"
+                "salons": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/responsemodel.Salon"
+                    }
                 },
                 "updatedAt": {
                     "type": "string"
@@ -896,17 +1225,20 @@ var doc = `{
                 "date": {
                     "type": "string"
                 },
-                "guestId": {
-                    "type": "integer"
+                "holiday": {
+                    "type": "boolean"
                 },
-                "menuId": {
-                    "type": "integer"
+                "randId": {
+                    "type": "string"
                 },
                 "spaceId": {
                     "type": "integer"
                 },
                 "updatedAt": {
                     "type": "string"
+                },
+                "userId": {
+                    "type": "integer"
                 }
             }
         },
@@ -922,17 +1254,20 @@ var doc = `{
                 "date": {
                     "type": "string"
                 },
-                "guestId": {
-                    "type": "integer"
+                "holiday": {
+                    "type": "boolean"
                 },
-                "menuId": {
-                    "type": "integer"
+                "randId": {
+                    "type": "string"
                 },
                 "spaceId": {
                     "type": "integer"
                 },
                 "updatedAt": {
                     "type": "string"
+                },
+                "userId": {
+                    "type": "integer"
                 }
             }
         },
@@ -958,18 +1293,18 @@ var doc = `{
                 }
             }
         },
-        "responsemodel.ReservationFindByGuest": {
+        "responsemodel.ReservationFindByUser": {
             "type": "object",
             "properties": {
                 "reservations": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/responsemodel.ReservationGetByGuest"
+                        "$ref": "#/definitions/responsemodel.ReservationGetByUser"
                     }
                 }
             }
         },
-        "responsemodel.ReservationGetByGuest": {
+        "responsemodel.ReservationGetByUser": {
             "type": "object",
             "properties": {
                 "beauticianFirstName": {
@@ -980,9 +1315,6 @@ var doc = `{
                 },
                 "date": {
                     "type": "string"
-                },
-                "guestId": {
-                    "type": "integer"
                 },
                 "id": {
                     "type": "integer"
@@ -995,6 +1327,75 @@ var doc = `{
                 },
                 "salonName": {
                     "type": "string"
+                },
+                "userId": {
+                    "type": "integer"
+                }
+            }
+        },
+        "responsemodel.ReservationGetInfo": {
+            "type": "object",
+            "properties": {
+                "reservationInfo": {
+                    "$ref": "#/definitions/responsemodel.ReservationInfo"
+                }
+            }
+        },
+        "responsemodel.ReservationInfo": {
+            "type": "object",
+            "properties": {
+                "createdAt": {
+                    "type": "string"
+                },
+                "date": {
+                    "type": "string"
+                },
+                "menus": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/responsemodel.BeauticianMenu"
+                    }
+                },
+                "randId": {
+                    "type": "string"
+                },
+                "salon": {
+                    "$ref": "#/definitions/responsemodel.Salon"
+                },
+                "updatedAt": {
+                    "type": "string"
+                },
+                "user": {
+                    "$ref": "#/definitions/responsemodel.User"
+                }
+            }
+        },
+        "responsemodel.ReservationSetHoliday": {
+            "type": "object",
+            "properties": {
+                "beauticiaId": {
+                    "type": "integer"
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "date": {
+                    "type": "string"
+                },
+                "holiday": {
+                    "type": "boolean"
+                },
+                "randId": {
+                    "type": "string"
+                },
+                "spaceId": {
+                    "type": "integer"
+                },
+                "updatedAt": {
+                    "type": "string"
+                },
+                "userId": {
+                    "type": "integer"
                 }
             }
         },
@@ -1053,6 +1454,115 @@ var doc = `{
                     "items": {
                         "$ref": "#/definitions/responsemodel.Salon"
                     }
+                }
+            }
+        },
+        "responsemodel.SalonFindNotBelongs": {
+            "type": "object",
+            "properties": {
+                "salons": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/responsemodel.Salon"
+                    }
+                }
+            }
+        },
+        "responsemodel.User": {
+            "type": "object",
+            "properties": {
+                "beauticianInfo": {
+                    "$ref": "#/definitions/responsemodel.Beautician"
+                },
+                "beauticianMenus": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/responsemodel.BeauticianMenu"
+                    }
+                },
+                "createdAt": {
+                    "description": "BeauticianSalons []*Salon          ` + "`" + `json:\"beauticianSalons\"` + "`" + `",
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "firstName": {
+                    "type": "string"
+                },
+                "firstNameKana": {
+                    "type": "string"
+                },
+                "isBeautician": {
+                    "type": "boolean"
+                },
+                "lastName": {
+                    "type": "string"
+                },
+                "lastNameKana": {
+                    "type": "string"
+                },
+                "phoneNumber": {
+                    "type": "string"
+                },
+                "randId": {
+                    "type": "string"
+                },
+                "updatedAt": {
+                    "type": "string"
+                }
+            }
+        },
+        "responsemodel.UserCreate": {
+            "type": "object",
+            "properties": {
+                "user": {
+                    "$ref": "#/definitions/responsemodel.User"
+                }
+            }
+        },
+        "responsemodel.UserGet": {
+            "type": "object",
+            "properties": {
+                "beauticianInfo": {
+                    "$ref": "#/definitions/responsemodel.Beautician"
+                },
+                "beauticianMenus": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/responsemodel.BeauticianMenu"
+                    }
+                },
+                "createdAt": {
+                    "description": "BeauticianSalons []*Salon          ` + "`" + `json:\"beauticianSalons\"` + "`" + `",
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "firstName": {
+                    "type": "string"
+                },
+                "firstNameKana": {
+                    "type": "string"
+                },
+                "isBeautician": {
+                    "type": "boolean"
+                },
+                "lastName": {
+                    "type": "string"
+                },
+                "lastNameKana": {
+                    "type": "string"
+                },
+                "phoneNumber": {
+                    "type": "string"
+                },
+                "randId": {
+                    "type": "string"
+                },
+                "updatedAt": {
+                    "type": "string"
                 }
             }
         }

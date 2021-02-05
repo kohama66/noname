@@ -1,14 +1,14 @@
 import React, { FC } from 'react';
-import { Beautician } from '../../../../../package/interface/Beautician';
 import { Salon } from '../../../../../package/interface/Salon';
+import { User } from '../../../../../package/interface/User';
 import CardDetail from '../CardDetail';
 import "./ChooseCard.scss"
 
 interface props {
   image?: string
   type: "store" | "beautician"
-  content: Salon | Beautician
-  handleSetSelect: (id: string, type: "beautician" | "store", content: Beautician | Salon) => void
+  content: Salon | User
+  handleSetSelect: (id: string, type: "beautician" | "store", content: User | Salon) => void
 }
 
 const ChooseCard: FC<props> = (props) => {

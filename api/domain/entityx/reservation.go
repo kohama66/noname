@@ -37,11 +37,11 @@ func (r *reservation) NewReservationMenu(reservationID int64, menuID int64) *ent
 	}
 }
 
-// ReservationGetByGuest 用構造体
-type ReservationGetByGuest struct {
+// ReservationGetByUser 用構造体
+type ReservationGetByUser struct {
 	ID                  int64                    `boil:"reservation_id" json:"id"`
 	Date                time.Time                `boil:"date" json:"date"`
-	GuestID             int64                    `boil:"guest_id" json:"guest_id"`
+	UserID              int64                    `boil:"user_id" json:"user_id"`
 	SalonName           string                   `boil:"salon_name" json:"salon_name"`
 	BeauticianFirstName string                   `boil:"first_name" json:"beautician_first_name"`
 	BeauticianLatsName  string                   `boil:"last_name" json:"beautician_last_name"`
@@ -50,7 +50,18 @@ type ReservationGetByGuest struct {
 	UpdatedAt           time.Time                `boil:"updated_at" json:"updated_at"`
 }
 
-// ReservationGetByGuest 用構造体
-type ReservationGetByGuestSlice struct {
-	Reservations []*ReservationGetByGuest
+// ReservationGetByUser 用構造体
+type ReservationGetByUserSlice struct {
+	Reservations []*ReservationGetByUser
+}
+
+// ReservationInfo 予約詳細
+type ReservationInfo struct {
+	ID         int64              `boil:"id" json:"id"`
+	RandID     string             `boil:"randId" json:"randId"`
+	Date       time.Time          `boil:"date" json:"date"`
+	Holiday    bool               `boil:"holiday" json:"holiday"`
+	Salon      *entity.Salon      `boil:"salon" json:"salon"`
+	Beautician *entity.Beautician `boil:"beautician" json:"beautician"`
+	User       *entity.User       `boil:"user" json:"user"`
 }

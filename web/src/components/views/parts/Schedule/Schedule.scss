@@ -5,7 +5,7 @@
   color: $blackFontColor;
   font-weight: bold;
   letter-spacing: 0.1em;
-  border-radius: 15px;
+  border-radius: 5px;
   font-size: 14px;
   table {
     tbody {
@@ -26,17 +26,12 @@
         }
         td:not(:nth-of-type(1)) {
           cursor: pointer;
+          font-size: 20px;
+          font-weight: lighter;
         }
         td:not(:nth-of-type(1)):hover {
           background-color: $orangeColor1;
         }
-      }
-      .reserved-square {
-        background-color: $baseColor;
-        pointer-events: none;
-      }
-      .reserved-square:hover {
-        background-color: $baseColor !important;
       }
     }
   }

@@ -8,6 +8,7 @@ import (
 	"github.com/myapp/noname/api/domain/entity"
 	"github.com/myapp/noname/api/domain/repository"
 	"github.com/myapp/noname/api/infrastructure/db"
+	"github.com/volatiletech/sqlboiler/boil"
 	"github.com/volatiletech/sqlboiler/queries/qm"
 )
 
@@ -35,14 +36,14 @@ func (s *salon) GetAll(ctx context.Context) (entity.SalonSlice, error) {
 	).All(ctx, s.Conn)
 }
 
-func (s *salon) FindByBeautician(ctx context.Context, beauticianID int64) (entity.SalonSlice, error) {
-	return entity.Salons(
-		qm.InnerJoin("beautician_salons ON salons.id = beautician_salons.salon_id"),
-		qm.InnerJoin("beauticians ON beauticians.id = beautician_salons.beautician_id"),
-		entity.BeauticianWhere.ID.EQ(beauticianID),
-		entity.SalonWhere.DeletedAt.IsNull(),
-	).All(ctx, s.Conn)
-}
+// func (s *salon) FindByBeautician(ctx context.Context, beauticianID int64) (entity.SalonSlice, error) {
+// 	return entity.Salons(
+// 		qm.InnerJoin("beautician_salons ON salons.id = beautician_salons.salon_id"),
+// 		qm.InnerJoin("beauticians ON beauticians.id = beautician_salons.beautician_id"),
+// 		entity.BeauticianWhere.ID.EQ(beauticianID),
+// 		entity.SalonWhere.DeletedAt.IsNull(),
+// 	).All(ctx, s.Conn)
+// }
 
 func (s *salon) Find(ctx context.Context, beauticianID *int64, date *time.Time) (entity.SalonSlice, error) {
 	var sls entity.SalonSlice
@@ -65,8 +66,8 @@ func (s *salon) Find(ctx context.Context, beauticianID *int64, date *time.Time) 
 	if beauticianID != nil {
 		sl, err := entity.Salons(
 			qm.InnerJoin(fmt.Sprintf("beautician_salons ON beautician_salons.salon_id = salons.id")),
-			qm.InnerJoin(fmt.Sprintf("beauticians ON beauticians.id = beautician_salons.beautician_id")),
-			entity.BeauticianWhere.ID.EQ(*beauticianID),
+			qm.InnerJoin(fmt.Sprintf("users ON users.id = beautician_salons.beautician_id")),
+			entity.UserWhere.ID.EQ(*beauticianID),
 			entity.SalonWhere.DeletedAt.IsNull(),
 		).All(ctx, s.Conn)
 		if err != nil {
@@ -107,4 +108,56 @@ func (s *salon) ExistsByBeauticianWithSalon(ctx context.Context, beauticianID, s
 		entity.BeauticianSalonWhere.SalonID.EQ(salonID),
 		entity.BeauticianSalonWhere.DeletedAt.IsNull(),
 	).Exists(ctx, s.Conn)
+}
+
+// func (s *salon) GetBeauticianSalons(ctx context.Context, beauticianID int64) (entity.SalonSlice, error) {
+// 	bs, err := entity.BeauticianSalons(
+// 		entity.BeauticianSalonWhere.BeauticianID.EQ(beauticianID),
+// 		entity.BeauticianSalonWhere.DeletedAt.IsNull(),
+// 	).All(ctx, s.Conn)
+// 	if err != nil {
+// 		return nil, err
+// 	}
+// 	ids := make([]int64, len(bs))
+// 	for i, v := range bs {
+// 		ids[i] = v.SalonID
+// 	}
+// 	return entity.Salons(
+// 		entity.SalonWhere.ID.IN(ids),
+// 		entity.SalonWhere.DeletedAt.IsNull(),
+// 	).All(ctx, s.Conn)
+// }
+
+func (s *salon) FindByBeauticianID(ctx context.Context, beauticianID int64) (entity.SalonSlice, error) {
+	return entity.Salons(
+		qm.InnerJoin(fmt.Sprintf("%s ON %s.%s = %s.%s", entity.TableNames.BeauticianSalons, entity.TableNames.BeauticianSalons, entity.BeauticianSalonColumns.SalonID, entity.TableNames.Salons, entity.SalonColumns.ID)),
+		entity.BeauticianSalonWhere.BeauticianID.EQ(beauticianID),
+		entity.SalonWhere.DeletedAt.IsNull(),
+		entity.BeauticianSalonWhere.DeletedAt.IsNull(),
+	).All(ctx, s.Conn)
+}
+
+func (s *salon) GetBySpaceID(ctx context.Context, spaceID int64) (*entity.Salon, error) {
+	return entity.Salons(
+		qm.InnerJoin("spaces ON spaces.salon_id = salons.id"),
+		entity.SpaceWhere.ID.EQ(spaceID),
+		entity.SpaceWhere.DeletedAt.IsNull(),
+		entity.SalonWhere.DeletedAt.IsNull(),
+	).One(ctx, s.Conn)
+}
+
+func (s *salon) FindNotBelongs(ctx context.Context, beauticianID int64) (entity.SalonSlice, error) {
+	return entity.Salons(
+		qm.LeftOuterJoin(fmt.Sprintf(`%s ON %v = %v AND %v = %v`, entity.TableNames.BeauticianSalons, entity.BeauticianSalonColumns.SalonID, entity.SalonColumns.ID, entity.BeauticianSalonColumns.BeauticianID, beauticianID)),
+		qm.Where(fmt.Sprintf("%v IS NULL", entity.BeauticianMenuColumns.BeauticianID)),
+		entity.SalonWhere.DeletedAt.IsNull(),
+	).All(ctx, s.Conn)
+}
+
+func (s *salon) CreateBeauticianSalon(ctx context.Context, ent *entity.BeauticianSalon) error {
+	return ent.Insert(ctx, s.Conn, boil.Infer())
+}
+
+func (s *salon) DeleteBeauticianSalon(ctx context.Context, ent *entity.BeauticianSalon) (int64, error) {
+	return ent.Delete(ctx, s.Conn)
 }

@@ -8,15 +8,15 @@ import (
 	"github.com/myapp/noname/api/pkg/context"
 )
 
-func TestNewGuestGet(t *testing.T) {
+func TestNewUserGet(t *testing.T) {
 	req, _ := http.NewRequest(http.MethodGet, "http://example.com", nil)
 	ctx := req.Context()
 	req = req.WithContext(context.WithAuthID(ctx, "test_token"))
-	r := request.NewGuestGet(req)
+	r := request.NewUserGet(req)
 	if r == nil {
-		t.Errorf("TestNewGuestGet is nil")
+		t.Errorf("TestNewUserGet is nil")
 	}
 	if r.AuthID == "" {
-		t.Errorf("TestNewGuestGet authID is nil")
+		t.Errorf("TestNewUserGet authID is nil")
 	}
 }

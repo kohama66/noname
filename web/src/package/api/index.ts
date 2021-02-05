@@ -1,13 +1,17 @@
 import Axios, { AxiosPromise } from 'axios';
-import { beauticianResponse, beauticiansResponse } from '../interface/response/Beautician';
-import { menuDetailsResponse, menusResponse } from '../interface/response/Menu';
-import { reservationsResponse, reservationResponse, guestMypageReservationsResponse } from '../interface/response/Reservation'
+import { beauticianMenuResponse, menuDetailsResponse, menusResponse } from '../interface/response/Menu';
+import { reservationsResponse, reservationResponse, guestMypageReservationsResponse, reservationInfoResponse } from '../interface/response/Reservation'
 import { salonsResponse } from '../interface/response/Salon';
 import qs from "qs"
-import { guestResponse } from '../interface/response/Guest';
-import { guestCreateRequest } from '../interface/request/Guest';
-import {getAuthToken} from '../../utils/function/Cookie'
+import { userResponse, usersResponse } from '../interface/response/User';
+import { userCreateRequest } from '../interface/request/User';
+import { getAuthToken } from '../../utils/function/Cookie'
 import { apiurl } from '../../config/config';
+import { beauticianCreateRequest, beauticianUpdateRequest } from '../interface/request/Beautician';
+import { setHolidayRequest } from '../interface/request/Reservation';
+import { beauticianMenuRequest } from '../interface/request/Menu';
+import { postBeauticianSalonRequest } from '../interface/request/Salon';
+import { BeauticianMyPage } from '../interface/response/Beautician';
 
 const axios = Axios.create({
   baseURL: apiurl,
@@ -32,7 +36,7 @@ const requestAwait = async <T>(request: Promise<AxiosPromise<T>>): Promise<T> =>
     const response = await request
     return response.data
   } catch (error) {
-    // console.log(error.response)
+    console.log(error)
     let errorTetx: string
     switch (error.message) {
       case "Request failed with status code 500":
@@ -54,16 +58,24 @@ const post = <T>(url: string, data?: object): Promise<T> => {
   return requestAwait(axios.post(url, data))
 }
 
-export const findSalons = async (id?: string): Promise<salonsResponse> => {
+const put = <T>(url: string, data?: object): Promise<T> => {
+  return requestAwait(axios.put(url, data))
+}
+
+const deleteAxios = <T>(url: string, data?: object): Promise<T> => {
+  return requestAwait(axios.delete(url, data))
+}
+
+export const findSalons = async (beauticianRandId?: string): Promise<salonsResponse> => {
   return get<salonsResponse>("/api/v1/salon/find", {
     params: {
-      beauticianRandId: id
+      beauticianRandId: beauticianRandId
     }
   })
 }
 
-export const findBeauticians = async (date?: string, menuIDs?: string[], salonRandID?: string): Promise<beauticiansResponse> => {
-  return get<beauticiansResponse>("/api/v1/beautician/find", {
+export const findBeauticians = async (date?: string, menuIDs?: string[], salonRandID?: string): Promise<usersResponse> => {
+  return get<usersResponse>("/api/v1/beautician/find", {
     params: {
       date: date,
       menuRandIds: menuIDs,
@@ -90,10 +102,6 @@ export const findReservation = async (beauticianRandID?: string): Promise<reserv
   })
 }
 
-export const getBeautician = async (randID: string): Promise<beauticianResponse> => {
-  return get<beauticianResponse>(`api/v1/beautician/${randID}`)
-}
-
 export const findMenuDetails = async (beauticianID: string, menuIDs?: string[]): Promise<menuDetailsResponse> => {
   return get<menuDetailsResponse>(`api/v1/menu/find/${beauticianID}`, {
     params: {
@@ -113,14 +121,58 @@ export const createReservation = async (beauticianRandID: string, salonRandID: s
   })
 }
 
-export const getGuest = async (): Promise<guestResponse> => {
-  return get<guestResponse>(`api/v1/guest`)
+export const getMe = async (): Promise<userResponse> => {
+  return get<userResponse>(`api/v1/user`)
 }
 
-export const createGuest = async (guest: guestCreateRequest): Promise<guestResponse> => {
-  return post<guestResponse>(`api/v1/guest`, guest)
+export const createUser = async (guest: userCreateRequest): Promise<userResponse> => {
+  return post<userResponse>(`api/v1/user`, guest)
 }
 
 export const getGuestMypage = async (): Promise<guestMypageReservationsResponse> => {
-  return get<guestMypageReservationsResponse>(`api/v1/reservation/guest`)
+  return get<guestMypageReservationsResponse>(`api/v1/reservation/user`)
+}
+
+export const createBeautician = async (request: beauticianCreateRequest): Promise<userResponse> => {
+  return post<userResponse>(`api/v1/beautician`, request)
+}
+
+export const updateBeautician = async (request: beauticianUpdateRequest) => {
+  return put(`api/v1/beautician`, request)
+}
+
+export const getReservationBeautician = async (): Promise<reservationsResponse> => {
+  return get<reservationsResponse>(`api/v1/reservation/beautician`)
+}
+
+export const getReservationInfo = async (randID: string): Promise<reservationInfoResponse> => {
+  return get<reservationInfoResponse>(`api/v1/reservation/${randID}`)
+}
+
+export const setHoliday = async (req: setHolidayRequest): Promise<reservationResponse> => {
+  return post<reservationResponse>(`api/v1/reservation/beautician`, req)
+}
+
+export const postBeauticianMenu = async (req: beauticianMenuRequest): Promise<beauticianMenuResponse> => {
+  return post<beauticianMenuResponse>(`api/v1/menu/beautician`, req)
+}
+
+export const findSalonNoBelongs = async (): Promise<salonsResponse> => {
+  return get<salonsResponse>(`api/v1/salon/belongs`)
+}
+
+export const postBeauticianSalon = async (req: postBeauticianSalonRequest): Promise<undefined> => {
+  return post<undefined>(`api/v1/salon/beautician`, req)
+}
+
+export const deleteBeauticianMenu = async (randID: string): Promise<undefined> => {
+  return deleteAxios<undefined>(`/api/v1/menu/beautician/${randID}`)
+}
+
+export const deleteBeauticianSalon = async (randID: string): Promise<void> => {
+  return deleteAxios<void>(`/api/v1/salon/beautician/${randID}`)
+}
+
+export const getBeauticianMypage = async (): Promise<BeauticianMyPage> => {
+  return get<BeauticianMyPage>(`/api/v1/beautician/mypage`)
 }

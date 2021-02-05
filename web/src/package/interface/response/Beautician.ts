@@ -1,9 +1,11 @@
-import { Beautician } from "../Beautician";
+import { BeauticianInfo } from "../Beautician";
+import { BeauticianMenu } from "../Menu";
+import { Salon } from "../Salon";
+import { User } from "../User";
 
-export interface beauticianResponse {
-  beautician: Beautician
-}
-
-export interface beauticiansResponse {
-  beauticians: Beautician[]
+export interface BeauticianMyPage {
+  user: User
+  beautician: BeauticianInfo
+  salons: Salon[]
+  beauticianMenus: BeauticianMenu[]
 }

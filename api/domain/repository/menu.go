@@ -14,4 +14,8 @@ type Menu interface {
 	FindByRandID(ctx context.Context, randIDs []string) (entity.MenuSlice, error)
 	FindByBeauticianWithMenuRandIDs(ctx context.Context, beauticianID int64, menuIDs []string) (entity.BeauticianMenuSlice, error)
 	ExistsByBeauticianIDWithMenuIDs(ctx context.Context, beauticianID int64, menuIDs []int64) (bool, error)
+	GetBeauticianMenusByReservationID(ctx context.Context, reservationID int64) (entity.BeauticianMenuSlice, error)
+	CreateBeauticianMenu(ctx context.Context, ent *entity.BeauticianMenu) error
+	DeleteBeauticianMenu(ctx context.Context, ent *entity.BeauticianMenu) (int64, error)
+	GetBeauticianMenuByRandID(ctx context.Context, randID string) (*entity.BeauticianMenu, error)
 }

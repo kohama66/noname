@@ -5,7 +5,7 @@
   width: 240px;
   height: 320px;
   text-decoration: none;
-  border-radius: 15px;
+  border-radius: 5px;
   margin: 25px 0;
   background-color: #fff;
   overflow: hidden;
@@ -22,7 +22,7 @@
     img {
       width: 72%;
       background-color: $orangeColor1;
-      border-radius: 15px;
+      border-radius: 5px;
       margin-bottom: 15px;
       box-sizing: border-box;
       padding: 5%;
@@ -43,7 +43,7 @@
       color: #fff;
       background-color: rgb(75, 75, 75);
       padding: 10px 20px;
-      border-radius: 15px;
+      border-radius: 5px;
     }
   }
 }
@@ -80,7 +80,7 @@
       .checked-choose-plate {
         font-size: 12px;
         padding: 5px 10px;
-        border-radius: 15px;
+        border-radius: 5px;
       }
     }
   }
