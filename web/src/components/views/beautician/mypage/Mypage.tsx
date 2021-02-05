@@ -19,7 +19,6 @@ const Mypage: FC = () => {
   const [modalText, setModalText] = useState<string>("休日に設定しますか?")
   const [isModal, setIsModal] = useState<boolean>(false)
   const [clickDate, setClickDate] = useState<Date>()
-  const { user, setUser } = useContext(UserContext)
   const [mypage, setMypage] = useState<BeauticianMyPage>()
   const history = useHistory()
 
@@ -67,16 +66,20 @@ const Mypage: FC = () => {
           await deleteBeauticianSalon(randID)
           break
       }
-      const response = await getMe()
-      setUser(response.user)
+      const response = await getBeauticianMypage()
+      setMypage(response)
     } catch (error) {
       console.log(error.message)
     }
   }
 
   const handleGetReserved = async () => {
-    const response = await getReservationBeautician()
-    setReserved(response.reservations)
+    try {
+      const response = await getReservationBeautician()
+      setReserved(response.reservations)
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   useEffect(() => {
