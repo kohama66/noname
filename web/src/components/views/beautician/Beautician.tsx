@@ -5,6 +5,7 @@ import {
   Route,
   useRouteMatch,
 } from "react-router-dom";
+import Auth from '../../container/auth/Auth';
 import BtAuth from '../../container/btAuth/BtAuth';
 import ChangeProfile from './changeProfile/ChangeProfile';
 import Mypage from './mypage/Mypage';
@@ -18,9 +19,11 @@ const Beautician: FC = () => {
       <Switch>
         <Route path={match.path + "/signup"} component={SignUp} />
         <BtAuth >
-          <Route path={match.path + "/mypage"} component={Mypage} />
-          <Route path={match.path + "/changeprofile"} component={ChangeProfile} />
-          <Route path={match.path + "/reservationverify"} component={ReservationVerify} />
+          <Auth>
+            <Route path={match.path + "/mypage"} component={Mypage} />
+            <Route path={match.path + "/changeprofile"} component={ChangeProfile} />
+            <Route path={match.path + "/reservationverify"} component={ReservationVerify} />
+          </Auth>
         </BtAuth>
       </ Switch>
     </div>

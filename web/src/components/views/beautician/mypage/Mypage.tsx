@@ -3,7 +3,6 @@ import { useHistory } from 'react-router-dom';
 import { deleteBeauticianMenu, deleteBeauticianSalon, getBeauticianMypage, getMe, getReservationBeautician, setHoliday } from '../../../../package/api';
 import { Reservation } from '../../../../package/interface/Reservation';
 import { BeauticianMyPage } from '../../../../package/interface/response/Beautician';
-import { UserContext } from '../../../../utils/context/UserContext';
 import { dateToString } from '../../../../utils/function/GetDate';
 import Title from '../../guest/parts/Title/Title';
 import Accordion from '../../parts/accordion/Accordion';
