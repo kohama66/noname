@@ -36,3 +36,17 @@ func (b *BeauticianSalonDelete) NewBeauticianSalon(beauticianID, salonID int64) 
 		SalonID:      salonID,
 	}
 }
+
+// SalonCreate 美容院作成
+type SalonCreate struct {
+	Name         string    `json:"name" validate:"required"`
+	PhoneNumber  string    `json:"phoneNumber" validate:"required len=11"`
+	PostalCode   string    `json:"postalCode" validate:"required len=7 numeric"`
+	Prefecture   string    `json:"prefecture" validate:"required"`
+	City         string    `json:"city" validate:"required"`
+	Town         string    `json:"town" validate:"required"`
+	AddressCode  string    `json:"addressCode" validate:"required"`
+	AddressOther string    `json:"addressOther" validate:"required"`
+	OpenHour     time.Time `json:"openHour" validate:"required"`
+	CloseHour    time.Time `json:"closeHour" validate:"required"`
+}
