@@ -1,4 +1,5 @@
 import React, { FC, useContext, useEffect } from 'react';
+import "./GuestHome.scss";
 import { useHistory } from 'react-router-dom';
 import { ReservedContext } from '../../../../utils/context/ReservadContext ';
 import ChoosePlate from '../parts/ChoosePlate';

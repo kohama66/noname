@@ -1,3 +1,22 @@
+CREATE TABLE `users` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `auth_id` varchar(255) NOT NULL,
+  `rand_id` varchar(255) NOT NULL,
+  `first_name` varchar(255) NOT NULL,
+  `last_name` varchar(255) NOT NULL,
+  `first_name_kana` varchar(255) NOT NULL,
+  `last_name_kana` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `is_beautician` tinyint(1) NOT NULL,
+  `phone_number` varchar(11) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `deleted_at` datetime DEFAULT NULL,
+  UNIQUE KEY `rand_id` (`rand_id`),
+  UNIQUE KEY `auth_id` (`auth_id`),
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 CREATE TABLE `beauticians` (
   `user_id` bigint NOT NULL,
   `line_id` varchar(255),
@@ -27,25 +46,6 @@ CREATE TABLE `salons` (
   `updated_at` datetime NOT NULL,
   `deleted_at` datetime DEFAULT NULL,
   UNIQUE KEY `rand_id` (`rand_id`),
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-CREATE TABLE `users` (
-  `id` bigint NOT NULL AUTO_INCREMENT,
-  `auth_id` varchar(255) NOT NULL,
-  `rand_id` varchar(255) NOT NULL,
-  `first_name` varchar(255) NOT NULL,
-  `last_name` varchar(255) NOT NULL,
-  `first_name_kana` varchar(255) NOT NULL,
-  `last_name_kana` varchar(255) NOT NULL,
-  `email` varchar(255) NOT NULL,
-  `is_beautician` tinyint(1) NOT NULL,
-  `phone_number` varchar(11) NOT NULL,
-  `created_at` datetime NOT NULL,
-  `updated_at` datetime NOT NULL,
-  `deleted_at` datetime DEFAULT NULL,
-  UNIQUE KEY `rand_id` (`rand_id`),
-  UNIQUE KEY `auth_id` (`auth_id`),
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
