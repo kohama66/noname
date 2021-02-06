@@ -161,3 +161,7 @@ func (s *salon) CreateBeauticianSalon(ctx context.Context, ent *entity.Beauticia
 func (s *salon) DeleteBeauticianSalon(ctx context.Context, ent *entity.BeauticianSalon) (int64, error) {
 	return ent.Delete(ctx, s.Conn)
 }
+
+func (s *salon) Create(ctx context.Context, ent *entity.Salon) error {
+	return ent.Insert(ctx, s.Conn, boil.Infer())
+}

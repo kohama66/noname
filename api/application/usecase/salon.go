@@ -9,6 +9,7 @@ import (
 	"github.com/myapp/noname/api/domain/entityx"
 	"github.com/myapp/noname/api/domain/repository"
 	"github.com/myapp/noname/api/infrastructure/response"
+	"github.com/rs/xid"
 )
 
 // Salon DIInterface
@@ -17,6 +18,7 @@ type Salon interface {
 	FindNotBelongs(ctx context.Context, r *requestmodel.SalonFindNotBelongs) (*responsemodel.SalonFindNotBelongs, error)
 	CreateToBeautician(ctx context.Context, r *requestmodel.BeauticianSalonCreata) error
 	DeleteToBeautician(ctx context.Context, r *requestmodel.BeauticianSalonDelete) error
+	Create(ctx context.Context, r *requestmodel.SalonCreate) (*responsemodel.SalonCreate, error)
 }
 
 type salon struct {
@@ -107,4 +109,12 @@ func (s *salon) DeleteToBeautician(ctx context.Context, r *requestmodel.Beautici
 		return err
 	}
 	return nil
+}
+
+func (s *salon) Create(ctx context.Context, r *requestmodel.SalonCreate) (*responsemodel.SalonCreate, error) {
+	sa := r.NewSalon(xid.New().String())
+	if err := s.salonRepository.Create(ctx, sa); err != nil {
+		return nil, err
+	}
+	return s.salonResponse.NewSalonCreate(sa), nil
 }

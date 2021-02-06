@@ -9,6 +9,7 @@ import (
 type Salon interface {
 	NewSalonFind(ents []*entity.Salon) *responsemodel.SalonFind
 	NewSalonFindNotBelongs(ents []*entity.Salon) *responsemodel.SalonFindNotBelongs
+	NewSalonCreate(ent *entity.Salon) *responsemodel.SalonCreate
 }
 
 type salon struct{}
@@ -65,5 +66,11 @@ func (s *salon) NewSalonFindNotBelongs(ents []*entity.Salon) *responsemodel.Salo
 	}
 	return &responsemodel.SalonFindNotBelongs{
 		Salons: sls,
+	}
+}
+
+func (s *salon) NewSalonCreate(ent *entity.Salon) *responsemodel.SalonCreate {
+	return &responsemodel.SalonCreate{
+		Salon: NewSalonResponseModel(ent),
 	}
 }
