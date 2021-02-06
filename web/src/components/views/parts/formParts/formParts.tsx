@@ -4,7 +4,7 @@ import './FormParts.scss';
 import Select from './Select';
 
 interface props {
-  type: "text" | "email" | "password" | "submit" | "select"
+  type: "text" | "email" | "password" | "submit" | "select" | "time"
   value: string
   setState?: React.Dispatch<React.SetStateAction<string>>
   required?: true
