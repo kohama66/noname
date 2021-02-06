@@ -9,6 +9,7 @@ import {
 import Header from './views/parts/header';
 import Login from './views/login/Login';
 import Reserved from './views/reserved/Reserved';
+import Salon from './views/salon/Salon';
 
 const App: FC = () => {
   return (
@@ -23,6 +24,7 @@ const App: FC = () => {
               <Route path="/guest" component={Guest} />
               <Route path="/login" component={Login} />
               <Route path="/reserved" component={Reserved} />
+              <Route path="/salon" component={Salon} />
             </Switch>
           </Router>
         </section>
