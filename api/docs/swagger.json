@@ -532,6 +532,37 @@
                 }
             }
         },
+        "/api/v1/salon": {
+            "post": {
+                "description": "美容院を作成します",
+                "consumes": [
+                    "application/json"
+                ],
+                "summary": "美容院作成",
+                "parameters": [
+                    {
+                        "description": "Request body",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/requestmodel.SalonCreate"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    },
+                    "500": {
+                        "description": "Something went wrong",
+                        "schema": {
+                            "$ref": "#/definitions/resource.Error"
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/salon/beautician": {
             "post": {
                 "description": "美容師が仕事可能な美容院を一つ追加します",
@@ -924,6 +955,51 @@
             "type": "object",
             "properties": {
                 "holiday": {
+                    "type": "string"
+                }
+            }
+        },
+        "requestmodel.SalonCreate": {
+            "type": "object",
+            "required": [
+                "addressCode",
+                "addressOther",
+                "city",
+                "closingHours",
+                "name",
+                "openingHours",
+                "prefectures",
+                "town"
+            ],
+            "properties": {
+                "addressCode": {
+                    "type": "string"
+                },
+                "addressOther": {
+                    "type": "string"
+                },
+                "city": {
+                    "type": "string"
+                },
+                "closingHours": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "openingHours": {
+                    "type": "string"
+                },
+                "phoneNumber": {
+                    "type": "string"
+                },
+                "postalCode": {
+                    "type": "string"
+                },
+                "prefectures": {
+                    "type": "string"
+                },
+                "town": {
                     "type": "string"
                 }
             }

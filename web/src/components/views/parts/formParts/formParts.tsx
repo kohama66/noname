@@ -22,7 +22,7 @@ const FormParts: FC<props> = (props) => {
       {(() => {
         if (props.type === "select") {
           // return <Select type="menu" setState={props.setState} value={props.value} />
-        } else return <Input type={props.type} value={props.value} required={true} setState={props.setState} disabled={props.disabled}
+        } else return <Input type={props.type} value={props.value} required={props.required} setState={props.setState} disabled={props.disabled}
           placeHolder={props.placeHolder} maxLength={props.maxLength} minLength={props.minLength} />
       })()}
     </span>
