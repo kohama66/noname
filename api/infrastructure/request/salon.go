@@ -50,6 +50,7 @@ func NewBeauticianSalonDelete(req *http.Request) *requestmodel.BeauticianSalonDe
 // NewSalonCreate 美容院作成
 func NewSalonCreate(req *http.Request) (*requestmodel.SalonCreate, error) {
 	r := &requestmodel.SalonCreate{}
+	r.AuthID = context.AuthID(req.Context())
 	if err := json.NewDecoder(req.Body).Decode(r); err != nil {
 		return nil, err
 	}

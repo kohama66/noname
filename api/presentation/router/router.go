@@ -72,12 +72,12 @@ func (r *Router) Routes() {
 			r.Group(func(r chi.Router) {
 				r.Route("/salon", func(r chi.Router) {
 					r.Get("/find", salonController.Find)
-					r.Post("/", salonController.Create)
 					r.Group(func(r chi.Router) {
 						r.Use(middleware.AuthAPI)
 						r.Get("/belongs", salonController.FindNotBelongs)
 						r.Post("/beautician", salonController.CreateBeauticianSalon)
 						r.Delete("/beautician/{randID}", salonController.DeleteBeauticianSalon)
+						r.Post("/", salonController.Create)
 					})
 				})
 			})

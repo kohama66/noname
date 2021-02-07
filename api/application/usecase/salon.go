@@ -112,8 +112,15 @@ func (s *salon) DeleteToBeautician(ctx context.Context, r *requestmodel.Beautici
 }
 
 func (s *salon) Create(ctx context.Context, r *requestmodel.SalonCreate) (*responsemodel.SalonCreate, error) {
+	me, err := s.userRepository.GetByAuthID(ctx, r.AuthID)
+	if err != nil {
+		return nil, err
+	}
 	sa := r.NewSalon(xid.New().String())
 	if err := s.salonRepository.Create(ctx, sa); err != nil {
+		return nil, err
+	}
+	if err := s.salonRepository.CreateUserSalon(ctx, entityx.NewUserSalons(sa.ID, me.ID, entityx.UserSalonRoles.Admin.String())); err != nil {
 		return nil, err
 	}
 	return s.salonResponse.NewSalonCreate(sa), nil

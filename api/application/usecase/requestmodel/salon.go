@@ -39,6 +39,7 @@ func (b *BeauticianSalonDelete) NewBeauticianSalon(beauticianID, salonID int64) 
 
 // SalonCreate 美容院作成
 type SalonCreate struct {
+	AuthID       string `json:"-"`
 	Name         string `json:"name" validate:"required"`
 	PhoneNumber  string `json:"phoneNumber" validate:"required,len=11"`
 	PostalCode   string `json:"postalCode" validate:"required,len=7,numeric"`
