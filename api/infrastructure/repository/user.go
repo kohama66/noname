@@ -2,6 +2,7 @@ package repository
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/myapp/noname/api/domain/entity"
 	"github.com/myapp/noname/api/domain/repository"
@@ -46,8 +47,8 @@ func (u *user) GetByRandID(ctx context.Context, randID string) (*entity.User, er
 
 func (u *user) FindBySalonID(ctx context.Context, salonID int64) (entity.UserSlice, error) {
 	return entity.Users(
-		qm.InnerJoin("%s ON %s.%s = %s.%s", entity.TableNames.Beauticians, entity.TableNames.Beauticians, entity.BeauticianColumns.UserID, entity.TableNames.Users, entity.UserColumns.ID),
-		qm.InnerJoin("%s ON %s.%s = %s.%s", entity.TableNames.BeauticianSalons, entity.TableNames.BeauticianSalons, entity.BeauticianSalonColumns.BeauticianID, entity.TableNames.Beauticians, entity.BeauticianColumns.UserID),
+		qm.InnerJoin(fmt.Sprintf("%s ON %s.%v = %s.%v", entity.TableNames.Beauticians, entity.TableNames.Beauticians, entity.BeauticianColumns.UserID, entity.TableNames.Users, entity.UserColumns.ID)),
+		qm.InnerJoin(fmt.Sprintf("%s ON %s.%v = %s.%v", entity.TableNames.BeauticianSalons, entity.TableNames.BeauticianSalons, entity.BeauticianSalonColumns.BeauticianID, entity.TableNames.Beauticians, entity.BeauticianColumns.UserID)),
 		entity.BeauticianSalonWhere.SalonID.EQ(salonID),
 		entity.UserWhere.DeletedAt.IsNull(),
 		entity.BeauticianWhere.DeletedAt.IsNull(),

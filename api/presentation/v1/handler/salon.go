@@ -152,7 +152,7 @@ func (s salon) Create(w http.ResponseWriter, r *http.Request) {
 // @Param data body requestmodel.SalonMyPageGet true "Request body"
 // @Success 200 {object} responsemodel.SalonMyPageGet
 // @Failure 500 {object} resource.Error "Something went wrong"
-// @Router /api/v1/salon/find [get]
+// @Router /api/v1/salon/mypage/{randID} [get]
 func (s salon) GetMyPage(w http.ResponseWriter, r *http.Request) {
 	req := request.NewSalonMyPageGet(r)
 	res, err := s.salonUsecase.GetMyPage(r.Context(), req)

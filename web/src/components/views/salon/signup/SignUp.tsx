@@ -41,7 +41,7 @@ const SignUp: FC = () => {
       <Title title="SIGNUP" text="美容院登録" />
       <form onSubmit={handleSubmit}>
         <FormParts type="text" value={salonName} setState={setSalonName} required={true} label="美容室名" />
-        <FormParts type="text" value={postalCode} setState={setPostalCode} required={true} label="郵便番号" placeHolder="ハイフン無しで入力して下さい" maxLength={7} minLength={7} />
+        <FormParts type="text" value={postalCode} setState={setPostalCode} required={true} label="郵便番号" placeHolder="例)158-0001" maxLength={8} minLength={8} />
         <FormParts type="text" value={prefectures} setState={setPrefectures} required={true} label="都道府県" />
         <FormParts type="text" value={city} setState={setCity} required={true} label="市区" />
         <FormParts type="text" value={town} setState={setTown} required={true} label="町村" />

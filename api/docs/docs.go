@@ -717,6 +717,42 @@ var doc = `{
                 }
             }
         },
+        "/api/v1/salon/mypage/{randID}": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "美容院マイページ取得",
+                "parameters": [
+                    {
+                        "description": "Request body",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/requestmodel.SalonMyPageGet"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/responsemodel.SalonMyPageGet"
+                        }
+                    },
+                    "500": {
+                        "description": "Something went wrong",
+                        "schema": {
+                            "$ref": "#/definitions/resource.Error"
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/user": {
             "get": {
                 "consumes": [
@@ -983,11 +1019,12 @@ var doc = `{
             "type": "object",
             "required": [
                 "addressCode",
-                "addressOther",
                 "city",
                 "closingHours",
                 "name",
                 "openingHours",
+                "phoneNumber",
+                "postalCode",
                 "prefectures",
                 "town"
             ],
@@ -1037,6 +1074,14 @@ var doc = `{
         },
         "requestmodel.SalonFindNotBelongs": {
             "type": "object"
+        },
+        "requestmodel.SalonMyPageGet": {
+            "type": "object",
+            "properties": {
+                "randId": {
+                    "type": "string"
+                }
+            }
         },
         "requestmodel.UserCreate": {
             "type": "object",
@@ -1540,6 +1585,65 @@ var doc = `{
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/responsemodel.Salon"
+                    }
+                }
+            }
+        },
+        "responsemodel.SalonMyPageGet": {
+            "type": "object",
+            "properties": {
+                "addressCode": {
+                    "type": "string"
+                },
+                "addressOther": {
+                    "type": "string"
+                },
+                "city": {
+                    "type": "string"
+                },
+                "closingHours": {
+                    "type": "string"
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "openingHours": {
+                    "type": "string"
+                },
+                "phoneNumber": {
+                    "type": "string"
+                },
+                "postalCode": {
+                    "type": "string"
+                },
+                "prefectures": {
+                    "type": "string"
+                },
+                "randId": {
+                    "type": "string"
+                },
+                "reservations": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/responsemodel.Reservation"
+                    }
+                },
+                "town": {
+                    "type": "string"
+                },
+                "updatedAt": {
+                    "type": "string"
+                },
+                "users": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/responsemodel.User"
                     }
                 }
             }

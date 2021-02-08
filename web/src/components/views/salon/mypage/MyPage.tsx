@@ -1,11 +1,25 @@
-import React, { FC } from 'react'
-import { Reservation } from '../../../../package/interface/Reservation'
+import React, { FC, useEffect, useState } from 'react'
+import { getSalonMypage } from '../../../../package/api'
+import { salonMyPage } from '../../../../package/interface/response/Salon'
 import Accordion from '../../parts/accordion/Accordion'
 import Schedule from '../../parts/Schedule/Schedule'
 import "./MyPage.scss"
 
 const MyPage: FC = () => {
-  const ttt: Reservation[] = []
+  const [mypage, setMypage] = useState<salonMyPage>()
+
+  useEffect(() => {
+    const handleGetMyPage = async () => {
+      try {
+        const response = await getSalonMypage("1")
+        setMypage(response)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    handleGetMyPage()
+  }, [])
+
   return (
     <div id="mypage">
       <div className="contents">
@@ -14,36 +28,39 @@ const MyPage: FC = () => {
         </figure>
         <div className="profile">
           <div>
-            <h1>TOKYO SALON</h1>
+            <h1>{mypage?.salon.name}</h1>
             <span>
               <h2>PHONE</h2>
-              <p>09012341234</p>
+              <p>{mypage?.salon.phoneNumber}</p>
+            </span>
+            <span>
+              <h2>POSTALCODE</h2>
+              <p>{mypage?.salon.postalCode}</p>
             </span>
             <span>
               <h2>ADDRESS</h2>
-              <p>東京都渋谷区新町15</p>
+              <p>{mypage ? `${mypage?.salon.prefectures}${mypage?.salon.city}${mypage?.salon.town}${mypage?.salon.addressCode}${mypage?.salon.addressOther}` : ""}</p>
             </span>
             <span>
               <h2>OPEN</h2>
-              <p>09:00</p>
+              <p>{mypage?.salon.openingHours.slice(0, -3)}</p>
             </span>
             <span>
               <h2>CLOSE</h2>
-              <p>21:00</p>
+              <p>{mypage?.salon.closingHours.slice(0, -3)}</p>
             </span>
           </div>
           <button>変更</button>
         </div>
         <div className="beauticians">
-          <Accordion buttonText="STYLIST ▼">
+          <Accordion buttonText="STYLIST LIST▼">
             <ul>
-              <li>山田 太郎</li>
-              <li>田中 真也</li>
+              {mypage?.users.map(user => <li>{user.lastName + " " + user.firstName}</li>)}
             </ul>
           </Accordion>
         </div>
         <div className="reservation">
-          <Schedule reservations={ttt} />
+          <Schedule reservations={mypage ? mypage.reservations : []} />
         </div>
       </div>
     </div>

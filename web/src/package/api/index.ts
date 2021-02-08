@@ -1,7 +1,7 @@
 import Axios, { AxiosPromise } from 'axios';
 import { beauticianMenuResponse, menuDetailsResponse, menusResponse } from '../interface/response/Menu';
 import { reservationsResponse, reservationResponse, guestMypageReservationsResponse, reservationInfoResponse } from '../interface/response/Reservation'
-import { salonResponse, salonsResponse } from '../interface/response/Salon';
+import { salonMyPage, salonResponse, salonsResponse } from '../interface/response/Salon';
 import qs from "qs"
 import { userResponse, usersResponse } from '../interface/response/User';
 import { userCreateRequest } from '../interface/request/User';
@@ -179,4 +179,8 @@ export const getBeauticianMypage = async (): Promise<BeauticianMyPage> => {
 
 export const createSalon = async (req: createSalonRequest): Promise<salonResponse> => {
   return post<salonResponse>(`api/v1/salon`, req)
+}
+
+export const getSalonMypage = async (randID: string): Promise<salonMyPage> => {
+  return get<salonMyPage>(`/api/v1/salon/mypage/${randID}`)
 }

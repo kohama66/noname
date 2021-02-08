@@ -141,8 +141,8 @@ func (r *reservation) ExistsByDate(ctx context.Context, date time.Time) (bool, e
 
 func (r *reservation) FindBySalonID(ctx context.Context, salonID int64) (entity.ReservationSlice, error) {
 	return entity.Reservations(
-		qm.InnerJoin("%s ON %s.%s = %s.%s", entity.TableNames.Spaces, entity.TableNames.Spaces, entity.SpaceColumns.SalonID, entity.TableNames.Reservations, entity.ReservationColumns.ID),
-		qm.InnerJoin("%s ON %s.%s = %s.%s", entity.TableNames.Salons, entity.TableNames.Salons, entity.SalonColumns.ID, entity.TableNames.Spaces, entity.SpaceColumns.SalonID),
+		qm.InnerJoin(fmt.Sprintf("%s ON %s.%v = %s.%v", entity.TableNames.Spaces, entity.TableNames.Spaces, entity.SpaceColumns.ID, entity.TableNames.Reservations, entity.ReservationColumns.SpaceID)),
+		qm.InnerJoin(fmt.Sprintf("%s ON %s.%v = %s.%v", entity.TableNames.Salons, entity.TableNames.Salons, entity.SalonColumns.ID, entity.TableNames.Spaces, entity.SpaceColumns.SalonID)),
 		entity.SalonWhere.ID.EQ(salonID),
 		entity.ReservationWhere.DeletedAt.IsNull(),
 	).All(ctx, r.Conn)
