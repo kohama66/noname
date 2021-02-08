@@ -19,12 +19,14 @@ type Salon interface {
 	CreateToBeautician(ctx context.Context, r *requestmodel.BeauticianSalonCreata) error
 	DeleteToBeautician(ctx context.Context, r *requestmodel.BeauticianSalonDelete) error
 	Create(ctx context.Context, r *requestmodel.SalonCreate) (*responsemodel.SalonCreate, error)
+	GetMyPage(ctx context.Context, r *requestmodel.SalonMyPageGet) (*responsemodel.SalonMyPageGet, error)
 }
 
 type salon struct {
-	salonRepository repository.Salon
-	salonResponse   response.Salon
-	userRepository  repository.User
+	salonRepository       repository.Salon
+	salonResponse         response.Salon
+	userRepository        repository.User
+	reservationRepository repository.Reservation
 }
 
 // NewSalon DI初期化関数
@@ -32,11 +34,13 @@ func NewSalon(
 	salonRepository repository.Salon,
 	salonResponse response.Salon,
 	userRepository repository.User,
+	reservationRepository repository.Reservation,
 ) Salon {
 	return &salon{
-		salonRepository: salonRepository,
-		salonResponse:   salonResponse,
-		userRepository:  userRepository,
+		salonRepository:       salonRepository,
+		salonResponse:         salonResponse,
+		userRepository:        userRepository,
+		reservationRepository: reservationRepository,
 	}
 }
 
@@ -124,4 +128,33 @@ func (s *salon) Create(ctx context.Context, r *requestmodel.SalonCreate) (*respo
 		return nil, err
 	}
 	return s.salonResponse.NewSalonCreate(sa), nil
+}
+
+func (s *salon) GetMyPage(ctx context.Context, r *requestmodel.SalonMyPageGet) (*responsemodel.SalonMyPageGet, error) {
+	me, err := s.userRepository.GetByAuthID(ctx, r.AuthID)
+	if err != nil {
+		return nil, err
+	}
+	sa, err := s.salonRepository.GetByRandID(ctx, r.RandID)
+	if err != nil {
+		return nil, err
+	}
+	var check bool
+	for _, v := range me.R.UserSalons {
+		if v.SalonID == sa.ID {
+			check = true
+		}
+	}
+	if !check {
+		return nil, fmt.Errorf("you have no auth")
+	}
+	rs, err := s.reservationRepository.FindBySalonID(ctx, sa.ID)
+	if err != nil {
+		return nil, err
+	}
+	us, err := s.userRepository.FindBySalonID(ctx, sa.ID)
+	if err != nil {
+		return nil, err
+	}
+	return s.salonResponse.NewSalonMyPageGet(sa, rs, us), nil
 }

@@ -59,3 +59,11 @@ func NewSalonCreate(req *http.Request) (*requestmodel.SalonCreate, error) {
 	}
 	return r, nil
 }
+
+// NewSalonMyPageGet 美容院マイページ取得
+func NewSalonMyPageGet(req *http.Request) *requestmodel.SalonMyPageGet {
+	r := &requestmodel.SalonMyPageGet{}
+	r.RandID = chi.URLParam(req, "randID")
+	r.AuthID = context.AuthID(req.Context())
+	return r
+}

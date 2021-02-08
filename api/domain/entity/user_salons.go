@@ -71,10 +71,14 @@ var UserSalonWhere = struct {
 
 // UserSalonRels is where relationship names are stored.
 var UserSalonRels = struct {
-}{}
+	User string
+}{
+	User: "User",
+}
 
 // userSalonR is where relationships are stored.
 type userSalonR struct {
+	User *User
 }
 
 // NewStruct creates a new relationship struct
@@ -365,6 +369,168 @@ func (q userSalonQuery) Exists(ctx context.Context, exec boil.ContextExecutor) (
 	}
 
 	return count > 0, nil
+}
+
+// User pointed to by the foreign key.
+func (o *UserSalon) User(mods ...qm.QueryMod) userQuery {
+	queryMods := []qm.QueryMod{
+		qm.Where("`id` = ?", o.UserID),
+	}
+
+	queryMods = append(queryMods, mods...)
+
+	query := Users(queryMods...)
+	queries.SetFrom(query.Query, "`users`")
+
+	return query
+}
+
+// LoadUser allows an eager lookup of values, cached into the
+// loaded structs of the objects. This is for an N-1 relationship.
+func (userSalonL) LoadUser(ctx context.Context, e boil.ContextExecutor, singular bool, maybeUserSalon interface{}, mods queries.Applicator) error {
+	var slice []*UserSalon
+	var object *UserSalon
+
+	if singular {
+		object = maybeUserSalon.(*UserSalon)
+	} else {
+		slice = *maybeUserSalon.(*[]*UserSalon)
+	}
+
+	args := make([]interface{}, 0, 1)
+	if singular {
+		if object.R == nil {
+			object.R = &userSalonR{}
+		}
+		args = append(args, object.UserID)
+
+	} else {
+	Outer:
+		for _, obj := range slice {
+			if obj.R == nil {
+				obj.R = &userSalonR{}
+			}
+
+			for _, a := range args {
+				if a == obj.UserID {
+					continue Outer
+				}
+			}
+
+			args = append(args, obj.UserID)
+
+		}
+	}
+
+	if len(args) == 0 {
+		return nil
+	}
+
+	query := NewQuery(qm.From(`users`), qm.WhereIn(`users.id in ?`, args...))
+	if mods != nil {
+		mods.Apply(query)
+	}
+
+	results, err := query.QueryContext(ctx, e)
+	if err != nil {
+		return errors.Wrap(err, "failed to eager load User")
+	}
+
+	var resultSlice []*User
+	if err = queries.Bind(results, &resultSlice); err != nil {
+		return errors.Wrap(err, "failed to bind eager loaded slice User")
+	}
+
+	if err = results.Close(); err != nil {
+		return errors.Wrap(err, "failed to close results of eager load for users")
+	}
+	if err = results.Err(); err != nil {
+		return errors.Wrap(err, "error occurred during iteration of eager loaded relations for users")
+	}
+
+	if len(userSalonAfterSelectHooks) != 0 {
+		for _, obj := range resultSlice {
+			if err := obj.doAfterSelectHooks(ctx, e); err != nil {
+				return err
+			}
+		}
+	}
+
+	if len(resultSlice) == 0 {
+		return nil
+	}
+
+	if singular {
+		foreign := resultSlice[0]
+		object.R.User = foreign
+		if foreign.R == nil {
+			foreign.R = &userR{}
+		}
+		foreign.R.UserSalons = append(foreign.R.UserSalons, object)
+		return nil
+	}
+
+	for _, local := range slice {
+		for _, foreign := range resultSlice {
+			if local.UserID == foreign.ID {
+				local.R.User = foreign
+				if foreign.R == nil {
+					foreign.R = &userR{}
+				}
+				foreign.R.UserSalons = append(foreign.R.UserSalons, local)
+				break
+			}
+		}
+	}
+
+	return nil
+}
+
+// SetUser of the userSalon to the related item.
+// Sets o.R.User to related.
+// Adds o to related.R.UserSalons.
+func (o *UserSalon) SetUser(ctx context.Context, exec boil.ContextExecutor, insert bool, related *User) error {
+	var err error
+	if insert {
+		if err = related.Insert(ctx, exec, boil.Infer()); err != nil {
+			return errors.Wrap(err, "failed to insert into foreign table")
+		}
+	}
+
+	updateQuery := fmt.Sprintf(
+		"UPDATE `user_salons` SET %s WHERE %s",
+		strmangle.SetParamNames("`", "`", 0, []string{"user_id"}),
+		strmangle.WhereClause("`", "`", 0, userSalonPrimaryKeyColumns),
+	)
+	values := []interface{}{related.ID, o.SalonID, o.UserID}
+
+	if boil.IsDebug(ctx) {
+		writer := boil.DebugWriterFrom(ctx)
+		fmt.Fprintln(writer, updateQuery)
+		fmt.Fprintln(writer, values)
+	}
+	if _, err = exec.ExecContext(ctx, updateQuery, values...); err != nil {
+		return errors.Wrap(err, "failed to update local table")
+	}
+
+	o.UserID = related.ID
+	if o.R == nil {
+		o.R = &userSalonR{
+			User: related,
+		}
+	} else {
+		o.R.User = related
+	}
+
+	if related.R == nil {
+		related.R = &userR{
+			UserSalons: UserSalonSlice{o},
+		}
+	} else {
+		related.R.UserSalons = append(related.R.UserSalons, o)
+	}
+
+	return nil
 }
 
 // UserSalons retrieves all the records using an executor.

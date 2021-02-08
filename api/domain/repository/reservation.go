@@ -21,4 +21,5 @@ type Reservation interface {
 	Update(ctx context.Context, ent *entity.Reservation) (int64, error)
 	Delete(ctx context.Context, ent *entity.Reservation) (int64, error)
 	ExistsByDate(ctx context.Context, date time.Time) (bool, error)
+	FindBySalonID(ctx context.Context, salonID int64) (entity.ReservationSlice, error)
 }

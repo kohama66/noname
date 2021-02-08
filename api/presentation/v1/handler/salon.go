@@ -20,6 +20,7 @@ type Salon interface {
 	CreateBeauticianSalon(w http.ResponseWriter, r *http.Request)
 	DeleteBeauticianSalon(w http.ResponseWriter, r *http.Request)
 	Create(w http.ResponseWriter, r *http.Request)
+	GetMyPage(w http.ResponseWriter, r *http.Request)
 }
 
 // NewSalon DI初期化関数
@@ -137,6 +138,26 @@ func (s salon) Create(w http.ResponseWriter, r *http.Request) {
 	res, err := s.salonUsecase.Create(r.Context(), req)
 	if err != nil {
 		log.Errorf(r.Context(), "CreateSalon: %v", err)
+		factory.ErrorJSON(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	factory.JSON(w, res)
+	return
+}
+
+// GetMyPage
+// @Summary 美容院マイページ取得
+// @Accept  json
+// @Produce  json
+// @Param data body requestmodel.SalonMyPageGet true "Request body"
+// @Success 200 {object} responsemodel.SalonMyPageGet
+// @Failure 500 {object} resource.Error "Something went wrong"
+// @Router /api/v1/salon/find [get]
+func (s salon) GetMyPage(w http.ResponseWriter, r *http.Request) {
+	req := request.NewSalonMyPageGet(r)
+	res, err := s.salonUsecase.GetMyPage(r.Context(), req)
+	if err != nil {
+		log.Errorf(r.Context(), "SalonMyPageGet: %v", err)
 		factory.ErrorJSON(w, err.Error(), http.StatusInternalServerError)
 		return
 	}

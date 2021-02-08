@@ -68,3 +68,9 @@ func (s *SalonCreate) NewSalon(randID string) *entity.Salon {
 		AddressOther: s.AddressOther,
 	}
 }
+
+// SalonMyPageGet 美容院マイページ取得
+type SalonMyPageGet struct {
+	RandID string `json:"randId"`
+	AuthID string `json:"-"`
+}

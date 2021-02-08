@@ -34,3 +34,10 @@ type SalonFindNotBelongs struct {
 type SalonCreate struct {
 	*Salon `json:"salon"`
 }
+
+// SalonMyPageGet 美容院マイページ取得
+type SalonMyPageGet struct {
+	*Salon       `json:"salon"`
+	Reservations []*Reservation `json:"reservations"`
+	Users        []*User        `json:"users"`
+}
