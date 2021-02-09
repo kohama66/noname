@@ -1,9 +1,9 @@
 import React, { FC } from 'react';
-import Title from '../../guest/parts/Title/Title';
+import Title from '../views/guest/parts/Title/Title';
 import "./ReservationVerify.scss";
 import * as H from 'history'
 import { useLocation } from 'react-router-dom';
-import { Menu } from '../../../../package/interface/Menu';
+import { Menu } from '../../package/interface/Menu';
 
 const ReservationVerify: FC = () => {
   const location: H.Location<{

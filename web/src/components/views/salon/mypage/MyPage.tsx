@@ -53,7 +53,10 @@ const MyPage: FC = () => {
           <button>変更</button>
         </div>
         <div className="spaces">
-          <h2>提供しているスペース</h2>
+          <div>
+            <h2>提供しているスペース</h2>
+            <button>追加</button>
+          </div>
           <div>
             <i className="fas fa-chair"></i>
             <p>× 2</p>
@@ -62,11 +65,10 @@ const MyPage: FC = () => {
         <div className="beauticians">
           <Accordion buttonText="STYLIST LIST▼">
             <ul>
-              {mypage?.users.map(user => <li>{user.lastName + " " + user.firstName}</li>)}
+              {mypage?.users.map((user, i) => <li key={i}>{user.lastName + " " + user.firstName}</li>)}
             </ul>
           </Accordion>
         </div>
-
         <div className="reservation">
           <Schedule reservations={mypage ? mypage.reservations : []} />
         </div>

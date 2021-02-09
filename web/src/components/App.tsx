@@ -10,6 +10,7 @@ import Header from './views/parts/header';
 import Login from './views/login/Login';
 import Reserved from './views/reserved/Reserved';
 import Salon from './views/salon/Salon';
+import ReservationVerify from './reservedInfo/ReservationVerify';
 
 const App: FC = () => {
   return (
@@ -25,6 +26,7 @@ const App: FC = () => {
               <Route path="/login" component={Login} />
               <Route path="/reserved" component={Reserved} />
               <Route path="/salon" component={Salon} />
+              <Route path="/reservationverify" component={ReservationVerify} />
             </Switch>
           </Router>
         </section>
