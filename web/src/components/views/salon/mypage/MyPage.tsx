@@ -52,6 +52,13 @@ const MyPage: FC = () => {
           </div>
           <button>変更</button>
         </div>
+        <div className="spaces">
+          <h2>提供しているスペース</h2>
+          <div>
+            <i className="fas fa-chair"></i>
+            <p>× 2</p>
+          </div>
+        </div>
         <div className="beauticians">
           <Accordion buttonText="STYLIST LIST▼">
             <ul>
@@ -59,6 +66,7 @@ const MyPage: FC = () => {
             </ul>
           </Accordion>
         </div>
+
         <div className="reservation">
           <Schedule reservations={mypage ? mypage.reservations : []} />
         </div>
