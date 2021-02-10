@@ -27,6 +27,7 @@ func (s *salon) GetByRandID(ctx context.Context, randID string) (*entity.Salon, 
 	return entity.Salons(
 		entity.SalonWhere.RandID.EQ(randID),
 		entity.SalonWhere.DeletedAt.IsNull(),
+		qm.Load(entity.SalonRels.Spaces),
 	).One(ctx, s.Conn)
 }
 

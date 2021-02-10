@@ -12,6 +12,7 @@ export interface salonsResponse {
 
 export interface salonMyPage {
   salon: Salon
+  spaces: number
   reservations: Reservation[]
   users: User[]
 }

@@ -79,6 +79,7 @@ func (s *salon) NewSalonCreate(ent *entity.Salon) *responsemodel.SalonCreate {
 func (s *salon) NewSalonMyPageGet(salon *entity.Salon, reservations []*entity.Reservation, users []*entity.User) *responsemodel.SalonMyPageGet {
 	return &responsemodel.SalonMyPageGet{
 		Salon:        NewSalonResponseModel(salon),
+		Spaces:       len(salon.R.Spaces),
 		Reservations: NewReservationsResponsemodel(reservations),
 		Users:        NewUsersResponsemodel(users),
 	}

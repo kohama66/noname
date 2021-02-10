@@ -12,6 +12,7 @@ const MyPage: FC = () => {
     const handleGetMyPage = async () => {
       try {
         const response = await getSalonMypage("1")
+        console.log(response)
         setMypage(response)
       } catch (error) {
         console.log(error)
@@ -59,7 +60,7 @@ const MyPage: FC = () => {
           </div>
           <div>
             <i className="fas fa-chair"></i>
-            <p>× 2</p>
+            <p>× {mypage?.spaces}</p>
           </div>
         </div>
         <div className="beauticians">

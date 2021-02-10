@@ -38,6 +38,7 @@ type SalonCreate struct {
 // SalonMyPageGet 美容院マイページ取得
 type SalonMyPageGet struct {
 	*Salon       `json:"salon"`
+	Spaces       int            `json:"spaces"`
 	Reservations []*Reservation `json:"reservations"`
 	Users        []*User        `json:"users"`
 }
