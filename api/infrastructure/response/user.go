@@ -69,3 +69,12 @@ func (u *user) NewUserCreate(ent *entity.User) *responsemodel.UserCreate {
 		User: NewUserResponsemodel(ent),
 	}
 }
+
+// NewUsersResponsemodel レスポンスモデル変換関数
+func NewUsersResponsemodel(ents []*entity.User) []*responsemodel.User {
+	us := make([]*responsemodel.User, len(ents))
+	for i, v := range ents {
+		us[i] = NewUserResponsemodel(v)
+	}
+	return us
+}

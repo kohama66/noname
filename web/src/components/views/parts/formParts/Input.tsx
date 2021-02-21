@@ -2,7 +2,7 @@ import React, { FC, useState } from 'react';
 import './Input.scss'
 
 interface props {
-  type: "text" | "email" | "password" | "submit"
+  type: "text" | "email" | "password" | "submit" | "time"
   value: string
   setState?: React.Dispatch<React.SetStateAction<string>>
   required?: true
@@ -22,7 +22,7 @@ const Input: FC<props> = (props) => {
     <input type={props.type} value={props.value} onChange={handleChange} required={props.required}
       maxLength={props.maxLength} minLength={props.minLength} placeholder={props.placeHolder}
       disabled={props.disabled} />
-  )
+  ) 
 }
 
 export default Input;

@@ -10,18 +10,18 @@ const ChooseStore: FC = () => {
   const [stores, setStores] = useState<Salon[]>([])
   const { beautician } = useContext(ReservedContext)
 
-  const handleFindStores = async () => {
-    try {
-      const response = await findSalons(beautician.randId)
-      setStores(response.salons)
-    } catch (err) {
-      console.log(err)
-    }
-  }
-
   useEffect(() => {
+    const handleFindStores = async () => {
+      try {
+        const response = await findSalons(beautician.randId)
+        setStores(response.salons)
+      } catch (err) {
+        console.log(err)
+      }
+    }
     handleFindStores()
   }, [])
+  
   return (
     <section id="choose-store">
       <Title title="SALON" text="お店から選ぶ" />

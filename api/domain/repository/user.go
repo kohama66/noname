@@ -11,4 +11,5 @@ type User interface {
 	GetByAuthID(ctx context.Context, authID string) (*entity.User, error)
 	Create(ctx context.Context, ent *entity.User) error
 	GetByRandID(ctx context.Context, randID string) (*entity.User, error)
+	FindBySalonID(ctx context.Context, salonID int64) (entity.UserSlice, error)
 }

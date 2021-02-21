@@ -31,15 +31,46 @@ const Square: FC<props> = (props) => {
   }
 
   const handleClick = async () => {
-    if (history.location.pathname === "/beautician/mypage") { // 美容師マイページでの動作
-      if (reserved) { // 予約がある場合
-        if (reserved.holiday) {
+    switch (history.location.pathname) {
+      case "/beautician/mypage":
+        if (reserved) { // 予約がある場合
+          if (reserved.holiday) {
+            handleModalClick()
+          } else {
+            const response = await getReservationInfo(reserved.randId)
+            const date = new Date(response.reservationInfo.date)
+            history.push({
+              pathname: "/reservationverify",
+              state: {
+                userName: response.reservationInfo.user.lastName + " " + response.reservationInfo.user.firstName,
+                userNameKana: response.reservationInfo.user.lastNameKana + " " + response.reservationInfo.user.firstNameKana,
+                userPhoneNmber: response.reservationInfo.user.phoneNumber,
+                salonName: response.reservationInfo.salon.name,
+                salonAddress: response.reservationInfo.salon.prefectures + response.reservationInfo.salon.town +
+                  response.reservationInfo.salon.city + response.reservationInfo.salon.addressOther,
+                reservedDate: `${date.getFullYear()}年 ${date.getMonth() + 1}月${date.getDate()}日`,
+                reservedTime: `${date.getHours()}:${('0' + date.getMinutes()).slice(-2)}時から`,
+                menus: response.reservationInfo.menus
+              }
+            })
+          }
+        } else { // 予約が無い場合
           handleModalClick()
-        } else {
+        }
+        break
+      case "/guest/date":
+        if (!reserved) {
+          setTime(("0" + props.time).slice(-2) + ":00:00")
+          setSelectValue(props.day.getFullYear() + "-" + ("0" + (props.day.getMonth() + 1)).slice(-2) + "-" + ("0" + props.day.getDate()).slice(-2) + " " + time)
+          history.push("/guest")
+        }
+        break
+      case "/salon/mypage":
+        if (reserved) {
           const response = await getReservationInfo(reserved.randId)
           const date = new Date(response.reservationInfo.date)
           history.push({
-            pathname: "/beautician/reservationverify",
+            pathname: "/reservationverify",
             state: {
               userName: response.reservationInfo.user.lastName + " " + response.reservationInfo.user.firstName,
               userNameKana: response.reservationInfo.user.lastNameKana + " " + response.reservationInfo.user.firstNameKana,
@@ -53,17 +84,10 @@ const Square: FC<props> = (props) => {
             }
           })
         }
-      } else { // 予約が無い場合
-        handleModalClick()
-      }
-    } else {// ゲストページでの動作
-      if (!reserved) {
-        setTime(("0" + props.time).slice(-2) + ":00:00")
-        setSelectValue(props.day.getFullYear() + "-" + ("0" + (props.day.getMonth() + 1)).slice(-2) + "-" + ("0" + props.day.getDate()).slice(-2) + " " + time)
-        history.push("/guest")
-      }
+        break
     }
   }
+
   useEffect(() => {
     const verifyReserved = () => {
       setReserved(undefined)

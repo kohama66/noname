@@ -7,7 +7,6 @@ package di
 
 import (
 	"github.com/myapp/noname/api/application/usecase"
-	"github.com/myapp/noname/api/domain/entityx"
 	"github.com/myapp/noname/api/infrastructure/db"
 	"github.com/myapp/noname/api/infrastructure/repository"
 	"github.com/myapp/noname/api/infrastructure/response"
@@ -31,13 +30,12 @@ func InitBeautician() handler.Beautician {
 func InitReservation() handler.Reservation {
 	conn := db.New()
 	user := repository.NewUser(conn)
-	reservation := entityx.NewReservation()
-	repositoryReservation := repository.NewReservation(conn, reservation)
+	reservation := repository.NewReservation(conn)
 	responseReservation := response.NewReservation()
 	beautician := repository.NewBeautician(conn)
 	salon := repository.NewSalon(conn)
 	menu := repository.NewMenu(conn)
-	usecaseReservation := usecase.NewReservation(user, repositoryReservation, responseReservation, beautician, salon, menu)
+	usecaseReservation := usecase.NewReservation(user, reservation, responseReservation, beautician, salon, menu)
 	handlerReservation := handler.NewReservation(usecaseReservation)
 	return handlerReservation
 }
@@ -47,7 +45,8 @@ func InitSalon() handler.Salon {
 	salon := repository.NewSalon(conn)
 	responseSalon := response.NewSalon()
 	user := repository.NewUser(conn)
-	usecaseSalon := usecase.NewSalon(salon, responseSalon, user)
+	reservation := repository.NewReservation(conn)
+	usecaseSalon := usecase.NewSalon(salon, responseSalon, user, reservation)
 	handlerSalon := handler.NewSalon(usecaseSalon)
 	return handlerSalon
 }
@@ -66,10 +65,9 @@ func InitUser() handler.User {
 	conn := db.New()
 	user := repository.NewUser(conn)
 	responseUser := response.NewUser()
-	reservation := entityx.NewReservation()
-	repositoryReservation := repository.NewReservation(conn, reservation)
+	reservation := repository.NewReservation(conn)
 	salon := repository.NewSalon(conn)
-	usecaseUser := usecase.NewUser(user, responseUser, repositoryReservation, salon)
+	usecaseUser := usecase.NewUser(user, responseUser, reservation, salon)
 	handlerUser := handler.NewUser(usecaseUser)
 	return handlerUser
 }

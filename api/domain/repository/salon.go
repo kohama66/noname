@@ -21,4 +21,6 @@ type Salon interface {
 	FindNotBelongs(ctx context.Context, beauticianID int64) (entity.SalonSlice, error)
 	CreateBeauticianSalon(ctx context.Context, ent *entity.BeauticianSalon) error
 	DeleteBeauticianSalon(ctx context.Context, ent *entity.BeauticianSalon) (int64, error)
+	Create(ctx context.Context, ent *entity.Salon) error
+	CreateUserSalon(ctx context.Context, ent *entity.UserSalon) error
 }

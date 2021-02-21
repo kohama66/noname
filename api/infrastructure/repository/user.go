@@ -2,6 +2,7 @@ package repository
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/myapp/noname/api/domain/entity"
 	"github.com/myapp/noname/api/domain/repository"
@@ -21,24 +22,36 @@ func NewUser(conn *db.Conn) repository.User {
 	}
 }
 
-func (g *user) GetByAuthID(ctx context.Context, authID string) (*entity.User, error) {
+func (u *user) GetByAuthID(ctx context.Context, authID string) (*entity.User, error) {
 	return entity.Users(
 		entity.UserWhere.AuthID.EQ(authID),
 		entity.UserWhere.DeletedAt.IsNull(),
 		qm.Load(entity.UserRels.Beautician),
 		qm.Load(entity.UserRels.BeauticianBeauticianMenus),
-	).One(ctx, g.Conn)
+		qm.Load(entity.UserRels.UserSalons),
+	).One(ctx, u.Conn)
 }
 
-func (g *user) Create(ctx context.Context, ent *entity.User) error {
-	return ent.Insert(ctx, g.Conn, boil.Infer())
+func (u *user) Create(ctx context.Context, ent *entity.User) error {
+	return ent.Insert(ctx, u.Conn, boil.Infer())
 }
 
-func (g *user) GetByRandID(ctx context.Context, randID string) (*entity.User, error) {
+func (u *user) GetByRandID(ctx context.Context, randID string) (*entity.User, error) {
 	return entity.Users(
 		entity.UserWhere.RandID.EQ(randID),
 		entity.UserWhere.DeletedAt.IsNull(),
 		qm.Load(entity.UserRels.Beautician),
 		qm.Load(entity.UserRels.BeauticianBeauticianMenus),
-	).One(ctx, g.Conn)
+	).One(ctx, u.Conn)
+}
+
+func (u *user) FindBySalonID(ctx context.Context, salonID int64) (entity.UserSlice, error) {
+	return entity.Users(
+		qm.InnerJoin(fmt.Sprintf("%s ON %s.%v = %s.%v", entity.TableNames.Beauticians, entity.TableNames.Beauticians, entity.BeauticianColumns.UserID, entity.TableNames.Users, entity.UserColumns.ID)),
+		qm.InnerJoin(fmt.Sprintf("%s ON %s.%v = %s.%v", entity.TableNames.BeauticianSalons, entity.TableNames.BeauticianSalons, entity.BeauticianSalonColumns.BeauticianID, entity.TableNames.Beauticians, entity.BeauticianColumns.UserID)),
+		entity.BeauticianSalonWhere.SalonID.EQ(salonID),
+		entity.UserWhere.DeletedAt.IsNull(),
+		entity.BeauticianWhere.DeletedAt.IsNull(),
+		entity.BeauticianSalonWhere.DeletedAt.IsNull(),
+	).All(ctx, u.Conn)
 }

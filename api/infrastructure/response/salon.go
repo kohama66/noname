@@ -9,6 +9,8 @@ import (
 type Salon interface {
 	NewSalonFind(ents []*entity.Salon) *responsemodel.SalonFind
 	NewSalonFindNotBelongs(ents []*entity.Salon) *responsemodel.SalonFindNotBelongs
+	NewSalonCreate(ent *entity.Salon) *responsemodel.SalonCreate
+	NewSalonMyPageGet(salon *entity.Salon, reservations []*entity.Reservation, users []*entity.User) *responsemodel.SalonMyPageGet
 }
 
 type salon struct{}
@@ -65,5 +67,20 @@ func (s *salon) NewSalonFindNotBelongs(ents []*entity.Salon) *responsemodel.Salo
 	}
 	return &responsemodel.SalonFindNotBelongs{
 		Salons: sls,
+	}
+}
+
+func (s *salon) NewSalonCreate(ent *entity.Salon) *responsemodel.SalonCreate {
+	return &responsemodel.SalonCreate{
+		Salon: NewSalonResponseModel(ent),
+	}
+}
+
+func (s *salon) NewSalonMyPageGet(salon *entity.Salon, reservations []*entity.Reservation, users []*entity.User) *responsemodel.SalonMyPageGet {
+	return &responsemodel.SalonMyPageGet{
+		Salon:        NewSalonResponseModel(salon),
+		Spaces:       len(salon.R.Spaces),
+		Reservations: NewReservationsResponsemodel(reservations),
+		Users:        NewUsersResponsemodel(users),
 	}
 }
