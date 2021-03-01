@@ -70,3 +70,16 @@ func NewReservationSetHoliday(req *http.Request) (*requestmodel.ReservationSetHo
 	}
 	return r, err
 }
+
+// NewReservationCreateBySalonDayOff 美容師休日設定
+func NewReservationCreateBySalonDayOff(req *http.Request) (*requestmodel.ReservationCreateBySalonDayOff, error) {
+	r := &requestmodel.ReservationCreateBySalonDayOff{}
+	r.AuthID = context.AuthID(req.Context())
+	if err := json.NewDecoder(req.Body).Decode(r); err != nil {
+		return nil, err
+	}
+	if err := validate.Struct(r); err != nil {
+		return nil, err
+	}
+	return r, nil
+}

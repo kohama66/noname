@@ -1,0 +1,4 @@
+# github.com/myapp/noname/api/application/usecase/requestmodel
+application/usecase/requestmodel/reservation.go:76:2: too many arguments to return
+	have (*entity.Reservation)
+	want ()

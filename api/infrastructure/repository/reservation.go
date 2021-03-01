@@ -113,7 +113,7 @@ func (r *reservation) GetByRandID(ctx context.Context, randID string) (*entity.R
 	).One(ctx, r.Conn)
 }
 
-func (r *reservation) CreateHoliday(ctx context.Context, ent *entity.Reservation) error {
+func (r *reservation) CreateDayOff(ctx context.Context, ent *entity.Reservation) error {
 	return ent.Insert(ctx, r.Conn, boil.Infer())
 }
 
