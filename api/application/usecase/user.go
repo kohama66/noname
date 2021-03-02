@@ -39,11 +39,11 @@ func NewUser(
 }
 
 func (g *user) Get(ctx context.Context, r *requestmodel.UserGet) (*responsemodel.UserGet, error) {
-	u, err := g.userRepository.GetByAuthID(ctx, r.AuthID)
+	us, err := g.userRepository.GetByAuthID(ctx, r.AuthID)
 	if err != nil {
 		return nil, err
 	}
-	return g.userResponse.NewUserGet(u), nil
+	return g.userResponse.NewUserGet(us), nil
 }
 
 func (g *user) Create(ctx context.Context, r *requestmodel.UserCreate) (*responsemodel.UserCreate, error) {
