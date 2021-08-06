@@ -27,6 +27,7 @@ func (s *salon) GetByRandID(ctx context.Context, randID string) (*entity.Salon, 
 	return entity.Salons(
 		entity.SalonWhere.RandID.EQ(randID),
 		entity.SalonWhere.DeletedAt.IsNull(),
+		qm.Load(entity.SalonRels.Spaces),
 	).One(ctx, s.Conn)
 }
 
@@ -130,7 +131,7 @@ func (s *salon) ExistsByBeauticianWithSalon(ctx context.Context, beauticianID, s
 
 func (s *salon) FindByBeauticianID(ctx context.Context, beauticianID int64) (entity.SalonSlice, error) {
 	return entity.Salons(
-		qm.InnerJoin(fmt.Sprintf("%s ON %s.%s = %s.%s", entity.TableNames.BeauticianSalons, entity.TableNames.BeauticianSalons, entity.BeauticianSalonColumns.SalonID, entity.TableNames.Salons, entity.SalonColumns.ID)),
+		qm.InnerJoin(fmt.Sprintf("%s ON %s.%v = %s.%v", entity.TableNames.BeauticianSalons, entity.TableNames.BeauticianSalons, entity.BeauticianSalonColumns.SalonID, entity.TableNames.Salons, entity.SalonColumns.ID)),
 		entity.BeauticianSalonWhere.BeauticianID.EQ(beauticianID),
 		entity.SalonWhere.DeletedAt.IsNull(),
 		entity.BeauticianSalonWhere.DeletedAt.IsNull(),
@@ -160,4 +161,12 @@ func (s *salon) CreateBeauticianSalon(ctx context.Context, ent *entity.Beauticia
 
 func (s *salon) DeleteBeauticianSalon(ctx context.Context, ent *entity.BeauticianSalon) (int64, error) {
 	return ent.Delete(ctx, s.Conn)
+}
+
+func (s *salon) Create(ctx context.Context, ent *entity.Salon) error {
+	return ent.Insert(ctx, s.Conn, boil.Infer())
+}
+
+func (s *salon) CreateUserSalon(ctx context.Context, ent *entity.UserSalon) error {
+	return ent.Insert(ctx, s.Conn, boil.Infer())
 }

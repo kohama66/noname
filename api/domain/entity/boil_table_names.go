@@ -12,6 +12,7 @@ var TableNames = struct {
 	Reservations     string
 	Salons           string
 	Spaces           string
+	UserSalons       string
 	Users            string
 }{
 	BeauticianMenus:  "beautician_menus",
@@ -22,5 +23,6 @@ var TableNames = struct {
 	Reservations:     "reservations",
 	Salons:           "salons",
 	Spaces:           "spaces",
+	UserSalons:       "user_salons",
 	Users:            "users",
 }

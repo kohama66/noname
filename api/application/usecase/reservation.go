@@ -194,10 +194,31 @@ func (r *reservation) SetHoliday(ctx context.Context, req *requestmodel.Reservat
 		}
 	} else { // 休日に設定
 		hd := req.NewReservationSetHoliday(xid.New().String(), bt.ID)
-		if err := r.reservationRepository.CreateHoliday(ctx, hd); err != nil {
+		if err := r.reservationRepository.CreateDayOff(ctx, hd); err != nil {
 			return nil, err
 		}
 		holiday = hd
 	}
 	return r.reservationResponse.NewSetHoliday(holiday), nil
+}
+
+func (r *reservation) CreateBySalonDayOff(ctx context.Context, req requestmodel.ReservationCreateBySalonDayOff) {
+	me, err := r.userRepository.GetByAuthID(ctx, req.AuthID)
+	if err != nil {
+		return nil, err
+	}
+	s, err := r.salonRepository.GetByRandID(ctx, req.RandID)
+	if err != nil {
+		return nil, err
+	}
+	var check bool
+	for _, v := range me.R.UserSalons {
+		if v.SalonID == s.ID && v.Role == "admin" {
+			check = true
+		}
+	}
+	if !check {
+		fmt.Errorf("not admin")
+	}
+
 }

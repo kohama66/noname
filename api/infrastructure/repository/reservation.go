@@ -14,18 +14,15 @@ import (
 )
 
 type reservation struct {
-	Conn               *db.Conn
-	reservationEntityX entityx.Reservation
+	Conn *db.Conn
 }
 
 // NewReservation DI初期化関数
 func NewReservation(
 	conn *db.Conn,
-	reservationEntityX entityx.Reservation,
 ) repository.Reservation {
 	return &reservation{
-		Conn:               conn,
-		reservationEntityX: reservationEntityX,
+		Conn: conn,
 	}
 }
 
@@ -51,7 +48,7 @@ func (r *reservation) Create(ctx context.Context, re *entity.Reservation, menuID
 			return err
 		}
 		for _, menuID := range menuIDs {
-			rem := r.reservationEntityX.NewReservationMenu(re.ID, menuID)
+			rem := entityx.NewReservationMenu(re.ID, menuID)
 			if err := rem.Insert(ctx, tx, boil.Infer()); err != nil {
 				return err
 			}
@@ -116,7 +113,7 @@ func (r *reservation) GetByRandID(ctx context.Context, randID string) (*entity.R
 	).One(ctx, r.Conn)
 }
 
-func (r *reservation) CreateHoliday(ctx context.Context, ent *entity.Reservation) error {
+func (r *reservation) CreateDayOff(ctx context.Context, ent *entity.Reservation) error {
 	return ent.Insert(ctx, r.Conn, boil.Infer())
 }
 
@@ -140,4 +137,13 @@ func (r *reservation) ExistsByDate(ctx context.Context, date time.Time) (bool, e
 		entity.ReservationWhere.Date.EQ(date),
 		entity.ReservationWhere.DeletedAt.IsNull(),
 	).Exists(ctx, r.Conn)
+}
+
+func (r *reservation) FindBySalonID(ctx context.Context, salonID int64) (entity.ReservationSlice, error) {
+	return entity.Reservations(
+		qm.InnerJoin(fmt.Sprintf("%s ON %s.%v = %s.%v", entity.TableNames.Spaces, entity.TableNames.Spaces, entity.SpaceColumns.ID, entity.TableNames.Reservations, entity.ReservationColumns.SpaceID)),
+		qm.InnerJoin(fmt.Sprintf("%s ON %s.%v = %s.%v", entity.TableNames.Salons, entity.TableNames.Salons, entity.SalonColumns.ID, entity.TableNames.Spaces, entity.SpaceColumns.SalonID)),
+		entity.SalonWhere.ID.EQ(salonID),
+		entity.ReservationWhere.DeletedAt.IsNull(),
+	).All(ctx, r.Conn)
 }

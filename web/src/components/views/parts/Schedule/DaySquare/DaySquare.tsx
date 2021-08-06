@@ -2,11 +2,19 @@ import React, { FC } from 'react';
 
 interface props {
   day: number;
+  date?: Date
 }
 
-const DaySquare: FC<props> = ({day}) => {
+const DaySquare: FC<props> = (props) => {
+  const handleClick = () => {
+    if (props.date?.getDate() !== (new Date).getDate()){
+      
+    } else {
+      console.log("今日です")
+    }
+  }
   return (
-  <th>{day}</th>
+    <th onClick={handleClick} >{props.day}</th>
   )
 }
 

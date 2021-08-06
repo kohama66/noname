@@ -35,6 +35,8 @@ const Schedule: FC<props> = (props) => {
     createDisplayWeek()
   }, [])
 
+  
+
   return (
     <section id="schedule">
       <table>
@@ -42,7 +44,7 @@ const Schedule: FC<props> = (props) => {
           <tr>
             <th></th>
             {displayWeek.map((day, i) => {
-              return <DaySquare day={day.getDate()} key={i} />
+              return <DaySquare day={day.getDate()} date={day} key={i} />
             })}
           </tr>
           {times.map((time, i) => {

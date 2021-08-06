@@ -30,8 +30,7 @@ func NewSalonFindNotBelongs(req *http.Request) *requestmodel.SalonFindNotBelongs
 func NewBeauticianSalonCreata(req *http.Request) (*requestmodel.BeauticianSalonCreata, error) {
 	r := &requestmodel.BeauticianSalonCreata{}
 	r.AuthID = context.AuthID(req.Context())
-	err := json.NewDecoder(req.Body).Decode(r)
-	if err != nil {
+	if err := json.NewDecoder(req.Body).Decode(r); err != nil {
 		return nil, err
 	}
 	if err := validate.Struct(r); err != nil {
@@ -45,5 +44,26 @@ func NewBeauticianSalonDelete(req *http.Request) *requestmodel.BeauticianSalonDe
 	r := &requestmodel.BeauticianSalonDelete{}
 	r.AuthID = context.AuthID(req.Context())
 	r.SalonRandID = chi.URLParam(req, "randID")
+	return r
+}
+
+// NewSalonCreate 美容院作成
+func NewSalonCreate(req *http.Request) (*requestmodel.SalonCreate, error) {
+	r := &requestmodel.SalonCreate{}
+	r.AuthID = context.AuthID(req.Context())
+	if err := json.NewDecoder(req.Body).Decode(r); err != nil {
+		return nil, err
+	}
+	if err := validate.Struct(r); err != nil {
+		return nil, err
+	}
+	return r, nil
+}
+
+// NewSalonMyPageGet 美容院マイページ取得
+func NewSalonMyPageGet(req *http.Request) *requestmodel.SalonMyPageGet {
+	r := &requestmodel.SalonMyPageGet{}
+	r.RandID = chi.URLParam(req, "randID")
+	r.AuthID = context.AuthID(req.Context())
 	return r
 }

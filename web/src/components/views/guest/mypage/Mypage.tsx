@@ -48,26 +48,12 @@ const Mypage: FC = () => {
           </div>
         </div>
         <div className="mypage-reserved-history">
-          {(() => {
-            if (reserved) {
-              return <ReservationInfor titleText="最新の予約" storeName={reserved.salonName} beauticianLastName={reserved.beauticianLastName}
-                beauticianFirstName={reserved.beauticianFirstName} month={(() => getMonth(reserved.date))()} day={(() => getDay(reserved.date))()}
-                hours={(() => getHours(reserved.date))()} menus={reserved.menus} />
-            } else {
-              return <ReservationInfor titleText="最新の予約" storeName="" beauticianFirstName="" beauticianLastName="" month={null} day={null} hours={null} menus={[]} />
-            }
-          })()
-          }
-          {(() => {
-            if (previousReserved) {
-              return <ReservationInfor titleText="前回の予約" storeName={previousReserved.salonName} beauticianLastName={previousReserved.beauticianLastName}
-                beauticianFirstName={previousReserved.beauticianFirstName} month={(() => getMonth(previousReserved.date))()} day={(() => getDay(previousReserved.date))()}
-                hours={(() => getHours(previousReserved.date))()} menus={previousReserved.menus} />
-            } else {
-              return <ReservationInfor titleText="前回の予約" storeName="" beauticianFirstName="" beauticianLastName="" month={null} day={null} hours={null} menus={[]} />
-            }
-          })()
-          }
+          <ReservationInfor titleText="最新の予約" storeName={reserved ? reserved.salonName : ""} beauticianLastName={reserved ? reserved.beauticianLastName : ""}
+            beauticianFirstName={reserved ? reserved.beauticianFirstName : ""} month={reserved ? getMonth(reserved.date) : null} day={reserved ? getDay(reserved.date) : null}
+            hours={reserved ? getHours(reserved.date) : null} menus={reserved ? reserved.menus : []} />
+          <ReservationInfor titleText="前回の予約" storeName={previousReserved ? previousReserved.salonName : ""} beauticianLastName={previousReserved ? previousReserved.beauticianLastName : ""}
+            beauticianFirstName={previousReserved ? previousReserved.beauticianFirstName : ""} month={previousReserved ? getMonth(previousReserved.date) : null} day={previousReserved ? getDay(previousReserved.date) : null}
+            hours={previousReserved ? getHours(previousReserved.date) : null} menus={previousReserved ? previousReserved.menus : []} />
         </div>
       </section>
     </div>

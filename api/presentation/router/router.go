@@ -77,6 +77,8 @@ func (r *Router) Routes() {
 						r.Get("/belongs", salonController.FindNotBelongs)
 						r.Post("/beautician", salonController.CreateBeauticianSalon)
 						r.Delete("/beautician/{randID}", salonController.DeleteBeauticianSalon)
+						r.Post("/", salonController.Create)
+						r.Get("/mypage/{randID}", salonController.GetMyPage)
 					})
 				})
 			})

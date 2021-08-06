@@ -1,7 +1,7 @@
 import Axios, { AxiosPromise } from 'axios';
 import { beauticianMenuResponse, menuDetailsResponse, menusResponse } from '../interface/response/Menu';
 import { reservationsResponse, reservationResponse, guestMypageReservationsResponse, reservationInfoResponse } from '../interface/response/Reservation'
-import { salonsResponse } from '../interface/response/Salon';
+import { salonMyPage, salonResponse, salonsResponse } from '../interface/response/Salon';
 import qs from "qs"
 import { userResponse, usersResponse } from '../interface/response/User';
 import { userCreateRequest } from '../interface/request/User';
@@ -10,7 +10,7 @@ import { apiurl } from '../../config/config';
 import { beauticianCreateRequest, beauticianUpdateRequest } from '../interface/request/Beautician';
 import { setHolidayRequest } from '../interface/request/Reservation';
 import { beauticianMenuRequest } from '../interface/request/Menu';
-import { postBeauticianSalonRequest } from '../interface/request/Salon';
+import { createSalonRequest, postBeauticianSalonRequest } from '../interface/request/Salon';
 import { BeauticianMyPage } from '../interface/response/Beautician';
 
 const axios = Axios.create({
@@ -175,4 +175,12 @@ export const deleteBeauticianSalon = async (randID: string): Promise<void> => {
 
 export const getBeauticianMypage = async (): Promise<BeauticianMyPage> => {
   return get<BeauticianMyPage>(`/api/v1/beautician/mypage`)
+}
+
+export const createSalon = async (req: createSalonRequest): Promise<salonResponse> => {
+  return post<salonResponse>(`api/v1/salon`, req)
+}
+
+export const getSalonMypage = async (randID: string): Promise<salonMyPage> => {
+  return get<salonMyPage>(`/api/v1/salon/mypage/${randID}`)
 }

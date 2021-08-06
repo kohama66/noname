@@ -123,6 +123,39 @@ definitions:
       holiday:
         type: string
     type: object
+  requestmodel.SalonCreate:
+    properties:
+      addressCode:
+        type: string
+      addressOther:
+        type: string
+      city:
+        type: string
+      closingHours:
+        type: string
+      name:
+        type: string
+      openingHours:
+        type: string
+      phoneNumber:
+        type: string
+      postalCode:
+        type: string
+      prefectures:
+        type: string
+      town:
+        type: string
+    required:
+    - addressCode
+    - city
+    - closingHours
+    - name
+    - openingHours
+    - phoneNumber
+    - postalCode
+    - prefectures
+    - town
+    type: object
   requestmodel.SalonFind:
     properties:
       beauticianRandID:
@@ -131,6 +164,11 @@ definitions:
         type: string
     type: object
   requestmodel.SalonFindNotBelongs:
+    type: object
+  requestmodel.SalonMyPageGet:
+    properties:
+      randId:
+        type: string
     type: object
   requestmodel.UserCreate:
     properties:
@@ -461,6 +499,45 @@ definitions:
       salons:
         items:
           $ref: '#/definitions/responsemodel.Salon'
+        type: array
+    type: object
+  responsemodel.SalonMyPageGet:
+    properties:
+      addressCode:
+        type: string
+      addressOther:
+        type: string
+      city:
+        type: string
+      closingHours:
+        type: string
+      createdAt:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      openingHours:
+        type: string
+      phoneNumber:
+        type: string
+      postalCode:
+        type: string
+      prefectures:
+        type: string
+      randId:
+        type: string
+      reservations:
+        items:
+          $ref: '#/definitions/responsemodel.Reservation'
+        type: array
+      town:
+        type: string
+      updatedAt:
+        type: string
+      users:
+        items:
+          $ref: '#/definitions/responsemodel.User'
         type: array
     type: object
   responsemodel.User:
@@ -869,6 +946,26 @@ paths:
           schema:
             $ref: '#/definitions/resource.Error'
       summary: ゲストの予約履歴を取得
+  /api/v1/salon:
+    post:
+      consumes:
+      - application/json
+      description: 美容院を作成します
+      parameters:
+      - description: Request body
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/requestmodel.SalonCreate'
+      responses:
+        "200":
+          description: ""
+        "500":
+          description: Something went wrong
+          schema:
+            $ref: '#/definitions/resource.Error'
+      summary: 美容院作成
   /api/v1/salon/beautician:
     post:
       consumes:
@@ -955,6 +1052,29 @@ paths:
           schema:
             $ref: '#/definitions/resource.Error'
       summary: 美容院検索
+  /api/v1/salon/mypage/{randID}:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: Request body
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/requestmodel.SalonMyPageGet'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responsemodel.SalonMyPageGet'
+        "500":
+          description: Something went wrong
+          schema:
+            $ref: '#/definitions/resource.Error'
+      summary: 美容院マイページ取得
   /api/v1/user:
     get:
       consumes:

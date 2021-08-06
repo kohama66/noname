@@ -64,3 +64,14 @@ func (r *ReservationSetHoliday) NewReservationSetHoliday(randID string, beautici
 		UserID:       1,
 	}
 }
+
+// ReservationCreateBySalonDayOff 美容院休日設定
+type ReservationCreateBySalonDayOff struct {
+	RandID string    `json:"randId"`
+	AuthID string    `json:"-"`
+	Date   time.Time `json:"date"`
+}
+
+func (r *ReservationCreateBySalonDayOff) NewReservation() {
+	return &entity.Reservation{}
+}
